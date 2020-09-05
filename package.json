@@ -1,0 +1,63 @@
+{
+  "name": "npp",
+  "version": "1.0.0",
+  "description": "A NextJS starter with API routes using MongoDB and Auth0",
+  "author": "Bits of Good <hello@bitsofgood.org>",
+  "license": "GPLV3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GTBitsOfGood/npp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GTBitsOfGood/npp/issues"
+  },
+  "homepage": "https://github.com/GTBitsOfGood/npp#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format"
+    }
+  },
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "npm run build && next start",
+    "type-check": "tsc --pretty --noEmit",
+    "format": "prettier --write **/*.{js,jsx,ts,tsx,json,css,scss}",
+    "lint": "eslint --fix --ext ts --ext tsx --ext js --ext jsx ."
+  },
+  "dependencies": {
+    "clsx": "^1.1.1",
+    "focus-visible": "^5.1.0",
+    "isomorphic-unfetch": "^3.0.0",
+    "lodash": "^4.17.20",
+    "mongodb": "^3.6.1",
+    "mongoose": "^5.10.3",
+    "next": "^9.5.3",
+    "next-auth": "^3.1.0",
+    "next-offline": "^5.0.2",
+    "normalize.css": "^8.0.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-inlinesvg": "^2.0.1",
+    "sass": "^1.26.10"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.161",
+    "@types/node": "^14.0.6",
+    "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
+    "@typescript-eslint/eslint-plugin": "^3.0.2",
+    "@typescript-eslint/parser": "^3.0.2",
+    "eslint": "^7.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "eslint-plugin-tsc": "^1.2.0",
+    "husky": "^4.2.5",
+    "prettier": "^2.0.5",
+    "typescript": "^3.9.3"
+  }
+}

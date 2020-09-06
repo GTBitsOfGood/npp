@@ -1,1 +1,3 @@
-export const exampleAction = async () => "Hello World!";
+export const exampleAction = async () => ({
+  message: "Hello World!",
+});

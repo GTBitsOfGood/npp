@@ -29,12 +29,11 @@ const SSRPage: React.FC<PropTypes> = ({ message, errorMessage }: PropTypes) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const payload = await helloWorld();
 
     return {
       props: {
-        message: payload,
+        message: payload.message,
       },
     };
   } catch (error) {

@@ -1,3 +1,4 @@
-import SSRPage from "../screens/SSR";
+import SSRPage, { getServerSideProps } from "../screens/SSR";
 
 export default SSRPage;
+export { getServerSideProps };

@@ -1,7 +1,7 @@
 {
   "name": "npp",
   "version": "1.0.0",
-  "description": "A NextJS starter with API routes using MongoDB and Auth0",
+  "description": "Nonprofit Portal",
   "author": "Bits of Good <hello@bitsofgood.org>",
   "license": "GPLV3",
   "repository": {
@@ -23,7 +23,11 @@
     "start": "npm run build && next start",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write **/*.{js,jsx,ts,tsx,json,css,scss}",
-    "lint": "eslint --fix --ext ts --ext tsx --ext js --ext jsx ."
+    "lint": "eslint --fix --ext ts --ext tsx --ext js --ext jsx .",
+    "secrets": "npm run secrets:logout && npm run secrets:login 'npm run secrets:sync'",
+    "secrets:logout": "(bw logout || true)",
+    "secrets:login": "cross-env-shell BW_SESSION=`bw login product@bitsofgood.org --raw`",
+    "secrets:sync": "bw sync && bw get item npp/.env.local | fx .notes > '.env.local'"
   },
   "dependencies": {
     "clsx": "^1.1.1",

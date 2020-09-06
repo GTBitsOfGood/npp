@@ -9,7 +9,7 @@ const IndexPage: React.FC = () => {
     // Example how to create page without ssr
     helloWorld()
       .then((resp) => {
-        setPayload(resp);
+        setPayload(resp.message as string);
       })
       .catch(() => {
         setPayload("Failed to fetch!");
@@ -23,7 +23,7 @@ const IndexPage: React.FC = () => {
         This page is static rendered, because all API calls are made in
         useEffect
       </h3>
-      <h4>{payload}</h4>
+      <h4>CSR Message: {payload}</h4>
       <p>You can tell because the text above flashes on page refresh</p>
     </>
   );

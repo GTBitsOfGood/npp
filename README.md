@@ -35,7 +35,9 @@ A running instance of MongoDB is required this project.
 ### Node
 1. Clone this project to your computer
 2. Navigate to this project in terminal and enter `npm install`
-3. Rename `.env.local.example` to `.env.local` and fill it out with the dev config
+3. Run `npm run secrets` to sync secrets to `.env.local`
+  - **OR** Rename `.env.local.example` to `.env.local` and fill it out with the dev config
+  - **NOTE**: Windows users will need to run `npm run secrets:login` and `npm run secrets:sync` instead of the above command
 
 ### Updating Env Vars
 - For dev, update `.env.local`

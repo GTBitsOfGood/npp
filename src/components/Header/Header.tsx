@@ -1,13 +1,16 @@
 import React from "react";
 import clsx from "clsx";
-import PropTypes from "prop-types";
 import { useSession } from "next-auth/client";
 import NavLink from "../NavLink";
 import UserIcon from "./UserIcon/UserIcon";
 import { homeRoutes, authRoutes } from "./routes";
-import styles from "./Header.module.scss";
+import classes from "./Header.module.scss";
 
-const Header = ({ currentRoute }) => {
+interface PropTypes {
+  currentRoute: string;
+}
+
+const Header: React.FC<PropTypes> = ({ currentRoute }) => {
   const [session, loading] = useSession();
 
   const routes = [];
@@ -22,26 +25,22 @@ const Header = ({ currentRoute }) => {
   }
 
   return (
-    <div className={styles.root}>
+    <div className={classes.root}>
       {routes.map(({ name, link }) => (
         <NavLink href={link} key={name}>
           <div
             className={clsx(
-              styles.route,
-              currentRoute === link && styles.selected
+              classes.route,
+              currentRoute === link && classes.selected
             )}
           >
             {name}
           </div>
         </NavLink>
       ))}
-      {!loading && <UserIcon session={session} />}
+      {!loading && <UserIcon />}
     </div>
   );
-};
-
-Header.propTypes = {
-  currentRoute: PropTypes.string.isRequired,
 };
 
 export default Header;

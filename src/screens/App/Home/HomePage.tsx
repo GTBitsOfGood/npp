@@ -4,14 +4,18 @@ import { useSession } from "next-auth/client";
 import urls from "../../../../utils/urls";
 import classes from "./HomePage.module.scss";
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   const router = useRouter();
   const [session, loading] = useSession();
 
+  React.useEffect(() => {
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
+    }
+  }, [router, loading, session]);
+
   if (loading) {
     return <h1>Loading...</h1>;
-  } else if (!session) {
-    router.replace(urls.pages.index);
   }
 
   return (

@@ -99,7 +99,7 @@ The utils directory includes any utilities needed for the frontend and backend.
     and then urls can be changed at a later date without needing to search the code to replace urls as strings.
   * Plain strings should **NEVER** be used to reference pages/API routes, **ALWAYS** import the urls object.
   * If a dynamic route is needed format it as `pageKey: "/somePage/[aKey]"` (with the corresponding page route being `/pages/somePage/[aKey].jsx`),
-    then use the [`NavLink`](src/components/NavLink/NavLink.jsx) component to navigate to this page:
+    then use the [`NavLink`](src/components/NavLink/NavLink.tsx) component to navigate to this page:
     `<NavLink href={pages.pageKey} hrefParts={{ aKey: 123 }}>Link</NavLink>`.
 
 ## Public Organization: [`public/`](public)
@@ -113,5 +113,5 @@ The public directory hosts any included files on the website.
 
 * [`[...nextauth].js`](src/pages/api/auth/[...nextauth].js): Is a catch-all API route to handle all authentication requests to Auth0.
 * [`pages/_app.jsx`](src/pages/_app.jsx): Includes a provider to pass session data to all pages, screens, and components.
-* [`actions/User.js`](src/actions/User.js): Includes helper functions for login and logout using url redirects.
-* All pages, screens, and components can access the session using `useSession`, as shown in [`HomePage.jsx`](src/screens/App/Home/HomePage.jsx).
+* [`actions/User.js`](src/actions/User.ts): Includes helper functions for login and logout using url redirects.
+* All pages, screens, and components can access the session using `useSession`, as shown in [`HomePage.jsx`](src/screens/App/Home/HomePage.tsx).

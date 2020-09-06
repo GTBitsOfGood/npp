@@ -2,14 +2,18 @@ import React from "react";
 import { helloWorld } from "../../actions/General";
 import classes from "./IndexPage.module.scss";
 
-const IndexPage = () => {
+const IndexPage: React.FC = () => {
   const [payload, setPayload] = React.useState("");
 
   React.useEffect(() => {
     // Example how to create page without ssr
-    helloWorld().then((resp) => {
-      setPayload(resp);
-    });
+    helloWorld()
+      .then((resp) => {
+        setPayload(resp);
+      })
+      .catch(() => {
+        setPayload("Failed to fetch!");
+      });
   }, []);
 
   return (

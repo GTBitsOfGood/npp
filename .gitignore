@@ -296,3 +296,4 @@ $RECYCLE.BIN/
 
 .env.*
 !.env.local.example
+public/sitemap.xml

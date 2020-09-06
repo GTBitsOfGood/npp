@@ -20,7 +20,7 @@
   },
   "scripts": {
     "dev": "next dev -p 3000",
-    "build": "next build",
+    "build": "next build && node sitemap.js",
     "start": "npm run build && next start",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss}\"",
@@ -32,7 +32,9 @@
   },
   "dependencies": {
     "clsx": "^1.1.1",
+    "dotenv": "^8.2.0",
     "focus-visible": "^5.1.0",
+    "globby": "^11.0.1",
     "isomorphic-unfetch": "^3.0.0",
     "lodash": "^4.17.20",
     "mongodb": "^3.6.1",
@@ -50,6 +52,7 @@
   },
   "devDependencies": {
     "@bitwarden/cli": "^1.11.0",
+    "@types/globby": "^9.1.0",
     "@types/lodash": "^4.14.161",
     "@types/mongoose": "^5.7.36",
     "@types/next-auth": "^3.1.3",

@@ -3,8 +3,31 @@
   "short_name": "npp",
   "theme_color": "#f38d69",
   "background_color": "#ffffff",
-  "display": "browser",
+  "display": "minimal-ui",
   "scope": "/",
-  "start_url": "/",
-  "description": "A portal built to help nonprofits apply to work with Bits of Good"
+  "start_url": ".",
+  "description": "A portal built to help nonprofits apply to work with Bits of Good",
+  "icons": [
+    {
+      "src": "/static/large-logo.png",
+      "type": "image/png",
+      "sizes": "1200x628"
+    },
+    {
+      "src": "/static/logo-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "/static/logo-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/static/logo-apple.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    }
+  ]
 }

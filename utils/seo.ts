@@ -22,7 +22,19 @@ export const defaultSeoConfig: DefaultSeoProps = {
         url: "/static/small-logo.png",
         width: 128,
         height: 128,
-        alt: "Bits of good small logo",
+        alt: "Bits of Good small logo",
+      },
+      {
+        url: "/static/logo-512.png",
+        width: 512,
+        height: 512,
+        alt: "Bits of Good 512px logo",
+      },
+      {
+        url: "/static/logo-192.png",
+        width: 128,
+        height: 128,
+        alt: "Bits of Good 192px logo",
       },
     ],
   },
@@ -34,6 +46,6 @@ export const profileSeoConfig: SocialProfileJsonLdProps = {
   url: "https://bitsofgood.org",
   sameAs: [
     "https://www.facebook.com/GTBitsOfGood",
-    "https://www.instagram.com/gtbitsofgood/",
+    "https://www.instagram.com/gtbitsofgood",
   ],
 };

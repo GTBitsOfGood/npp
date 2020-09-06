@@ -1,7 +1,7 @@
 {
   "name": "npp",
   "version": "1.0.0",
-  "description": "Nonprofit Portal",
+  "description": "A portal built to help nonprofits apply to work with Bits of Good",
   "author": "Bits of Good <hello@bitsofgood.org>",
   "license": "GPLV3",
   "repository": {
@@ -23,7 +23,7 @@
     "build": "next build",
     "start": "npm run build && next start",
     "type-check": "tsc --pretty --noEmit",
-    "format": "prettier --write **/*.{js,jsx,ts,tsx,json,css,scss}",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,scss}\"",
     "lint": "eslint --fix --ext ts --ext tsx --ext js --ext jsx .",
     "secrets": "npm run secrets:logout && cross-env-shell BW_SESSION=`bw login product@bitsofgood.org --raw` \"npm run secrets:sync\"",
     "secrets:logout": "(bw logout || exit 0)",
@@ -41,6 +41,7 @@
     "next-auth": "^3.1.0",
     "next-images": "^1.4.1",
     "next-offline": "^5.0.2",
+    "next-seo": "^4.7.3",
     "normalize.css": "^8.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

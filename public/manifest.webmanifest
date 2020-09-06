@@ -1,0 +1,10 @@
+{
+  "name": "Nonprofit Portal",
+  "short_name": "npp",
+  "theme_color": "#f38d69",
+  "background_color": "#ffffff",
+  "display": "browser",
+  "scope": "/",
+  "start_url": "/",
+  "description": "A portal built to help nonprofits apply to work with Bits of Good"
+}

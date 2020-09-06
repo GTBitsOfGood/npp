@@ -6,10 +6,10 @@ import { exampleAction } from "../../../server/example/actions/example";
 // @access  Public
 const handler: NextApiHandler = (req: NextApiRequest, res: NextApiResponse) =>
   exampleAction()
-    .then((text) =>
-      res.status(201).json({
+    .then((payload) =>
+      res.status(200).json({
         success: true,
-        payload: text,
+        payload,
       })
     )
     .catch(() =>

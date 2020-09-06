@@ -15,7 +15,7 @@ const SSRPage: React.FC<PropTypes> = ({ message, errorMessage }: PropTypes) => {
       <h2 className={classes.centerText}>Welcome to Next.js!</h2>
       <h3>
         This page is server-side rendered, because all API calls are made in
-        getInitialProps
+        getServerSideProps
       </h3>
       {errorMessage == null ? (
         <h4>SSR Message: {message}</h4>

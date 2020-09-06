@@ -6,15 +6,15 @@ A quick introduction to the folders and files in this repo.
 
 To keep things modular, the resources are divided into folders namely `/screens`, `/pages`, `/components`, `/actions`.
 
-- ### [`/screens`](src/screens): Contains Next.js pages along with their necessary styles and any extra files.
+- ### [`/screens`](src/screens): Contains Next.ts pages along with their necessary styles and any extra files.
 
-  * While it's possible to create Next.js pages in `/src/pages` directly, several problems occur.
+  * While it's possible to create Next.ts pages in `/src/pages` directly, several problems occur.
     Pages are able to import CSS modules like any other component, but CSS cannot be placed in the `/src/pages` directory.
   * To work, CSS files must be placed in another directory away from the page, leading to messy code.
     Similarly, any other files or utils must be placed in a separate directory.
   * To fix this, screens are placed in a separate directory from pages, and each in their own directory.
     This makes it very simple to keep the logic, styles, and utilities for each page in their separate space.
-  * Each screen behaves as a page, so `getInitialProps` and other Next.js helpers can be used.
+  * Each screen behaves as a page, so `getInitialProps` and other Next.ts helpers can be used.
 
 - ### [`/pages`](src/pages): Used for creating file-system routing to screens and creating API routes.
 
@@ -24,14 +24,14 @@ To keep things modular, the resources are divided into folders namely `/screens`
     * To simplify API routes and promote code reuse, server-side actions are used from the `/server/actions` directory.
     * Every API route must return a HTTP status code and body matching the template:  
       ```
-      res.status(201).json({
+      res.status(201).tson({
         success: true,
         payload: ...,
       })
       ```
       for successful requests, and:  
       ```
-      res.status(500).json({
+      res.status(500).tson({
         success: false,
         message: "...",
       })
@@ -46,7 +46,7 @@ To keep things modular, the resources are divided into folders namely `/screens`
   * Each reusable component is placed in this directory with a similar structure to screens.
   * Create a directory for each component,
     and include any necessary styles and utils for this component only in the same directory.
-  * Each directory must include a `index.jsx` file that imports and export defaults the component.
+  * Each directory must include a `index.tsx` file that imports and export defaults the component.
     This makes it easier to import the component from `/componentDir` instead of `/componentDir/component`.
   * Any sub-components that are used by, and only by, this component, should be placed within their
     own sub-directory within the component's directory.
@@ -61,7 +61,7 @@ To keep things modular, the resources are divided into folders namely `/screens`
       mode: "same-origin",
       credentials: "include",
     })
-      .then((response) => response.json())
+      .then((response) => response.tson())
       .then((json) => {
         if (json == null) {
           throw new Error("Could not connect to API!");
@@ -86,19 +86,18 @@ The server directory includes the backend actions used in API routes separated b
     * Each file should use the same name as the model, and include all related actions.
     * Each file needs to import `import mongoDB from "../index";`,
       and each function needs to include `await mongoDB();` (once per function) before any interactions are made with the database.
-  * For examples, see the regular [nextjs-starter](https://github.com/GTBitsOfGood/nextjs-starter/tree/master/server/mongodb).
 
 ## Utils Organization: [`utils/`](utils)
 
 The utils directory includes any utilities needed for the frontend and backend.
 
-- ### [`urls.js`](utils/urls.ts): Exports an object containing the urls for each page and API route.
+- ### [`urls.ts`](utils/urls.ts): Exports an object containing the urls for each page and API route.
 
-  * After creating a page or API route, the path needs to be added to `urls.js` immediately.
+  * After creating a page or API route, the path needs to be added to `urls.ts` immediately.
   * This makes it easy use urls in the project, because the urls object only needs to be imported,
     and then urls can be changed at a later date without needing to search the code to replace urls as strings.
   * Plain strings should **NEVER** be used to reference pages/API routes, **ALWAYS** import the urls object.
-  * If a dynamic route is needed format it as `pageKey: "/somePage/[aKey]"` (with the corresponding page route being `/pages/somePage/[aKey].jsx`),
+  * If a dynamic route is needed format it as `pageKey: "/somePage/[aKey]"` (with the corresponding page route being `/pages/somePage/[aKey].tsx`),
     then use the [`NavLink`](src/components/NavLink/NavLink.tsx) component to navigate to this page:
     `<NavLink href={pages.pageKey} hrefParts={{ aKey: 123 }}>Link</NavLink>`.
 
@@ -111,7 +110,7 @@ The public directory hosts any included files on the website.
 
 ## Authentication:
 
-* [`[...nextauth].js`](src/pages/api/auth/[...nextauth].js): Is a catch-all API route to handle all authentication requests to Auth0.
-* [`pages/_app.jsx`](src/pages/_app.jsx): Includes a provider to pass session data to all pages, screens, and components.
-* [`actions/User.js`](src/actions/User.ts): Includes helper functions for login and logout using url redirects.
-* All pages, screens, and components can access the session using `useSession`, as shown in [`HomePage.jsx`](src/screens/App/Home/HomePage.tsx).
+* [`[...nextauth].ts`](src/pages/api/auth/[...nextauth].ts): Is a catch-all API route to handle all authentication requests to Auth0.
+* [`pages/_app.tsx`](src/pages/_app.tsx): Includes a provider to pass session data to all pages, screens, and components.
+* [`actions/User.ts`](src/actions/User.ts): Includes helper functions for login and logout using url redirects.
+* All pages, screens, and components can access the session using `useSession`, as shown in [`HomePage.tsx`](src/screens/App/Home/HomePage.tsx).

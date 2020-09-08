@@ -1,25 +1,35 @@
+@use "sass:color";
+@import "../../styles/Colors";
+@import "../../styles/Properties";
+
 .root {
   display: flex;
   flex-direction: row;
-  padding: 8px 4px;
-  background-color: #004b4b;
+  padding: $spacing-two $spacing-one;
+  background-color: $primary-button-color;
   align-items: center;
 
   .route,
   .endRoute {
     color: white;
-    padding: 12px 24px;
-    margin: 0 16px;
-    font-size: 16px;
+    padding: $spacing-three $spacing-six;
+    margin: 0 $spacing-four;
     cursor: pointer;
     border-radius: 8px;
     transition: 0.25s background-color;
+
+    font-size: $font-base-size;
+    line-height: $font-base-line-height;
+    @include breakpoint-below-medium {
+      font-size: $font-small-size;
+      line-height: $font-small-line-height;
+    }
   }
 
   .route:hover,
   .endRoute:hover,
   .selected {
-    background-color: #002d2d;
+    background-color: color.adjust($primary-button-color, $lightness: -20%);
   }
 
   .endRoute {

@@ -1,6 +1,16 @@
 $wide-container: 60rem;
 $narrow-container: 40rem;
 
+/* Spacing (Margin, Padding) */
+$spacing-unit: 4px;
+$no-spacing: 0;
+$spacing-one: $spacing-unit * 1;
+$spacing-two: $spacing-unit * 2;
+$spacing-three: $spacing-unit * 3;
+$spacing-four: $spacing-unit * 4;
+$spacing-five: $spacing-unit * 5;
+$spacing-six: $spacing-unit * 6;
+
 /* Typography */
 $font-family-sans: -apple-system, BlinkMacSystemFont, sans-serif;
 $font-family-raleway: "Raleway", sans-serif;

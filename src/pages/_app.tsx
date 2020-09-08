@@ -17,9 +17,9 @@ const MyApp: React.FC<AppProps> = ({
     <DefaultSeo {...defaultSeoConfig} />
     <SocialProfileJsonLd {...profileSeoConfig} />
     <Provider session={pageProps.session}>
-      <div className="App">
+      <div id="app">
         <Header currentRoute={router.asPath} />
-        <div className="Content">
+        <div id="content">
           <Component {...pageProps} />
         </div>
       </div>

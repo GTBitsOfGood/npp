@@ -11,6 +11,7 @@ const BitsAuth0Provider = Providers.Auth0({
 BitsAuth0Provider.profile = (auth0Profile: any): Profile => {
   return {
     email: (auth0Profile.email as string)?.toLowerCase(),
+    emailVerified: auth0Profile.email_verified,
     id: auth0Profile.sub,
     image: auth0Profile.picture,
     name: auth0Profile.given_name,

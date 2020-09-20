@@ -1,5 +1,6 @@
 export interface Profile {
   email: string;
+  emailVerified: boolean;
   id: string;
   image: string;
   name: string;

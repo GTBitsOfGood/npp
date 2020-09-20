@@ -1,11 +1,39 @@
-import AuthAdapters from "next-auth/adapters";
 import { User } from "../models";
 
 const UserTypeORMSchema = {
   name: "User",
   target: User,
   columns: {
-    ...AuthAdapters.TypeORM.Models.User.schema.columns,
+    id: {
+      primary: true,
+      type: "int",
+      generated: true,
+    },
+    name: {
+      type: "varchar",
+      nullable: true,
+    },
+    email: {
+      type: "varchar",
+      unique: true,
+      nullable: true,
+    },
+    emailVerified: {
+      type: "boolean",
+      nullable: true,
+    },
+    image: {
+      type: "varchar",
+      nullable: true,
+    },
+    createdAt: {
+      type: "timestamp",
+      createDate: true,
+    },
+    updatedAt: {
+      type: "timestamp",
+      updateDate: true,
+    },
     nickname: {
       type: "string",
       nullable: false,

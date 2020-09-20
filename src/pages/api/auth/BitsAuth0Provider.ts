@@ -8,15 +8,15 @@ const BitsAuth0Provider = Providers.Auth0({
   domain: process.env.AUTH0_DOMAIN as string,
 });
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-BitsAuth0Provider.profile = (profile: any): Profile => {
+BitsAuth0Provider.profile = (auth0Profile: any): Profile => {
   return {
-    email: (profile.email as string)?.toLowerCase(),
-    id: profile.sub,
-    image: profile.picture,
-    name: profile.given_name,
-    nickname: profile.nickname,
-    familyName: profile.family_name,
-    roles: profile[BITS_NAME_SPACE + "roles"],
+    email: (auth0Profile.email as string)?.toLowerCase(),
+    id: auth0Profile.sub,
+    image: auth0Profile.picture,
+    name: auth0Profile.given_name,
+    nickname: auth0Profile.nickname,
+    familyName: auth0Profile.family_name,
+    roles: auth0Profile[BITS_NAME_SPACE + "roles"],
   };
 };
 

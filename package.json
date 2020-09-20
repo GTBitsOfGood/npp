@@ -40,7 +40,7 @@
     "mongodb": "^3.6.1",
     "mongoose": "^5.10.3",
     "next": "^9.5.3",
-    "next-auth": "GTBitsOfGood/next-auth#build",
+    "next-auth": "GTBitsOfGood/next-auth#67498cf8fe11ca6b54cc7d4d62aefa6f0ac9992a",
     "next-images": "^1.4.1",
     "next-offline": "^5.0.2",
     "next-seo": "^4.7.3",

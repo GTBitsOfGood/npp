@@ -77,7 +77,7 @@ To keep things modular, the resources are divided into folders namely `/screens`
 
 The server directory includes the backend actions used in API routes separated by their type.
 
-- ### [`/mongodb`](src/mongodb): Contains backend Mongoose models and actions for interacting with MongoDB.
+- ### [`/mongodb`](server/mongodb): Contains backend Mongoose models and actions for interacting with MongoDB.
 
   * Mongoose models should be placed within the `server/mongodb/models` directory.
     * The export for each model should follow the template:
@@ -112,5 +112,5 @@ The public directory hosts any included files on the website.
 
 * [`[...nextauth].ts`](src/pages/api/auth/[...nextauth].ts): Is a catch-all API route to handle all authentication requests to Auth0.
 * [`pages/_app.tsx`](src/pages/_app.tsx): Includes a provider to pass session data to all pages, screens, and components.
-* [`actions/UserDocument.ts`](src/actions/User.ts): Includes helper functions for login and logout using url redirects.
+* [`actions/User.ts`](src/actions/User.ts): Includes helper functions for login and logout using url redirects.
 * All pages, screens, and components can access the session using `useSession`, as shown in [`HomePage.tsx`](src/screens/App/Home/HomePage.tsx).

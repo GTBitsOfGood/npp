@@ -1,15 +1,10 @@
 import { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
 import { exampleAction } from "../../../server/example/actions/example";
-import { getSession } from "next-auth/client";
 
 // @route   POST api/example
 // @desc    Example API
 // @access  Public
-const handler: NextApiHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  const session = await getSession({ req });
+const handler: NextApiHandler = (req: NextApiRequest, res: NextApiResponse) =>
   exampleAction()
     .then((payload) =>
       res.status(200).json({
@@ -23,5 +18,5 @@ const handler: NextApiHandler = async (
         message: "Failed to run action!",
       })
     );
-};
+
 export default handler;

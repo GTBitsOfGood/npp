@@ -1,5 +1,5 @@
 import AuthAdapters from "next-auth/adapters";
-import { User } from "../../../models";
+import { User } from "../models";
 
 const UserTypeORMSchema = {
   name: "User",

@@ -1,5 +1,5 @@
 import Providers from "next-auth/providers";
-import { Profile } from "../../../models/Profile";
+import { Profile } from "../models/Profile";
 const BITS_NAME_SPACE = "https://bitsofgood.org/";
 
 const BitsAuth0Provider = Providers.Auth0({

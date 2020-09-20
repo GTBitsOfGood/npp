@@ -1,8 +1,8 @@
 import NextAuth from "next-auth";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import BitsAuth0Provider from "./BitsAuth0Provider";
+import BitsAuth0Provider from "../../../../server/auth/BitsAuth0Provider";
 import Adapters from "next-auth/adapters";
-import { UserTypeORM } from "./UserTypeORM";
+import { UserTypeORM } from "../../../../server/auth/UserTypeORM";
 
 const options = {
   providers: [BitsAuth0Provider],

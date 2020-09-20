@@ -2,11 +2,11 @@ import { Schema } from "mongoose";
 import * as mongoose from "mongoose";
 
 const schema = new Schema({
-  name: {
+  nickname: {
     type: String,
     required: true,
   },
-  nickname: {
+  name: {
     type: String,
     required: true,
   },
@@ -38,4 +38,4 @@ const schema = new Schema({
   },
 });
 
-export const User = mongoose.model("User", schema);
+export const UserDocument = mongoose.model("User", schema);

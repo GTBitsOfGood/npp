@@ -1,24 +1,14 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema, Types } from "mongoose";
+import { ObjectId } from "mongodb";
 
-const { Schema } = mongoose;
-
-// Create Schema
-const ApplicationSchema = new Schema({
-  organizationName: {
-    type: String,
-    required: true,
-  },
-  website: {
-    type: String,
-    required: false,
-  },
+const Address = new Schema({
   streetAddress: {
     type: String,
     required: true,
   },
   city: {
     type: String,
-    required: true
+    required: true,
   },
   state: {
     type: String,
@@ -28,69 +18,97 @@ const ApplicationSchema = new Schema({
     type: String,
     required: true,
   },
-  // CONTACT
+});
+
+const Organization = new Schema({
+  organizationName: {
+    type: String,
+    required: true,
+  },
+  website: {
+    type: String,
+  },
   mission: {
     type: String,
     required: true,
   },
-  productType: {
-    type: String,
+  address: {
+    type: Address,
     required: true,
-    enum: ['WEBSITE', 'MOBILE_APP']
   },
-  needsOtherExpand: {
+  phone: {
     type: String,
-    required: false,
-  },
-  stageNew: {
-    type: String,
-    required: false,
-  },
-  stageRadio: {
-    type: String,
-    required: false,
-  },
-  stageOtherExpand: {
-    type: String,
-    required: false,
-  },
-  availRadio: {
-    type: String,
-    required: false,
-  },
-  fieldRadio: {
-    type: String,
-    required: false,
-  },
-  productExtra: {
-    type: String,
-    required: false,
-  },
-  feedback: {
-    type: String,
-    required: false,
-  },
-  status: {
-    type: Number,
-    default: 0,
-  },
-  urlString: {
-    type: String,
-    required: false,
-  },
-  decision: {
-    type: Boolean,
-    default: null,
-  },
-  meeting: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Availability',
-    default: null,
-  },
-}, {
-  timestamps: {
-    createdAt: 'submitted',
   },
 });
 
-export default mongoose.models.Application || mongoose.model('Application', ApplicationSchema);
+const Contact = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+  },
+});
+
+const ApplicationSchema = new Schema(
+  {
+    users: {
+      type: [Types.ObjectId],
+      ref: "User",
+      validate: {
+        validator: (val: ObjectId[]) => val.length > 0,
+        message: "Must be associated with at least one user",
+      },
+      required: true,
+    },
+    organization: {
+      type: Organization,
+      required: true,
+    },
+    primaryContact: {
+      type: Contact,
+      required: true,
+    },
+    productType: {
+      type: [String],
+      required: true,
+      enum: ["WEBSITE", "MOBILE_APP"],
+    },
+    submittedAt: {
+      type: Date,
+      default: null,
+    },
+    interviewScheduled: {
+      type: Types.ObjectId,
+      ref: "Availability",
+      default: null,
+    },
+    decision: {
+      type: Boolean,
+      default: null,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+ApplicationSchema.virtual("status").get(function (this: any) {
+  if (this.decision) {
+    return "DECISION";
+  } else if (this.interviewScheduled) {
+    this.populate;
+  } else if (this.submittedAt) {
+  } else {
+    return "DRAFT";
+  }
+});
+
+export const Application =
+  mongoose.models.Application ||
+  mongoose.model("Application", ApplicationSchema);

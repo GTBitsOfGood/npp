@@ -15,18 +15,24 @@
     font-weight: bold;
     font-size: 16px;
     line-height: 130%;
+    padding: 4px;
     /* identical to box height, or 21px */
-
     font-feature-settings: "liga" off;
-
-    /* gray / white */
-
-    color: #ffffff;
+    color: #ffffff; /* gray / white */
   }
 
   .checkbox {
-    width: 25px;
-    height: 25px;
-    margin-right: 8px;
+      width: 25px;
+      height: 25px;
+      border: 1px solid #EC762F;
+      box-sizing: border-box;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      background: #FFFFFF;
+      color: #FD8033;
+      padding: 2px;
   }
 }

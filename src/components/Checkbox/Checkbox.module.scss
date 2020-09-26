@@ -1,0 +1,32 @@
+.container {
+  width: 157px;
+  height: 40px;
+  display: flex;
+  background: linear-gradient(276.34deg, #ec762f 0%, #fd9755 100%);
+  border: 2px solid #ec762f;
+  box-sizing: border-box;
+  border-radius: 4px;
+  align-items: center;
+  padding: 4px;
+
+  p {
+    font-family: Visby CF;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 130%;
+    /* identical to box height, or 21px */
+
+    font-feature-settings: "liga" off;
+
+    /* gray / white */
+
+    color: #ffffff;
+  }
+
+  .checkbox {
+    width: 25px;
+    height: 25px;
+    margin-right: 8px;
+  }
+}

@@ -26,12 +26,9 @@ const Header: React.FC<PropTypes> = ({ currentRoute }) => {
 
   return (
     <div className={classes.root}>
-        <NavLink href="/">
-          <img
-            src="/static/text-logo.png"
-            className={classes.headerImg}
-          />
-        </NavLink>
+      <NavLink href="/" key="Logo">
+        <img src="/static/text-logo.png" className={classes.headerImg} />
+      </NavLink>
       {routes.map(({ name, link }) => (
         <NavLink href={link} key={name}>
           <div

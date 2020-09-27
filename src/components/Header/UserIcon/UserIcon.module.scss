@@ -22,7 +22,7 @@
     border: 1px solid #434343;
     padding: 4px;
     position: absolute;
-    top: 42px;
+    top: 50px;
     right: 0;
 
     > * {
@@ -39,7 +39,6 @@
 
 .user {
   font: $font-base-size;
-  margin-right: 5px;
   color: $gray-text-color;
   text-align: center;
   font-weight: $font-weight-bold;
@@ -53,7 +52,8 @@
 .userImg {
   height: 44px;
   width: 44px;
-  margin-right: 36px;
+  margin-left: 10px;
+  border-radius: 50%;
 }
 
 .loginButton {

@@ -7,7 +7,13 @@ interface PropTypes extends React.HTMLProps<HTMLButtonElement> {
 }
 
 const Button = ({ children, type, variant, ...rest }: PropTypes) => (
-  <button className={clsx(classes.container, variant === "secondary" && classes.secondaryContainer)}  {...rest} >
+  <button
+    className={clsx(
+      classes.container,
+      variant === "secondary" && classes.secondaryContainer
+    )}
+    {...rest}
+  >
     {children}
   </button>
 );

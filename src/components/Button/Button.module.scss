@@ -4,7 +4,7 @@
   padding: 13px 15px;
   width: 111px;
   height: 51px;
-  border-radius: 10px;  
+  border-radius: 10px;
   font-family: Visby CF;
   font-style: normal;
   font-weight: 800;
@@ -12,14 +12,18 @@
   line-height: 130%;
   /* identical to box height, or 21px */
   font-feature-settings: "liga" off;
-  border: 1px solid #EC762F;
+  border: 1px solid #ec762f;
   align-items: center;
   background: #ffffff; /* default/primary white background */
   color: #666666; /* gray */
   border: 1px solid #ec762f;
 }
 .secondaryContainer {
-  background: linear-gradient(276.34deg, #ec762f 0%, #fd9755 100%); /* primary / orange-gradient */
+  background: linear-gradient(
+    276.34deg,
+    #ec762f 0%,
+    #fd9755 100%
+  ); /* primary / orange-gradient */
   color: #ffffff; /* white */
   border: none;
 }

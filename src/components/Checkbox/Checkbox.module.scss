@@ -2,29 +2,24 @@
   width: 157px;
   height: 40px;
   display: flex;
-  background: linear-gradient(276.34deg, #ec762f 0%, #fd9755 100%);
-  border: 2px solid #ec762f;
+  background: #FAFAFA;
+  border: 2px solid #999999;
+  color: #666666;
   box-sizing: border-box;
   border-radius: 4px;
   align-items: center;
   padding: 4px;
-
+  cursor: pointer;
   p {
-    font-family: Visby CF;
-    font-style: normal;
+    color: inherit;
     font-weight: bold;
     font-size: 16px;
-    line-height: 130%;
     padding: 4px;
-    /* identical to box height, or 21px */
-    font-feature-settings: "liga" off;
-    color: #ffffff; /* gray / white */
   }
-
   .checkbox {
     width: 25px;
     height: 25px;
-    border: 1px solid #ec762f;
+    border: 1px solid #999999;
     box-sizing: border-box;
     border-radius: 50%;
     display: flex;
@@ -34,5 +29,13 @@
     background: #ffffff;
     color: #fd8033;
     padding: 2px;
+  }
+  &.checked {
+    background: linear-gradient(276.34deg, #ec762f 0%, #fd9755 100%);
+    border: 2px solid #ec762f;
+    color: #FFFFFF;
+    .checkbox {
+      border: 1px solid #ec762f;
+    }
   }
 }

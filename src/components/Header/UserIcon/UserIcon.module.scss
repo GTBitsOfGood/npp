@@ -38,10 +38,14 @@
 }
 
 .user {
-  font: $font-base-size;
+  font-size: $font-base-size;
   color: $gray-text-color;
-  text-align: center;
+  text-align: right;
   font-weight: $font-weight-bold;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   .role {
     margin-top: 2px;
     color: $light-gray-text-color;

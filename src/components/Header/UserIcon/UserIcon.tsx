@@ -27,14 +27,10 @@ const UserIcon: React.FC = () => {
     <div className={classes.root} onMouseEnter={openMenu}>
       <div className={classes.user}>
         {session.user.name}
-        <div className={classes.role}>
-          Non-Profit
-        </div>
+        <div className={classes.role}>Non-Profit</div>
       </div>
       <Icon icon={caretDownFilled} />
-      <div>
         <img src={session.user.image} className={classes.userImg} />
-      </div>
       {menuOpen && (
         <div className={classes.menu} onMouseLeave={closeMenu}>
           <button onClick={logout}>Logout</button>

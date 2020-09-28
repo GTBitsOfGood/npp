@@ -8,6 +8,7 @@
   padding: $spacing-two $spacing-one;
   background-color: white;
   align-items: center;
+  height: 120px;
 
   .route,
   .endRoute {
@@ -38,7 +39,6 @@
 
   .headerImg {
     width: 172px;
-    height: 29px;
-    margin: 45px;
+    margin: 0 45px;
   }
 }

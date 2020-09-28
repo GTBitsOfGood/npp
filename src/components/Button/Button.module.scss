@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  width: 111px;
+  border-radius: 10px;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  border: 1px solid #ec762f;
+  align-items: center;
+  background: #ffffff; /* default/primary white background */
+  color: #666666; /* gray */
+}
+.secondaryContainer {
+  background: linear-gradient(
+    276.34deg,
+    #ec762f 0%,
+    #fd9755 100%
+  ); /* primary / orange-gradient */
+  color: #ffffff; /* white */
+  border: none;
+}

@@ -1,3 +1,6 @@
+@use "sass:color";
+@import "../../styles/Colors";
+
 .container {
   display: flex;
   flex-direction: column;
@@ -7,17 +10,17 @@
   font-style: normal;
   font-weight: 800;
   font-size: 16px;
-  border: 1px solid #ec762f;
+  border: 1px solid $primary-brand-color;
   align-items: center;
-  background: #ffffff; /* default/primary white background */
-  color: #666666; /* gray */
+  background: $primary-bg-color;
+  color: $primary-text-color;
 }
 .secondaryContainer {
   background: linear-gradient(
     276.34deg,
-    #ec762f 0%,
-    #fd9755 100%
-  ); /* primary / orange-gradient */
-  color: #ffffff; /* white */
+    $primary-brand-color 0%,
+    $secondary-brand-color 100%
+  );
+  color: $primary-bg-color;
   border: none;
 }

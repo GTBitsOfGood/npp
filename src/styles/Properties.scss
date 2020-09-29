@@ -12,9 +12,8 @@ $spacing-five: $spacing-unit * 5;
 $spacing-six: $spacing-unit * 6;
 
 /* Typography */
-$font-family-sans: -apple-system, BlinkMacSystemFont, sans-serif;
-$font-family-raleway: "Raleway", sans-serif;
-$font-family-quicksand: "Quicksand", sans-serif;
+$font-family-visby: "Visby CF" sans-serif;
+$font-family-open-sans: "Open Sans", sans-serif;
 
 $unit: 16;
 $font-micro-size: calc(10 / #{$unit} * 1rem); /* 10px */

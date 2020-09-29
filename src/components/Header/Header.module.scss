@@ -6,13 +6,13 @@
   display: flex;
   flex-direction: row;
   padding: $spacing-two $spacing-one;
-  background-color: white;
+  background-color: $primary-bg-color;
   align-items: center;
   height: 120px;
 
   .route,
   .endRoute {
-    color: white;
+    color: $primary-bg-color;
     padding: $spacing-three $spacing-six;
     margin: 0 $spacing-four;
     cursor: pointer;
@@ -30,7 +30,7 @@
   .route:hover,
   .endRoute:hover,
   .selected {
-    background-color: color.adjust($primary-button-color, $lightness: -20%);
+    background-color: color.adjust($primary-brand-color, $lightness: -20%);
   }
 
   .endRoute {

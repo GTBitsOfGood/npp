@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export default async (): Promise<void> => {
+export async function connectToDB(): Promise<void> {
   if (mongoose.connections[0].readyState) return;
 
   await mongoose
@@ -15,4 +15,8 @@ export default async (): Promise<void> => {
 
       throw e;
     });
-};
+}
+
+export * from "./UserDocument";
+export * from "./Application";
+export { default as meeting } from "./Meeting";

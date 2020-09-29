@@ -6,12 +6,13 @@
   display: flex;
   flex-direction: row;
   padding: $spacing-two $spacing-one;
-  background-color: $primary-brand-color;
+  background-color: $primary-bg-color;
   align-items: center;
+  height: 120px;
 
   .route,
   .endRoute {
-    color: white;
+    color: $primary-bg-color;
     padding: $spacing-three $spacing-six;
     margin: 0 $spacing-four;
     cursor: pointer;
@@ -34,5 +35,10 @@
 
   .endRoute {
     margin-left: auto;
+  }
+
+  .headerImg {
+    width: 172px;
+    margin: 0 45px;
   }
 }

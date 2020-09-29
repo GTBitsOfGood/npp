@@ -8,9 +8,7 @@ interface PropTypes {
 
 const Checkbox = ({ checked, label, ...rest }: PropTypes) => (
   <div className={classes.container} {...rest}>
-    <div className={classes.checkbox}>
-      {checked ? "✓" : ""}
-    </div>
+    <div className={classes.checkbox}>{checked ? "✓" : ""}</div>
     <p>{label}</p>
   </div>
 );

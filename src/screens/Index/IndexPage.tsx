@@ -30,12 +30,11 @@ const IndexPage: React.FC = () => {
       <h4>CSR Message: {payload}</h4>
       <p>You can tell because the text above flashes on page refresh</p>
       <Button>Apply Now</Button>
-      <Checkbox
-      checked={false}
-      label={"Hello"}
-      />
-      <Input error = {true}/>
-      <TextArea error = {true}/>
+      <Checkbox checked={false} label={"Hello"} />
+      <Input error={true} />
+      <TextArea error={true} />
+      <Input error={false} />
+      <TextArea error={false} />
     </>
   );
 };

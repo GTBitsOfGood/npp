@@ -6,7 +6,6 @@ interface PropTypes extends React.HTMLProps<HTMLButtonElement> {
 }
 
 const Button = ({ children, variant, ...rest }: PropTypes) => (
-  <button className={classes.container}>{children}
-  </button>
+  <button className={classes.container}>{children}</button>
 );
 export default Button;

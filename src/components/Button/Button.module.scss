@@ -4,8 +4,12 @@
   padding: 13px 15px;
   width: 111px;
   height: 51px;
-  background: linear-gradient(276.34deg, #ec762f 0%, #fd9755 100%); /* primary / orange-gradient */
-  border-radius: 10px;  
+  background: linear-gradient(
+    276.34deg,
+    #ec762f 0%,
+    #fd9755 100%
+  ); /* primary / orange-gradient */
+  border-radius: 10px;
   font-family: Visby CF;
   font-style: normal;
   font-weight: 800;
@@ -14,6 +18,6 @@
   /* identical to box height, or 21px */
   font-feature-settings: "liga" off;
   color: #ffffff; /* gray / white */
-  border: 1px solid #EC762F;
+  border: 1px solid #ec762f;
   align-items: center;
 }

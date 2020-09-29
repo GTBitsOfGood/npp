@@ -2,14 +2,14 @@ import React from "react";
 import clsx from "clsx";
 import styling from "./Input.module.scss";
 
-
-interface PropTypes extends React.HTMLProps<HTMLInputElement> {
+interface PropTypes extends React.ComponentProps<"input"> {
   error?: boolean;
+  className?: string;
 }
 
-const Input = ({ children, error, ...rest }: PropTypes) => (
+const Input = ({ children, error, className, ...rest }: PropTypes) => (
   <input
-    className={clsx(styling.input, error && styling.disableInput)}
+    className={clsx(className, styling.input, error && styling.disableInput)}
     {...rest}
   >
     {children}

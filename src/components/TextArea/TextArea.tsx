@@ -2,18 +2,14 @@ import React from "react";
 import clsx from "clsx";
 import styling from "./TextArea.module.scss";
 
-
-interface PropTypes extends React.HTMLProps<HTMLTextAreaElement> {
+interface PropTypes extends React.ComponentProps<"textarea"> {
   error?: boolean;
-  errorMessage?: string;
+  className?: string;
 }
 
-const TextArea = ({children, error, errorMessage, ...rest}: PropTypes) => (
-  <textarea
-    className={styling.ta}
-    {...rest}
-  >
-    {(children = error ? (errorMessage = "Form input missing!") : "")}
+const TextArea = ({ children, error, className, ...rest }: PropTypes) => (
+  <textarea className={clsx(className, styling.ta, error && styling.disableInput)} {...rest}>
+    {children}
   </textarea>
 );
 

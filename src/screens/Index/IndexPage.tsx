@@ -1,10 +1,6 @@
 import React from "react";
 import { helloWorld } from "../../actions/General";
 import classes from "./IndexPage.module.scss";
-import Button from "../../components/Button/Button";
-import Checkbox from "../../components/Checkbox/Checkbox";
-import Input from "../../components/Input/input";
-import TextArea from "../../components/TextArea/TextArea";
 
 const IndexPage: React.FC = () => {
   const [payload, setPayload] = React.useState("");
@@ -29,12 +25,6 @@ const IndexPage: React.FC = () => {
       </h3>
       <h4>CSR Message: {payload}</h4>
       <p>You can tell because the text above flashes on page refresh</p>
-      <Button>Apply Now</Button>
-      <Checkbox checked={false} label={"Hello"} />
-      <Input error={true} />
-      <TextArea error={true} />
-      <Input error={false} />
-      <TextArea error={false} />
     </>
   );
 };

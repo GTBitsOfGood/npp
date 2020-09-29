@@ -8,7 +8,10 @@ interface PropTypes extends React.ComponentProps<"textarea"> {
 }
 
 const TextArea = ({ children, error, className, ...rest }: PropTypes) => (
-  <textarea className={clsx(className, styling.ta, error && styling.disableInput)} {...rest}>
+  <textarea
+    className={clsx(className, styling.ta, error && styling.disableInput)}
+    {...rest}
+  >
     {children}
   </textarea>
 );

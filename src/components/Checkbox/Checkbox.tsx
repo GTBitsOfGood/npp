@@ -1,10 +1,12 @@
 import React from "react";
 import clsx from "clsx";
 import classes from "./Checkbox.module.scss";
+
 interface PropTypes extends React.ComponentProps<"div"> {
   checked: boolean;
   label: string;
 }
+
 const Checkbox: React.FC<PropTypes> = ({
   checked,
   label,
@@ -18,4 +20,5 @@ const Checkbox: React.FC<PropTypes> = ({
     <p>{label}</p>
   </div>
 );
+
 export default Checkbox;

@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import { defaultSeoConfig, profileSeoConfig } from "../../utils/seo";
 import "focus-visible/dist/focus-visible.min.js";
 import "normalize.css";
+import "../styles/Fonts.scss";
 import "../styles/App.scss";
 
 const MyApp: React.FC<AppProps> = ({

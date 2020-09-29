@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A portal built to help nonprofits apply to work with Bits of Good",
   "author": "Bits of Good <hello@bitsofgood.org>",
-  "license": "GPLV3",
+  "license": "GPL-3.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GTBitsOfGood/npp.git"
@@ -14,9 +14,11 @@
   "homepage": "https://github.com/GTBitsOfGood/npp#readme",
   "husky": {
     "hooks": {
-      "pre-commit": "npm run format",
-      "pre-push": "npm run type-check"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,css,scss}": "prettier --write"
   },
   "scripts": {
     "dev": "next dev -p 3000",
@@ -76,6 +78,7 @@
     "eslint-plugin-tsc": "^1.2.0",
     "fx": "^20.0.0",
     "husky": "^4.2.5",
+    "lint-staged": "^10.4.0",
     "prettier": "^2.0.5",
     "typescript": "^3.9.3"
   }

@@ -13,12 +13,14 @@
   align-items: center;
   padding: 4px;
   cursor: pointer;
+
   p {
     color: inherit;
     font-weight: bold;
     font-size: 16px;
     padding: 4px;
   }
+
   .checkbox {
     width: 25px;
     height: 25px;
@@ -33,10 +35,16 @@
     color: $secondary-brand-color;
     padding: 2px;
   }
+
   &.checked {
-    background: linear-gradient(276.34deg, $primary-brand-color 0%, $secondary-brand-color 100%);
+    background: linear-gradient(
+      276.34deg,
+      $primary-brand-color 0%,
+      $secondary-brand-color 100%
+    );
     border: 2px solid $primary-brand-color;
     color: $primary-bg-color;
+
     .checkbox {
       border: 1px solid $secondary-brand-color;
     }

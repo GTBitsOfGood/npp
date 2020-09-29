@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "Visby CF";
+  font-display: swap;
+  font-weight: bold;
+  src: url("/static/fonts/VisbyCF-Bold.woff2") format("woff2"),
+    url("/static/fonts/VisbyCF-Bold.ttf") format("truetype"),
+    url("/static/fonts/VisbyCF-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Visby CF";
+  font-display: swap;
+  font-weight: normal;
+  src: url("/static/fonts/VisbyCF-Normal.woff2") format("woff2"),
+    url("/static/fonts/VisbyCF-Normal.ttf") format("truetype"),
+    url("/static/fonts/VisbyCF-Normal.woff") format("woff");
+}

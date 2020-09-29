@@ -1,24 +1,28 @@
+@use "sass:color";
+@import "../../../styles/Colors";
+@import "../../../styles/Properties";
+
 .root {
-  width: 42px;
-  height: 42px;
+  display: flex;
+  flex-direction: row;
   border-radius: 50%;
-  background-color: #5a3083;
   border: 2px solid white;
   background-size: cover;
   background-position: center center;
   position: relative;
   box-sizing: border-box;
   margin-left: auto;
+  margin-right: 36px;
   cursor: pointer;
 
   .menu {
     width: 200px;
-    height: 300px;
+    height: auto;
     background: #fafafa;
     border: 1px solid #434343;
     padding: 4px;
     position: absolute;
-    top: 42px;
+    top: 50px;
     right: 0;
 
     > * {
@@ -31,6 +35,29 @@
       }
     }
   }
+}
+
+.user {
+  font-size: $font-base-size;
+  color: $gray-text-color;
+  text-align: right;
+  font-weight: $font-weight-bold;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  .role {
+    margin-top: 2px;
+    color: $light-gray-text-color;
+    font-weight: $font-weight-regular;
+  }
+}
+
+.userImg {
+  height: 44px;
+  width: 44px;
+  margin-left: 10px;
+  border-radius: 50%;
 }
 
 .loginButton {

@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: row;
   padding: $spacing-two $spacing-one;
-  background-color: $primary-button-color;
+  background-color: $primary-brand-color;
   align-items: center;
 
   .route,
@@ -29,7 +29,7 @@
   .route:hover,
   .endRoute:hover,
   .selected {
-    background-color: color.adjust($primary-button-color, $lightness: -20%);
+    background-color: color.adjust($primary-brand-color, $lightness: -20%);
   }
 
   .endRoute {

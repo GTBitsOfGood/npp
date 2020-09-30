@@ -1,23 +1,27 @@
+@use "sass:color";
+@import "../../styles/Colors";
+
 .container {
   display: flex;
   flex-direction: column;
-  padding: 13px 15px;
+  padding: 16px;
   width: 111px;
-  height: 51px;
-  background: linear-gradient(
-    276.34deg,
-    #ec762f 0%,
-    #fd9755 100%
-  ); /* primary / orange-gradient */
   border-radius: 10px;
-  font-family: Visby CF;
   font-style: normal;
   font-weight: 800;
   font-size: 16px;
-  line-height: 130%;
-  /* identical to box height, or 21px */
-  font-feature-settings: "liga" off;
-  color: #ffffff; /* gray / white */
-  border: 1px solid #ec762f;
+  border: 1px solid $primary-brand-color;
   align-items: center;
+  background: $primary-bg-color;
+  color: $primary-text-color;
+}
+
+.secondaryContainer {
+  background: linear-gradient(
+    276.34deg,
+    $primary-brand-color 0%,
+    $secondary-brand-color 100%
+  );
+  color: $primary-bg-color;
+  border: none;
 }

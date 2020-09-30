@@ -7,7 +7,12 @@ interface PropTypes extends React.ComponentProps<"textarea"> {
   className?: string;
 }
 
-const TextArea = ({ children, error, className, ...rest }: PropTypes) => (
+const TextArea: React.FC<PropTypes> = ({
+  children,
+  error,
+  className,
+  ...rest
+}: PropTypes) => (
   <textarea
     className={clsx(className, styling.ta, error && styling.disableInput)}
     {...rest}

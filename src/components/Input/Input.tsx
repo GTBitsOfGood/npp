@@ -7,7 +7,12 @@ interface PropTypes extends React.ComponentProps<"input"> {
   className?: string;
 }
 
-const Input = ({ children, error, className, ...rest }: PropTypes) => (
+const Input: React.FC<PropTypes> = ({
+  children,
+  error,
+  className,
+  ...rest
+}: PropTypes) => (
   <input
     className={clsx(className, styling.input, error && styling.disableInput)}
     {...rest}

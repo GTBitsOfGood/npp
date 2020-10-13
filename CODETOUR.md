@@ -23,15 +23,15 @@ To keep things modular, the resources are divided into folders namely `/screens`
   * API routes are placed in the `/src/pages/api` directory.
     * To simplify API routes and promote code reuse, server-side actions are used from the `/server/actions` directory.
     * Every API route must return a HTTP status code and body matching the template:  
-      ```
-      res.status(201).tson({
+      ```JavaScript
+      res.status(201).json({
         success: true,
         payload: ...,
       })
       ```
       for successful requests, and:  
-      ```
-      res.status(500).tson({
+      ```JavaScript
+      res.status(500).json({
         success: false,
         message: "...",
       })
@@ -61,7 +61,7 @@ To keep things modular, the resources are divided into folders namely `/screens`
       mode: "same-origin",
       credentials: "include",
     })
-      .then((response) => response.tson())
+      .then((response) => response.json())
       .then((json) => {
         if (json == null) {
           throw new Error("Could not connect to API!");

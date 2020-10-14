@@ -6,9 +6,8 @@ import { DateTime } from "luxon";
 
 export async function getAvailabilitiesFromStartOfWeek(): Promise<EntityDoc[]> {
   await connectToDB();
-
   return Availability.find({
-    startDate: {
+    startDatetime: {
       $gte: DateTime.local().startOf("weeks").toISODate(),
     },
   }).sort({
@@ -20,17 +19,12 @@ export async function addAvailability(availability: {
   [key: string]: any;
 }): Promise<EntityDoc> {
   await connectToDB();
-
   return Availability.create(availability) as Promise<EntityDoc>;
 }
 
 export async function deleteAvailability(id: ObjectId): Promise<EntityDoc> {
   await connectToDB();
-
-  return Availability.findById(id).then(async (availability: Document) => {
-    await availability.remove();
-    return availability;
-  });
+  return Availability.findByIdAndRemove(id);
 }
 
 export async function updateAvailability(

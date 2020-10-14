@@ -1,4 +1,3 @@
-import { NextApiResponse } from "next";
 import { ObjectId } from "mongodb";
 
 /**
@@ -6,18 +5,21 @@ import { ObjectId } from "mongodb";
  * @param id - the id string to sanitize
  * @param res - the current request's response object
  */
-export function validateAndSanitizeIdString(
-  id: string,
-  res: NextApiResponse
-): ObjectId {
+
+export class ValidationError {
+  constructor(
+    public readonly message: string,
+    public readonly statusCode = 400
+  ) {}
+}
+
+export function validateAndSanitizeIdString(id: string): ObjectId {
   try {
-    return new ObjectId(id);
+    if (id) {
+      return new ObjectId(id);
+    }
   } catch (error) {
-    res.status(400).json({
-      message: `${id} is not a valid ObjectID`,
-      error: error,
-    });
-    // will never be reached
-    return new ObjectId();
+    // do nothing
   }
+  throw new ValidationError(`${id} is not a valid ObjectID`);
 }

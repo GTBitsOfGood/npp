@@ -1,6 +1,6 @@
 import Email, { NodeMailerTransportOptions } from "email-templates";
 import path from "path";
-import { TemplateConfig } from "../emails/TemplateConfig";
+import { TemplateConfig } from "../../emails/TemplateConfig";
 
 const fromAddress = '"GT Bits of Good" <hello@bitsofgood.org>';
 const baseTemplatePath = path.join(process.env.ROOT as string, "/emails");

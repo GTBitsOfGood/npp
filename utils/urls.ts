@@ -10,6 +10,7 @@ const urls = {
   },
   api: {
     example: "/api/example",
+    availability: "/api/availability",
   },
 };
 

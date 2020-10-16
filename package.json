@@ -62,6 +62,7 @@
     "@iconify/icons-ant-design": "^1.0.8",
     "@types/email-templates": "^7.1.0",
     "@types/globby": "^9.1.0",
+    "@types/isomorphic-fetch": "0.0.35",
     "@types/lodash": "^4.14.161",
     "@types/luxon": "^1.25.0",
     "@types/mongodb": "^3.5.27",

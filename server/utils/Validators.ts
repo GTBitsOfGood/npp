@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { PublicError } from "./PublicError";
 
 /**
  * Sanitize a mongoose id string to an object id. Returns a 400 if not valid
@@ -6,11 +7,10 @@ import { ObjectId } from "mongodb";
  * @param res - the current request's response object
  */
 
-export class ValidationError {
-  constructor(
-    public readonly message: string,
-    public readonly statusCode = 400
-  ) {}
+export class ValidationError extends PublicError {
+  constructor(message: string, statusCode = 400) {
+    super(message, statusCode);
+  }
 }
 
 export function validateAndSanitizeIdString(id: string): ObjectId {

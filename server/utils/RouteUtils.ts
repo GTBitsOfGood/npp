@@ -1,18 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
-import { ValidationError } from "./validators";
+import { HttpMethod } from "../models/HttpMethod";
+import { PublicError } from "./PublicError";
 
 export type RouteHandler = (
   req: NextApiRequest,
   res: NextApiResponse
 ) => Promise<never | void>;
 
-export interface MethodHandlers {
-  get?: RouteHandler;
-  post?: RouteHandler;
-  put?: RouteHandler;
-  delete?: RouteHandler;
-}
+/**
+ * @link ../models/HttpMethod for valid methods
+ */
+export type MethodHandlers = {
+  [httpMethod in HttpMethod]: RouteHandler;
+};
 
 /**
  * Standardizes the response for an invalid method.
@@ -27,7 +28,7 @@ export function generateMethodRoute(
 ): RouteHandler {
   const handlers: {
     [method: string]: RouteHandler | undefined;
-  } = methodHandlers as { [method: string]: RouteHandler | undefined };
+  } = methodHandlers;
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const method = req.method ? req.method.toLowerCase() : "UNDEFINED Method";
@@ -54,7 +55,7 @@ async function callRouteHandlerAndCatchErrors(
   try {
     await routeHandler(req, res);
   } catch (error) {
-    if (error instanceof ValidationError) {
+    if (error instanceof PublicError) {
       res.status(error.statusCode).json({
         message: error.message,
         success: false,

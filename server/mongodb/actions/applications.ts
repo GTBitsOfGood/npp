@@ -1,26 +1,21 @@
-import { connectToDB } from '../index'
-import { Application } from '../Application'
-import { ObjectId } from 'mongodb';
+import { connectToDB } from "../index";
+import { Application } from "../Application";
+import { ObjectId } from "mongodb";
 
 export async function addApplication(application: Document) {
-    await connectToDB();
+  await connectToDB();
 
-    return Application.create(application);
+  return Application.create(application);
 }
 
 export async function getApplications() {
-    await connectToDB();
+  await connectToDB();
 
-    return Application
-        .find()
-        .sort({ submittedAt: -1 });
-    
+  return Application.find().sort({ submittedAt: -1 });
 }
 
 export async function getApplication(id: ObjectId) {
-    await connectToDB();
+  await connectToDB();
 
-    return Application.findOne({_id: id});
+  return Application.findById({ _id: id });
 }
-
-

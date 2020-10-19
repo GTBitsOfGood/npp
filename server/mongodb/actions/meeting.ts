@@ -17,11 +17,11 @@ export async function getMeetings() {
 export async function getMeetingById(id: ObjectId) {
   await connectToDB();
 
-  return MeetingSchema.findOne({ _id: id });
+  return MeetingSchema.findById({ _id: id });
 }
 
 export async function getMeetingByApplication(id: ObjectId) {
   await connectToDB();
 
-  return MeetingSchema.findOne({ _application: id });
+  return MeetingSchema.findOne({ application: new ObjectId(id) });
 }

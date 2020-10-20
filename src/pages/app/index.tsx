@@ -1,3 +1,3 @@
-import HomePage from "../../screens/App/Home/HomePage";
+import ApplyScreen from "../../screens/Apply/ApplyScreen";
 
-export default HomePage;
+export default ApplyScreen;

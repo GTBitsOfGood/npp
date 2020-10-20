@@ -1,12 +1,15 @@
+@import "../../styles/Properties.scss";
+@import "../../styles/Colors.scss";
+
 .root {
   display: flex;
   flex-direction: column;
   margin: 44px 243px 375px 365px;
-  h5 {
-    margin: 32px 0px 8px 0px;
-  }
   h2 {
     margin-top: 50px;
+  }
+  h5 {
+    margin: 32px 0px 8px 0px;
   }
   .checkboxcontainer {
     display: flex;
@@ -16,7 +19,7 @@
     }
   }
   .buttoncontainer {
-    margin-top: 100px;
+    margin-top: 150px;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -36,8 +39,14 @@
   .contactinfo {
     margin-top: 110px;
   }
-}
-
-.in {
-  color: gray;
+  .inline {
+    color: $secondary-text-color;
+    font-size: $font-title4-size;
+    font-weight: $font-weight-regular;
+    font-family: $font-family-visby;
+    line-height: $font-title4-line-height;
+  }
+  .submit {
+    color: $primary-bg-color;
+  }
 }

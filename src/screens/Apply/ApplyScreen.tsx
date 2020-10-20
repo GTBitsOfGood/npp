@@ -19,6 +19,19 @@ const ApplyScreen: React.FC = () => {
   const [orgPhone, setOrgPhone] = React.useState("");
   const descriptionPlaceholder =
     "Enter a brief description of the type of product you are looking for. It’s okay if you aren’t entirely sure, but this could give us a couple of ideas to discuss with you during our first meeting.";
+  const submit = () => {
+    console.log(
+      isWebsite,
+      lookingFor,
+      contactName,
+      contactEmail,
+      contactPhone,
+      orgPhone
+    );
+  };
+  const saveForLater = () => {
+    // TODO: save items
+  };
 
   if (loading) {
     return <h1>Loading...</h1>;
@@ -33,7 +46,7 @@ const ApplyScreen: React.FC = () => {
 
       <h5>
         Product Type
-        <span className={classes.in}> (select all that apply)</span>
+        <span className={classes.inline}> (select all that apply)</span>
       </h5>
       <div className={classes.checkboxcontainer}>
         <div className={classes.checkbox}>
@@ -82,7 +95,7 @@ const ApplyScreen: React.FC = () => {
 
         <h5>
           Organization Phone Number
-          <span className={classes.in}> optional</span>
+          <span className={classes.inline}> optional</span>
         </h5>
         <Input
           className={classes.textinput}
@@ -93,7 +106,7 @@ const ApplyScreen: React.FC = () => {
 
         <h5>
           Primary Contact Phone Number
-          <span className={classes.in}> optional</span>
+          <span className={classes.inline}> optional</span>
         </h5>
         <Input
           className={classes.textinput}
@@ -105,13 +118,13 @@ const ApplyScreen: React.FC = () => {
 
       <div className={classes.buttoncontainer}>
         <div className={classes.button}>
-          <Button variant="primary">
+          <Button variant="primary" onClick={saveForLater}>
             <h3>Save for Later</h3>
           </Button>
         </div>
         <div className={classes.button}>
-          <Button variant="secondary">
-            <h3>Submit</h3>
+          <Button variant="secondary" onClick={submit}>
+            <h3 className={classes.submit}>Submit</h3>
           </Button>
         </div>
       </div>

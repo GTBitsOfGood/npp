@@ -1,0 +1,43 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  margin: 44px 243px 375px 365px;
+  h5 {
+    margin: 32px 0px 8px 0px;
+  }
+  h2 {
+    margin-top: 50px;
+  }
+  .checkboxcontainer {
+    display: flex;
+    flex-direction: row;
+    .checkbox {
+      margin-right: 12px;
+    }
+  }
+  .buttoncontainer {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    .button {
+      margin-left: 45px;
+    }
+  }
+  .textinput {
+    width: 588px;
+    margin: 0px 0px;
+  }
+  .ta {
+    width: 588px;
+    margin: 0px 0px;
+    height: 117px;
+  }
+  .contactinfo {
+    margin-top: 110px;
+  }
+}
+
+.in {
+  color: gray;
+}

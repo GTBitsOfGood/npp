@@ -1,3 +1,3 @@
-import FormPage from "./FormPage";
+import ApplyScreen from "./ApplyScreen";
 
-export default FormPage;
+export default ApplyScreen;

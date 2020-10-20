@@ -12,3 +12,6 @@
 .disableInput {
   border: 2px solid #ff0200;
 }
+.input::placeholder {
+  color: #d2d2d2;
+}

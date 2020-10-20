@@ -39,7 +39,7 @@ async function updateAvailability(
   });
 }
 
-async function getAvailability(id: ObjectId): Promise<EntityDoc> {
+async function getAvailabilityById(id: ObjectId): Promise<EntityDoc> {
   await connectToDB();
 
   return AvailabilityDocument.findOne({ _id: id });
@@ -50,5 +50,5 @@ export default {
   deleteAvailability,
   updateAvailability,
   getAvailabilitiesFromStartOfWeek,
-  getAvailability,
+  getAvailabilityById,
 };

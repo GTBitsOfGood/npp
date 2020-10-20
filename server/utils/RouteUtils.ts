@@ -1,18 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
-import { HttpMethod } from "../models/HttpMethod";
+import {
+  getDefaultStatusCodeForMethod,
+  HttpMethod,
+} from "../models/HttpMethod";
 import { PublicError } from "./PublicError";
+import { HttpResponse } from "../models/HttpResponse";
 
 export type RouteHandler = (
   req: NextApiRequest,
   res: NextApiResponse
-) => Promise<never | void>;
+) => Promise<HttpResponse | any>;
 
 /**
  * @link ../models/HttpMethod for valid methods
  */
 export type MethodHandlers = {
-  [httpMethod in HttpMethod]: RouteHandler;
+  [httpMethod in HttpMethod]?: RouteHandler;
 };
 
 /**
@@ -25,22 +29,25 @@ export type MethodHandlers = {
  */
 export function generateMethodRoute(
   methodHandlers: MethodHandlers
-): RouteHandler {
+): (req: NextApiRequest, res: NextApiResponse) => Promise<void> {
   const handlers: {
     [method: string]: RouteHandler | undefined;
   } = methodHandlers;
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
-    const method = req.method ? req.method.toLowerCase() : "UNDEFINED Method";
-    if (!(method in methodHandlers)) {
+    const method = req.method
+      ? HttpMethod[req.method.toUpperCase() as keyof typeof HttpMethod]
+      : null;
+    if (method == null || !(method in methodHandlers)) {
       res.status(501).json({
-        message: `Unsupported operation: ${method}`,
+        message: `Unsupported operation: ${method ?? "No method defined"}`,
         success: false,
       });
       return;
     }
     await callRouteHandlerAndCatchErrors(
       handlers[method] as RouteHandler,
+      method,
       req,
       res
     );
@@ -49,11 +56,24 @@ export function generateMethodRoute(
 
 async function callRouteHandlerAndCatchErrors(
   routeHandler: RouteHandler,
+  method: HttpMethod,
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    await routeHandler(req, res);
+    const response = await routeHandler(req, res);
+    if (response instanceof HttpResponse) {
+      return res.status(response.statusCode).json({
+        payload: response.payload,
+        success: true,
+      });
+    } else {
+      // infer status code from method. treat entire response as payload
+      return res.status(getDefaultStatusCodeForMethod(method)).json({
+        payload: response,
+        success: true,
+      });
+    }
   } catch (error) {
     if (error instanceof PublicError) {
       res.status(error.statusCode).json({

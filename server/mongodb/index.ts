@@ -19,5 +19,5 @@ export async function connectToDB(): Promise<void> {
 
 export * from "./UserDocument";
 export * from "./Application";
-export { default as meeting } from "./Meeting";
+export { default as meeting } from "./MeetingDocument";
 export type EntityDoc = Document & { [key: string]: any };

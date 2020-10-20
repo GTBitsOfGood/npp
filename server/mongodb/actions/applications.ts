@@ -17,5 +17,5 @@ export async function getApplications() {
 export async function getApplication(id: ObjectId) {
   await connectToDB();
 
-  return Application.findById({ _id: id });
+  return Application.findById(id);
 }

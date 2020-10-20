@@ -17,7 +17,7 @@ export async function getMeetings() {
 export async function getMeetingById(id: ObjectId) {
   await connectToDB();
 
-  return MeetingSchema.findById({ _id: id });
+  return MeetingSchema.findById(id);
 }
 
 export async function getMeetingByApplication(id: ObjectId) {

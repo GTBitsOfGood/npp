@@ -3,6 +3,15 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import BitsAuth0Provider from "../../../../server/auth/BitsAuth0Provider";
 import Adapters from "next-auth/adapters";
 import { UserTypeORM } from "../../../../server/auth/UserTypeORM";
+import { User } from "../../../../server/models";
+import { SessionUser } from "../../../../server/models/SessionUser";
+import Authentication from "../../../../server/utils/Authentication";
+
+export type AuthSession = {
+  user: SessionUser;
+  accessToken?: string;
+  expiresAt: string;
+};
 
 const options = {
   providers: [BitsAuth0Provider],
@@ -16,6 +25,22 @@ const options = {
     },
   }),
   events: {},
+  callbacks: {
+    session: (session: any, user: User): Promise<AuthSession> => {
+      const newUser = {
+        ...session.user,
+        familyName: user.familyName,
+        roles: user.roles,
+        // See comment in @link /server/models/User.ts for why the User class does not include an "id" attribute
+        id: (user as any)["id"],
+        isAdmin: user.roles.includes(Authentication.adminRole),
+      };
+      return Promise.resolve({
+        ...session,
+        user: newUser,
+      } as AuthSession);
+    },
+  },
 };
 
 const handler: NextApiHandler = (req: NextApiRequest, res: NextApiResponse) =>

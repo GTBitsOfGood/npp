@@ -7,7 +7,7 @@ import {
 import { PublicError } from "./PublicError";
 import { HttpResponse } from "../models/HttpResponse";
 import { Route, RouteConfiguration, RouteHandler } from "./RouteConfiguration";
-import Authentication from "./Authentication";
+import Authentication from "../utils/Authentication";
 import { NppApiRequest } from "./NppApiRequest";
 
 /**
@@ -20,9 +20,10 @@ export type MethodRoutes = {
 /**
  * Standardizes the response for an invalid method.
  * It will also wrap all requests in a "catch all" statement for internal errors
- * and handle known errors, such as ValidationErrors
+ * and handle known errors, such as Validation and Authentication errors.
  * Unknown errors will be logged and assigned an object id because
  * it is unnsafe to send raw error messages (could contain sensitive information)
+ *
  * @param defaultRouteConfiguration - The default route configuration for each method route
  * @param methodRoutes - The handlers for each HTTP method
  */
@@ -54,6 +55,19 @@ export function generateMethodRoute(
   };
 }
 
+/**
+ * Generates a route for all HTTP Methods. Same as above but
+ * not specific to any HTTP Method (treats PUT the same as GET the same as...)
+ * @param route - The Route to wrap
+ */
+export function generateAnyMethodRoute(
+  route: Route
+): (req: NextApiRequest, res: NextApiResponse) => Promise<void> {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
+    return callRouteHandlerAndCatchErrors(route, HttpMethod.POST, req, res);
+  };
+}
+
 function getRoute(methodRoutes: MethodRoutes, method: HttpMethod): Route {
   const routeOrRouteHandler: Route | RouteHandler = methodRoutes[
     method
@@ -65,18 +79,6 @@ function getRoute(methodRoutes: MethodRoutes, method: HttpMethod): Route {
   return {
     routeHandler: routeOrRouteHandler,
     routeConfiguration: {},
-  };
-}
-
-/**
- * Generates a route for all HTTP Methods
- * @param route
- */
-export function generateAnyMethodRoute(
-  route: Route
-): (req: NextApiRequest, res: NextApiResponse) => Promise<void> {
-  return async (req: NextApiRequest, res: NextApiResponse) => {
-    return callRouteHandlerAndCatchErrors(route, HttpMethod.POST, req, res);
   };
 }
 

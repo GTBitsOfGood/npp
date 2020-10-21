@@ -1,7 +1,7 @@
-import { generateMethodRoute } from "../../../server/utils/RouteUtils";
+import { generateMethodRoute } from "../../../server/routes/RouteFactory";
 import { validateAndSanitizeIdString } from "../../../server/utils/Validators";
 import AvailabilityManager from "../../../server/mongodb/actions/AvailabilityManager";
-import { PublicError } from "../../../server/utils/PublicError";
+import { PublicError } from "../../../server/routes/PublicError";
 
 const handler = generateMethodRoute(
   {

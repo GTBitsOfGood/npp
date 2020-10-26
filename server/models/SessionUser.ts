@@ -8,5 +8,5 @@ export interface SessionUser {
   image: string;
   familyName: string;
   roles: string[];
-  isAdmin: false;
+  isAdmin: boolean;
 }

@@ -1,4 +1,5 @@
 import { Profile } from "./Profile";
+
 /**
  * This class has an "id" field but because TypeORM is not
  * really designed for MongoDB (NOSQL; "_id"), we can't include it as part of the type.

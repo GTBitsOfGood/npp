@@ -8,59 +8,45 @@ const handler = generateMethodRoute({
     if (req.query.id) {
       const objectId = validateAndSanitizeIdString(req.query.id as string);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      const availability = await AvailabilityManager.getAvailability(objectId);
-
-      res.status(200).json({
-        payload: availability,
-        success: true,
-      });
+      return AvailabilityManager.getAvailabilityById(objectId);
     } else {
-      const availabilities = await AvailabilityManager.getAvailabilitiesFromStartOfWeek();
-      res.status(200).json({
-        payload: availabilities,
-        success: true,
-      });
+      return AvailabilityManager.getAvailabilitiesFromStartOfWeek();
     }
   },
   put: async (req, res) => {
     const availability = req.body.availability;
     const result = await AvailabilityManager.addAvailability(availability);
+
     if (!result) {
       throw new PublicError("Failed to insert document", 500);
     }
 
-    res.status(201).json({
-      payload: result,
-      success: true,
-    });
+    return result;
   },
   post: async (req, res) => {
     const id = req.body.id;
     const fieldsToUpdate: any = req.body.updates;
     const objectId = validateAndSanitizeIdString(id);
-    if (!objectId) {
-      return;
-    }
     const updatedDoc = await AvailabilityManager.updateAvailability(
       objectId,
       fieldsToUpdate
     );
-    res.status(200).json({
-      payload: updatedDoc,
-      success: true,
-    });
+
+    if (!updatedDoc) {
+      throw new PublicError("No document updated", 404);
+    }
+
+    return updatedDoc;
   },
   delete: async (req, res) => {
     const id: string = req.query.id as string;
     const objectId = validateAndSanitizeIdString(id);
     const deletedDoc = await AvailabilityManager.deleteAvailability(objectId);
+
     if (!deletedDoc) {
-      throw new PublicError("Could not find document", 410);
+      throw new PublicError("Could not find document", 404);
     }
-    res.status(200).json({
-      payload: deletedDoc,
-      success: true,
-    });
+    return deletedDoc;
   },
 });
 export default handler;

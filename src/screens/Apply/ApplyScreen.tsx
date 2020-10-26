@@ -2,7 +2,6 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 import classes from "./ApplyScreen.module.scss";
-import Divider from "@material-ui/core/Divider";
 import Checkbox from "../../components/Checkbox/Checkbox";
 import TextArea from "../../components/TextArea/TextArea";
 import Input from "../../components/Input/Input";
@@ -42,7 +41,7 @@ const ApplyScreen: React.FC = () => {
       <h1>Sign up for a Project!</h1>
 
       <h2>Product Needs</h2>
-      <Divider />
+      <div className={classes.divider} />
 
       <h5>
         Product Type
@@ -54,14 +53,14 @@ const ApplyScreen: React.FC = () => {
             label="Website"
             checked={isWebsite}
             onClick={() => setIsWebsite(true)}
-          ></Checkbox>
+          />
         </div>
         <div className={classes.checkbox}>
           <Checkbox
             label="Mobile App"
             checked={!isWebsite}
             onClick={() => setIsWebsite(false)}
-          ></Checkbox>
+          />
         </div>
       </div>
 
@@ -71,11 +70,11 @@ const ApplyScreen: React.FC = () => {
         placeholder={descriptionPlaceholder}
         onChange={(event) => setLookingFor(event.target.value)}
         value={lookingFor}
-      ></TextArea>
+      />
 
       <div className={classes.contactinfo}>
         <h2>Contact Information</h2>
-        <Divider />
+        <div className={classes.divider} />
 
         <h5>Primary Contact</h5>
         <Input
@@ -83,7 +82,7 @@ const ApplyScreen: React.FC = () => {
           placeholder="Emily Wilson"
           onChange={(event) => setContactName(event.target.value)}
           value={contactName}
-        ></Input>
+        />
 
         <h5>Email</h5>
         <Input
@@ -91,7 +90,7 @@ const ApplyScreen: React.FC = () => {
           placeholder="hello@bitsofgood.org"
           onChange={(event) => setContactEmail(event.target.value)}
           value={contactEmail}
-        ></Input>
+        />
 
         <h5>
           Organization Phone Number
@@ -102,7 +101,7 @@ const ApplyScreen: React.FC = () => {
           placeholder="(+1) 202-555-0161"
           onChange={(event) => setOrgPhone(event.target.value)}
           value={orgPhone}
-        ></Input>
+        />
 
         <h5>
           Primary Contact Phone Number
@@ -113,7 +112,7 @@ const ApplyScreen: React.FC = () => {
           placeholder="(+1) 202-555-0161"
           onChange={(event) => setContactPhone(event.target.value)}
           value={contactPhone}
-        ></Input>
+        />
       </div>
 
       <div className={classes.buttoncontainer}>

@@ -26,5 +26,8 @@ module.exports = withOffline(
         },
       ],
     },
+    env: {
+      ROOT: __dirname,
+    },
   })
 );

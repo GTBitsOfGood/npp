@@ -15,6 +15,10 @@ const MeetingSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
   },
+  application: {
+    type: Schema.Types.ObjectId,
+    required: true,
+  },
   contactName: {
     type: String,
     required: true,

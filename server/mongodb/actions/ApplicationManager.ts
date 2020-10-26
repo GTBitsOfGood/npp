@@ -2,7 +2,7 @@ import { connectToDB } from "../index";
 import { Application } from "../Application";
 import { ObjectId } from "mongodb";
 
-export async function addApplication(application: Document) {
+async function addApplication(application: Document) {
   await connectToDB();
 
   return Application.create(application);
@@ -14,8 +14,14 @@ export async function getApplications() {
   return Application.find().sort({ submittedAt: -1 });
 }
 
-export async function getApplication(id: ObjectId) {
+async function getApplicationById(id: ObjectId) {
   await connectToDB();
 
   return Application.findById(id);
 }
+
+export default {
+  addApplication,
+  getApplications,
+  getApplicationById,
+};

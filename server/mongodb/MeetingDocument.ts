@@ -1,10 +1,11 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 const { Schema } = mongoose;
 
 const MeetingSchema = new Schema({
   interviewer: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
+    ref: "User",
     required: true,
   },
   startDatetime: {
@@ -16,7 +17,8 @@ const MeetingSchema = new Schema({
     required: true,
   },
   application: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
+    ref: "Application",
     required: true,
   },
   contactName: {

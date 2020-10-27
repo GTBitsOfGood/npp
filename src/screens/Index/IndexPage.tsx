@@ -1,6 +1,7 @@
 import React from "react";
 import { helloWorld } from "../../actions/General";
 import classes from "./IndexPage.module.scss";
+import Statusbar from "../../components/Statusbar";
 
 const IndexPage: React.FC = () => {
   const [payload, setPayload] = React.useState("");
@@ -25,6 +26,7 @@ const IndexPage: React.FC = () => {
       </h3>
       <h4>CSR Message: {payload}</h4>
       <p>You can tell because the text above flashes on page refresh</p>
+      <Statusbar status={2}> </Statusbar>
     </>
   );
 };

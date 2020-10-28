@@ -33,7 +33,7 @@ const IndexPage = () => {
       <h4>CSR Message: {payload}</h4>
       <p>You can tell because the text above flashes on page refresh</p>
 
-      <Statusbar status={2}> </Statusbar>
+      <Statusbar status={2} />
     </>
   );
 };

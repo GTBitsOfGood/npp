@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
-import urls from "../../../../utils/urls";
+
+// Styling
 import classes from "./HomePage.module.scss";
+
+// URLs
+import urls from "&utils/urls";
 
 const HomePage = () => {
   const router = useRouter();
   const [session, loading] = useSession();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!loading && !session) {
       void router.replace(urls.pages.index);
     }

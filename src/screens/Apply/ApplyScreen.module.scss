@@ -2,37 +2,51 @@
 @import "../../styles/Properties.scss";
 
 .root {
-  h2 {
+  display: flex;
+  flex-direction: row;
+  padding: 80px 122px 64px;
+  background-color: $gray-5;
+
+  .leftCol {
+    max-width: 466px;
+    margin-right: 142px;
+
+    .formTitle {
+      margin-bottom: 24px;
+    }
+
+    .formDescription {
+      color: $gray-60;
+    }
+  }
+
+  .rightCol {
+    width: 100%;
+  }
+
+  .sectionHeader {
+    width: 100%;
+    margin-top: 32px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid $gray-20;
   }
 
   h5 {
-  }
+    margin: 32px 0 8px;
 
-  .divider {
-  }
-
-  .checkboxcontainer {
-    .checkbox {
+    .inline {
+      color: $gray-40;
     }
   }
 
-  .buttoncontainer {
-    .button {
+  .buttonContainer {
+    display: flex;
+    margin-top: 32px;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    .secondButton {
+      margin-left: 48px;
     }
-  }
-
-  .textinput {
-  }
-
-  .ta {
-  }
-
-  .contactinfo {
-  }
-
-  .inline {
-  }
-
-  .submit {
   }
 }

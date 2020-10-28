@@ -18,7 +18,7 @@ const ApplyScreen = () => {
   // const router = useRouter();
   const [loading] = useSession();
 
-  const [isWebsite, setIsWebsite] = useState(false);
+  const [isWebsite, setIsWebsite] = useState(true);
   const [lookingFor, setLookingFor] = useState("");
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
@@ -40,62 +40,65 @@ const ApplyScreen = () => {
     // TODO: save items
   };
 
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
+  // if (loading) {
+  //   return <h1>Loading...</h1>;
+  // }
 
   return (
     <div className={classes.root}>
-      <h1>Sign up for a Project!</h1>
-
-      <h2>Product Needs</h2>
-      <div className={classes.divider} />
-
-      <h5>
-        Product Type
-        <span className={classes.inline}> (select all that apply)</span>
-      </h5>
-      <div className={classes.checkboxcontainer}>
-        <div className={classes.checkbox}>
-          <Checkbox
-            label="Website"
-            checked={isWebsite}
-            onClick={() => setIsWebsite(true)}
-          />
-        </div>
-        <div className={classes.checkbox}>
-          <Checkbox
-            label="Mobile App"
-            checked={!isWebsite}
-            onClick={() => setIsWebsite(false)}
-          />
-        </div>
+      <div className={classes.leftCol}>
+        <h1 className={classes.formTitle}>Sign up for a Project</h1>
+        <h5 className={classes.formDescription}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud commodo consequat.
+        </h5>
       </div>
 
-      <h5>What You Are Looking For</h5>
-      <TextArea
-        value={lookingFor}
-        className={classes.ta}
-        placeholder={descriptionPlaceholder}
-        onChange={(event) => setLookingFor(event.target.value)}
-      />
+      <div className={classes.rightCol}>
+        <h2 className={classes.sectionHeader}>Product Needs</h2>
 
-      <div className={classes.contactinfo}>
-        <h2>Contact Information</h2>
-        <div className={classes.divider} />
+        <h5>
+          Product Type
+          <span className={classes.inline}> (select all that apply)</span>
+        </h5>
+        <div className={classes.checkboxcontainer}>
+          <div className={classes.checkbox}>
+            <Checkbox
+              label="Website"
+              checked={isWebsite}
+              onClick={() => setIsWebsite(true)}
+            />
+          </div>
+          <div className={classes.checkbox}>
+            <Checkbox
+              label="Mobile App"
+              checked={!isWebsite}
+              onClick={() => setIsWebsite(false)}
+            />
+          </div>
+        </div>
+
+        <h5>What You Are Looking For</h5>
+        <TextArea
+          value={lookingFor}
+          className={classes.ta}
+          placeholder={descriptionPlaceholder}
+          onChange={(event) => setLookingFor(event.target.value)}
+        />
+
+        <h2 className={classes.sectionHeader}>Contact Information</h2>
 
         <h5>Primary Contact</h5>
         <Input
           value={contactName}
           placeholder="Emily Wilson"
-          className={classes.textinput}
           onChange={(event) => setContactName(event.target.value)}
         />
 
         <h5>Email</h5>
         <Input
           value={contactEmail}
-          className={classes.textinput}
           placeholder="hello@bitsofgood.org"
           onChange={(event) => setContactEmail(event.target.value)}
         />
@@ -106,8 +109,7 @@ const ApplyScreen = () => {
         </h5>
         <Input
           value={orgPhone}
-          className={classes.textinput}
-          placeholder="(+1) 202-555-0161"
+          placeholder="(414) 555-0161"
           onChange={(event) => setOrgPhone(event.target.value)}
         />
 
@@ -117,22 +119,19 @@ const ApplyScreen = () => {
         </h5>
         <Input
           value={contactPhone}
-          className={classes.textinput}
-          placeholder="(+1) 202-555-0161"
+          placeholder="(414) 555-0161"
           onChange={(event) => setContactPhone(event.target.value)}
         />
-      </div>
 
-      <div className={classes.buttonContainer}>
-        <div className={classes.button}>
+        <div className={classes.buttonContainer}>
           <Button variant="primary" onClick={saveForLater}>
             <h3>Save for Later</h3>
           </Button>
-        </div>
-        <div className={classes.button}>
-          <Button variant="secondary" onClick={submit}>
-            <h3 className={classes.submit}>Submit</h3>
-          </Button>
+          <div className={classes.secondButton}>
+            <Button variant="secondary" onClick={submit}>
+              <h3 className={classes.submit}>Submit</h3>
+            </Button>
+          </div>
         </div>
       </div>
     </div>

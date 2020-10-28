@@ -5,10 +5,6 @@ export const homeRoutes = [
     name: "Home",
     link: urls.pages.index,
   },
-  {
-    name: "SSR",
-    link: urls.pages.ssr,
-  },
 ];
 
 export const authRoutes = [

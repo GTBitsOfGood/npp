@@ -84,6 +84,7 @@ const ApplyScreen = () => {
 
           <h5>What You Are Looking For</h5>
           <TextArea
+            rows={4}
             value={lookingFor}
             placeholder={descriptionPlaceholder}
             onChange={(event: any) => setLookingFor(event.target.value)}

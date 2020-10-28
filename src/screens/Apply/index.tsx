@@ -133,7 +133,7 @@ const ApplyScreen = () => {
               <h3>Save for Later</h3>
             </Button>
             <Button variant="primary" onClick={submit}>
-              <h3>Submit</h3>
+              <h3>Apply</h3>
             </Button>
           </div>
         </div>

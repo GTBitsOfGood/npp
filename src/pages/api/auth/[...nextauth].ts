@@ -1,16 +1,17 @@
 import NextAuth from "next-auth";
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import BitsAuth0Provider from "../../../../server/auth/BitsAuth0Provider";
 import Adapters from "next-auth/adapters";
-import { UserTypeORM } from "../../../../server/auth/UserTypeORM";
-import { User } from "../../../../server/models";
-import { SessionUser } from "../../../../server/models/SessionUser";
-import Authentication from "../../../../server/utils/Authentication";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+
+import { User } from "&server/models";
+import { UserTypeORM } from "&server/auth/UserTypeORM";
+import { SessionUser } from "&server/models/SessionUser";
+import Authentication from "&server/utils/Authentication";
+import BitsAuth0Provider from "&server/auth/BitsAuth0Provider";
 
 export type AuthSession = {
   user: SessionUser;
-  accessToken?: string;
   expiresAt: string;
+  accessToken?: string;
 };
 
 const options = {

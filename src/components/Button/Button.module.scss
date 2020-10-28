@@ -1,28 +1,41 @@
-@use "sass:color";
 @import "../../styles/Colors";
 
-.container {
+.primaryContainer {
+  height: 48px;
+  width: 243px;
   display: flex;
-  flex-direction: column;
-  padding: 10px;
-  width: 175px;
-  height: 50px;
-  border-radius: 10px;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 16px;
-  border: 1px solid $primary-brand-color;
+  border-radius: 8px;
   align-items: center;
-  background: $primary-bg-color;
-  color: $primary-text-color;
+  justify-content: center;
+  background-color: $orange-500;
+  border: 2px solid $orange-500;
+
+  &:hover {
+    background-color: $orange-700;
+    border: 2px solid $orange-700;
+  }
+
+  h3 {
+    color: $white;
+    user-select: none;
+  }
 }
 
 .secondaryContainer {
-  background: linear-gradient(
-    276.34deg,
-    $primary-brand-color 0%,
-    $secondary-brand-color 100%
-  );
-  color: $primary-bg-color;
-  border: none;
+  width: 175px;
+  margin-right: 48px;
+  background-color: $white;
+
+  &:hover {
+    background-color: $orange-300;
+    border: 2px solid $orange-300;
+
+    h3 {
+      color: $white;
+    }
+  }
+
+  h3 {
+    color: $gray-80;
+  }
 }

@@ -1,78 +1,76 @@
-@use "sass:color";
 @import "../../../styles/Colors";
-@import "../../../styles/Properties";
 
 .root {
   display: flex;
   flex-direction: row;
-  border-radius: 50%;
-  border: 2px solid $primary-bg-color;
-  background-size: cover;
-  background-position: center center;
-  position: relative;
-  box-sizing: border-box;
-  margin-left: auto;
-  margin-right: 36px;
-  cursor: pointer;
 
   .menu {
-    width: 200px;
-    height: auto;
-    background: $light-bg-color;
-    border: 1px solid $lighter-text-color;
-    padding: 4px;
     position: absolute;
-    top: 50px;
-    right: 0;
-
-    > * {
-      width: 100%;
-      padding: 4px 0;
-      cursor: pointer;
-
-      &:not(:last-of-type) {
-        margin-bottom: 8px;
-      }
-    }
+    top: 60px;
+    right: 164px;
+    background-color: $white;
+    border: 1px solid #f0f0f0;
+    border-top: none;
   }
 }
 
 .user {
-  font-size: $font-base-size;
-  color: $primary-text-color;
   text-align: right;
-  font-weight: $font-weight-bold;
-  margin-right: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
+  margin-right: 8px;
+
+  .topRow {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    h3 {
+      margin-right: 8px;
+      user-select: none;
+    }
+  }
+
   .role {
-    margin-top: 2px;
-    color: $light-text-color;
-    font-weight: $font-weight-regular;
+    color: $gray-40;
+    user-select: none;
   }
 }
 
 .userImg {
-  height: 44px;
-  width: 44px;
-  margin-left: 10px;
-  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  border-radius: 36px;
 }
 
 .loginButton {
-  color: white;
-  padding: 12px 24px;
-  font-size: 16px;
-  cursor: pointer;
+  padding: 8px 32px;
   border-radius: 8px;
-  margin: 0 16px 0 auto;
-  border: none;
-  outline: none;
-  background: #004b4b;
-  transition: 0.25s background-color;
+  background-color: $white;
+  border: 2px solid $orange-500;
 
   &:hover {
-    background-color: #002d2d;
+    background-color: $orange-500;
+
+    h3 {
+      color: $white;
+      user-select: none;
+    }
+  }
+}
+
+.logoutButton {
+  border: none;
+  padding: 8px 32px;
+  background-color: $white;
+
+  &:hover {
+    h3 {
+      user-select: none;
+      color: $orange-500;
+    }
   }
 }

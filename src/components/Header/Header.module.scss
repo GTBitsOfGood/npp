@@ -1,48 +1,30 @@
-@use "sass:color";
 @import "../../styles/Colors";
 @import "../../styles/Properties";
 
 .root {
   display: flex;
-  flex-direction: row;
-  padding: $spacing-two $spacing-one;
-  background-color: $primary-bg-color;
-  align-items: center;
   height: 120px;
+  padding: 0 122px;
+  align-items: center;
+  flex-direction: row;
+  background-color: $white;
+  border-bottom: 1px solid $gray-20;
 
-  .route,
-  .endRoute {
-    color: $secondary-text-color;
-    padding: $spacing-three $spacing-six;
-    margin: 0 $spacing-four;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: 0.25s background-color;
-    background: none;
-    border: 2px solid $primary-brand-color;
-
-    font-size: $font-base-size;
-    line-height: $font-base-line-height;
-    @include breakpoint-below-medium {
-      font-size: $font-small-size;
-      line-height: $font-small-line-height;
-    }
+  .route {
+    margin-right: 32px;
   }
 
   .route:hover,
-  .endRoute:hover,
   .selected {
-    background-color: color.adjust($primary-brand-color, $lightness: -20%);
-    border-color: color.adjust($primary-brand-color, $lightness: -20%);
-    color: #ffffff;
-  }
+    cursor: pointer;
 
-  .endRoute {
-    margin-left: auto;
+    h3 {
+      color: $orange-700;
+    }
   }
 
   .headerImg {
     width: 172px;
-    margin: 0 45px;
+    margin-right: auto;
   }
 }

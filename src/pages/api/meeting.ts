@@ -1,12 +1,12 @@
-import { generateMethodRoute } from "../../../server/routes/RouteFactory";
-import { validateAndSanitizeIdString } from "../../../server/utils/Validators";
-import { PublicError } from "../../../server/routes/PublicError";
-import MeetingManager from "../../../server/mongodb/actions/MeetingManager";
-import { SessionUser } from "../../../server/models/SessionUser";
-import Authentication from "../../../server/utils/Authentication";
-import ApplicationManager from "../../../server/mongodb/actions/ApplicationManager";
-import { AuthenticationError } from "../../../server/utils/AuthenticationError";
-import { Schema } from "mongoose";
+import { PublicError } from "&server/routes/PublicError";
+import { SessionUser } from "&server/models/SessionUser";
+import Authentication from "&server/utils/Authentication";
+import { generateMethodRoute } from "&server/routes/RouteFactory";
+import MeetingManager from "&server/mongodb/actions/MeetingManager";
+import { validateAndSanitizeIdString } from "&server/utils/Validators";
+import { AuthenticationError } from "&server/utils/AuthenticationError";
+import ApplicationManager from "&server/mongodb/actions/ApplicationManager";
+
 import { ObjectId } from "bson";
 
 const handler = generateMethodRoute(
@@ -14,7 +14,7 @@ const handler = generateMethodRoute(
     requireSession: true,
   },
   {
-    get: async (req, res) => {
+    get: async (req, _res) => {
       const user = req.user as SessionUser;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       if (req.query.id) {
@@ -37,7 +37,7 @@ const handler = generateMethodRoute(
         return MeetingManager.getMeetings();
       }
     },
-    put: async (req, res) => {
+    put: async (req, _res) => {
       const meeting = req.body.meeting;
       await validateUserHasAccessToMeeting(req.user as SessionUser, meeting);
       const result = await MeetingManager.addMeeting(meeting);

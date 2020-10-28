@@ -1,73 +1,61 @@
-@import "../../styles/Properties.scss";
 @import "../../styles/Colors.scss";
+@import "../../styles/Properties.scss";
+
+.loadingText {
+  margin-top: 40px;
+  text-align: center;
+}
 
 .root {
-  width: 100%;
-  max-width: 700px;
   display: flex;
-  flex-direction: column;
-  margin: 0 auto;
+  max-width: 1440px;
+  flex-direction: row;
 
-  h2 {
-    margin-top: 50px;
+  .leftCol {
+    max-width: 466px;
+    margin-right: 142px;
+
+    .formTitle {
+      margin-bottom: 24px;
+    }
+
+    .formDescription {
+      color: $gray-60;
+    }
+  }
+
+  .rightCol {
+    width: 100%;
+  }
+
+  .sectionHeader {
+    width: 100%;
+    margin-top: 32px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid $gray-20;
   }
 
   h5 {
-    margin: 32px 0px 8px 0px;
-  }
+    margin: 32px 0 8px;
 
-  .divider {
-    border: none;
-    height: 1px;
-    margin: 0;
-    flex-shrink: 0;
-    background-color: rgba(0, 0, 0, 0.12);
-  }
-
-  .checkboxcontainer {
-    display: flex;
-    flex-direction: row;
-
-    .checkbox {
-      margin-right: 12px;
+    .inline {
+      color: $gray-40;
     }
   }
 
-  .buttoncontainer {
-    margin-top: 150px;
+  .checkboxContainer {
     display: flex;
+    flex-direction: row;
+  }
+
+  .buttonContainer {
+    display: flex;
+    margin-top: 32px;
     flex-direction: row;
     justify-content: flex-end;
 
-    .button {
-      margin-left: 45px;
+    .secondButton {
+      margin-left: 48px;
     }
-  }
-
-  .textinput {
-    width: 588px;
-    margin: 0px 0px;
-  }
-
-  .ta {
-    width: 588px;
-    margin: 0px 0px;
-    height: 117px;
-  }
-
-  .contactinfo {
-    margin-top: 110px;
-  }
-
-  .inline {
-    color: $secondary-text-color;
-    font-size: $font-title4-size;
-    font-weight: $font-weight-regular;
-    font-family: $font-family-visby;
-    line-height: $font-title4-line-height;
-  }
-
-  .submit {
-    color: $primary-bg-color;
   }
 }

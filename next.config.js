@@ -1,5 +1,5 @@
-const withOffline = require("next-offline");
 const withImages = require("next-images");
+const withOffline = require("next-offline");
 
 module.exports = withOffline(
   withImages({

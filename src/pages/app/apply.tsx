@@ -1,3 +1,3 @@
-import ApplyScreen from "../../screens/Apply/ApplyScreen";
+import ApplyScreen from "&screens/Apply";
 
 export default ApplyScreen;

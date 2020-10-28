@@ -1,52 +1,49 @@
-@use "sass:color";
 @import "../../styles/Colors";
 
 .container {
-  width: 157px;
-  height: 40px;
+  width: 160px;
   display: flex;
-  background: $light-bg-color;
-  border: 2px solid $light-text-color;
-  color: $secondary-text-color;
-  box-sizing: border-box;
+  padding: 8px 12px;
   border-radius: 4px;
+  margin-right: 12px;
   align-items: center;
-  padding: 4px;
-  cursor: pointer;
+  flex-direction: row;
+  background-color: $gray-5;
+  border: 2px solid $gray-40;
 
-  p {
-    color: inherit;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 4px;
+  &:hover {
+    cursor: pointer;
+  }
+
+  h3 {
+    margin: 0;
+    user-select: none;
   }
 
   .checkbox {
-    width: 25px;
-    height: 25px;
-    border: 1px solid $light-text-color;
-    box-sizing: border-box;
-    border-radius: 50%;
+    width: 24px;
+    height: 24px;
     display: flex;
-    justify-content: center;
+    margin-right: 6px;
+    user-select: none;
+    border-radius: 50%;
     align-items: center;
-    font-size: 20px;
-    background: $primary-bg-color;
-    color: $secondary-brand-color;
-    padding: 2px;
+    justify-content: center;
+    background-color: $white;
+    border: 2px solid $gray-40;
   }
 
   &.checked {
-    background: linear-gradient(
-      276.34deg,
-      $primary-brand-color 0%,
-      $secondary-brand-color 100%
-    );
-    border: 2px solid $primary-brand-color;
-    color: $primary-bg-color;
+    background-color: $orange-500;
+    border: 2px solid $orange-700;
+
+    h3 {
+      color: $white;
+    }
 
     .checkbox {
-      border: 1px solid $secondary-brand-color;
+      color: $orange-500;
+      border: 1px solid $orange-700;
     }
   }
 }

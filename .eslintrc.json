@@ -4,83 +4,68 @@
     "browser": true,
     "es6": true
   },
-  "parser": "babel-eslint",
   "extends": [
+    "prettier",
+    "prettier/react",
     "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:prettier/recommended"
+    "plugin:import/typescript",
+    "plugin:react/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "react/display-name": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 0
+      }
+    }
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
+  "plugins": [
+    "node",
+    "react",
+    "import",
+    "jsx-a11y",
+    "react-hooks",
+    "@typescript-eslint"
   ],
   "rules": {
-    "no-return-await": "error",
-    "react/prop-types": "off",
-    "react/display-name": "off",
-    "react/react-in-jsx-scope": "off",
+    "import/named": 2,
+    "import/export": 2,
+    "import/default": 2,
+    "import/namespace": 2,
+    "import/extensions": "off",
     "import/no-unresolved": "off",
-    "jsx-a11y/anchor-is-valid": [
-      "error",
-      {
-        "components": ["Link", "NavLink"],
-        "specialLink": ["hrefLeft", "hrefRight"],
-        "aspects": ["invalidHref", "preferButton"]
-      }
-    ]
+    "@typescript-eslint/no-unused-vars": 2,
+    "@typescript-eslint/no-floating-promises": 2,
+    "react/prop-types": [2, { "ignore": ["children"] }],
+    "@typescript-eslint/explicit-module-boundary-types": 2,
+    "@typescript-eslint/explicit-function-return-type": "off"
   },
   "settings": {
     "react": {
       "version": "detect"
-    }
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"],
-      "parser": "@typescript-eslint/parser",
-      "parserOptions": {
-        "project": "./tsconfig.json"
-      },
-      "plugins": ["@typescript-eslint"],
-      "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:react-hooks/recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:jsx-a11y/recommended",
-        "plugin:import/errors",
-        "plugin:import/warnings",
-        "plugin:import/typescript",
-        "prettier/@typescript-eslint",
-        "plugin:prettier/recommended"
-      ],
-      "rules": {
-        "no-return-await": "error",
-        "react/prop-types": "off",
-        "react/display-name": "off",
-        "react/react-in-jsx-scope": "off",
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/ban-ts-ignore": "off",
-        "@typescript-eslint/require-await": "warn",
-        "@typescript-eslint/no-unsafe-assignment": "off",
-        "@typescript-eslint/no-unsafe-member-access": "off",
-        "@typescript-eslint/ban-ts-comment": [
-          "warn",
-          {
-            "ts-ignore": "allow-with-description"
-          }
-        ],
-        "import/no-unresolved": "off",
-        "jsx-a11y/anchor-is-valid": [
-          "error",
-          {
-            "components": ["Link", "NavLink"],
-            "specialLink": ["hrefLeft", "hrefRight"],
-            "aspects": ["invalidHref", "preferButton"]
-          }
-        ]
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts", ".tsx"]
       }
     }
-  ]
+  }
 }

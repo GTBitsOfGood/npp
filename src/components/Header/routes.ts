@@ -1,13 +1,9 @@
-import urls from "../../../utils/urls";
+import urls from "&utils/urls";
 
 export const homeRoutes = [
   {
     name: "Home",
     link: urls.pages.index,
-  },
-  {
-    name: "SSR",
-    link: urls.pages.ssr,
   },
 ];
 

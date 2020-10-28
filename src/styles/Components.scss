@@ -1,5 +1,5 @@
+@import "./Fonts";
 @import "./Colors";
-@import "./Properties";
 
 div,
 nav,
@@ -27,51 +27,47 @@ textarea,
 select,
 button {
   margin: 0;
-  color: $primary-text-color;
+  color: $gray-80;
 }
 
 h1 {
-  font-size: $font-title1-size;
-  font-weight: $font-weight-bold;
-  font-family: $font-family-visby;
-  line-height: $font-title1-line-height;
+  font-size: 36px;
+  font-weight: 800;
+  font-family: $visby;
 }
 
 h2 {
-  font-size: $font-title2-size;
-  font-weight: $font-weight-bold;
-  font-family: $font-family-visby;
-  line-height: $font-title2-line-height;
+  font-size: 24px;
+  font-weight: 800;
+  font-family: $visby;
 }
 
 h3 {
-  font-size: $font-title3-size;
-  font-weight: $font-weight-bold;
-  font-family: $font-family-visby;
-  line-height: $font-title3-line-height;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 120%;
+  font-family: $visby;
 }
 
 h4 {
-  font-size: $font-title4-size;
-  font-weight: $font-weight-bold;
-  font-family: $font-family-visby;
-  line-height: $font-title4-line-height;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 120%;
+  font-family: $visby;
 }
 
 h5 {
-  font-size: $font-title4-size;
-  font-weight: $font-weight-regular;
-  font-family: $font-family-visby;
-  line-height: $font-title4-line-height;
+  font-size: 16px;
+  font-weight: normal;
+  font-family: $open-sans;
 }
 
 p,
 a,
 span {
-  font-size: $font-base-size;
-  font-weight: $font-weight-regular;
-  font-family: $font-family-open-sans;
-  line-height: $font-base-line-height;
+  font-size: 14px;
+  font-weight: normal;
+  font-family: $open-sans;
 }
 
 button,

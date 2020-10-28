@@ -10,11 +10,11 @@
   border-radius: 4px;
   font-weight: normal;
   font-family: $open-sans;
-  border: 3px solid $gray-40;
+  border: 2px solid $gray-40;
 
   &:focus {
     outline: none;
-    border: 3px solid $orange-500;
+    border: 2px solid $orange-500;
   }
 
   &::placeholder {
@@ -26,10 +26,10 @@
 }
 
 .disableInput {
-  border: 3px solid $red;
+  border: 2px solid $red;
 
   &:focus {
     outline: none;
-    border: 3px solid $red;
+    border: 2px solid $red;
   }
 }

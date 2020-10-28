@@ -46,8 +46,7 @@ const ApplyScreen = () => {
     // TODO: save items
   };
 
-  // TODO: Fix
-  if (!loading) {
+  if (loading) {
     return <h1>Loading...</h1>;
   }
 

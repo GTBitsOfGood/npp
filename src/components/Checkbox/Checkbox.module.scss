@@ -1,52 +1,14 @@
-@use "sass:color";
 @import "../../styles/Colors";
 
 .container {
-  width: 157px;
-  height: 40px;
-  display: flex;
-  background: $light-bg-color;
-  border: 2px solid $light-text-color;
-  color: $secondary-text-color;
-  box-sizing: border-box;
-  border-radius: 4px;
-  align-items: center;
-  padding: 4px;
-  cursor: pointer;
-
   p {
-    color: inherit;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 4px;
   }
 
   .checkbox {
-    width: 25px;
-    height: 25px;
-    border: 1px solid $light-text-color;
-    box-sizing: border-box;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    background: $primary-bg-color;
-    color: $secondary-brand-color;
-    padding: 2px;
   }
 
   &.checked {
-    background: linear-gradient(
-      276.34deg,
-      $primary-brand-color 0%,
-      $secondary-brand-color 100%
-    );
-    border: 2px solid $primary-brand-color;
-    color: $primary-bg-color;
-
     .checkbox {
-      border: 1px solid $secondary-brand-color;
     }
   }
 }

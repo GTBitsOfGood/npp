@@ -1,28 +1,7 @@
-@use "sass:color";
 @import "../../styles/Colors";
 
 .container {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  width: 175px;
-  height: 50px;
-  border-radius: 10px;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 16px;
-  border: 1px solid $primary-brand-color;
-  align-items: center;
-  background: $primary-bg-color;
-  color: $primary-text-color;
 }
 
 .secondaryContainer {
-  background: linear-gradient(
-    276.34deg,
-    $primary-brand-color 0%,
-    $secondary-brand-color 100%
-  );
-  color: $primary-bg-color;
-  border: none;
 }

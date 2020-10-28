@@ -24,11 +24,11 @@ const IndexPage = () => {
   }, []);
 
   return (
-    <>
-      <h1 className={classes.centerText}>Welcome to Nonprofit Portal</h1>
+    <div className="landingPage">
+      <h1>Welcome to Nonprofit Portal</h1>
 
       <Statusbar status={0} />
-    </>
+    </div>
   );
 };
 

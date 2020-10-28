@@ -3,9 +3,8 @@
 
 .root {
   display: flex;
+  max-width: 1440px;
   flex-direction: row;
-  padding: 80px 122px 64px;
-  background-color: $gray-5;
 
   .leftCol {
     max-width: 466px;

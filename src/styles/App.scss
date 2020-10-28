@@ -30,20 +30,18 @@ body {
   display: flex;
   margin: 0 auto;
   color: $gray-80;
-  max-width: 1440px;
   overflow-x: hidden;
   flex-direction: column;
 }
 
-#portalRoot {
-  width: 100vw;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  z-index: 1000;
-  max-width: 100%;
-  position: absolute;
-  pointer-events: none;
+.landingPage {
+  display: flex;
+  align-items: center;
+  padding: 80px 0 64px;
+  flex-direction: column;
+}
+
+.applicationPage {
+  padding: 80px 122px 64px;
+  background-color: $gray-5;
 }

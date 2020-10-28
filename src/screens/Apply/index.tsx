@@ -100,6 +100,7 @@ const ApplyScreen = () => {
 
         <h5>Email</h5>
         <Input
+          type="email"
           value={contactEmail}
           placeholder="hello@bitsofgood.org"
           onChange={(event: any) => setContactEmail(event.target.value)}
@@ -110,6 +111,7 @@ const ApplyScreen = () => {
           <span className={classes.inline}> optional</span>
         </h5>
         <Input
+          type="number"
           value={orgPhone}
           placeholder="(414) 555-0161"
           onChange={(event: any) => setOrgPhone(event.target.value)}
@@ -120,6 +122,7 @@ const ApplyScreen = () => {
           <span className={classes.inline}> optional</span>
         </h5>
         <Input
+          type="number"
           value={contactPhone}
           placeholder="(414) 555-0161"
           onChange={(event: any) => setContactPhone(event.target.value)}

@@ -1,29 +1,75 @@
 @import "../../styles/Colors";
 
 .root {
-}
+  display: flex;
+  width: 1000px;
+  flex-direction: row;
+  margin: 32px auto 40px;
+  align-items: flex-start;
+  justify-content: space-between;
 
-.status {
-  p {
-  }
+  .status {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 
-  .line {
-  }
-
-  &:first-of-type {
-    .line {
+    h3 {
+      color: $gray-40;
+      margin-top: 12px;
     }
-  }
 
-  &:last-of-type {
     .line {
-    }
-  }
+      z-index: 2;
+      width: 100%;
+      position: absolute;
+      top: calc(50% - 1px);
+      border-bottom: 1px solid $gray-20;
 
-  .circleWrapper {
-    .circlePadding {
-      .statusCircle {
-        &.activeCircle {
+      &.activeLine {
+        border-bottom: 1px solid $orange-500;
+      }
+    }
+
+    &:first-of-type {
+      .line {
+        right: 0;
+        width: 50%;
+      }
+    }
+
+    &:last-of-type {
+      .line {
+        left: 0;
+        width: 50%;
+      }
+    }
+
+    .circleWrapper {
+      width: 100%;
+      display: flex;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+
+      .circlePadding {
+        z-index: 3;
+        padding: 4px;
+        border-radius: 50%;
+        background: $white;
+
+        .statusCircle {
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: $white;
+          border: 2px solid $gray-20;
+
+          &.activeCircle {
+            background: $orange-500;
+            border: 2px solid $orange-500;
+          }
         }
       }
     }

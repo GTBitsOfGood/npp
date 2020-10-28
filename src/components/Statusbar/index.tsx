@@ -5,8 +5,11 @@ import clsx from "clsx";
 
 // Styling
 import classes from "./Status.module.scss";
+
+type StatusNumber = 0 | 1 | 2 | 3 | 4;
+
 interface StatusBarProps {
-  status?: number;
+  status: StatusNumber;
 }
 
 const currentStatus = [
@@ -23,17 +26,23 @@ const Statusbar = ({ status }: StatusBarProps) => {
       {currentStatus.map((statusText, index) => (
         <div key={statusText} className={classes.status}>
           <div className={classes.circleWrapper}>
-            <div className={classes.line} />
+            <div
+              className={clsx(
+                classes.line,
+                status >= index && classes.activeLine
+              )}
+            />
+
             <div className={classes.circlePadding}>
               <div
                 className={clsx(
                   classes.statusCircle,
-                  status === index && classes.activeCircle
+                  status >= index && classes.activeCircle
                 )}
               />
             </div>
           </div>
-          <p>{statusText}</p>
+          <h3>{statusText}</h3>
         </div>
       ))}
     </div>

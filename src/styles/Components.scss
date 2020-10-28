@@ -34,12 +34,14 @@ h1 {
   font-size: 36px;
   font-weight: 800;
   font-family: $visby;
+  font-variant-ligatures: no-common-ligatures;
 }
 
 h2 {
   font-size: 24px;
   font-weight: 800;
   font-family: $visby;
+  font-variant-ligatures: no-common-ligatures;
 }
 
 h3 {
@@ -47,6 +49,7 @@ h3 {
   font-weight: 800;
   line-height: 120%;
   font-family: $visby;
+  font-variant-ligatures: no-common-ligatures;
 }
 
 h4 {
@@ -54,6 +57,7 @@ h4 {
   font-weight: 800;
   line-height: 120%;
   font-family: $visby;
+  font-variant-ligatures: no-common-ligatures;
 }
 
 h5 {

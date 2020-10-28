@@ -1,8 +1,12 @@
-import React from "react";
+import React, { ComponentProps } from "react";
+
+// Libraries
 import clsx from "clsx";
+
+// Styling
 import classes from "./Checkbox.module.scss";
 
-interface CheckboxProps extends React.ComponentProps<"div"> {
+interface CheckboxProps extends ComponentProps<"div"> {
   label: string;
   checked: boolean;
 }

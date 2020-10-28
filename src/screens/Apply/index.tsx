@@ -46,9 +46,10 @@ const ApplyScreen = () => {
     // TODO: save items
   };
 
-  // if (loading) {
-  //   return <h1>Loading...</h1>;
-  // }
+  // TODO: Fix
+  if (!loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div className={classes.root}>
@@ -90,7 +91,7 @@ const ApplyScreen = () => {
           value={lookingFor}
           className={classes.ta}
           placeholder={descriptionPlaceholder}
-          onChange={(event) => setLookingFor(event.target.value)}
+          onChange={(event: any) => setLookingFor(event.target.value)}
         />
 
         <h2 className={classes.sectionHeader}>Contact Information</h2>
@@ -99,14 +100,14 @@ const ApplyScreen = () => {
         <Input
           value={contactName}
           placeholder="Emily Wilson"
-          onChange={(event) => setContactName(event.target.value)}
+          onChange={(event: any) => setContactName(event.target.value)}
         />
 
         <h5>Email</h5>
         <Input
           value={contactEmail}
           placeholder="hello@bitsofgood.org"
-          onChange={(event) => setContactEmail(event.target.value)}
+          onChange={(event: any) => setContactEmail(event.target.value)}
         />
 
         <h5>
@@ -116,7 +117,7 @@ const ApplyScreen = () => {
         <Input
           value={orgPhone}
           placeholder="(414) 555-0161"
-          onChange={(event) => setOrgPhone(event.target.value)}
+          onChange={(event: any) => setOrgPhone(event.target.value)}
         />
 
         <h5>
@@ -126,7 +127,7 @@ const ApplyScreen = () => {
         <Input
           value={contactPhone}
           placeholder="(414) 555-0161"
-          onChange={(event) => setContactPhone(event.target.value)}
+          onChange={(event: any) => setContactPhone(event.target.value)}
         />
 
         <div className={classes.buttonContainer}>

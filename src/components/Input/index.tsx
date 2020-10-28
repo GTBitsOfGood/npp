@@ -1,19 +1,20 @@
-import React from "react";
+import React, { ComponentProps } from "react";
+
+// Libraries
 import clsx from "clsx";
+
+// Styling
 import styling from "./Input.module.scss";
 
-interface InputProps extends React.ComponentProps<"input"> {
+interface InputProps extends ComponentProps<"input"> {
   error?: boolean;
-  className?: string;
 }
 
-const Input = ({ children, error, className, ...rest }: InputProps) => (
+const Input = ({ error, ...rest }: InputProps) => (
   <input
-    className={clsx(className, styling.input, error && styling.disableInput)}
+    className={clsx(styling.input, error && styling.disableInput)}
     {...rest}
-  >
-    {children}
-  </input>
+  />
 );
 
 export default Input;

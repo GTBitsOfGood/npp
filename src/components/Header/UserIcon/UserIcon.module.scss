@@ -1,78 +1,24 @@
-@use "sass:color";
 @import "../../../styles/Colors";
 @import "../../../styles/Properties";
 
 .root {
-  display: flex;
-  flex-direction: row;
-  border-radius: 50%;
-  border: 2px solid $primary-bg-color;
-  background-size: cover;
-  background-position: center center;
-  position: relative;
-  box-sizing: border-box;
-  margin-left: auto;
-  margin-right: 36px;
-  cursor: pointer;
-
   .menu {
-    width: 200px;
-    height: auto;
-    background: $light-bg-color;
-    border: 1px solid $lighter-text-color;
-    padding: 4px;
-    position: absolute;
-    top: 50px;
-    right: 0;
-
     > * {
-      width: 100%;
-      padding: 4px 0;
-      cursor: pointer;
-
       &:not(:last-of-type) {
-        margin-bottom: 8px;
       }
     }
   }
 }
 
 .user {
-  font-size: $font-base-size;
-  color: $primary-text-color;
-  text-align: right;
-  font-weight: $font-weight-bold;
-  margin-right: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
   .role {
-    margin-top: 2px;
-    color: $light-text-color;
-    font-weight: $font-weight-regular;
   }
 }
 
 .userImg {
-  height: 44px;
-  width: 44px;
-  margin-left: 10px;
-  border-radius: 50%;
 }
 
 .loginButton {
-  color: white;
-  padding: 12px 24px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 8px;
-  margin: 0 16px 0 auto;
-  border: none;
-  outline: none;
-  background: #004b4b;
-  transition: 0.25s background-color;
-
   &:hover {
-    background-color: #002d2d;
   }
 }

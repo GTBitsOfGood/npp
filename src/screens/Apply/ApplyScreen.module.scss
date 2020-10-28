@@ -1,73 +1,38 @@
-@import "../../styles/Properties.scss";
 @import "../../styles/Colors.scss";
+@import "../../styles/Properties.scss";
 
 .root {
-  width: 100%;
-  max-width: 700px;
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-
   h2 {
-    margin-top: 50px;
   }
 
   h5 {
-    margin: 32px 0px 8px 0px;
   }
 
   .divider {
-    border: none;
-    height: 1px;
-    margin: 0;
-    flex-shrink: 0;
-    background-color: rgba(0, 0, 0, 0.12);
   }
 
   .checkboxcontainer {
-    display: flex;
-    flex-direction: row;
-
     .checkbox {
-      margin-right: 12px;
     }
   }
 
   .buttoncontainer {
-    margin-top: 150px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-
     .button {
-      margin-left: 45px;
     }
   }
 
   .textinput {
-    width: 588px;
-    margin: 0px 0px;
   }
 
   .ta {
-    width: 588px;
-    margin: 0px 0px;
-    height: 117px;
   }
 
   .contactinfo {
-    margin-top: 110px;
   }
 
   .inline {
-    color: $secondary-text-color;
-    font-size: $font-title4-size;
-    font-weight: $font-weight-regular;
-    font-family: $font-family-visby;
-    line-height: $font-title4-line-height;
   }
 
   .submit {
-    color: $primary-bg-color;
   }
 }

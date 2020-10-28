@@ -2,7 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import { useSession } from "next-auth/client";
 import NavLink from "../NavLink";
-import UserIcon from "./UserIcon/UserIcon";
+import UserIcon from "./UserIcon";
 import { homeRoutes, authRoutes } from "./routes";
 import classes from "./Header.module.scss";
 

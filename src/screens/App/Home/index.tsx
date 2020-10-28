@@ -4,7 +4,7 @@ import { useSession } from "next-auth/client";
 import urls from "../../../../utils/urls";
 import classes from "./HomePage.module.scss";
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   const router = useRouter();
   const [session, loading] = useSession();
 

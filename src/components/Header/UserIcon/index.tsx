@@ -5,7 +5,7 @@ import classes from "./UserIcon.module.scss";
 import { Icon, InlineIcon } from "@iconify/react";
 import caretDownFilled from "@iconify/icons-ant-design/caret-down-filled";
 
-const UserIcon: React.FC = () => {
+const UserIcon = () => {
   const [session, loading] = useSession();
   const [menuOpen, setMenuOpen] = React.useState(false);
 

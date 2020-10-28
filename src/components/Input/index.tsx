@@ -2,17 +2,12 @@ import React from "react";
 import clsx from "clsx";
 import styling from "./Input.module.scss";
 
-interface PropTypes extends React.ComponentProps<"input"> {
+interface InputProps extends React.ComponentProps<"input"> {
   error?: boolean;
   className?: string;
 }
 
-const Input: React.FC<PropTypes> = ({
-  children,
-  error,
-  className,
-  ...rest
-}: PropTypes) => (
+const Input = ({ children, error, className, ...rest }: InputProps) => (
   <input
     className={clsx(className, styling.input, error && styling.disableInput)}
     {...rest}

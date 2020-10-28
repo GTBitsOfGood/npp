@@ -2,15 +2,11 @@ import React from "react";
 import clsx from "clsx";
 import classes from "./Button.module.scss";
 
-interface PropTypes extends React.ComponentProps<"button"> {
+interface ButtonProps extends React.ComponentProps<"button"> {
   variant?: "primary" | "secondary" | "default";
 }
 
-const Button: React.FC<PropTypes> = ({
-  children,
-  variant,
-  ...rest
-}: PropTypes) => (
+const Button = ({ children, variant, ...rest }: ButtonProps) => (
   <button
     className={clsx(
       classes.container,

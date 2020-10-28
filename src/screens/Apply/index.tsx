@@ -1,5 +1,5 @@
-import React from "react";
-import { useRouter } from "next/router";
+import React, { useState } from "react";
+// import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 import classes from "./ApplyScreen.module.scss";
 import Checkbox from "../../components/Checkbox";
@@ -7,17 +7,20 @@ import TextArea from "../../components/TextArea";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 
-const ApplyScreen: React.FC = () => {
-  const router = useRouter();
+const descriptionPlaceholder =
+  "Enter a brief description of the type of product you are looking for. It’s okay if you aren’t entirely sure, but this could give us a couple of ideas to discuss with you during our first meeting.";
+
+const ApplyScreen = () => {
+  // const router = useRouter();
   const [session, loading] = useSession();
-  const [isWebsite, setIsWebsite] = React.useState(false);
-  const [lookingFor, setLookingFor] = React.useState("");
-  const [contactName, setContactName] = React.useState("");
-  const [contactEmail, setContactEmail] = React.useState("");
-  const [contactPhone, setContactPhone] = React.useState("");
-  const [orgPhone, setOrgPhone] = React.useState("");
-  const descriptionPlaceholder =
-    "Enter a brief description of the type of product you are looking for. It’s okay if you aren’t entirely sure, but this could give us a couple of ideas to discuss with you during our first meeting.";
+
+  const [isWebsite, setIsWebsite] = useState(false);
+  const [lookingFor, setLookingFor] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [orgPhone, setOrgPhone] = useState("");
+
   const submit = () => {
     console.log(
       isWebsite,
@@ -28,6 +31,7 @@ const ApplyScreen: React.FC = () => {
       orgPhone
     );
   };
+
   const saveForLater = () => {
     // TODO: save items
   };
@@ -66,10 +70,10 @@ const ApplyScreen: React.FC = () => {
 
       <h5>What You Are Looking For</h5>
       <TextArea
+        value={lookingFor}
         className={classes.ta}
         placeholder={descriptionPlaceholder}
         onChange={(event) => setLookingFor(event.target.value)}
-        value={lookingFor}
       />
 
       <div className={classes.contactinfo}>
@@ -78,18 +82,18 @@ const ApplyScreen: React.FC = () => {
 
         <h5>Primary Contact</h5>
         <Input
-          className={classes.textinput}
-          placeholder="Emily Wilson"
-          onChange={(event) => setContactName(event.target.value)}
           value={contactName}
+          placeholder="Emily Wilson"
+          className={classes.textinput}
+          onChange={(event) => setContactName(event.target.value)}
         />
 
         <h5>Email</h5>
         <Input
+          value={contactEmail}
           className={classes.textinput}
           placeholder="hello@bitsofgood.org"
           onChange={(event) => setContactEmail(event.target.value)}
-          value={contactEmail}
         />
 
         <h5>
@@ -97,10 +101,10 @@ const ApplyScreen: React.FC = () => {
           <span className={classes.inline}> optional</span>
         </h5>
         <Input
+          value={orgPhone}
           className={classes.textinput}
           placeholder="(+1) 202-555-0161"
           onChange={(event) => setOrgPhone(event.target.value)}
-          value={orgPhone}
         />
 
         <h5>
@@ -108,10 +112,10 @@ const ApplyScreen: React.FC = () => {
           <span className={classes.inline}> optional</span>
         </h5>
         <Input
+          value={contactPhone}
           className={classes.textinput}
           placeholder="(+1) 202-555-0161"
           onChange={(event) => setContactPhone(event.target.value)}
-          value={contactPhone}
         />
       </div>
 

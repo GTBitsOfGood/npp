@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Status.module.scss";
 import clsx from "clsx";
-interface StatusProp extends React.ComponentProps<"div"> {
+interface StatusBarProps extends React.ComponentProps<"div"> {
   status?: number;
 }
 const currentStatus = [
@@ -12,7 +12,7 @@ const currentStatus = [
   "Decision Made",
 ];
 
-const Statusbar: React.FC<StatusProp> = ({ status, ...rest }: StatusProp) => {
+const Statusbar = ({ status, ...rest }: StatusBarProps) => {
   return (
     <div className={classes.root} {...rest}>
       {currentStatus.map((statusText, index) => (

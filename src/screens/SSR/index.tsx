@@ -1,15 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { helloWorld } from "../../actions/General";
 import classes from "./SSRPage.module.scss";
 import { GetServerSideProps } from "next";
 
-interface PropTypes {
+interface SSRPageProps {
   message?: string;
   errorMessage?: string;
 }
 
-const SSRPage: React.FC<PropTypes> = ({ message, errorMessage }: PropTypes) => {
+const SSRPage = ({ message, errorMessage }: SSRPageProps) => {
   return (
     <>
       <h2 className={classes.centerText}>Welcome to Next.js!</h2>

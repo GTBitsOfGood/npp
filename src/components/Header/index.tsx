@@ -16,11 +16,11 @@ import UserIcon from "./UserIcon";
 // Styling
 import classes from "./Header.module.scss";
 
-interface PropTypes {
+interface HeaderProps {
   currentRoute: string;
 }
 
-const Header: React.FC<PropTypes> = ({ currentRoute }) => {
+const Header = ({ currentRoute }: HeaderProps) => {
   const [session, loading] = useSession();
 
   const routes = [];

@@ -2,16 +2,12 @@ import React from "react";
 import clsx from "clsx";
 import classes from "./Checkbox.module.scss";
 
-interface PropTypes extends React.ComponentProps<"div"> {
-  checked: boolean;
+interface CheckboxProps extends React.ComponentProps<"div"> {
   label: string;
+  checked: boolean;
 }
 
-const Checkbox: React.FC<PropTypes> = ({
-  checked,
-  label,
-  ...rest
-}: PropTypes) => (
+const Checkbox = ({ checked, label, ...rest }: CheckboxProps) => (
   <div
     className={clsx(classes.container, checked && classes.checked)}
     {...rest}

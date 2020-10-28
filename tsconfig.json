@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "jsx": "react",
+    "jsx": "preserve",
     "lib": ["es6"],
     "noEmit": true,
     "allowJs": true,
     "target": "esnext",
     "module": "commonjs",
     "isolatedModules": true,
-
     /* Strict Type-Checking Options */
     "strict": true /* Enable all strict type-checking options. */,
     "skipLibCheck": true,
-
     /* Module Resolution Options */
     "baseUrl": "./src",
     "esModuleInterop": true,
@@ -26,10 +24,11 @@
       "&components/*": ["./components/*"]
     },
     "allowSyntheticDefaultImports": true,
-
     /* Experimental Options */
     "resolveJsonModule": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }

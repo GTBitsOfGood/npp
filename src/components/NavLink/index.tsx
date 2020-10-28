@@ -1,22 +1,23 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import isString from "lodash/isString";
 import isObject from "lodash/isPlainObject";
 
-interface PropTypes {
+interface NavLinkProps {
   href: string;
-  hrefParts?: Record<string, string>;
   className?: string;
+  children: ReactNode;
+  hrefParts?: Record<string, string>;
 }
 
-const NavLink: React.FC<PropTypes> = ({
+const NavLink = ({
   href,
-  hrefParts = {},
-  className,
   children,
+  className,
+  hrefParts = {},
   ...rest
-}) => {
+}: NavLinkProps) => {
   const optionalProps = {};
 
   if (hrefParts != null && isObject(hrefParts)) {

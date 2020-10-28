@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { helloWorld } from "../../actions/General";
 import classes from "./IndexPage.module.scss";
 import Statusbar from "../../components/Statusbar";
 
-const IndexPage: React.FC = () => {
-  const [payload, setPayload] = React.useState("");
+const IndexPage = () => {
+  const [payload, setPayload] = useState("");
 
-  React.useEffect(() => {
+  useEffect(() => {
     // Example how to create page without ssr
     helloWorld()
       .then((resp) => {

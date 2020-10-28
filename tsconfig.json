@@ -12,16 +12,16 @@
     "strict": true /* Enable all strict type-checking options. */,
     "skipLibCheck": true,
     /* Module Resolution Options */
-    "baseUrl": "./src",
     "esModuleInterop": true,
     "moduleResolution": "node",
+    "baseUrl": "./src",
     "paths": {
-      "&pages/*": ["./pages/*"],
+      "&pages/*": ["pages/*"],
+      "&styles/*": ["styles/*"],
       "&utils/*": ["../utils/*"],
-      "&styles/*": ["./styles/*"],
-      "&screens/*": ["./screens/*"],
-      "&actions/*": ["./actions/*"],
-      "&components/*": ["./components/*"]
+      "&screens/*": ["screens/*"],
+      "&actions/*": ["actions/*"],
+      "&components/*": ["components/*"]
     },
     "allowSyntheticDefaultImports": true,
     /* Experimental Options */

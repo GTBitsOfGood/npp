@@ -1,9 +1,14 @@
 import React from "react";
-import classes from "./Status.module.scss";
+
+// Libraries
 import clsx from "clsx";
-interface StatusBarProps extends React.ComponentProps<"div"> {
+
+// Styling
+import classes from "./Status.module.scss";
+interface StatusBarProps {
   status?: number;
 }
+
 const currentStatus = [
   "Application Submitted",
   "Schedule an Interview",
@@ -12,9 +17,9 @@ const currentStatus = [
   "Decision Made",
 ];
 
-const Statusbar = ({ status, ...rest }: StatusBarProps) => {
+const Statusbar = ({ status }: StatusBarProps) => {
   return (
-    <div className={classes.root} {...rest}>
+    <div className={classes.root}>
       {currentStatus.map((statusText, index) => (
         <div key={statusText} className={classes.status}>
           <div className={classes.circleWrapper}>

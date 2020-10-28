@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { helloWorld } from "../../actions/General";
+
+// Components
+import Statusbar from "&components/Statusbar";
+
+// Actions
+import { helloWorld } from "&actions/General";
+
+// Styling
 import classes from "./IndexPage.module.scss";
-import Statusbar from "../../components/Statusbar";
 
 const IndexPage = () => {
   const [payload, setPayload] = useState("");
@@ -26,6 +32,7 @@ const IndexPage = () => {
       </h3>
       <h4>CSR Message: {payload}</h4>
       <p>You can tell because the text above flashes on page refresh</p>
+
       <Statusbar status={2}> </Statusbar>
     </>
   );

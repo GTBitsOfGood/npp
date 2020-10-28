@@ -1,20 +1,47 @@
 @import "../../../styles/Colors";
 
 .root {
+  display: flex;
+  flex-direction: row;
+
   .menu {
-    > * {
-      &:not(:last-of-type) {
-      }
-    }
+    position: absolute;
+    top: 60px;
+    right: 164px;
+    background-color: $white;
+    border: 1px solid #f0f0f0;
+    border-top: none;
   }
 }
 
 .user {
+  text-align: right;
+  margin-right: 8px;
+
+  .topRow {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    h3 {
+      margin-right: 8px;
+    }
+  }
+
   .role {
+    color: $gray-40;
   }
 }
 
 .userImg {
+  width: 36px;
+  height: 36px;
+  border-radius: 36px;
 }
 
 .loginButton {
@@ -28,6 +55,18 @@
 
     h3 {
       color: $white;
+    }
+  }
+}
+
+.logoutButton {
+  border: none;
+  padding: 8px 32px;
+  background-color: $white;
+
+  &:hover {
+    h3 {
+      color: $orange-500;
     }
   }
 }

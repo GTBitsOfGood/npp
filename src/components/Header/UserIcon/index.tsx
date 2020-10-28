@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSession } from "next-auth/client";
 
 // Iconography
 import { Icon } from "@iconify/react";
-import caretDownFilled from "@iconify/icons-ant-design/caret-down-filled";
+import caretDown from "@iconify/icons-radix-icons/caret-down";
 
 // Styling
 import classes from "./UserIcon.module.scss";
@@ -13,11 +13,7 @@ import { login, logout } from "&actions/User";
 
 const UserIcon = () => {
   const [session, loading] = useSession();
-  const [menuOpen, setMenuOpen] = React.useState(false);
-
-  const openMenu = () => setMenuOpen(true);
-
-  const closeMenu = () => setMenuOpen(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   if (loading) {
     return null;
@@ -30,16 +26,21 @@ const UserIcon = () => {
   }
 
   return (
-    <div className={classes.root} onMouseEnter={openMenu}>
+    <div className={classes.root}>
       <div className={classes.user}>
-        {session.user.name}
-        <div className={classes.role}>Non-Profit</div>
+        <div className={classes.topRow} onClick={() => setMenuOpen(!menuOpen)}>
+          <h3>{session.user.name}</h3>
+          <Icon icon={caretDown} />
+        </div>
+        <h5 className={classes.role}>Verification Needed</h5>
       </div>
-      <Icon icon={caretDownFilled} />
       <img src={session.user.image} className={classes.userImg} />
+
       {menuOpen && (
-        <div className={classes.menu} onMouseLeave={closeMenu}>
-          <button onClick={logout}>Logout</button>
+        <div className={classes.menu}>
+          <button className={classes.logoutButton} onClick={logout}>
+            <h3>Log Out</h3>
+          </button>
         </div>
       )}
     </div>

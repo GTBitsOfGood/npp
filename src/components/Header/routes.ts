@@ -1,4 +1,4 @@
-import urls from "../../../utils/urls";
+import urls from "&utils/urls";
 
 export const homeRoutes = [
   {

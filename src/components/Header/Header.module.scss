@@ -4,22 +4,26 @@
 .root {
   display: flex;
   height: 120px;
+  padding: 0 122px;
   align-items: center;
   flex-direction: row;
   background-color: $white;
 
-  .route,
-  .endRoute {
+  .route {
+    margin-right: 32px;
   }
 
   .route:hover,
-  .endRoute:hover,
   .selected {
-  }
+    cursor: pointer;
 
-  .endRoute {
+    h3 {
+      color: $orange-700;
+    }
   }
 
   .headerImg {
+    width: 172px;
+    margin-right: auto;
   }
 }

@@ -1,9 +1,15 @@
 import React from "react";
-import { login, logout } from "../../../actions/User";
 import { useSession } from "next-auth/client";
-import classes from "./UserIcon.module.scss";
-import { Icon, InlineIcon } from "@iconify/react";
+
+// Iconography
+import { Icon } from "@iconify/react";
 import caretDownFilled from "@iconify/icons-ant-design/caret-down-filled";
+
+// Styling
+import classes from "./UserIcon.module.scss";
+
+// Actions
+import { login, logout } from "&actions/User";
 
 const UserIcon = () => {
   const [session, loading] = useSession();
@@ -18,7 +24,7 @@ const UserIcon = () => {
   } else if (!session) {
     return (
       <button className={classes.loginButton} onClick={login}>
-        Sign in
+        <h3>Sign In</h3>
       </button>
     );
   }

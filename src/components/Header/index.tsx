@@ -52,7 +52,7 @@ const Header = ({ currentRoute }: HeaderProps) => {
               currentRoute === link && classes.selected
             )}
           >
-            {name}
+            <h3>{name}</h3>
           </div>
         </NavLink>
       ))}

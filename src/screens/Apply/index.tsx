@@ -18,16 +18,22 @@ const ApplyScreen = () => {
   // const router = useRouter();
   const [loading] = useSession();
 
-  const [isWebsite, setIsWebsite] = useState(true);
+  const [productType, setProductType] = useState([false, false]);
   const [lookingFor, setLookingFor] = useState("");
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [orgPhone, setOrgPhone] = useState("");
 
+  const checkProductType = (index: number) => {
+    const tempProductType = [...productType];
+    tempProductType[index] = !tempProductType[index];
+    setProductType(tempProductType);
+  };
+
   const submit = () => {
     console.log(
-      isWebsite,
+      productType,
       lookingFor,
       contactName,
       contactEmail,
@@ -66,15 +72,15 @@ const ApplyScreen = () => {
           <div className={classes.checkbox}>
             <Checkbox
               label="Website"
-              checked={isWebsite}
-              onClick={() => setIsWebsite(true)}
+              checked={productType[0]}
+              onClick={() => checkProductType(0)}
             />
           </div>
           <div className={classes.checkbox}>
             <Checkbox
               label="Mobile App"
-              checked={!isWebsite}
-              onClick={() => setIsWebsite(false)}
+              checked={productType[1]}
+              onClick={() => checkProductType(1)}
             />
           </div>
         </div>

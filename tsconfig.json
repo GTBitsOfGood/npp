@@ -2,7 +2,7 @@
   "compilerOptions": {
     /* Basic Options */
     "jsx": "preserve",
-    "lib": ["es6"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "noEmit": true,
     "allowJs": true,
     "target": "esnext",

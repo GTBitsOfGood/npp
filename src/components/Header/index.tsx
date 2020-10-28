@@ -1,9 +1,19 @@
 import React from "react";
+
+// Libraries
 import clsx from "clsx";
+
+// Authentication
 import { useSession } from "next-auth/client";
+
+// Routes
+import { homeRoutes, authRoutes } from "./routes";
+
+// Components
 import NavLink from "../NavLink";
 import UserIcon from "./UserIcon";
-import { homeRoutes, authRoutes } from "./routes";
+
+// Styling
 import classes from "./Header.module.scss";
 
 interface PropTypes {
@@ -27,8 +37,13 @@ const Header: React.FC<PropTypes> = ({ currentRoute }) => {
   return (
     <div className={classes.root}>
       <NavLink href="/" key="Logo">
-        <img src="/static/text-logo.png" className={classes.headerImg} />
+        <img
+          alt="Bits of Good Logo"
+          src="/static/text-logo.png"
+          className={classes.headerImg}
+        />
       </NavLink>
+
       {routes.map(({ name, link }) => (
         <NavLink href={link} key={name}>
           <div
@@ -41,6 +56,7 @@ const Header: React.FC<PropTypes> = ({ currentRoute }) => {
           </div>
         </NavLink>
       ))}
+
       {!loading && <UserIcon />}
     </div>
   );

@@ -1,28 +1,35 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
+    /* Basic Options */
+    "jsx": "react",
+    "lib": ["es6"],
     "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "allowJs": true,
+    "target": "esnext",
+    "module": "commonjs",
     "isolatedModules": true,
-    "jsx": "preserve",
-    "baseUrl": "."
+
+    /* Strict Type-Checking Options */
+    "strict": true /* Enable all strict type-checking options. */,
+    "skipLibCheck": true,
+
+    /* Module Resolution Options */
+    "baseUrl": "./src",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "paths": {
+      "&pages/*": ["./pages/*"],
+      "&utils/*": ["../utils/*"],
+      "&styles/*": ["./styles/*"],
+      "&screens/*": ["./screens/*"],
+      "&actions/*": ["./actions/*"],
+      "&components/*": ["./components/*"]
+    },
+    "allowSyntheticDefaultImports": true,
+
+    /* Experimental Options */
+    "resolveJsonModule": true,
+    "experimentalDecorators": true
   },
-  "exclude": ["node_modules"],
-  "include": [
-    "next-env.d.ts",
-    ".eslintrc.json",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "**/*.jsx",
-    "**/*.json"
-  ]
+  "exclude": ["node_modules"]
 }

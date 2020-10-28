@@ -1,10 +1,34 @@
+@import "../../styles/Fonts";
 @import "../../styles/Colors";
 
 .input {
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: normal;
+  font-family: $open-sans;
+  border: 3px solid $gray-40;
+
+  &:focus {
+    outline: none;
+    border: 3px solid $orange-500;
+  }
+
+  &::placeholder {
+    color: $gray-20;
+    font-size: 16px;
+    font-weight: normal;
+    font-family: $open-sans;
+  }
 }
 
 .disableInput {
-}
+  border: 3px solid $red;
 
-.input::placeholder {
+  &:focus {
+    outline: none;
+    border: 3px solid $red;
+  }
 }

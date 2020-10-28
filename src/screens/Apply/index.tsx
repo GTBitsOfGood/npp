@@ -126,14 +126,12 @@ const ApplyScreen = () => {
         />
 
         <div className={classes.buttonContainer}>
-          <Button variant="primary" onClick={saveForLater}>
+          <Button variant="secondary" onClick={saveForLater}>
             <h3>Save for Later</h3>
           </Button>
-          <div className={classes.secondButton}>
-            <Button variant="secondary" onClick={submit}>
-              <h3 className={classes.submit}>Submit</h3>
-            </Button>
-          </div>
+          <Button variant="primary" onClick={submit}>
+            <h3>Submit</h3>
+          </Button>
         </div>
       </div>
     </div>

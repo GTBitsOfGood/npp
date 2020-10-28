@@ -1,6 +1,7 @@
 @import "../../styles/Colors";
 
 .container {
+  width: 160px;
   display: flex;
   padding: 8px 12px;
   border-radius: 4px;
@@ -8,7 +9,7 @@
   align-items: center;
   flex-direction: row;
   background-color: $gray-5;
-  border: 2px solid $gray-40;
+  border: 3px solid $gray-40;
 
   &:hover {
     cursor: pointer;
@@ -23,16 +24,17 @@
     height: 24px;
     display: flex;
     margin-right: 6px;
+    user-select: none;
     align-items: center;
     border-radius: 24px;
     justify-content: center;
     background-color: $white;
-    border: 1px solid $gray-40;
+    border: 3px solid $gray-40;
   }
 
   &.checked {
     background-color: $orange-500;
-    border: 2px solid $orange-700;
+    border: 3px solid $orange-700;
 
     h3 {
       color: $white;

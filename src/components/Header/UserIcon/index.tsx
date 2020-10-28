@@ -28,7 +28,11 @@ const UserIcon = () => {
   return (
     <div className={classes.root}>
       <div className={classes.user}>
-        <div className={classes.topRow} onClick={() => setMenuOpen(!menuOpen)}>
+        <div
+          className={classes.topRow}
+          onMouseOver={() => setMenuOpen(true)}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
           <h3>{session.user.name}</h3>
           <Icon icon={caretDown} />
         </div>
@@ -37,7 +41,7 @@ const UserIcon = () => {
       <img src={session.user.image} className={classes.userImg} />
 
       {menuOpen && (
-        <div className={classes.menu}>
+        <div className={classes.menu} onMouseLeave={() => setMenuOpen(false)}>
           <button className={classes.logoutButton} onClick={logout}>
             <h3>Log Out</h3>
           </button>

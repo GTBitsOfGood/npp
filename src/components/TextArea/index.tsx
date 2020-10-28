@@ -4,15 +4,15 @@ import React, { ComponentProps } from "react";
 import clsx from "clsx";
 
 // Stying
-import styling from "./TextArea.module.scss";
+import classes from "./TextArea.module.scss";
 
 interface TextAreaProps extends ComponentProps<"textarea"> {
   error?: boolean;
 }
 
-const TextArea = ({ error, onChange, ...rest }: TextAreaProps) => (
+const TextArea = ({ error, ...rest }: TextAreaProps) => (
   <textarea
-    className={clsx(styling.ta, error && styling.disableInput)}
+    className={clsx(classes.textArea, error && classes.disableInput)}
     {...rest}
   />
 );

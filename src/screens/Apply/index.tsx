@@ -75,19 +75,16 @@ const ApplyScreen = () => {
             checked={productType[0]}
             onClick={() => checkProductType(0)}
           />
-          <div className={classes.secondCheckbox}>
-            <Checkbox
-              label="Mobile App"
-              checked={productType[1]}
-              onClick={() => checkProductType(1)}
-            />
-          </div>
+          <Checkbox
+            label="Mobile App"
+            checked={productType[1]}
+            onClick={() => checkProductType(1)}
+          />
         </div>
 
         <h5>What You Are Looking For</h5>
         <TextArea
           value={lookingFor}
-          className={classes.ta}
           placeholder={descriptionPlaceholder}
           onChange={(event: any) => setLookingFor(event.target.value)}
         />

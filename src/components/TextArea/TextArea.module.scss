@@ -1,7 +1,29 @@
-.ta {
-}
-.disableInput {
+@import "../../styles/Fonts";
+@import "../../styles/Colors";
+
+.textArea {
+  width: 100%;
+  resize: none;
+  height: 114px;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: normal;
+  font-family: $open-sans;
+  border: 2px solid $gray-40;
+
+  &:focus {
+    outline: none;
+    border: 2px solid $orange-500;
+  }
+
+  &::placeholder {
+    color: $gray-20;
+    font-size: 16px;
+    font-weight: normal;
+    font-family: $open-sans;
+  }
 }
 
-.ta::placeholder {
+.disableInput {
 }

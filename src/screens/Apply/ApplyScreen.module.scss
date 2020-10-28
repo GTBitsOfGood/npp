@@ -1,6 +1,11 @@
 @import "../../styles/Colors.scss";
 @import "../../styles/Properties.scss";
 
+.loadingText {
+  margin-top: 40px;
+  text-align: center;
+}
+
 .root {
   display: flex;
   max-width: 1440px;

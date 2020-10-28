@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
-import { exampleAction } from "../../../server/example/actions/example";
+import { exampleAction } from "&server/example/actions/example";
 
 // @route   POST api/example
 // @desc    Example API
 // @access  Public
-const handler: NextApiHandler = (req: NextApiRequest, res: NextApiResponse) =>
+const handler: NextApiHandler = (_req: NextApiRequest, res: NextApiResponse) =>
   exampleAction()
     .then((payload) =>
       res.status(200).json({

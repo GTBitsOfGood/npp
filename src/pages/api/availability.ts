@@ -1,14 +1,14 @@
-import { generateMethodRoute } from "../../../server/routes/RouteFactory";
-import { validateAndSanitizeIdString } from "../../../server/utils/Validators";
-import AvailabilityManager from "../../../server/mongodb/actions/AvailabilityManager";
-import { PublicError } from "../../../server/routes/PublicError";
+import { PublicError } from "&server/routes/PublicError";
+import { generateMethodRoute } from "&server/routes/RouteFactory";
+import { validateAndSanitizeIdString } from "&server/utils/Validators";
+import AvailabilityManager from "&server/mongodb/actions/AvailabilityManager";
 
 const handler = generateMethodRoute(
   {
     requireSession: true,
   },
   {
-    get: async (req, res) => {
+    get: async (req, _res) => {
       if (req.query.id) {
         const objectId = validateAndSanitizeIdString(req.query.id as string);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -17,7 +17,7 @@ const handler = generateMethodRoute(
         return AvailabilityManager.getAvailabilitiesFromStartOfWeek();
       }
     },
-    put: async (req, res) => {
+    put: async (req, _res) => {
       const availability = req.body.availability;
       const result = await AvailabilityManager.addAvailability(availability);
 
@@ -27,7 +27,7 @@ const handler = generateMethodRoute(
 
       return result;
     },
-    post: async (req, res) => {
+    post: async (req, _res) => {
       const id = req.body.id;
       const fieldsToUpdate: any = req.body.updates;
       const objectId = validateAndSanitizeIdString(id);
@@ -42,7 +42,7 @@ const handler = generateMethodRoute(
 
       return updatedDoc;
     },
-    delete: async (req, res) => {
+    delete: async (req, _res) => {
       const id: string = req.query.id as string;
       const objectId = validateAndSanitizeIdString(id);
       const deletedDoc = await AvailabilityManager.deleteAvailability(objectId);

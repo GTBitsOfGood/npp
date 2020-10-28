@@ -7,13 +7,11 @@ interface TextAreaProps extends React.ComponentProps<"textarea"> {
   className?: string;
 }
 
-const TextArea = ({ children, error, className, ...rest }: TextAreaProps) => (
+const TextArea = ({ error, className, ...rest }: TextAreaProps) => (
   <textarea
     className={clsx(className, styling.ta, error && styling.disableInput)}
     {...rest}
-  >
-    {children}
-  </textarea>
+  />
 );
 
 export default TextArea;

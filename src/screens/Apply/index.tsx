@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 // import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
+
+// Components
+import Input from "&components/Input";
+import Button from "&components/Button";
+import Checkbox from "&components/Checkbox";
+import TextArea from "&components/TextArea";
+
+// Styling
 import classes from "./ApplyScreen.module.scss";
-import Checkbox from "../../components/Checkbox";
-import TextArea from "../../components/TextArea";
-import Input from "../../components/Input";
-import Button from "../../components/Button";
 
 const descriptionPlaceholder =
   "Enter a brief description of the type of product you are looking for. It’s okay if you aren’t entirely sure, but this could give us a couple of ideas to discuss with you during our first meeting.";
 
 const ApplyScreen = () => {
   // const router = useRouter();
-  const [session, loading] = useSession();
+  const [loading] = useSession();
 
   const [isWebsite, setIsWebsite] = useState(false);
   const [lookingFor, setLookingFor] = useState("");
@@ -119,7 +123,7 @@ const ApplyScreen = () => {
         />
       </div>
 
-      <div className={classes.buttoncontainer}>
+      <div className={classes.buttonContainer}>
         <div className={classes.button}>
           <Button variant="primary" onClick={saveForLater}>
             <h3>Save for Later</h3>

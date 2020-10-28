@@ -21,6 +21,7 @@
       "&utils/*": ["../utils/*"],
       "&screens/*": ["screens/*"],
       "&actions/*": ["actions/*"],
+      "&server/*": ["../server/*"],
       "&components/*": ["components/*"]
     },
     "allowSyntheticDefaultImports": true,

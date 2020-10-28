@@ -69,15 +69,13 @@ const ApplyScreen = () => {
           Product Type
           <span className={classes.inline}> (select all that apply)</span>
         </h5>
-        <div className={classes.checkboxcontainer}>
-          <div className={classes.checkbox}>
-            <Checkbox
-              label="Website"
-              checked={productType[0]}
-              onClick={() => checkProductType(0)}
-            />
-          </div>
-          <div className={classes.checkbox}>
+        <div className={classes.checkboxContainer}>
+          <Checkbox
+            label="Website"
+            checked={productType[0]}
+            onClick={() => checkProductType(0)}
+          />
+          <div className={classes.secondCheckbox}>
             <Checkbox
               label="Mobile App"
               checked={productType[1]}

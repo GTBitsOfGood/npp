@@ -17,7 +17,7 @@ const Checkbox = ({ checked, label, ...rest }: CheckboxProps) => (
     {...rest}
   >
     <div className={classes.checkbox}>{checked ? "✓" : ""}</div>
-    <p>{label}</p>
+    <h3>{label}</h3>
   </div>
 );
 

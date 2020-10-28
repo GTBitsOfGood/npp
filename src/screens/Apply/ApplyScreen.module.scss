@@ -39,6 +39,15 @@
     }
   }
 
+  .checkboxContainer {
+    display: flex;
+    flex-direction: row;
+
+    .secondCheckbox {
+      margin-left: 12px;
+    }
+  }
+
   .buttonContainer {
     display: flex;
     margin-top: 32px;

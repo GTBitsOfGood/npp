@@ -30,11 +30,13 @@
 
     h3 {
       margin-right: 8px;
+      user-select: none;
     }
   }
 
   .role {
     color: $gray-40;
+    user-select: none;
   }
 }
 
@@ -55,6 +57,7 @@
 
     h3 {
       color: $white;
+      user-select: none;
     }
   }
 }
@@ -66,6 +69,7 @@
 
   &:hover {
     h3 {
+      user-select: none;
       color: $orange-500;
     }
   }

@@ -46,7 +46,7 @@ const ApplyScreen = () => {
     // TODO: save items
   };
 
-  if (!loading) {
+  if (loading) {
     return <h1 className={classes.loadingText}>Loading...</h1>;
   }
 

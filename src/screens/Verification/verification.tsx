@@ -6,6 +6,7 @@ import { useSession } from "next-auth/client";
 import Input from "&components/Input";
 import Button from "&components/Button";
 import TextArea from "&components/TextArea";
+import Select from "&components/Select";
 
 // Styling
 import classes from "./Verification.module.scss";
@@ -17,6 +18,68 @@ import classes from "./Verification.module.scss";
 
 const missionPlaceholder =
   "At Bits of Good, our mission is to change lives one bit at a time - we serve our community by building powerful applications for local nonprofits.";
+
+const states = [
+  "Alabama",
+  "Alaska",
+  "American Samoa",
+  "Arizona",
+  "Arkansas",
+  "California",
+  "Colorado",
+  "Connecticut",
+  "Delaware",
+  "District of Columbia",
+  "Federated States of Micronesia",
+  "Florida",
+  "Georgia",
+  "Guam",
+  "Hawaii",
+  "Idaho",
+  "Illinois",
+  "Indiana",
+  "Iowa",
+  "Kansas",
+  "Kentucky",
+  "Louisiana",
+  "Maine",
+  "Marshall Islands",
+  "Maryland",
+  "Massachusetts",
+  "Michigan",
+  "Minnesota",
+  "Mississippi",
+  "Missouri",
+  "Montana",
+  "Nebraska",
+  "Nevada",
+  "New Hampshire",
+  "New Jersey",
+  "New Mexico",
+  "New York",
+  "North Carolina",
+  "North Dakota",
+  "Northern Mariana Islands",
+  "Ohio",
+  "Oklahoma",
+  "Oregon",
+  "Palau",
+  "Pennsylvania",
+  "Puerto Rico",
+  "Rhode Island",
+  "South Carolina",
+  "South Dakota",
+  "Tennessee",
+  "Texas",
+  "Utah",
+  "Vermont",
+  "Virgin Island",
+  "Virginia",
+  "Washington",
+  "West Virginia",
+  "Wisconsin",
+  "Wyoming",
+];
 
 const VerificationScreen = () => {
   const [loading] = useSession();
@@ -43,10 +106,6 @@ const VerificationScreen = () => {
     );
   };
 
-  const saveForLater = () => {
-    // TODO: save items
-  };
-
   if (loading) {
     return <h1 className={classes.loadingText}>Loading...</h1>;
   }
@@ -55,7 +114,7 @@ const VerificationScreen = () => {
     <div className="verificationPage">
       <div className={classes.root}>
         <div className={classes.leftCol}>
-          <h1 className={classes.formTitle}>Non-Profit Verification</h1>
+          <h1 className={classes.formTitle}>Non-profit Verification</h1>
           <h5 className={classes.formDescription}>
             {" "}
             TODO: Explain why we need this information: Lorem ipsum dolor sit
@@ -80,7 +139,10 @@ const VerificationScreen = () => {
             onChange={(event: any) => setEINNumber(event.target.value)}
           />
 
-          <h5>Website</h5>
+          <h5>
+            Website
+            <span className={classes.inline}> (Optional)</span>
+          </h5>
           <Input
             value={websiteURL}
             placeholder="https://bitsofgood.org"
@@ -94,26 +156,40 @@ const VerificationScreen = () => {
             onChange={(event: any) => setStreetAddress(event.target.value)}
           />
 
-          <h5>City</h5>
-          <Input
-            value={city}
-            placeholder="Atlanta"
-            onChange={(event: any) => setCity(event.target.value)}
-          />
+          <div className={classes.inlineContainer}>
+            <h5>City</h5>
 
-          <h5>Zipcode</h5>
-          <Input
-            value={zipcode}
-            placeholder="30308"
-            onChange={(event: any) => setZipcode(event.target.value)}
-          />
+            <h5>State</h5>
+
+            <h5>Zipcode</h5>
+          </div>
+
+          <div className={classes.inlineContainer}>
+            <Input
+              value={city}
+              placeholder="Atlanta"
+              onChange={(event: any) => setCity(event.target.value)}
+            />
+            <Select onChange={(event: any) => setState(event.target.value)}>
+              {states.map((states) => (
+                <option key={states} value={states}>
+                  {states}
+                </option>
+              ))}
+            </Select>
+            <Input
+              value={zipcode}
+              placeholder="30308"
+              onChange={(event: any) => setZipcode(event.target.value)}
+            />
+          </div>
 
           <h5>Your Mission</h5>
-          <h1>
+          <h4>
             We want to know the mission of your organization. Who do you care to
             serve? What services do you provide to the community? How could the
             collaboration with BoG help you achieve your mission?
-          </h1>
+          </h4>
           <TextArea
             rows={4}
             value={missonStatement}
@@ -123,7 +199,7 @@ const VerificationScreen = () => {
 
           <div className={classes.buttonContainer}>
             <Button variant="primary" onClick={submit}>
-              <h3>Apply</h3>
+              <h3>Submit</h3>
             </Button>
           </div>
         </div>

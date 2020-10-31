@@ -38,7 +38,11 @@ const UserIcon = () => {
         </div>
         <h5 className={classes.role}>Verification Needed</h5>
       </div>
-      <img src={session.user.image} className={classes.userImg} />
+      <img
+        alt="User Profile Image"
+        src={session.user.image}
+        className={classes.userImg}
+      />
 
       {menuOpen && (
         <div className={classes.menu} onMouseLeave={() => setMenuOpen(false)}>

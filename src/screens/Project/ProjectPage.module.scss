@@ -1,55 +1,23 @@
 @import "../../styles/Colors.scss";
-@import "../../styles/Properties.scss";
 
 .root {
+  flex: 1;
+  display: flex;
+  max-width: 1440px;
+  flex-direction: column;
+  align-items: center;
+
   h1 {
-    position: absolute;
-    height: 54px;
-    left: 624px;
-    top: 200px;
-
-    font-family: Visby CF;
-    font-style: normal;
-    font-weight: 800;
     font-size: 36px;
-    line-height: 150%;
-
-    font-feature-settings: "liga" off;
-
-    color: #333333;
-  }
-
-  .statusBar {
-    position: absolute;
-    top: 270px;
-    left: 340px;
+    color: $gray-80;
+    text-align: center;
+    margin-bottom: 12px;
   }
 
   h5 {
-    position: absolute;
-    width: 767px;
-    height: 63px;
-    left: 448px;
-    top: 790px;
-
-    font-family: Visby CF;
-    font-style: normal;
-    font-weight: bold;
     font-size: 16px;
-    line-height: 130%;
-
+    color: $gray-80;
     text-align: center;
-    font-feature-settings: "liga" off;
-
-    color: #666666;
-  }
-
-  button {
-    position: absolute;
-    width: 223px;
-    height: 51px;
-    left: 720px;
-    top: 901px;
-    margin-bottom: 100px;
+    margin-bottom: 12px;
   }
 }

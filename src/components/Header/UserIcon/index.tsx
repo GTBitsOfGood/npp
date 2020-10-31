@@ -35,18 +35,24 @@ const UserIcon = () => {
         >
           <h3>{session.user.name}</h3>
           <Icon icon={caretDown} />
+          {menuOpen && (
+            <div
+              className={classes.menu}
+              onMouseLeave={() => setMenuOpen(false)}
+            >
+              <button className={classes.logoutButton} onClick={logout}>
+                <h3>Log Out</h3>
+              </button>
+            </div>
+          )}
         </div>
         <h5 className={classes.role}>Verification Needed</h5>
       </div>
-      <img src={session.user.image} className={classes.userImg} />
-
-      {menuOpen && (
-        <div className={classes.menu} onMouseLeave={() => setMenuOpen(false)}>
-          <button className={classes.logoutButton} onClick={logout}>
-            <h3>Log Out</h3>
-          </button>
-        </div>
-      )}
+      <img
+        alt="User Profile Image"
+        src={session.user.image}
+        className={classes.userImg}
+      />
     </div>
   );
 };

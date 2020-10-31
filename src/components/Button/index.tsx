@@ -4,13 +4,15 @@ import classes from "./Button.module.scss";
 
 interface ButtonProps extends ComponentProps<"button"> {
   variant: "primary" | "secondary";
+  className?: string;
 }
 
-const Button = ({ children, variant, ...rest }: ButtonProps) => (
+const Button = ({ children, variant, className, ...rest }: ButtonProps) => (
   <button
     className={clsx(
       classes.primaryContainer,
-      variant === "secondary" && classes.secondaryContainer
+      variant === "secondary" && classes.secondaryContainer,
+      className
     )}
     {...rest}
   >

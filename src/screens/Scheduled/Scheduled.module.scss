@@ -1,0 +1,183 @@
+.title {
+  position: absolute;
+  text-align: center;
+  width: 363px;
+  height: 54px;
+  left: 44%;
+  top: 200px;
+  font-family: Visby CF;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 150%;
+  vertical-align: text-top;
+  /* identical to box height, or 54px */
+
+  font-feature-settings: "liga" off;
+
+  /* gray / gray-80 */
+
+  color: #333333;
+}
+
+.buttons {
+  display: flex;
+  margin-top: 32px;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.defaultText {
+  position: absolute;
+  width: 767px;
+  height: 84px;
+  left: 35%;
+  top: 635px;
+
+  font-family: Visby CF;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 130%;
+  /* or 21px */
+
+  text-align: center;
+  font-feature-settings: "liga" off;
+
+  /* Text / 02 */
+
+  color: #505565;
+}
+
+.primaryButton {
+  /* subtitle / h3 */
+
+  font-family: Visby CF;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 120%;
+  /* or 19px */
+
+  /* gray / white */
+
+  color: #ffffff;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 0;
+  align-self: center;
+  flex-grow: 0;
+  margin: 0px 0px;
+
+  position: absolute;
+  width: 243px;
+  height: 48px;
+  left: 51%;
+  top: 550px;
+}
+
+.secondaryButton {
+  color: #666666;
+  font-family: Visby CF;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 120%;
+
+  flex: none;
+  order: 0;
+  align-self: center;
+  flex-grow: 0;
+  margin: 0px 0px;
+  position: absolute;
+  width: 175px;
+  height: 48px;
+  left: 42%;
+  top: 550px;
+}
+
+.meetingInfo {
+  position: absolute;
+  width: 467px;
+  height: 119px;
+  left: 42%;
+  top: 392px;
+
+  /* white */
+
+  background: #ffffff;
+  /* gray/10 */
+
+  border: 1px solid #f0f0f0;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.date {
+  position: absolute;
+  top: 20%;
+  left: 10%;
+  /* subtitle/h3 */
+  font-family: Visby CF;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 120%;
+  /* or 19px */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  /* gray/80 */
+
+  color: #333333;
+  /* or 19px */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  /* gray/80 */
+
+  color: #333333;
+}
+
+.link {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  font-family: Visby CF;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 130%;
+  /* identical to box height, or 21px */
+
+  display: flex;
+  align-items: center;
+  text-decoration-line: underline;
+  font-feature-settings: "liga" off;
+
+  /* gray/80 */
+
+  color: #333333;
+}
+
+.icon {
+  margin-right: 5px;
+}
+
+.status {
+  position: absolute;
+  width: 969.62px;
+  height: 74px;
+  left: 31%;
+  top: 260px;
+}
+
+.locationIcon {
+  margin-top: 5px;
+  margin-right: 5px;
+}

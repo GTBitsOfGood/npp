@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 // Components
 import Statusbar from "&components/Statusbar";
+import Scheduled from "&screens/Scheduled/index";
 
 // Actions
 import { helloWorld } from "&actions/General";
@@ -25,9 +26,10 @@ const IndexPage = () => {
 
   return (
     <div className="landingPage">
-      <h1>Welcome to Nonprofit Portal</h1>
+      {/* <h1>Welcome to Nonprofit Portal</h1>
 
-      <Statusbar status={0} />
+      /*<Statusbar status={0} /> */}
+      <Scheduled></Scheduled>
     </div>
   );
 };

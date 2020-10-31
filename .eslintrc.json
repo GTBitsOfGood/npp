@@ -32,7 +32,8 @@
     "sourceType": "module",
     "ecmaFeatures": {
       "modules": true
-    }
+    },
+    "project": "./tsconfig.json"
   },
   "plugins": [
     "node",

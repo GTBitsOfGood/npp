@@ -13,6 +13,7 @@ const urls = {
     example: "/api/example",
     availability: "/api/availability",
     meeting: "/api/meeting",
+    user: "/api/user",
   },
 };
 

@@ -9,7 +9,7 @@ import caretDown from "@iconify/icons-radix-icons/caret-down";
 import classes from "./UserIcon.module.scss";
 
 // Actions
-import { login, logout } from "&actions/User";
+import { login, logout } from "&actions/UserActions";
 
 const UserIcon = () => {
   const [session, loading] = useSession();

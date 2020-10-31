@@ -3,7 +3,7 @@ import { useSession } from "next-auth/client";
 
 // Iconography
 import { Icon } from "@iconify/react";
-import caretDown from "@iconify/icons-radix-icons/caret-down";
+//import caretDown from "@iconify/icons-radix-icons/caret-down";
 
 // Styling
 import classes from "./UserIcon.module.scss";
@@ -34,7 +34,7 @@ const UserIcon = () => {
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <h3>{session.user.name}</h3>
-          <Icon icon={caretDown} />
+          {/* <Icon icon={caretDown} /> */}
         </div>
         <h5 className={classes.role}>Verification Needed</h5>
       </div>

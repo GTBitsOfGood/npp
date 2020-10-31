@@ -1,0 +1,23 @@
+@import "../../styles/Colors.scss";
+
+.root {
+  flex: 1;
+  display: flex;
+  max-width: 1440px;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    font-size: 36px;
+    color: $gray-80;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  h5 {
+    font-size: 16px;
+    color: $gray-80;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+}

@@ -48,4 +48,8 @@
       border: 1px solid $orange-700;
     }
   }
+
+  @media (max-width: 700px) {
+    width: 100%;
+  }
 }

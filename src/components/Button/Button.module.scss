@@ -2,8 +2,8 @@
 
 .primaryContainer {
   height: 48px;
-  width: 243px;
   display: flex;
+  padding: 0 80px;
   border-radius: 8px;
   align-items: center;
   justify-content: center;
@@ -19,10 +19,14 @@
     color: $white;
     user-select: none;
   }
+
+  @media (max-width: 700px) {
+    width: 100%;
+  }
 }
 
 .secondaryContainer {
-  width: 175px;
+  padding: 0 20px;
   margin-right: 48px;
   background-color: $white;
 
@@ -37,5 +41,9 @@
 
   h3 {
     color: $gray-80;
+  }
+
+  @media (max-width: 700px) {
+    margin-top: 16px;
   }
 }

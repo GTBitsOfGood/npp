@@ -4,14 +4,6 @@ import { DateTime } from "luxon";
 import Button from "&components/Button";
 import classes from "./TimePicker.module.scss";
 
-type WeekdayMap = Map<
-  string,
-  {
-    disabled: boolean;
-    day: number;
-  }[]
->;
-
 interface PropTypes extends ComponentProps<"div"> {
   date: Date;
   onSelectTime: (time: Date) => void | Promise<void>;

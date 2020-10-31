@@ -6,7 +6,7 @@ import clsx from "clsx";
 // Styling
 import classes from "./Status.module.scss";
 
-type StatusNumber = 0 | 1 | 2 | 3 | 4;
+type StatusNumber = -1 | 0 | 1 | 2 | 3 | 4;
 
 interface StatusBarProps {
   status: StatusNumber;

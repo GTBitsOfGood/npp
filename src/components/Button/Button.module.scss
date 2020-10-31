@@ -1,49 +1,46 @@
 @import "../../styles/Colors";
 
-.primaryContainer {
-  height: 48px;
+.root {
   display: flex;
-  padding: 0 80px;
-  border-radius: 8px;
   align-items: center;
   justify-content: center;
-  background-color: $orange-500;
-  border: 2px solid $orange-500;
-
-  &:hover {
-    background-color: $orange-700;
-    border: 2px solid $orange-700;
-  }
+  text-decoration: none;
+  padding: 16px 64px;
 
   h3 {
-    color: $white;
-    user-select: none;
+    line-height: 100%;
   }
 
-  @media (max-width: 700px) {
-    width: 100%;
-  }
-}
+  &.primary {
+    border-radius: 8px;
+    background-color: $orange-500;
+    border: 2px solid $orange-500;
 
-.secondaryContainer {
-  padding: 0 20px;
-  margin-right: 48px;
-  background-color: $white;
-
-  &:hover {
-    background-color: $orange-300;
-    border: 2px solid $orange-300;
+    &:hover {
+      background-color: $orange-700;
+      border: 2px solid $orange-700;
+    }
 
     h3 {
       color: $white;
+      user-select: none;
     }
   }
 
-  h3 {
-    color: $gray-80;
-  }
+  &.secondary {
+    background-color: $white;
 
-  @media (max-width: 700px) {
-    margin-top: 16px;
+    &:hover {
+      background-color: $orange-300;
+      border: 2px solid $orange-300;
+
+      h3 {
+        color: $white;
+      }
+    }
+
+    h3 {
+      color: $gray-80;
+    }
   }
 }

@@ -1,0 +1,81 @@
+@import "../../styles/Colors.scss";
+
+.root {
+  flex: 1;
+  display: flex;
+  max-width: 1440px;
+  flex-direction: column;
+  align-items: center;
+
+  .title {
+    text-align: center;
+    font-size: 36px;
+    color: $gray-80;
+  }
+
+  .defaultText {
+    max-width: 800px;
+    font-size: 16px;
+    text-align: center;
+    color: $gray-80;
+    margin-bottom: 20px;
+
+    a {
+      font-size: inherit;
+      font-weight: inherit;
+      font-family: inherit;
+    }
+  }
+
+  .meetingInfo {
+    background: $white;
+    border: 1px solid $gray-10;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 30px;
+
+    .date {
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #000000;
+      margin-bottom: 8px;
+
+      .icon {
+        margin-right: 5px;
+      }
+    }
+
+    .link {
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      text-decoration-line: underline;
+      color: #000000;
+
+      .icon {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    margin-top: 32px;
+    flex-direction: row;
+    align-self: flex-end;
+    justify-content: space-between;
+
+    .primaryButton {
+      color: $white;
+      margin: 0;
+      margin-left: 32px;
+    }
+
+    .secondaryButton {
+      color: $gray-60;
+      margin: 0;
+    }
+  }
+}

@@ -16,7 +16,7 @@ const descriptionPlaceholder =
 
 const ApplyScreen = () => {
   // const router = useRouter();
-  const [loading] = useSession();
+  const [session, loading] = useSession();
 
   const [productType, setProductType] = useState([false, false]);
   const [lookingFor, setLookingFor] = useState("");
@@ -134,7 +134,11 @@ const ApplyScreen = () => {
             <Button variant="secondary" onClick={saveForLater}>
               <h3>Save for Later</h3>
             </Button>
-            <Button variant="primary" onClick={submit}>
+            <Button
+              className={classes.secondButton}
+              variant="primary"
+              onClick={submit}
+            >
               <h3>Apply</h3>
             </Button>
           </div>

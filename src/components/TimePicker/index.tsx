@@ -6,10 +6,11 @@ import classes from "./TimePicker.module.scss";
 
 interface PropTypes extends ComponentProps<"div"> {
   date: Date;
+  value?: Date | null;
   onSelectTime: (time: Date) => void | Promise<void>;
 }
 
-const TimePicker = ({ className, date, onSelectTime }: PropTypes) => {
+const TimePicker = ({ className, date, value, onSelectTime }: PropTypes) => {
   const startTime = DateTime.fromJSDate(date).set({
     hour: 9,
     minute: 0,
@@ -43,8 +44,14 @@ const TimePicker = ({ className, date, onSelectTime }: PropTypes) => {
           {availTimes.map(({ disabled, time }) => (
             <Button
               key={time.toISO()}
+              className={classes.time}
               disabled={disabled}
-              variant={"primary"}
+              variant={
+                value != null &&
+                value.toISOString() === time.toJSDate().toISOString()
+                  ? "primary"
+                  : "secondary"
+              }
               onClick={() => onSelectTime(time.toJSDate())}
             >
               {time.toFormat("t")}

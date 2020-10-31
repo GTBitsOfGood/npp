@@ -8,15 +8,20 @@ import TimePicker from "&components/TimePicker";
 // import classes from "./IndexPage.module.scss";
 
 const IndexPage = () => {
-  const [selDate, setDate] = React.useState<Date | null>(null);
+  const [date, setDate] = React.useState<Date | null>(null);
+  const [time, setTime] = React.useState<Date | null>(null);
 
   return (
     <div className="landingPage">
       <h1>Welcome to Nonprofit Portal</h1>
 
-      <Calendar value={selDate} onSelectDate={(date) => setDate(date)} />
-      {selDate != null && (
-        <TimePicker date={selDate} onSelectTime={(time) => alert(time)} />
+      <Calendar value={date} onSelectDate={(date) => setDate(date)} />
+      {date != null && (
+        <TimePicker
+          date={date}
+          value={time}
+          onSelectTime={(time) => setTime(time)}
+        />
       )}
     </div>
   );

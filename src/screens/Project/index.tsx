@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-// Actions
-import { helloWorld } from "&actions/General";
+import React from "react";
 
 // Components
 import Statusbar from "&components/Statusbar";

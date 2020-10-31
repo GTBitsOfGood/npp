@@ -6,19 +6,12 @@ import arrowLeftAlt2 from "@iconify/icons-dashicons/arrow-left-alt2";
 import arrowRightAlt2 from "@iconify/icons-dashicons/arrow-right-alt2";
 import classes from "./Calendar.module.scss";
 
-type WeekdayMap = Map<
-  string,
-  {
-    disabled: boolean;
-    day: number;
-  }[]
->;
-
 interface PropTypes extends ComponentProps<"div"> {
+  value?: Date | null;
   onSelectDate: (date: Date) => void | Promise<void>;
 }
 
-const Calendar = ({ className, onSelectDate }: PropTypes) => {
+const Calendar = ({ className, value = null, onSelectDate }: PropTypes) => {
   const currentDate = DateTime.local();
   const [selectedDate, setDate] = React.useState<DateTime>(
     currentDate.startOf("month")
@@ -26,7 +19,13 @@ const Calendar = ({ className, onSelectDate }: PropTypes) => {
 
   const monthStart = selectedDate.startOf("month");
   const daysInMonth = selectedDate.daysInMonth;
-  const weekdays: WeekdayMap = new Map([
+  const weekdays: Map<
+    string,
+    {
+      disabled: boolean;
+      day: DateTime;
+    }[]
+  > = new Map([
     ["Monday", []],
     ["Tuesday", []],
     ["Wednesday", []],
@@ -44,7 +43,7 @@ const Calendar = ({ className, onSelectDate }: PropTypes) => {
       weekdays.get(name)?.push({
         disabled:
           curDay.month === currentDate.month && curDay.day <= currentDate.day,
-        day: curDay.day,
+        day: curDay,
       });
     }
   }
@@ -80,18 +79,25 @@ const Calendar = ({ className, onSelectDate }: PropTypes) => {
           <div key={dayName} className={classes.dayCol}>
             <h3>{dayName.substring(0, dayName === "Thursday" ? 2 : 1)}</h3>
             <div className={classes.days}>
-              {days[0].day >= followingWeekDay && (
+              {days[0].day.day >= followingWeekDay && (
                 <div className={classes.daySpacer} />
               )}
-              {days.map((day) => (
+              {days.map(({ disabled, day }) => (
                 <button
                   key={day.day}
-                  disabled={day.disabled}
-                  onClick={() =>
-                    onSelectDate(selectedDate.set({ day: day.day }).toJSDate())
-                  }
+                  disabled={disabled}
+                  onClick={() => onSelectDate(day.toJSDate())}
                 >
-                  <h2>{day.day}</h2>
+                  <div
+                    className={clsx(
+                      classes.circleWrapper,
+                      value != null &&
+                        value.toISOString() === day.toJSDate().toISOString() &&
+                        classes.selectedDate
+                    )}
+                  >
+                    <h2>{day.day}</h2>
+                  </div>
                 </button>
               ))}
             </div>

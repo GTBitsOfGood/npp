@@ -10,8 +10,9 @@ interface ButtonProps extends ComponentProps<"button"> {
 const Button = ({ children, variant, className, ...rest }: ButtonProps) => (
   <button
     className={clsx(
-      classes.primaryContainer,
-      variant === "secondary" && classes.secondaryContainer,
+      classes.root,
+      classes.primary,
+      variant === "secondary" && classes.secondary,
       className
     )}
     {...rest}

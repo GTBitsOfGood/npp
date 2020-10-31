@@ -7,6 +7,7 @@
 }
 
 .root {
+  flex: 1;
   display: flex;
   max-width: 1440px;
   flex-direction: row;
@@ -55,7 +56,7 @@
     justify-content: flex-end;
 
     .secondButton {
-      margin-left: 48px;
+      margin-left: 30px;
     }
   }
 }

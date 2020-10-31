@@ -25,12 +25,11 @@ const IndexPage = () => {
   }, []);
 
   return (
-    <div className="landingPage">
-      {/* <h1>Welcome to Nonprofit Portal</h1>
+    <>
+      <h1>Welcome to Nonprofit Portal</h1>
 
-      /*<Statusbar status={0} /> */}
-      <Scheduled></Scheduled>
-    </div>
+      <Statusbar status={0} />
+    </>
   );
 };
 

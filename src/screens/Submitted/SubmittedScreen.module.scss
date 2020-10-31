@@ -1,0 +1,19 @@
+.root {
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+
+  .submitMsg {
+    max-width: 767px;
+    margin-top: 430px;
+    h5 {
+      text-align: center;
+    }
+  }
+
+  .statusbar {
+    margin-top: 45px;
+  }
+}

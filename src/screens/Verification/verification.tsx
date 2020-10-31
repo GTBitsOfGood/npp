@@ -156,6 +156,36 @@ const VerificationScreen = () => {
             onChange={(event: any) => setStreetAddress(event.target.value)}
           />
 
+          <div className={classes.addressContainer}>
+            <div className={classes.type}>
+              <h3>City</h3>
+              <Input
+                value={city}
+                placeholder="Atlanta"
+                onChange={(event: any) => setCity(event.target.value)}
+              />
+            </div>
+            <div className={classes.type}>
+              <h3>State</h3>
+              <Select onChange={(event: any) => setState(event.target.value)}>
+                {states.map((states) => (
+                  <option key={states} value={states}>
+                    {states}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div className={classes.type}>
+              <h3>Zip Code</h3>
+              <Input
+                value={zipcode}
+                placeholder="30308"
+                onChange={(event: any) => setZipcode(event.target.value)}
+              />
+            </div>
+          </div>
+
+          {/*
           <div className={classes.inlineContainer}>
             <h5>City</h5>
 
@@ -183,6 +213,7 @@ const VerificationScreen = () => {
               onChange={(event: any) => setZipcode(event.target.value)}
             />
           </div>
+              */}
 
           <h5>Your Mission</h5>
           <h4>

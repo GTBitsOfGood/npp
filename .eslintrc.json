@@ -1,8 +1,30 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    },
+    "project": "./tsconfig.json"
+  },
   "env": {
     "node": true,
     "browser": true,
     "es6": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [".ts", ".tsx"]
+      }
+    }
   },
   "extends": [
     "prettier",
@@ -17,23 +39,6 @@
     "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {
-        "react/display-name": 0,
-        "@typescript-eslint/explicit-module-boundary-types": 0
-      }
-    }
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "modules": true
-    }
-  },
   "plugins": [
     "node",
     "react",
@@ -49,23 +54,19 @@
     "import/namespace": 2,
     "import/extensions": "off",
     "import/no-unresolved": "off",
-    "@typescript-eslint/no-unused-vars": 2,
-    "@typescript-eslint/no-floating-promises": 2,
-    "react/prop-types": [2, { "ignore": ["children"] }],
-    "@typescript-eslint/explicit-module-boundary-types": 2,
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "react/prop-types": [2, { "ignore": ["children"] }]
   },
-  "settings": {
-    "react": {
-      "version": "detect"
-    },
-    "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
-    },
-    "import/resolver": {
-      "node": {
-        "extensions": [".ts", ".tsx"]
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "react/display-name": 0,
+        "@typescript-eslint/explicit-module-boundary-types": 0,
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-floating-promises": 2,
+        "@typescript-eslint/explicit-function-return-type": "off"
       }
     }
-  }
+  ]
 }

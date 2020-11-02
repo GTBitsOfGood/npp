@@ -1,14 +1,23 @@
 @import "../../styles/Colors";
-@import "../../styles/Properties";
 
 .root {
   display: flex;
   height: 120px;
-  padding: 0 122px;
   align-items: center;
   flex-direction: row;
   background-color: $white;
   border-bottom: 1px solid $gray-20;
+
+  .sidePadding {
+    flex: 1;
+  }
+
+  .mainContent {
+    flex: 10;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+  }
 
   .route {
     margin-right: 32px;
@@ -25,6 +34,17 @@
 
   .headerImg {
     width: 172px;
+    cursor: pointer;
     margin-right: auto;
+  }
+
+  @media (max-width: 1100px) {
+    .sidePadding {
+      flex: 0;
+    }
+
+    .mainContent {
+      padding: 0 40px;
+    }
   }
 }

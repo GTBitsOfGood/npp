@@ -6,7 +6,9 @@ const urls = {
     login: "/login",
     app: {
       index: "/app",
+      project: "/app/project",
       apply: "/app/apply",
+      scheduled: "/app/scheduled",
     },
   },
   api: {

@@ -36,28 +36,34 @@ const Header = ({ currentRoute }: HeaderProps) => {
 
   return (
     <div className={classes.root}>
-      <NavLink href="/" key="Logo">
-        <img
-          alt="Bits of Good Logo"
-          src="/static/text-logo.png"
-          className={classes.headerImg}
-        />
-      </NavLink>
+      <div className={classes.sidePadding} />
 
-      {routes.map(({ name, link }) => (
-        <NavLink href={link} key={name}>
-          <div
-            className={clsx(
-              classes.route,
-              currentRoute === link && classes.selected
-            )}
-          >
-            <h3>{name}</h3>
-          </div>
+      <div className={classes.mainContent}>
+        <NavLink href="/" key="Logo">
+          <img
+            alt="Bits of Good Logo"
+            src="/static/text-logo.png"
+            className={classes.headerImg}
+          />
         </NavLink>
-      ))}
 
-      {!loading && <UserIcon />}
+        {routes.map(({ name, link }) => (
+          <NavLink href={link} key={name}>
+            <div
+              className={clsx(
+                classes.route,
+                currentRoute === link && classes.selected
+              )}
+            >
+              <h3>{name}</h3>
+            </div>
+          </NavLink>
+        ))}
+
+        {!loading && <UserIcon />}
+      </div>
+
+      <div className={classes.sidePadding} />
     </div>
   );
 };

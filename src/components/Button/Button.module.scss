@@ -1,41 +1,37 @@
 @import "../../styles/Colors";
 
-.primaryContainer {
-  height: 48px;
-  width: 243px;
+.root {
   display: flex;
-  border-radius: 8px;
   align-items: center;
   justify-content: center;
-  background-color: $orange-500;
-  border: 2px solid $orange-500;
-
-  &:hover {
-    background-color: $orange-700;
-    border: 2px solid $orange-700;
-  }
+  text-decoration: none;
+  padding: 16px 64px;
 
   h3 {
+    line-height: 100%;
+  }
+
+  &.primary {
+    border-radius: 8px;
+    background-color: $orange-500;
+    border: 2px solid $orange-500;
     color: $white;
     user-select: none;
-  }
-}
 
-.secondaryContainer {
-  width: 175px;
-  margin-right: 48px;
-  background-color: $white;
-
-  &:hover {
-    background-color: $orange-300;
-    border: 2px solid $orange-300;
-
-    h3 {
-      color: $white;
+    &:hover {
+      background-color: $orange-700;
+      border: 2px solid $orange-700;
     }
   }
 
-  h3 {
+  &.secondary {
+    background-color: $white;
     color: $gray-80;
+
+    &:hover {
+      background-color: $orange-300;
+      border: 2px solid $orange-300;
+      color: $white;
+    }
   }
 }

@@ -1,33 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 // Components
-import Statusbar from "&components/Statusbar";
-
-// Actions
-import { helloWorld } from "&actions/General";
+import Calendar from "&components/Calendar";
+import TimePicker from "&components/Calendar/TimePicker";
 
 // Styling
-import classes from "./IndexPage.module.scss";
+// import classes from "./IndexPage.module.scss";
 
 const IndexPage = () => {
-  const [payload, setPayload] = useState("");
-
-  useEffect(() => {
-    // Example how to create page without ssr
-    helloWorld()
-      .then((resp) => {
-        setPayload(resp.message as string);
-      })
-      .catch(() => {
-        setPayload("Failed to fetch!");
-      });
-  }, []);
+  const [date, setDate] = React.useState<Date | null>(null);
 
   return (
     <div className="landingPage">
       <h1>Welcome to Nonprofit Portal</h1>
 
-      <Statusbar status={0} />
+      <Calendar value={date} onSelectDate={(date) => setDate(date)} />
     </div>
   );
 };

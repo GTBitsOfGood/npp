@@ -46,13 +46,14 @@ const ApplyScreen = () => {
     // TODO: save items
   };
 
-  if (loading) {
+  if (!loading) {
     return <h1 className={classes.loadingText}>Loading...</h1>;
   }
 
   return (
     <div className="applicationPage">
       <div className={classes.root}>
+        <div className={classes.sidePadding} />
         <div className={classes.leftCol}>
           <h1 className={classes.formTitle}>Sign up for a Project</h1>
           <h5 className={classes.formDescription}>
@@ -61,7 +62,7 @@ const ApplyScreen = () => {
             ad minim veniam, quis nostrud commodo consequat.
           </h5>
         </div>
-
+        <div className={classes.padding} />
         <div className={classes.rightCol}>
           <h2 className={classes.sectionHeader}>Product Needs</h2>
 
@@ -142,6 +143,7 @@ const ApplyScreen = () => {
             </Button>
           </div>
         </div>
+        <div className={classes.sidePadding} />
       </div>
     </div>
   );

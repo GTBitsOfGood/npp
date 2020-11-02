@@ -4,20 +4,28 @@ import { DateTime } from "luxon";
 import { Icon } from "@iconify/react";
 import arrowLeftAlt2 from "@iconify/icons-dashicons/arrow-left-alt2";
 import arrowRightAlt2 from "@iconify/icons-dashicons/arrow-right-alt2";
+import TimePicker from "./TimePicker";
 import classes from "./Calendar.module.scss";
 
 interface PropTypes extends ComponentProps<"div"> {
   value?: Date | null;
+  withTime?: boolean;
   onSelectDate: (date: Date) => void | Promise<void>;
 }
 
-const Calendar = ({ className, value = null, onSelectDate }: PropTypes) => {
+const Calendar = ({
+  className,
+  value = null,
+  withTime = true,
+  onSelectDate,
+}: PropTypes) => {
   const currentDate = DateTime.local();
   const [selectedDate, setDate] = React.useState<DateTime>(
     currentDate.startOf("month")
   );
 
   const monthStart = selectedDate.startOf("month");
+  const endWeek = monthStart.endOf("week");
   const daysInMonth = selectedDate.daysInMonth;
   const weekdays: Map<
     string,
@@ -26,11 +34,13 @@ const Calendar = ({ className, value = null, onSelectDate }: PropTypes) => {
       day: DateTime;
     }[]
   > = new Map([
+    ["Sunday", []],
     ["Monday", []],
     ["Tuesday", []],
     ["Wednesday", []],
     ["Thursday", []],
     ["Friday", []],
+    ["Saturday", []],
   ]);
   for (
     let curDay = monthStart;
@@ -47,63 +57,76 @@ const Calendar = ({ className, value = null, onSelectDate }: PropTypes) => {
       });
     }
   }
-  const followingWeekDay = monthStart.plus({ weeks: 1 }).startOf("week").day;
 
   return (
     <div className={clsx(classes.root, className)}>
-      <div className={classes.header}>
-        <div className={classes.monthContainer}>
-          <h2>{selectedDate.monthLong}</h2>
-          <button
-            className={classes.iconButton}
-            disabled={currentDate.month === selectedDate.month}
-            onClick={() =>
-              setDate((prevState) => prevState.minus({ months: 1 }))
-            }
-          >
-            <Icon icon={arrowLeftAlt2} />
-          </button>
-          <button
-            className={classes.iconButton}
-            onClick={() =>
-              setDate((prevState) => prevState.plus({ months: 1 }))
-            }
-          >
-            <Icon icon={arrowRightAlt2} />
-          </button>
-        </div>
-        <h5>Select an Interview Date</h5>
-      </div>
-      <div className={classes.content}>
-        {Array.from(weekdays).map(([dayName, days]) => (
-          <div key={dayName} className={classes.dayCol}>
-            <h3>{dayName.substring(0, dayName === "Thursday" ? 2 : 1)}</h3>
-            <div className={classes.days}>
-              {days[0].day.day >= followingWeekDay && (
-                <div className={classes.daySpacer} />
-              )}
-              {days.map(({ disabled, day }) => (
-                <button
-                  key={day.day}
-                  disabled={disabled}
-                  onClick={() => onSelectDate(day.toJSDate())}
-                >
-                  <div
-                    className={clsx(
-                      classes.circleWrapper,
-                      value != null &&
-                        value.toISOString() === day.toJSDate().toISOString() &&
-                        classes.selectedDate
-                    )}
-                  >
-                    <h2>{day.day}</h2>
-                  </div>
-                </button>
-              ))}
+      <div className={classes.calendar}>
+        <div className={classes.header}>
+          <h2>Select a Date and Time</h2>
+          <div className={classes.monthContainer}>
+            <h5>{selectedDate.toFormat("MMMM yyyy")}</h5>
+            <div className={classes.buttonContainer}>
+              <button
+                className={classes.iconButton}
+                disabled={currentDate.month === selectedDate.month}
+                onClick={() =>
+                  setDate((prevState) => prevState.minus({ months: 1 }))
+                }
+              >
+                <Icon icon={arrowLeftAlt2} />
+              </button>
+              <button
+                className={classes.iconButton}
+                onClick={() =>
+                  setDate((prevState) => prevState.plus({ months: 1 }))
+                }
+              >
+                <Icon icon={arrowRightAlt2} />
+              </button>
             </div>
           </div>
-        ))}
+        </div>
+        <div className={classes.content}>
+          {Array.from(weekdays).map(([dayName, days], index) => (
+            <div key={dayName} className={classes.dayCol}>
+              <h4>{dayName.substring(0, 3)}</h4>
+              <div className={classes.days}>
+                {days[0].day.day >= endWeek.day && monthStart.weekday !== 7 && (
+                  <div className={classes.daySpacer} />
+                )}
+                {days.map(({ disabled, day }) => (
+                  <button
+                    key={day.day}
+                    disabled={disabled}
+                    onClick={() => onSelectDate(day.toJSDate())}
+                  >
+                    <div
+                      className={clsx(
+                        classes.circleWrapper,
+                        value != null &&
+                          DateTime.fromJSDate(value).toFormat("D") ===
+                            day.toFormat("D") &&
+                          classes.selectedDate
+                      )}
+                    >
+                      <h2>{day.day}</h2>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <p>
+          *Times are in Eastern Standard Time (<b>EST</b>)
+        </p>
       </div>
+      {withTime && value != null && (
+        <div className={classes.time}>
+          <h5>{DateTime.fromJSDate(value).toFormat("EEEE, MMMM d")}</h5>
+          <TimePicker date={value} value={value} onSelectTime={onSelectDate} />
+        </div>
+      )}
     </div>
   );
 };

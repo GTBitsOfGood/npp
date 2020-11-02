@@ -34,31 +34,22 @@ const TimePicker = ({ className, date, value, onSelectTime }: PropTypes) => {
 
   return (
     <div className={clsx(classes.root, className)}>
-      <div className={classes.header}>
-        <h2>{startTime.toFormat("DD")}</h2>
-        <h5>Select a 30-minute meeting time</h5>
-      </div>
-      <div className={classes.content}>
-        <p>*Times are in Eastern Standard Time (EST)</p>
-        <div className={classes.times}>
-          {availTimes.map(({ disabled, time }) => (
-            <Button
-              key={time.toISO()}
-              className={classes.time}
-              disabled={disabled}
-              variant={
-                value != null &&
-                value.toISOString() === time.toJSDate().toISOString()
-                  ? "primary"
-                  : "secondary"
-              }
-              onClick={() => onSelectTime(time.toJSDate())}
-            >
-              {time.toFormat("t")}
-            </Button>
-          ))}
-        </div>
-      </div>
+      {availTimes.map(({ disabled, time }) => (
+        <Button
+          key={time.toISO()}
+          className={classes.time}
+          disabled={disabled}
+          variant={
+            value != null &&
+            DateTime.fromJSDate(value).toFormat("T") === time.toFormat("T")
+              ? "primary"
+              : "secondary"
+          }
+          onClick={() => onSelectTime(time.toJSDate())}
+        >
+          {time.toFormat("h:mm a").toLowerCase()}
+        </Button>
+      ))}
     </div>
   );
 };

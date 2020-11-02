@@ -15,32 +15,23 @@
     border-radius: 8px;
     background-color: $orange-500;
     border: 2px solid $orange-500;
+    color: $white;
+    user-select: none;
 
     &:hover {
       background-color: $orange-700;
       border: 2px solid $orange-700;
     }
-
-    h3 {
-      color: $white;
-      user-select: none;
-    }
   }
 
   &.secondary {
     background-color: $white;
+    color: $gray-80;
 
     &:hover {
       background-color: $orange-300;
       border: 2px solid $orange-300;
-
-      h3 {
-        color: $white;
-      }
-    }
-
-    h3 {
-      color: $gray-80;
+      color: $white;
     }
   }
 }

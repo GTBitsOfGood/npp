@@ -1,9 +1,9 @@
-import { callInternalAPI } from "../../server/utils/ActionUtils";
-import { HttpMethod } from "../../server/models/HttpMethod";
-import urls from "../../utils/urls";
-import { Availability } from "../../server/models/Availability";
+import { callInternalAPI } from "&server/utils/ActionUtils";
+import { HttpMethod } from "&server/models/HttpMethod";
+import urls from "&utils/urls";
+import { Availability } from "&server/models/Availability";
 import { DateTime } from "luxon";
-import { Meeting } from "../../server/models/Meeting";
+import { Meeting } from "&server/models/Meeting";
 
 const meetingRoute = urls.api.meeting;
 
@@ -44,6 +44,7 @@ async function createMeeting(meeting: Availability): Promise<Meeting> {
 
 function meetingFromJsonResponse(object: { [key: string]: any }): Meeting {
   return {
+    id: object._id,
     interviewer: object.interviewer,
     startDatetime: DateTime.fromISO(object.startDatetime),
     nonprofit: object.nonprofit,

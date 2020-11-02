@@ -8,7 +8,7 @@ const handler = generateMethodRoute(
     requireSession: true,
   },
   {
-    get: async (req, _res) => {
+    get: async (req) => {
       if (req.query.id) {
         const objectId = validateAndSanitizeIdString(req.query.id as string);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -17,7 +17,7 @@ const handler = generateMethodRoute(
         return AvailabilityManager.getAvailabilitiesFromStartOfWeek();
       }
     },
-    put: async (req, _res) => {
+    put: async (req) => {
       const availability = req.body.availability;
       const result = await AvailabilityManager.addAvailability(availability);
 
@@ -27,7 +27,7 @@ const handler = generateMethodRoute(
 
       return result;
     },
-    post: async (req, _res) => {
+    post: async (req) => {
       const id = req.body.id;
       const fieldsToUpdate: any = req.body.updates;
       const objectId = validateAndSanitizeIdString(id);
@@ -42,7 +42,7 @@ const handler = generateMethodRoute(
 
       return updatedDoc;
     },
-    delete: async (req, _res) => {
+    delete: async (req) => {
       const id: string = req.query.id as string;
       const objectId = validateAndSanitizeIdString(id);
       const deletedDoc = await AvailabilityManager.deleteAvailability(objectId);

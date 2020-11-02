@@ -1,5 +1,5 @@
 import fetch from "isomorphic-unfetch";
-import urls from "../../utils/urls";
+import urls from "&utils/urls";
 
 type GenericJsonBody = Record<string, unknown>;
 

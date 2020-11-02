@@ -12,7 +12,7 @@ const SubmittedScreen: React.FC = () => {
   const router = useRouter();
   const [session, loading] = useSession();
   const message =
-    "As a partner, Bits of Good will help you build software that turns your need into real productLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut";
+    "Your application has been submitted to the BoG team successfully! You will get an email notification after we finish reviewing your application. If we decide to move on with your project, the next step will be an interview to better understand your project and see if it’s a good fit for Bits of Good.";
 
   if (loading) {
     return <h1>Loading...</h1>;

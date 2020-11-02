@@ -83,9 +83,9 @@ const ApplicationSchema = new Schema(
       type: Date,
       default: null,
     },
-    interviewScheduled: {
+    meeting: {
       type: Types.ObjectId,
-      ref: "Availability",
+      ref: "Meeting",
       default: null,
     },
     decision: {
@@ -99,6 +99,7 @@ const ApplicationSchema = new Schema(
 );
 
 ApplicationSchema.virtual("status").get(function (this: any) {
+  // not sure what I was doing here lol
   if (this.decision) {
     return "DECISION";
   } else if (this.interviewScheduled) {
@@ -109,6 +110,6 @@ ApplicationSchema.virtual("status").get(function (this: any) {
   }
 });
 
-export const Application =
+export const ApplicationDocument =
   mongoose.models.Application ||
   mongoose.model("Application", ApplicationSchema);

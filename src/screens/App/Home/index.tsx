@@ -7,6 +7,7 @@ import classes from "./HomePage.module.scss";
 
 // URLs
 import urls from "&utils/urls";
+import ApplicationActions from "&actions/ApplicationActions";
 
 const HomePage = () => {
   const router = useRouter();

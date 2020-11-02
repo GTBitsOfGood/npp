@@ -14,6 +14,7 @@ const urls = {
   api: {
     example: "/api/example",
     availability: "/api/availability",
+    application: "/api/application",
     meeting: "/api/meeting",
     user: "/api/user",
   },

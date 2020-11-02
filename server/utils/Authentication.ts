@@ -30,11 +30,12 @@ async function ensureUserHasAccess(
       "User session not found. Ensure you are logged in."
     );
   }
+
   const userRoles = new Set(user.roles);
   let missingRole;
   if (
     requiredRoles &&
-    (missingRole = requiredRoles.find((val) => !(val in userRoles)))
+    (missingRole = requiredRoles.find((val) => !userRoles.has(val)))
   ) {
     throw new AuthenticationError(
       `Missing at least one required role: ${missingRole}`
@@ -53,7 +54,7 @@ function ensureAdmin(user: SessionUser | null | undefined): void {
 }
 
 export default {
-  adminRole: "NPP-Admin",
+  ADMIN_ROLE: "NPP-Admin",
   getUser,
   authenticate: ensureUserHasAccess,
   ensureAdmin,

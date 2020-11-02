@@ -14,7 +14,7 @@ const handler = generateMethodRoute(
     requireSession: true,
   },
   {
-    get: async (req, _res) => {
+    get: async (req) => {
       const user = req.user as SessionUser;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       if (req.query.id) {
@@ -37,7 +37,7 @@ const handler = generateMethodRoute(
         return MeetingManager.getMeetings();
       }
     },
-    put: async (req, _res) => {
+    put: async (req) => {
       const meeting = req.body.meeting;
       await validateUserHasAccessToMeeting(req.user as SessionUser, meeting);
       const result = await MeetingManager.addMeeting(meeting);

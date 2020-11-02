@@ -1,5 +1,5 @@
 import { signIn, signOut } from "next-auth/client";
-import urls from "../../utils/urls";
+import urls from "&utils/urls";
 
 import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
@@ -31,8 +31,15 @@ async function getUserByEmail(email: string): Promise<User> {
   return userFromJsonResponse(response);
 }
 
-function userFromJsonResponse(object: { [key: string]: any }): User {
+/**
+ * The intersection type is an artifact of the TypeORM id issue
+ * @param object
+ */
+function userFromJsonResponse(object: {
+  [key: string]: any;
+}): User & { id: string } {
   return {
+    id: object.id,
     email: object.email,
     emailVerified: object.emailVerified,
     familyName: object.familyName,

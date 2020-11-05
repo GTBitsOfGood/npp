@@ -1,5 +1,5 @@
 import { connectToDB } from "../index";
-import { UserDocument } from "../UserDocument";
+import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 
 async function getUserById(id: ObjectId) {

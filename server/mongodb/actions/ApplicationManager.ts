@@ -1,6 +1,6 @@
 import { connectToDB, EntityDoc } from "../index";
 import { ObjectId } from "mongodb";
-import { ApplicationDocument } from "&server/mongodb/ApplicationDocument";
+import ApplicationDocument from "&server/mongodb/ApplicationDocument";
 
 async function addApplication(application: Document): Promise<EntityDoc> {
   await connectToDB();

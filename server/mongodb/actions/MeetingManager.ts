@@ -1,30 +1,30 @@
 import { connectToDB } from "../index";
-import MeetingSchema from "../MeetingDocument";
+import MeetingDocument from "../MeetingDocument";
 import { ObjectId } from "mongodb";
 
-async function addMeeting(meeting: Document) {
+async function addMeeting(meeting: Record<string, any>) {
   await connectToDB();
 
-  return MeetingSchema.create(meeting);
+  return MeetingDocument.create(meeting);
 }
 
 // set limit?
 async function getMeetings() {
   await connectToDB();
 
-  return MeetingSchema.find().sort({ startDateTime: -1 });
+  return MeetingDocument.find().sort({ startDateTime: -1 });
 }
 
 async function getMeetingById(id: ObjectId) {
   await connectToDB();
 
-  return MeetingSchema.findById(id);
+  return MeetingDocument.findById(id);
 }
 
 async function getMeetingByApplicationId(id: ObjectId) {
   await connectToDB();
 
-  return MeetingSchema.findOne({ application: id });
+  return MeetingDocument.findOne({ application: id });
 }
 
 export default {

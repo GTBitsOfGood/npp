@@ -4,6 +4,7 @@ const urls = {
     index: "/",
     ssr: "/ssr",
     login: "/login",
+    project: "/project",
     app: {
       index: "/app",
       apply: "/app/apply",

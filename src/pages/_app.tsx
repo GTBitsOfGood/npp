@@ -7,6 +7,7 @@ import { Provider } from "next-auth/client";
 
 // Components
 import Header from "&components/Header";
+import Sidebar from "&components/Sidebar";
 
 // Styling
 import "normalize.css";
@@ -24,8 +25,11 @@ const MyApp = ({ Component, pageProps, router }: AppProps) => (
     <Provider session={pageProps.session}>
       <div id="app">
         <Header currentRoute={router.asPath} />
-        <div id="content">
-          <Component {...pageProps} />
+        <div id="sidebar">
+          <Sidebar currentRoute={router.asPath} />
+          <div id="content">
+            <Component {...pageProps} />
+          </div>
         </div>
       </div>
     </Provider>

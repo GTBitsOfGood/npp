@@ -17,6 +17,12 @@ const ProjectPage = () => {
       <div className={classes.root}>
         <h1>Apply for an New Project</h1>
 
+        <div className={classes.statusBar}>
+          <Statusbar status={-1} />
+        </div>
+
+        {/* insert image here*/}
+
         <h5>
           As a partner, Bits of Good will help you build software that turns
           your need into real productLorem ipsum dolor sit amet, consectetur
@@ -24,11 +30,6 @@ const ProjectPage = () => {
           magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
           ullamco laboris nisi ut
         </h5>
-        <div className={classes.statusBar}>
-          <Statusbar status={-1} />
-        </div>
-
-        {/* insert image here*/}
 
         <Button variant="primary" onClick={submit}>
           <h3>Apply Now</h3>

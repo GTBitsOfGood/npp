@@ -1,0 +1,58 @@
+import urls from "&utils/urls";
+import React from "react";
+
+// Libraries
+import clsx from "clsx";
+
+// Components
+import NavLink from "../NavLink";
+
+// Styling
+import classes from "./Sidebar.module.scss";
+
+interface HeaderProps {
+  currentRoute: string;
+}
+
+const Sidebar = ({ currentRoute }: HeaderProps) => {
+  let app = urls.pages.project;
+  let problem = urls.pages.index;
+
+  return (
+    <div className={classes.root}>
+      <h4>MENU</h4>
+      <NavLink
+        href={app}
+        className={clsx(classes.pages, currentRoute === app && classes.active)}
+      >
+        Project Application
+      </NavLink>
+
+      <div
+        className={clsx(
+          classes.pages,
+          currentRoute === app && classes.rectangle
+        )}
+      ></div>
+
+      <NavLink
+        href={problem}
+        className={clsx(
+          classes.pages,
+          currentRoute === problem && classes.active
+        )}
+      >
+        Report a Problem
+      </NavLink>
+
+      <div
+        className={clsx(
+          classes.pages,
+          currentRoute === problem && classes.rectangle
+        )}
+      ></div>
+    </div>
+  );
+};
+
+export default Sidebar;

@@ -2,20 +2,18 @@ import React from "react";
 
 // Components
 import Statusbar from "&components/Statusbar";
-import Button from "&components/Button";
+import ButtonLink from "&components/ButtonLink";
 
 // Styling
 import classes from "./ProjectPage.module.scss";
 
-const ProjectPage = () => {
-  const submit = () => {
-    console.log("Starting Application");
-  };
+import urls from "&utils/urls";
 
+const ProjectPage = () => {
   return (
-    <div className="projectPage">
+    <div className="applicationPage">
       <div className={classes.root}>
-        <h1>Apply for an New Project</h1>
+        <h1>Apply for a New Project</h1>
 
         <div className={classes.statusBar}>
           <Statusbar status={-1} />
@@ -31,9 +29,9 @@ const ProjectPage = () => {
           ullamco laboris nisi ut
         </h5>
 
-        <Button variant="primary" onClick={submit}>
+        <ButtonLink variant="primary" href={urls.pages.app.apply}>
           <h3>Apply Now</h3>
-        </Button>
+        </ButtonLink>
       </div>
     </div>
   );

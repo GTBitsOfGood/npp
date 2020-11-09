@@ -4,15 +4,17 @@ const urls = {
     index: "/",
     ssr: "/ssr",
     login: "/login",
-    project: "/project",
     app: {
       index: "/app",
+      project: "/app/project",
       apply: "/app/apply",
+      scheduled: "/app/scheduled",
     },
   },
   api: {
     example: "/api/example",
     availability: "/api/availability",
+    application: "/api/application",
     meeting: "/api/meeting",
     user: "/api/user",
   },

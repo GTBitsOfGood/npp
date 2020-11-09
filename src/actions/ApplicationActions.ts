@@ -7,7 +7,9 @@ import urls from "&utils/urls";
 
 const applicationRoute = urls.api.application;
 
-async function addApplication(application: Application): Promise<Application> {
+async function createApplication(
+  application: Application
+): Promise<Application> {
   const response: Record<string, any> = await callInternalAPI(
     applicationRoute,
     HttpMethod.PUT,
@@ -88,7 +90,7 @@ function applicationFromJson(object: { [key: string]: any }): Application {
 }
 
 export default {
-  addApplication,
+  createApplication,
   getApplicationById,
   getApplications,
   deleteApplication,

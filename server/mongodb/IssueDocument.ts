@@ -18,6 +18,7 @@ const IssueSchema = new Schema(
     },
     images: {
       type: [String],
+      default: [],
     },
     contact: {
       type: ContactSchema,

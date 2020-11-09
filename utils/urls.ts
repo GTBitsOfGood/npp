@@ -15,6 +15,7 @@ const urls = {
     example: "/api/example",
     availability: "/api/availability",
     application: "/api/application",
+    issue: "/api/issue",
     meeting: "/api/meeting",
     user: "/api/user",
   },

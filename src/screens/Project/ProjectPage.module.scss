@@ -1,41 +1,7 @@
 @import "../../styles/Colors.scss";
 
 .root {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-
-  h1 {
-    height: 54px;
-    padding: 80px 0px 0px 0px;
-
-    font-style: normal;
-    line-height: 150%;
-    color: #333333;
-  }
-
-  .statusBar {
-    padding: 0px 0px 48px 0px;
-  }
-
-  h5 {
-    width: 767px;
-    height: 63px;
-    padding: 0px 0px 48px 0px;
-
-    font-family: Visby CF;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 130%;
-    color: #666666;
-  }
-
   button {
-    width: 223px;
-    height: 51px;
     margin: 0px 0px 48px 0px;
   }
 }

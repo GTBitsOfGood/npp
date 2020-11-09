@@ -11,27 +11,27 @@ import urls from "&utils/urls";
 
 const ProjectPage = () => {
   return (
-    <div className="applicationPage">
+    <div className="landingPage">
       <div className={classes.root}>
-        <h1>Apply for a New Project</h1>
+        <h1 className="landingHeader">Apply for a New Project</h1>
 
-        <div className={classes.statusBar}>
-          <Statusbar status={-1} />
-        </div>
+        <Statusbar status={-1} />
 
         {/* insert image here*/}
 
-        <h5>
+        <h3 className="landingText">
           As a partner, Bits of Good will help you build software that turns
           your need into real productLorem ipsum dolor sit amet, consectetur
           adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
           ullamco laboris nisi ut
-        </h5>
+        </h3>
 
-        <ButtonLink variant="primary" href={urls.pages.app.apply}>
-          <h3>Apply Now</h3>
-        </ButtonLink>
+        <div className="landingButton">
+          <ButtonLink variant="primary" href={urls.pages.app.apply}>
+            <h3>Apply Now</h3>
+          </ButtonLink>
+        </div>
       </div>
     </div>
   );

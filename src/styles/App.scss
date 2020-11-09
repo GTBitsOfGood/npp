@@ -50,9 +50,29 @@ body {
 
 .landingPage {
   display: flex;
+  text-align: center;
   align-items: center;
   padding: 80px 0 64px;
   flex-direction: column;
+  justify-content: center;
+
+  .landingHeader {
+    margin-bottom: 32px;
+  }
+
+  .landingText {
+    color: $gray-60;
+    margin: 0 122px 48px;
+  }
+
+  .landingButton {
+    width: 224px;
+    margin: 0 auto;
+
+    h3 {
+      color: $white;
+    }
+  }
 }
 
 .applicationPage {

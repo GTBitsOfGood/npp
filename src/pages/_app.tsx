@@ -24,7 +24,7 @@ const MyApp = ({ Component, pageProps, router }: AppProps) => (
     <SocialProfileJsonLd {...profileSeoConfig} />
     <Provider session={pageProps.session}>
       <div id="app">
-        <Header currentRoute={router.asPath} />
+        <Header />
         <div id="sidebar">
           <Sidebar currentRoute={router.asPath} />
           <div id="content">

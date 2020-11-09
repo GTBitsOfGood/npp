@@ -6,11 +6,19 @@
 
   .menu {
     position: absolute;
-    top: 60px;
-    right: 164px;
+    top: 48px;
+    right: 1/12;
     background-color: $white;
     border: 1px solid #f0f0f0;
     border-top: none;
+
+    @media (max-width: 1100px) {
+      top: 55px;
+    }
+
+    @media (max-width: 700px) {
+      right: 84px;
+    }
   }
 }
 
@@ -37,6 +45,10 @@
   .role {
     color: $gray-40;
     user-select: none;
+
+    @media (max-width: 1100px) {
+      display: none;
+    }
   }
 }
 

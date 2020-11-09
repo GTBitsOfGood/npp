@@ -1,8 +1,8 @@
-import { callInternalAPI } from "../../server/utils/ActionUtils";
-import { HttpMethod } from "../../server/models/HttpMethod";
-import urls from "../../utils/urls";
+import { callInternalAPI } from "&server/utils/ActionUtils";
+import { HttpMethod } from "&server/models/HttpMethod";
+import urls from "&utils/urls";
 import { DateTime } from "luxon";
-import { Availability } from "../../server/models/Availability";
+import { Availability } from "&server/models/Availability";
 const availabilityRoute = urls.api.availability;
 
 async function getAvailabilityById(objectId: string): Promise<Availability> {
@@ -61,6 +61,7 @@ function availabilityFromJsonResponse(object: {
   [key: string]: any;
 }): Availability {
   return {
+    id: object._id,
     interviewer: object.interviewer,
     startDatetime: DateTime.fromISO(object.startDatetime),
     endDatetime: DateTime.fromISO(object.endDatetime),

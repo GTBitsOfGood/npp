@@ -1,0 +1,44 @@
+@import "../../styles/Fonts";
+@import "../../styles/Colors";
+
+.input {
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: normal;
+  font-family: $open-sans;
+  border: 2px solid $gray-40;
+
+  &:focus {
+    outline: none;
+    border: 2px solid $orange-500;
+  }
+
+  &::placeholder {
+    color: $gray-20;
+    font-size: 16px;
+    font-weight: normal;
+    font-family: $open-sans;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
+
+.disableInput {
+  border: 2px solid $red;
+
+  &:focus {
+    outline: none;
+    border: 2px solid $red;
+  }
+}

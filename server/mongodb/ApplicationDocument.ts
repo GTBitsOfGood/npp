@@ -1,5 +1,6 @@
 import mongoose, { Schema, Types } from "mongoose";
 import { ObjectId } from "mongodb";
+import ContactSchema from "&server/mongodb/ContactSchema";
 
 const Address = new Schema({
   streetAddress: {
@@ -41,20 +42,6 @@ const Organization = new Schema({
   },
 });
 
-const Contact = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  phone: {
-    type: String,
-  },
-});
-
 const ApplicationSchema = new Schema(
   {
     users: {
@@ -71,7 +58,7 @@ const ApplicationSchema = new Schema(
       required: true,
     },
     primaryContact: {
-      type: Contact,
+      type: ContactSchema,
       required: true,
     },
     productType: {
@@ -83,9 +70,9 @@ const ApplicationSchema = new Schema(
       type: Date,
       default: null,
     },
-    interviewScheduled: {
+    meeting: {
       type: Types.ObjectId,
-      ref: "Availability",
+      ref: "Meeting",
       default: null,
     },
     decision: {
@@ -99,6 +86,7 @@ const ApplicationSchema = new Schema(
 );
 
 ApplicationSchema.virtual("status").get(function (this: any) {
+  // not sure what I was doing here lol
   if (this.decision) {
     return "DECISION";
   } else if (this.interviewScheduled) {
@@ -109,6 +97,5 @@ ApplicationSchema.virtual("status").get(function (this: any) {
   }
 });
 
-export const Application =
-  mongoose.models.Application ||
+export default mongoose.models.Application ||
   mongoose.model("Application", ApplicationSchema);

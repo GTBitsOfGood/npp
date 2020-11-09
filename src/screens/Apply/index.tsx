@@ -16,7 +16,7 @@ const descriptionPlaceholder =
 
 const ApplyScreen = () => {
   // const router = useRouter();
-  const [loading] = useSession();
+  const [session, loading] = useSession();
 
   const [productType, setProductType] = useState([false, false]);
   const [lookingFor, setLookingFor] = useState("");
@@ -46,13 +46,14 @@ const ApplyScreen = () => {
     // TODO: save items
   };
 
-  if (loading) {
+  if (!loading) {
     return <h1 className={classes.loadingText}>Loading...</h1>;
   }
 
   return (
     <div className="applicationPage">
       <div className={classes.root}>
+        <div className={classes.sidePadding} />
         <div className={classes.leftCol}>
           <h1 className={classes.formTitle}>Sign up for a Project</h1>
           <h5 className={classes.formDescription}>
@@ -61,7 +62,7 @@ const ApplyScreen = () => {
             ad minim veniam, quis nostrud commodo consequat.
           </h5>
         </div>
-
+        <div className={classes.padding} />
         <div className={classes.rightCol}>
           <h2 className={classes.sectionHeader}>Product Needs</h2>
 
@@ -133,11 +134,16 @@ const ApplyScreen = () => {
             <Button variant="secondary" onClick={saveForLater}>
               <h3>Save for Later</h3>
             </Button>
-            <Button variant="primary" onClick={submit}>
+            <Button
+              className={classes.secondButton}
+              variant="primary"
+              onClick={submit}
+            >
               <h3>Apply</h3>
             </Button>
           </div>
         </div>
+        <div className={classes.sidePadding} />
       </div>
     </div>
   );

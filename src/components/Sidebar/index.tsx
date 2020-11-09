@@ -15,7 +15,7 @@ interface HeaderProps {
 }
 
 const Sidebar = ({ currentRoute }: HeaderProps) => {
-  let app = urls.pages.project;
+  let app = urls.pages.app.project;
   let problem = urls.pages.index;
 
   return (

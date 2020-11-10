@@ -85,6 +85,7 @@ const states = [
 const VerificationScreen = () => {
   const router = useRouter();
   const [session, loading] = useSession();
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   const [orgName, setOrgName] = useState("");
   const [einNumber, setEINNumber] = useState("");
@@ -96,12 +97,16 @@ const VerificationScreen = () => {
   const [missonStatement, setMissionStatement] = useState("");
 
   useEffect(() => {
-    if (!loading && !session) {
-      void router.replace(urls.pages.index);
+    if (!loading) {
+      if (session) {
+        setLoggedIn(true);
+      } else {
+        void router.replace(urls.pages.index);
+      }
     }
   }, [router, loading, session]);
 
-  if (loading) {
+  if (loading || !loggedIn) {
     return <h1>Loading...</h1>;
   }
 

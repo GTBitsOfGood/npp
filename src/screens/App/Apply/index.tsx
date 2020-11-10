@@ -18,6 +18,7 @@ const descriptionPlaceholder =
 const ApplyScreen = () => {
   const router = useRouter();
   const [session, loading] = useSession();
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   const [productType, setProductType] = useState([false, false]);
   const [lookingFor, setLookingFor] = useState("");
@@ -27,12 +28,16 @@ const ApplyScreen = () => {
   const [orgPhone, setOrgPhone] = useState("");
 
   useEffect(() => {
-    if (!loading && !session) {
-      void router.replace(urls.pages.index);
+    if (!loading) {
+      if (session) {
+        setLoggedIn(true);
+      } else {
+        void router.replace(urls.pages.index);
+      }
     }
   }, [router, loading, session]);
 
-  if (loading) {
+  if (loading || !loggedIn) {
     return <h1>Loading...</h1>;
   }
 

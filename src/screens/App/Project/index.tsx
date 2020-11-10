@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 
@@ -11,14 +11,19 @@ import urls from "&utils/urls";
 const ProjectPage = () => {
   const router = useRouter();
   const [session, loading] = useSession();
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!loading && !session) {
-      void router.replace(urls.pages.index);
+    if (!loading) {
+      if (session) {
+        setLoggedIn(true);
+      } else {
+        void router.replace(urls.pages.index);
+      }
     }
   }, [router, loading, session]);
 
-  if (loading) {
+  if (loading || !loggedIn) {
     return <h1>Loading...</h1>;
   }
 

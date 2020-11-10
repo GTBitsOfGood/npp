@@ -1,0 +1,43 @@
+@import "../../styles/Colors";
+
+.root {
+  display: flex;
+  flex-direction: column;
+  max-width: 262px;
+  border-right: 1px solid $gray-20;
+  background: $gray-5;
+
+  h3 {
+    padding: 12px 30px 33px 40px;
+    color: $gray-40;
+  }
+
+  .pages {
+    font-family: Visby CF;
+    font-style: normal;
+    font-weight: 800;
+    font-size: 16px;
+    line-height: 130%;
+    text-decoration: none;
+    color: $gray-40;
+
+    margin: 0px 10px 20px 40px;
+  }
+
+  .active,
+  .pages:hover {
+    color: $gray-80;
+  }
+
+  .rectangle {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 48px;
+    width: 7px;
+
+    margin: -48px 0px 20px 216px;
+
+    background: $orange-500;
+    border-radius: 30px 0px 0px 30px;
+  }
+}

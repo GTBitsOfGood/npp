@@ -4,28 +4,26 @@ import React from "react";
 import Statusbar from "&components/Statusbar";
 import ButtonLink from "&components/ButtonLink";
 
-// Styling
-import classes from "./ProjectPage.module.scss";
-
 import urls from "&utils/urls";
 
 const ProjectPage = () => {
   return (
-    <div className="applicationPage">
-      <div className={classes.root}>
-        <h1>Apply for a New Project</h1>
+    <div className="landingPage">
+      <h1 className="landingHeader">Apply for a New Project</h1>
 
-        <h5>
-          As a partner, Bits of Good will help you build software that turns
-          your need into real productLorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut
-        </h5>
-        <Statusbar status={-1} />
+      <Statusbar status={-1} />
 
-        {/* insert image here*/}
+      {/* insert image here*/}
 
+      <h3 className="landingText">
+        As a partner, Bits of Good will help you build software that turns your
+        need into real productLorem ipsum dolor sit amet, consectetur adipiscing
+        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+        ut
+      </h3>
+
+      <div className="landingButton">
         <ButtonLink variant="primary" href={urls.pages.app.apply}>
           <h3>Apply Now</h3>
         </ButtonLink>

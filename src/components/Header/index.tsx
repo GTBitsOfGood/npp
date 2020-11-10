@@ -1,13 +1,7 @@
 import React from "react";
 
-// Libraries
-import clsx from "clsx";
-
 // Authentication
 import { useSession } from "next-auth/client";
-
-// Routes
-import { homeRoutes, authRoutes } from "./routes";
 
 // Components
 import NavLink from "../NavLink";
@@ -16,23 +10,8 @@ import UserIcon from "./UserIcon";
 // Styling
 import classes from "./Header.module.scss";
 
-interface HeaderProps {
-  currentRoute: string;
-}
-
-const Header = ({ currentRoute }: HeaderProps) => {
-  const [session, loading] = useSession();
-
-  const routes = [];
-  if (currentRoute.startsWith("/app")) {
-    routes.push(homeRoutes[0]);
-  } else {
-    routes.push(...homeRoutes);
-  }
-
-  if (!loading && session) {
-    routes.push(...authRoutes);
-  }
+const Header = () => {
+  const [loading] = useSession();
 
   return (
     <div className={classes.root}>
@@ -46,19 +25,6 @@ const Header = ({ currentRoute }: HeaderProps) => {
             className={classes.headerImg}
           />
         </NavLink>
-
-        {routes.map(({ name, link }) => (
-          <NavLink href={link} key={name}>
-            <div
-              className={clsx(
-                classes.route,
-                currentRoute === link && classes.selected
-              )}
-            >
-              <h3>{name}</h3>
-            </div>
-          </NavLink>
-        ))}
 
         {!loading && <UserIcon />}
       </div>

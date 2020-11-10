@@ -20,7 +20,7 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
 
   return (
     <div className={classes.root}>
-      <h4>MENU</h4>
+      <h3>MENU</h3>
       <NavLink
         href={app}
         className={clsx(classes.pages, currentRoute === app && classes.active)}

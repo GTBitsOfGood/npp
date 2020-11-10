@@ -1,19 +1,15 @@
 @import "../../styles/Colors";
-@import "../../styles/Properties";
 
 .root {
   display: flex;
   flex-direction: column;
   max-width: 262px;
   border-right: 1px solid $gray-20;
-  background: #fafafa;
+  background: $gray-5;
 
-  h4 {
-    font-size: 16px;
-    line-height: 130%;
+  h3 {
     padding: 12px 30px 33px 40px;
-
-    color: #999999;
+    color: $gray-40;
   }
 
   .pages {
@@ -22,16 +18,15 @@
     font-weight: 800;
     font-size: 16px;
     line-height: 130%;
-    font-feature-settings: "liga" off;
     text-decoration: none;
-    color: #999999;
+    color: $gray-40;
 
     margin: 0px 10px 20px 40px;
   }
 
   .active,
   .pages:hover {
-    color: #333333;
+    color: $gray-80;
   }
 
   .rectangle {
@@ -42,7 +37,7 @@
 
     margin: -48px 0px 20px 216px;
 
-    background: #fd8033;
+    background: $orange-500;
     border-radius: 30px 0px 0px 30px;
   }
 }

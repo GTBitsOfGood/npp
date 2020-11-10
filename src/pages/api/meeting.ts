@@ -16,10 +16,9 @@ const handler = generateMethodRoute(
   {
     get: async (req) => {
       const user = req.user as SessionUser;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
       if (req.query.id) {
         const objectId = validateAndSanitizeIdString(req.query.id as string);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         return validateUserHasAccessToMeeting(
           user,
           await MeetingManager.getMeetingById(objectId)
@@ -45,7 +44,7 @@ const handler = generateMethodRoute(
       if (!result) {
         throw new PublicError("Failed to insert document", 500);
       }
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+
       return result;
     },
   }

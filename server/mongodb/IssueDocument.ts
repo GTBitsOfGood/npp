@@ -18,6 +18,7 @@ const IssueSchema = new Schema(
     },
     images: {
       type: [String],
+      default: [],
     },
     contact: {
       type: ContactSchema,
@@ -35,5 +36,4 @@ const IssueSchema = new Schema(
   }
 );
 
-export default mongoose.models.IssueDocument ||
-  mongoose.model("Issue", IssueSchema);
+export default mongoose.models.Issue || mongoose.model("Issue", IssueSchema);

@@ -1,8 +1,5 @@
 import React from "react";
 
-// Authentication
-import { useSession } from "next-auth/client";
-
 // Components
 import NavLink from "../NavLink";
 import UserIcon from "./UserIcon";
@@ -11,10 +8,14 @@ import UserIcon from "./UserIcon";
 import classes from "./Header.module.scss";
 
 const Header = () => {
-  const [loading] = useSession();
+  const [mouseIn, setMouseIn] = React.useState<boolean>(false);
 
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      onMouseEnter={() => setMouseIn(true)}
+      onMouseLeave={() => setMouseIn(false)}
+    >
       <div className={classes.sidePadding} />
 
       <div className={classes.mainContent}>
@@ -26,7 +27,7 @@ const Header = () => {
           />
         </NavLink>
 
-        {!loading && <UserIcon />}
+        <UserIcon containerMouse={mouseIn} />
       </div>
 
       <div className={classes.sidePadding} />

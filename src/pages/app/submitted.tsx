@@ -1,3 +1,3 @@
-import SubmittedScreen from "&screens/Submitted";
+import SubmittedScreen from "&screens/App/Submitted";
 
 export default SubmittedScreen;

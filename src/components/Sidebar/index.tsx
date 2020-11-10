@@ -15,8 +15,8 @@ interface HeaderProps {
 }
 
 const Sidebar = ({ currentRoute }: HeaderProps) => {
-  let app = urls.pages.app.project;
-  let problem = urls.pages.index;
+  const app = urls.pages.app.project;
+  const problem = urls.pages.index;
 
   return (
     <div className={classes.root}>
@@ -33,7 +33,7 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
           classes.pages,
           currentRoute === app && classes.rectangle
         )}
-      ></div>
+      />
 
       <NavLink
         href={problem}
@@ -50,7 +50,7 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
           classes.pages,
           currentRoute === problem && classes.rectangle
         )}
-      ></div>
+      />
     </div>
   );
 };

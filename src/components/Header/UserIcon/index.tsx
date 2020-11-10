@@ -11,9 +11,17 @@ import classes from "./UserIcon.module.scss";
 // Actions
 import { login, logout } from "&actions/UserActions";
 
-const UserIcon = () => {
+interface PropTypes {
+  containerMouse: boolean;
+}
+
+const UserIcon = ({ containerMouse }: PropTypes) => {
   const [session, loading] = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  React.useEffect(() => {
+    setMenuOpen((prevOpen) => prevOpen && containerMouse);
+  }, [containerMouse]);
 
   if (loading) {
     return null;
@@ -31,7 +39,11 @@ const UserIcon = () => {
         <div
           className={classes.topRow}
           onMouseOver={() => setMenuOpen(true)}
-          onClick={() => setMenuOpen(!menuOpen)}
+          onFocus={() => setMenuOpen(true)}
+          onClick={() => setMenuOpen((prevState) => !prevState)}
+          onKeyPress={() => setMenuOpen((prevState) => !prevState)}
+          role="menu"
+          tabIndex={0}
         >
           <h3>{session.user.name}</h3>
           <Icon icon={caretDown} />
@@ -49,7 +61,7 @@ const UserIcon = () => {
         <h5 className={classes.role}>Verification Needed</h5>
       </div>
       <img
-        alt="User Profile Image"
+        alt="Current User"
         src={session.user.image}
         className={classes.userImg}
       />

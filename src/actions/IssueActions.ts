@@ -3,6 +3,7 @@ import { IssueStatus } from "&server/models/IssueStatus";
 import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
+import { contactFromJsonResponse } from "&server/models/Contact";
 
 const issueRoute = urls.api.issue;
 
@@ -37,10 +38,10 @@ async function createIssue(issue: Issue): Promise<Issue> {
 function issueFromJsonResponse(object: Record<string, any>): Issue {
   return {
     id: object._id,
-    issueType: object.issueType,
+    issueType: object.type,
     description: object.description,
     images: object.images,
-    contact: object.contact,
+    contact: contactFromJsonResponse(object.contact),
     status: IssueStatus[(object.status as string) as keyof typeof IssueStatus],
   };
 }

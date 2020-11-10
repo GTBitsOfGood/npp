@@ -4,6 +4,7 @@ import { ProductType } from "&server/models/ProductType";
 import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
+import { contactFromJsonResponse } from "&server/models/Contact";
 
 const applicationRoute = urls.api.application;
 
@@ -79,7 +80,7 @@ function applicationFromJson(object: { [key: string]: any }): Application {
     id: object._id,
     users: object.users,
     organization: object.organization,
-    primaryContact: object.primaryContact,
+    primaryContact: contactFromJsonResponse(object.primaryContact),
     productType: object.productType.map((val: string) => {
       return ProductType[val as keyof typeof ProductType];
     }),

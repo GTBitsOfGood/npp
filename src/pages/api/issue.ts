@@ -58,3 +58,5 @@ async function validateUserHasAccessToIssue(
   }
   return issue;
 }
+
+export default handler;

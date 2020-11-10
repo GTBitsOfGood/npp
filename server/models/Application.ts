@@ -1,5 +1,6 @@
 import { ProductType } from "&server/models/ProductType";
 import { DateTime } from "luxon";
+import { Contact } from "&server/models/Contact";
 
 export interface Application {
   id?: string;
@@ -10,12 +11,6 @@ export interface Application {
   submittedAt?: DateTime;
   meeting?: string;
   decision?: boolean;
-}
-
-export interface Contact {
-  name: string;
-  email: string;
-  phone?: string;
 }
 
 export interface Organization {

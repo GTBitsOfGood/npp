@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/client";
 
 // Components
 import Statusbar from "&components/Statusbar";
@@ -7,6 +9,19 @@ import ButtonLink from "&components/ButtonLink";
 import urls from "&utils/urls";
 
 const ProjectPage = () => {
+  const router = useRouter();
+  const [session, loading] = useSession();
+
+  useEffect(() => {
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
+    }
+  }, [router, loading, session]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <div className="landingPage">
       <h1 className="landingHeader">Apply for a New Project</h1>

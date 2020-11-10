@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-// import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 
 // Components
@@ -10,6 +10,7 @@ import Select from "&components/Select";
 
 // Styling
 import classes from "./Verification.module.scss";
+import urls from "&utils/urls";
 
 /* Questions:
 1. How to do a drop down box?
@@ -82,7 +83,8 @@ const states = [
 ];
 
 const VerificationScreen = () => {
-  const [loading] = useSession();
+  const router = useRouter();
+  const [session, loading] = useSession();
 
   const [orgName, setOrgName] = useState("");
   const [einNumber, setEINNumber] = useState("");
@@ -92,6 +94,16 @@ const VerificationScreen = () => {
   const [state, setState] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [missonStatement, setMissionStatement] = useState("");
+
+  useEffect(() => {
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
+    }
+  }, [router, loading, session]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   const submit = () => {
     console.log(
@@ -129,14 +141,14 @@ const VerificationScreen = () => {
           <Input
             value={orgName}
             placeholder="Bits of Good"
-            onChange={(event: any) => setOrgName(event.target.value)}
+            onChange={(event) => setOrgName(event.target.value)}
           />
 
           <h5>EIN</h5>
           <Input
             value={einNumber}
             placeholder="XX-XXXXXXX"
-            onChange={(event: any) => setEINNumber(event.target.value)}
+            onChange={(event) => setEINNumber(event.target.value)}
           />
 
           <h5>
@@ -146,14 +158,14 @@ const VerificationScreen = () => {
           <Input
             value={websiteURL}
             placeholder="https://bitsofgood.org"
-            onChange={(event: any) => setWebsite(event.target.value)}
+            onChange={(event) => setWebsite(event.target.value)}
           />
 
           <h5>Street Address</h5>
           <Input
             value={streetAddress}
             placeholder="848 Spring St NW"
-            onChange={(event: any) => setStreetAddress(event.target.value)}
+            onChange={(event) => setStreetAddress(event.target.value)}
           />
 
           <div className={classes.addressContainer}>
@@ -162,12 +174,12 @@ const VerificationScreen = () => {
               <Input
                 value={city}
                 placeholder="Atlanta"
-                onChange={(event: any) => setCity(event.target.value)}
+                onChange={(event) => setCity(event.target.value)}
               />
             </div>
             <div className={classes.type}>
               <h3>State</h3>
-              <Select onChange={(event: any) => setState(event.target.value)}>
+              <Select onChange={(event) => setState(event.target.value)}>
                 {states.map((states) => (
                   <option key={states} value={states}>
                     {states}
@@ -180,7 +192,7 @@ const VerificationScreen = () => {
               <Input
                 value={zipcode}
                 placeholder="30308"
-                onChange={(event: any) => setZipcode(event.target.value)}
+                onChange={(event) => setZipcode(event.target.value)}
               />
             </div>
           </div>
@@ -225,7 +237,7 @@ const VerificationScreen = () => {
             rows={4}
             value={missonStatement}
             placeholder={missionPlaceholder}
-            onChange={(event: any) => setMissionStatement(event.target.value)}
+            onChange={(event) => setMissionStatement(event.target.value)}
           />
 
           <div className={classes.buttonContainer}>

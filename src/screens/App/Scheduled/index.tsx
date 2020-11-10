@@ -1,13 +1,14 @@
-import React from "react";
-import Statusbar from "&components/Statusbar/index";
-import classes from "./Scheduled.module.scss";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/client";
+
 import { Icon } from "@iconify/react";
 import clockCircleFilled from "@iconify/icons-ant-design/clock-circle-filled";
 import locationIcon from "@iconify/icons-bytesize/location";
-
+import Statusbar from "&components/Statusbar";
 import Button from "&components/Button";
-
-/** Need to add sidebar component! */
+import classes from "./Scheduled.module.scss";
+import urls from "&utils/urls";
 
 const cancelMeeting = () => {
   console.log("Meeting cancelled!");
@@ -20,6 +21,19 @@ const rescheduleMeeting = () => {
 };
 
 const Scheduled = () => {
+  const router = useRouter();
+  const [session, loading] = useSession();
+
+  useEffect(() => {
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
+    }
+  }, [router, loading, session]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <div className="applicationPage">
       <div className={classes.root}>

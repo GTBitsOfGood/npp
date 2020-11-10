@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-// import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 
 // Components
@@ -10,12 +10,13 @@ import TextArea from "&components/TextArea";
 
 // Styling
 import classes from "./ApplyScreen.module.scss";
+import urls from "&utils/urls";
 
 const descriptionPlaceholder =
   "Enter a brief description of the type of product you are looking for. It’s okay if you aren’t entirely sure, but this could give us a couple of ideas to discuss with you during our first meeting.";
 
 const ApplyScreen = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const [session, loading] = useSession();
 
   const [productType, setProductType] = useState([false, false]);
@@ -24,6 +25,16 @@ const ApplyScreen = () => {
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [orgPhone, setOrgPhone] = useState("");
+
+  useEffect(() => {
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
+    }
+  }, [router, loading, session]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   const checkProductType = (index: number) => {
     const tempProductType = [...productType];
@@ -46,7 +57,7 @@ const ApplyScreen = () => {
     // TODO: save items
   };
 
-  if (!loading) {
+  if (loading) {
     return <h1 className={classes.loadingText}>Loading...</h1>;
   }
 
@@ -88,7 +99,7 @@ const ApplyScreen = () => {
             rows={4}
             value={lookingFor}
             placeholder={descriptionPlaceholder}
-            onChange={(event: any) => setLookingFor(event.target.value)}
+            onChange={(event) => setLookingFor(event.target.value)}
           />
 
           <h2 className={classes.sectionHeader}>Contact Information</h2>
@@ -97,7 +108,7 @@ const ApplyScreen = () => {
           <Input
             value={contactName}
             placeholder="Emily Wilson"
-            onChange={(event: any) => setContactName(event.target.value)}
+            onChange={(event) => setContactName(event.target.value)}
           />
 
           <h5>Email</h5>
@@ -105,7 +116,7 @@ const ApplyScreen = () => {
             type="email"
             value={contactEmail}
             placeholder="hello@bitsofgood.org"
-            onChange={(event: any) => setContactEmail(event.target.value)}
+            onChange={(event) => setContactEmail(event.target.value)}
           />
 
           <h5>
@@ -116,7 +127,7 @@ const ApplyScreen = () => {
             type="number"
             value={orgPhone}
             placeholder="(414) 555-0161"
-            onChange={(event: any) => setOrgPhone(event.target.value)}
+            onChange={(event) => setOrgPhone(event.target.value)}
           />
 
           <h5>
@@ -127,7 +138,7 @@ const ApplyScreen = () => {
             type="number"
             value={contactPhone}
             placeholder="(414) 555-0161"
-            onChange={(event: any) => setContactPhone(event.target.value)}
+            onChange={(event) => setContactPhone(event.target.value)}
           />
 
           <div className={classes.buttonContainer}>

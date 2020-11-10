@@ -1,3 +1,3 @@
-import ScheduledPage from "&screens/Scheduled";
+import ScheduledPage from "&screens/App/Scheduled";
 
 export default ScheduledPage;

@@ -26,7 +26,9 @@ const MyApp = ({ Component, pageProps, router }: AppProps) => (
       <div id="app">
         <Header />
         <div id="sidebar">
-          <Sidebar currentRoute={router.asPath} />
+          {["/app/project", "/"].includes(router.asPath) && (
+            <Sidebar currentRoute={router.asPath} />
+          )}
           <div id="content">
             <Component {...pageProps} />
           </div>

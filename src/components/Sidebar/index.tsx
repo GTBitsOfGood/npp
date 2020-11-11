@@ -1,4 +1,3 @@
-import urls from "&utils/urls";
 import React from "react";
 
 // Libraries
@@ -10,20 +9,25 @@ import NavLink from "../NavLink";
 // Styling
 import classes from "./Sidebar.module.scss";
 
+// Utils
+import urls, { landingUrls } from "&utils/urls";
+
 interface HeaderProps {
   currentRoute: string;
 }
 
 const Sidebar = ({ currentRoute }: HeaderProps) => {
-  const app = urls.pages.app.project;
   const problem = urls.pages.index;
 
   return (
     <div className={classes.root}>
       <h3>MENU</h3>
       <NavLink
-        href={app}
-        className={clsx(classes.pages, currentRoute === app && classes.active)}
+        href={urls.pages.app.project}
+        className={clsx(
+          classes.pages,
+          landingUrls.includes(currentRoute) && classes.active
+        )}
       >
         Project Application
       </NavLink>
@@ -31,7 +35,7 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
       <div
         className={clsx(
           classes.pages,
-          currentRoute === app && classes.rectangle
+          landingUrls.includes(currentRoute) && classes.rectangle
         )}
       />
 

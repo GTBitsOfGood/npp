@@ -61,17 +61,22 @@ body {
   }
 
   .landingText {
-    color: $gray-60;
+    color: $gray-80;
     margin: 0 122px 48px;
+
+    a {
+      color: $gray-80;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 120%;
+      font-family: $visby;
+      font-variant-ligatures: no-common-ligatures;
+    }
   }
 
   .landingButton {
     width: 224px;
     margin: 0 auto;
-
-    h3 {
-      color: $white;
-    }
   }
 }
 

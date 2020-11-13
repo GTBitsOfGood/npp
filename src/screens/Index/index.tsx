@@ -2,12 +2,15 @@ import React from "react";
 
 // Components
 import Button from "&components/Button";
+
+// TODO: Refactor after Chris' Icon PR
 import LeftWave from "&screens/Index/LeftWave";
 import RightWave from "&screens/Index/RightWave";
 import WavePersonIcon from "&screens/Index/WavePersonIcon";
 import StartProjectIcon from "&screens/Index/StartProjectIcon";
 import ReportProblemIcon from "&screens/Index/ReportProblemIcon";
 
+// Actions
 import { login } from "&actions/UserActions";
 
 // Styling
@@ -19,32 +22,41 @@ const IndexPage = () => (
       <div className={classes.background}>
         <div className={classes.content}>
           <h1>Non-profit Portal</h1>
-          <p>
+          <h5>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna do eiusmod
             tempor incididunt ut labore et dolore magna
-          </p>
-          <Button onClick={login}>Log In</Button>
-          <span>
+          </h5>
+
+          <Button onClick={login}>
+            <h3>Log In</h3>
+          </Button>
+
+          <p>
             {"Don't have an account? "}
             <span role="button" onClick={login} onKeyPress={login} tabIndex={0}>
               Sign Up
             </span>
-          </span>
+          </p>
         </div>
       </div>
+
       <div className={classes.waveContainer}>
         <LeftWave className={classes.startWave} />
+
         <div className={classes.personContainer}>
           <WavePersonIcon className={classes.wavePerson} />
         </div>
+
         <RightWave className={classes.endWave} />
       </div>
     </div>
+
     <div className={classes.sectionContainer}>
       <div className={classes.section}>
         <StartProjectIcon className={classes.startProjectIcon} />
-        <div className={classes.content}>
+
+        <div className={classes.textContent}>
           <h1>Start a New Project with us</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -52,14 +64,16 @@ const IndexPage = () => (
           </p>
         </div>
       </div>
+
       <div className={classes.section}>
-        <div className={classes.content}>
+        <div className={classes.textContent}>
           <h1 className={classes.textRight}>Project Maintenance</h1>
           <p className={classes.textRight}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna
           </p>
         </div>
+
         <ReportProblemIcon className={classes.reportProblemIcon} />
       </div>
     </div>

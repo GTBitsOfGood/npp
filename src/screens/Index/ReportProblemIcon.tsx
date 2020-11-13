@@ -1,6 +1,6 @@
-import * as React from "react";
+import React, { SVGProps } from "react";
 
-const ReportProblemIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const ReportProblemIcon = (props: SVGProps<SVGSVGElement>) => (
   <svg width={147} height={147} viewBox="0 0 147 147" fill="none" {...props}>
     <path
       d="M79.34 107.709a27.823 27.823 0 11-27.502-28.365A27.972 27.972 0 0179.34 107.71z"

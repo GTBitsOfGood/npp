@@ -3,6 +3,7 @@
 
 .root {
   width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
 
@@ -10,7 +11,6 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden;
     background: $orange-gradient;
 
     .background {
@@ -23,12 +23,12 @@
 
       .content {
         width: 100%;
-        max-width: 400px;
+        color: $white;
         display: flex;
+        max-width: 400px;
+        margin-left: 32px;
         flex-direction: column;
         align-items: flex-start;
-        color: white;
-        margin-left: 32px;
 
         @include breakpoint-above-medium {
           margin-left: 64px;
@@ -39,46 +39,39 @@
         }
 
         @include breakpoint-below-small {
-          max-width: unset;
           margin-left: 0;
+          max-width: unset;
         }
 
         h1,
-        p {
-          color: white;
+        h5 {
+          color: $white;
+        }
+
+        h3 {
+          color: $orange-500;
         }
 
         h1 {
-          font-weight: 800;
-          font-size: 36px;
-          line-height: 150%;
           margin: 0 0 8px;
         }
 
-        p {
-          font-size: 16px;
-          font-weight: normal;
-          line-height: 150%;
-          margin: 0 0 32px;
+        h5 {
+          margin: 0;
         }
 
         button {
-          background: white;
-          color: $orange-500;
-          font-weight: 800;
-          margin: 0 0 16px;
           border: none;
+          margin: 24px 0;
+          background: $white;
+          color: $orange-500;
         }
 
-        span {
-          font-size: 16px;
-          font-weight: normal;
-          line-height: 150%;
+        p {
           color: $gray-60;
-          cursor: default;
 
           & > span {
-            color: white;
+            color: $white;
             cursor: pointer;
 
             &:hover {
@@ -103,13 +96,13 @@
       vertical-align: top;
 
       & > * {
-        display: inline-block;
         vertical-align: top;
+        display: inline-block;
       }
 
       .startWave,
       .endWave {
-        height: 120px;
+        height: 150px;
 
         @include breakpoint-below-medium {
           height: 80px;
@@ -134,10 +127,10 @@
         }
 
         .wavePerson {
-          height: 287px;
-          position: absolute;
           left: 0;
           top: 100%;
+          height: 287px;
+          position: absolute;
           transform: translate(-50%, -65%);
 
           @include breakpoint-below-medium {
@@ -156,17 +149,17 @@
   .sectionContainer {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 32px;
     padding: 32px;
+    margin-top: 32px;
+    align-items: center;
+    flex-direction: column;
 
     .section {
       width: 100%;
-      max-width: 800px;
       display: flex;
+      max-width: 800px;
+      background: $white;
       flex-direction: row;
-      background: #ffffff;
       margin-bottom: 64px;
 
       @include breakpoint-below-small {
@@ -176,14 +169,14 @@
       .startProjectIcon,
       .reportProblemIcon {
         @include breakpoint-below-small {
-          max-width: 75px;
           height: auto;
+          max-width: 75px;
         }
       }
 
       .startProjectIcon {
         order: 1;
-        margin-right: 24px;
+        margin-right: 48px;
 
         @include breakpoint-below-small {
           order: 1;
@@ -192,23 +185,28 @@
       }
 
       .reportProblemIcon {
-        margin-left: 24px;
         order: 3;
+        margin-left: 48px;
 
         @include breakpoint-below-small {
-          align-self: flex-end;
           order: 1;
           margin: 0;
+          align-self: flex-end;
         }
       }
 
-      .content {
+      .textContent {
+        order: 2;
         display: flex;
         flex-direction: column;
-        order: 2;
 
         .textRight {
           text-align: right;
+        }
+
+        h1 {
+          color: $orange-500;
+          margin-bottom: 16px;
         }
 
         @include breakpoint-below-small {

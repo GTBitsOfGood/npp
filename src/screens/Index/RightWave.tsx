@@ -1,12 +1,12 @@
-import * as React from "react";
+import React, { SVGProps } from "react";
 
-const RightWave = (props: React.SVGProps<SVGSVGElement>) => (
+const RightWave = (props: SVGProps<SVGSVGElement>) => (
   <svg
-    viewBox="0 0 358 146"
     fillRule="evenodd"
     clipRule="evenodd"
-    strokeLinejoin="round"
     strokeMiterlimit={2}
+    viewBox="0 0 358 146"
+    strokeLinejoin="round"
     preserveAspectRatio="none"
     {...props}
   >

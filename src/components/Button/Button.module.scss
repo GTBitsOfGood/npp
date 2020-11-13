@@ -2,12 +2,12 @@
 
 .root {
   display: flex;
+  user-select: none;
+  border-radius: 8px;
   padding: 16px 64px;
   align-items: center;
   text-decoration: none;
   justify-content: center;
-  user-select: none;
-  border-radius: 8px;
 
   h3 {
     color: $white;

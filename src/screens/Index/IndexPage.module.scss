@@ -164,21 +164,52 @@
       background: #ffffff;
       margin-bottom: 64px;
 
+      @include breakpoint-below-small {
+        flex-direction: column;
+      }
+
+      .startProjectIcon,
+      .reportProblemIcon {
+        @include breakpoint-below-small {
+          max-width: 75px;
+          height: auto;
+        }
+      }
+
       .startProjectIcon {
+        order: 1;
         margin-right: 24px;
+
+        @include breakpoint-below-small {
+          order: 1;
+          margin: 0;
+        }
       }
 
       .reportProblemIcon {
         margin-left: 24px;
+        order: 3;
+
+        @include breakpoint-below-small {
+          align-self: flex-end;
+          order: 1;
+          margin: 0;
+        }
       }
 
       .content {
-        flex: 1;
         display: flex;
         flex-direction: column;
+        order: 2;
 
         .textRight {
           text-align: right;
+        }
+
+        @include breakpoint-below-small {
+          h1 {
+            font-size: 28px;
+          }
         }
       }
     }

@@ -6,6 +6,8 @@
   align-items: center;
   text-decoration: none;
   justify-content: center;
+  user-select: none;
+  border-radius: 8px;
 
   h3 {
     color: $white;
@@ -13,8 +15,6 @@
   }
 
   &.primary {
-    user-select: none;
-    border-radius: 8px;
     background-color: $orange-500;
     border: 2px solid $orange-500;
 

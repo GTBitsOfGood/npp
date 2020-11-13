@@ -1,0 +1,186 @@
+@import "../../styles/Colors";
+@import "../../styles/Properties";
+
+.root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+
+    .background {
+      width: 100%;
+      background: $orange-gradient;
+      padding: 32px 32px 16px;
+
+      @include breakpoint-below-medium {
+        padding-bottom: 32px;
+      }
+
+      .content {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        color: white;
+
+        @include breakpoint-above-medium {
+          margin-left: 32px;
+        }
+
+        @include breakpoint-below-small {
+          max-width: unset;
+        }
+
+        h1,
+        p {
+          color: white;
+        }
+
+        h1 {
+          font-weight: 800;
+          font-size: 36px;
+          line-height: 150%;
+          margin: 0 0 8px;
+        }
+
+        p {
+          font-size: 16px;
+          font-weight: normal;
+          line-height: 150%;
+          margin: 0 0 32px;
+        }
+
+        button {
+          background: white;
+          color: $orange-500;
+          font-weight: 800;
+          margin: 0 0 16px;
+          border: none;
+        }
+
+        span {
+          font-size: 16px;
+          font-weight: normal;
+          line-height: 150%;
+          color: $gray-60;
+          cursor: default;
+
+          & > span {
+            color: white;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+
+    .backgroundWave {
+      width: 100%;
+
+      @include breakpoint-below-medium {
+        display: none;
+      }
+    }
+
+    .waveContainer {
+      position: relative;
+      white-space: nowrap;
+      vertical-align: top;
+      background: $orange-gradient;
+
+      & > * {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      .startWave,
+      .endWave {
+        height: 120px;
+
+        @include breakpoint-below-medium {
+          height: 80px;
+        }
+
+        @include breakpoint-below-small {
+          height: 30px;
+        }
+      }
+
+      .startWave {
+        width: 70vw;
+        max-height: 150px;
+      }
+
+      .personContainer {
+        width: 0;
+        position: relative;
+
+        @include breakpoint-below-small {
+          display: none;
+        }
+
+        .wavePerson {
+          height: 287px;
+          position: absolute;
+          left: 0;
+          top: 100%;
+          transform: translate(-50%, -65%);
+
+          @include breakpoint-below-medium {
+            height: 175px;
+          }
+        }
+      }
+
+      .endWave {
+        width: 30vw;
+        max-height: 150px;
+      }
+    }
+  }
+
+  .sectionContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 32px;
+    padding: 32px;
+
+    .section {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: row;
+      background: #ffffff;
+      margin-bottom: 64px;
+
+      .startProjectIcon {
+        margin-right: 24px;
+      }
+
+      .reportProblemIcon {
+        margin-left: 24px;
+      }
+
+      .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .textRight {
+          text-align: right;
+        }
+      }
+    }
+  }
+}

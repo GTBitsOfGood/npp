@@ -1,47 +1,57 @@
-import React, { ComponentProps } from "react";
+import React, { useState } from "react";
+
+// Libraries;
 import clsx from "clsx";
 import { DateTime } from "luxon";
-import { Icon } from "@iconify/react";
-import arrowLeftAlt2 from "@iconify/icons-dashicons/arrow-left-alt2";
-import arrowRightAlt2 from "@iconify/icons-dashicons/arrow-right-alt2";
+
+// Iconography
+import LeftChevron from "&icons/LeftChevron";
+import RightChevron from "&icons/RightChevron";
+
+// Components
 import TimePicker from "./TimePicker";
+
+// Styling
 import classes from "./Calendar.module.scss";
 
-interface PropTypes extends ComponentProps<"div"> {
-  value?: Date | null;
+// Interfaces
+interface DayItem {
+  day: DateTime;
+  disabled: boolean;
+}
+
+// Constants
+const currentDate = DateTime.local();
+
+const weekdays: Map<string, DayItem[]> = new Map([
+  ["Sunday", []],
+  ["Monday", []],
+  ["Tuesday", []],
+  ["Wednesday", []],
+  ["Thursday", []],
+  ["Friday", []],
+  ["Saturday", []],
+]);
+
+interface CalendarProps {
   withTime?: boolean;
+  value?: Date | null;
   onSelectDate: (date: Date) => void | Promise<void>;
 }
 
 const Calendar = ({
-  className,
+  onSelectDate,
   value = null,
   withTime = true,
-  onSelectDate,
-}: PropTypes) => {
-  const currentDate = DateTime.local();
-  const [selectedDate, setDate] = React.useState<DateTime>(
+}: CalendarProps) => {
+  const [selectedDate, setSelectedDate] = useState<DateTime>(
     currentDate.startOf("month")
   );
 
   const monthStart = selectedDate.startOf("month");
   const endWeek = monthStart.endOf("week");
   const daysInMonth = selectedDate.daysInMonth;
-  const weekdays: Map<
-    string,
-    {
-      disabled: boolean;
-      day: DateTime;
-    }[]
-  > = new Map([
-    ["Sunday", []],
-    ["Monday", []],
-    ["Tuesday", []],
-    ["Wednesday", []],
-    ["Thursday", []],
-    ["Friday", []],
-    ["Saturday", []],
-  ]);
+
   for (
     let curDay = monthStart;
     curDay.day < daysInMonth;
@@ -59,35 +69,44 @@ const Calendar = ({
   }
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={classes.root}>
       <div className={classes.calendar}>
         <div className={classes.header}>
           <h2>Select a Date and Time</h2>
+
           <div className={classes.monthContainer}>
             <h5>{selectedDate.toFormat("MMMM yyyy")}</h5>
+
             <div className={classes.buttonContainer}>
               <button
                 className={classes.iconButton}
-                disabled={currentDate.month === selectedDate.month}
+                disabled={selectedDate.month === currentDate.month}
                 onClick={() =>
-                  setDate((prevState) => prevState.minus({ months: 1 }))
+                  setSelectedDate((prevDate) => prevDate.minus({ months: 1 }))
                 }
               >
-                <Icon icon={arrowLeftAlt2} />
+                <LeftChevron
+                  disabled={selectedDate.month === currentDate.month}
+                />
               </button>
+
               <button
                 className={classes.iconButton}
+                disabled={selectedDate.month > currentDate.month + 1}
                 onClick={() =>
-                  setDate((prevState) => prevState.plus({ months: 1 }))
+                  setSelectedDate((prevDate) => prevDate.plus({ months: 1 }))
                 }
               >
-                <Icon icon={arrowRightAlt2} />
+                <RightChevron
+                  disabled={selectedDate.month > currentDate.month + 1}
+                />
               </button>
             </div>
           </div>
         </div>
+
         <div className={classes.content}>
-          {Array.from(weekdays).map(([dayName, days], index) => (
+          {Array.from(weekdays).map(([dayName, days]) => (
             <div key={dayName} className={classes.dayCol}>
               <h4>{dayName.substring(0, 3)}</h4>
               <div className={classes.days}>
@@ -117,10 +136,12 @@ const Calendar = ({
             </div>
           ))}
         </div>
+
         <p>
           *Times are in Eastern Standard Time (<b>EST</b>)
         </p>
       </div>
+
       {withTime && value != null && (
         <div className={classes.time}>
           <h5>{DateTime.fromJSDate(value).toFormat("EEEE, MMMM d")}</h5>

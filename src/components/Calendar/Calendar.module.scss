@@ -2,41 +2,37 @@
 @import "../../styles/Properties";
 
 .root {
-  width: 700px;
-  min-height: 500px;
-  max-width: 90%;
+  flex: 5;
   display: flex;
-  flex-direction: row;
-  border: 1px solid $gray-60;
+  text-align: left;
+  min-height: 500px;
+  padding: 32px 40px;
   border-radius: 8px;
-  padding: 32px;
+  flex-direction: row;
+  border: 1px solid $gray-10;
 
   @include breakpoint-below-small {
     flex-direction: column;
   }
 
   .calendar {
-    flex: 2;
+    flex: 4;
     display: flex;
-    flex-direction: column;
     margin-right: 36px;
+    flex-direction: column;
 
     @include breakpoint-below-small {
-      flex-direction: column;
       margin-right: 0;
     }
 
     .header {
       display: flex;
+      margin-bottom: 32px;
       flex-direction: column;
-      justify-content: flex-start;
-      margin-bottom: 36px;
 
       h2 {
         color: $gray-80;
-        font-size: 24px;
-        margin: 0;
-        text-align: left;
+        margin: 0 0 8px;
 
         @include breakpoint-below-small {
           font-size: 20px;
@@ -45,14 +41,13 @@
 
       .monthContainer {
         display: flex;
+        align-items: center;
         flex-direction: row;
         justify-content: space-between;
 
         h5 {
-          min-width: 120px;
-          color: $gray-60;
-          font-size: 16px;
           margin: 0;
+          color: $gray-60;
 
           @include breakpoint-below-small {
             font-size: 15px;
@@ -64,31 +59,31 @@
           flex-direction: row;
 
           .iconButton {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: none;
+            padding: 0;
             border: none;
+            display: flex;
             outline: none;
-            padding: 0 8px;
             color: $gray-60;
             font-size: 24px;
+            background: none;
+            align-items: center;
+            justify-content: center;
 
             @include breakpoint-below-small {
               font-size: 20px;
             }
 
-            &:disabled {
-              color: $gray-20;
+            &:first-of-type {
+              margin-right: 12px;
             }
           }
         }
       }
 
       h5 {
+        margin: 0;
         color: $gray-60;
         font-size: 16px;
-        margin: 0;
 
         @include breakpoint-below-small {
           font-size: 14px;
@@ -105,31 +100,31 @@
       .dayCol {
         flex: 1;
         display: flex;
+        align-items: center;
         flex-direction: column;
         justify-content: space-between;
-        align-items: center;
 
         h4 {
           color: $gray-80;
-          text-transform: uppercase;
           font-size: 16px;
+          text-transform: uppercase;
         }
 
         .days {
           flex: 1;
           width: 100%;
           display: flex;
-          flex-direction: column;
           align-items: center;
+          flex-direction: column;
 
           button {
-            background: none;
             border: none;
-            outline: none;
             padding: 5px;
             margin: 5px 0;
+            outline: none;
             color: $gray-80;
             font-size: 24px;
+            background: none;
 
             &:disabled {
               color: $gray-40;
@@ -146,10 +141,10 @@
               width: 40px;
               height: 40px;
               display: flex;
-              justify-content: center;
-              align-items: center;
               background: none;
               border-radius: 50%;
+              align-items: center;
+              justify-content: center;
 
               @include breakpoint-below-small {
                 width: 30px;
@@ -157,14 +152,14 @@
               }
 
               &.selectedDate {
-                background: $orange-500 !important;
                 color: $white;
+                background: $orange-500 !important;
               }
 
               h2 {
                 color: inherit;
-                line-height: 100%;
                 font-size: 24px;
+                line-height: 100%;
 
                 @include breakpoint-below-small {
                   font-size: 20px;
@@ -186,9 +181,9 @@
     }
 
     p {
+      margin: 0;
       color: $gray-60;
       font-size: 14px;
-      margin: 0;
 
       @include breakpoint-below-small {
         font-size: 13px;
@@ -198,14 +193,14 @@
   }
 
   .time {
-    height: 500px;
-    flex: 1;
+    flex: 2;
+    height: 100%;
     display: flex;
     flex-direction: column;
 
     @include breakpoint-below-small {
-      height: unset;
       flex: unset;
+      height: unset;
     }
 
     h5 {

@@ -21,7 +21,7 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
 
   return (
     <div className={classes.root}>
-      <h4>MENU</h4>
+      <h3>MENU</h3>
       <Link href={urls.pages.app.project} passHref>
         <a
           className={clsx(
@@ -29,7 +29,13 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
             landingUrls.includes(currentRoute) && classes.active
           )}
         >
-          <h4>Project Application</h4>
+          <h3
+            className={clsx(
+              landingUrls.includes(currentRoute) && classes.active
+            )}
+          >
+            Project Application
+          </h3>
           {landingUrls.includes(currentRoute) && (
             <span className={classes.rectangle} />
           )}
@@ -43,7 +49,7 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
             currentRoute === problem && classes.active
           )}
         >
-          <h4>Report a Problem</h4>
+          <h3>Report a Problem</h3>
           {currentRoute === problem && <span className={classes.rectangle} />}
         </a>
       </Link>

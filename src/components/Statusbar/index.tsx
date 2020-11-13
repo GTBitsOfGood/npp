@@ -4,7 +4,7 @@ import React from "react";
 import clsx from "clsx";
 
 // Styling
-import classes from "./Status.module.scss";
+import classes from "./Statusbar.module.scss";
 
 type StatusNumber = -1 | 0 | 1 | 2 | 3 | 4;
 
@@ -42,7 +42,10 @@ const Statusbar = ({ status }: StatusBarProps) => {
               />
             </div>
           </div>
-          <h3>{statusText}</h3>
+
+          <h3 className={clsx(status == index && classes.activeStatusText)}>
+            {statusText}
+          </h3>
         </div>
       ))}
     </div>

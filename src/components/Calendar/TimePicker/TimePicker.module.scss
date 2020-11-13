@@ -4,8 +4,8 @@
 .root {
   height: 100%;
   display: flex;
-  flex-direction: column;
   overflow-y: auto;
+  flex-direction: column;
 
   @include breakpoint-below-small {
     flex-direction: row;
@@ -13,22 +13,45 @@
     overflow-x: auto;
   }
 
-  .time {
-    flex: 1;
+  .timeSlot {
+    width: 100%;
+    height: 40px;
     display: flex;
-    justify-content: center;
+    min-height: 40px;
+    border-radius: 4px;
     align-items: center;
-    margin: 0 4px 4px;
-    padding: 8px 20px;
-    font-size: 16px;
+    margin-bottom: 12px;
+    justify-content: center;
+    background-color: $white;
+    border: 2px solid $orange-300;
+
+    .timeText {
+      margin: 0;
+      color: $gray-80;
+    }
 
     @include breakpoint-below-medium {
       font-size: 15px;
-      margin-bottom: 12px;
     }
 
     @include breakpoint-below-small {
       margin-bottom: 0;
+    }
+  }
+
+  .disabledTimeslot {
+    border: 2px solid $gray-20;
+
+    .timeText {
+      color: $gray-40;
+    }
+  }
+
+  .selectedTimeslot {
+    background-color: $orange-300;
+
+    .timeText {
+      color: $white;
     }
   }
 }

@@ -16,6 +16,8 @@ import classes from "./Scheduled.module.scss";
 
 // URLS
 import urls from "&utils/urls";
+import LocationPin from "&icons/LocationPin";
+import Clock from "&icons/Clock";
 
 const cancelMeeting = () => {
   console.log("Meeting cancelled!");
@@ -55,22 +57,16 @@ const Scheduled = () => {
       <div className={classes.meetingContainer}>
         <div className={classes.meetingInfo}>
           <h3 className={classes.date}>
-            <Icon
-              color="orange"
-              width="1.5em"
-              icon={clockCircleFilled}
-              className={classes.icon}
-            />
+            <div className={classes.icon}>
+              <Clock />
+            </div>
             October 12th, 10-11am EST
           </h3>
 
           <h3 className={classes.link}>
-            <Icon
-              color="orange"
-              width="1.5em"
-              icon={locationIcon}
-              className={classes.icon}
-            />
+            <div className={classes.icon}>
+              <LocationPin />
+            </div>
             Zoom Link
           </h3>
 

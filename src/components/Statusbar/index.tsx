@@ -42,7 +42,10 @@ const Statusbar = ({ status }: StatusBarProps) => {
               />
             </div>
           </div>
-          <h3>{statusText}</h3>
+
+          <h3 className={clsx(status == index && classes.activeStatusText)}>
+            {statusText}
+          </h3>
         </div>
       ))}
     </div>

@@ -3,12 +3,12 @@ import React from "react";
 // Components
 import Button from "&components/Button";
 
-// TODO: Refactor after Chris' Icon PR
-import LeftWave from "&screens/Index/LeftWave";
-import RightWave from "&screens/Index/RightWave";
-import WavePersonIcon from "&screens/Index/WavePersonIcon";
-import StartProjectIcon from "&screens/Index/StartProjectIcon";
-import ReportProblemIcon from "&screens/Index/ReportProblemIcon";
+// Iconography
+import LeftWave from "&icons/LeftWave";
+import RightWave from "&icons/RightWave";
+import WavePersonIcon from "&icons/WavePersonIcon";
+import StartProjectIcon from "&icons/StartProjectIcon";
+import ReportProblemIcon from "&icons/ReportProblemIcon";
 
 // Actions
 import { login } from "&actions/UserActions";

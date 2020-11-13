@@ -22,7 +22,8 @@
       "&screens/*": ["screens/*"],
       "&actions/*": ["actions/*"],
       "&server/*": ["../server/*"],
-      "&components/*": ["components/*"]
+      "&components/*": ["components/*"],
+      "&icons/*": ["components/icons/*"]
     },
     "allowSyntheticDefaultImports": true,
     /* Experimental Options */

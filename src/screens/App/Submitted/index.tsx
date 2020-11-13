@@ -5,6 +5,12 @@ import { useSession } from "next-auth/client";
 // Components
 import Statusbar from "&components/Statusbar";
 
+// Iconography
+import SubmittedUFO from "&icons/SubmittedUFO";
+
+// Styling
+import classes from "./SubmittedScreen.module.scss";
+
 // Utils
 import urls from "&utils/urls";
 
@@ -32,6 +38,8 @@ const SubmittedScreen = () => {
       <h1 className="landingHeader">Application Submitted!</h1>
 
       <Statusbar status={0} />
+
+      <SubmittedUFO className={classes.submittedImage} />
 
       <h3 className="landingText">
         Your application has been submitted to the BoG team successfully! You

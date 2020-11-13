@@ -3,9 +3,8 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 
 // Iconography
-import { Icon } from "@iconify/react";
-import locationIcon from "@iconify/icons-bytesize/location";
-import clockCircleFilled from "@iconify/icons-ant-design/clock-circle-filled";
+import Clock from "&icons/Clock";
+import LocationPin from "&icons/LocationPin";
 
 // Components
 import Button from "&components/Button";
@@ -55,22 +54,16 @@ const Scheduled = () => {
       <div className={classes.meetingContainer}>
         <div className={classes.meetingInfo}>
           <h3 className={classes.date}>
-            <Icon
-              color="orange"
-              width="1.5em"
-              icon={clockCircleFilled}
-              className={classes.icon}
-            />
+            <div className={classes.icon}>
+              <Clock />
+            </div>
             October 12th, 10-11am EST
           </h3>
 
           <h3 className={classes.link}>
-            <Icon
-              color="orange"
-              width="1.5em"
-              icon={locationIcon}
-              className={classes.icon}
-            />
+            <div className={classes.icon}>
+              <LocationPin />
+            </div>
             Zoom Link
           </h3>
 

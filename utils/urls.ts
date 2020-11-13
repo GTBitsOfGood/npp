@@ -6,9 +6,10 @@ const urls = {
     login: "/login",
     app: {
       index: "/app",
-      project: "/app/project",
       apply: "/app/apply",
+      project: "/app/project",
       scheduled: "/app/scheduled",
+      submitted: "/app/submitted",
     },
   },
   api: {
@@ -20,5 +21,11 @@ const urls = {
     user: "/api/user",
   },
 };
+
+export const landingUrls = [
+  urls.pages.app.project,
+  urls.pages.app.scheduled,
+  urls.pages.app.submitted,
+];
 
 export default urls;

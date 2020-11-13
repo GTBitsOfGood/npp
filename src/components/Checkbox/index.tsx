@@ -3,6 +3,9 @@ import React, { ComponentProps } from "react";
 // Libraries
 import clsx from "clsx";
 
+// Iconography
+import CheckMark from "&icons/CheckMark";
+
 // Styling
 import classes from "./Checkbox.module.scss";
 
@@ -16,7 +19,7 @@ const Checkbox = ({ checked, label, ...rest }: CheckboxProps) => (
     className={clsx(classes.container, checked && classes.checked)}
     {...rest}
   >
-    <div className={classes.checkbox}>{checked ? "✓" : ""}</div>
+    <div className={classes.checkbox}>{checked ? <CheckMark /> : ""}</div>
     <h3>{label}</h3>
   </div>
 );

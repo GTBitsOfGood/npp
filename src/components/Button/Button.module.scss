@@ -2,21 +2,21 @@
 
 .root {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
+  user-select: none;
+  border-radius: 8px;
   padding: 16px 64px;
+  align-items: center;
+  text-decoration: none;
+  justify-content: center;
 
   h3 {
+    color: $white;
     line-height: 100%;
   }
 
   &.primary {
-    border-radius: 8px;
     background-color: $orange-500;
     border: 2px solid $orange-500;
-    color: $white;
-    user-select: none;
 
     &:hover {
       background-color: $orange-700;
@@ -26,12 +26,19 @@
 
   &.secondary {
     background-color: $white;
-    color: $gray-80;
+
+    h3 {
+      color: $gray-80;
+      line-height: 100%;
+    }
 
     &:hover {
       background-color: $orange-300;
       border: 2px solid $orange-300;
-      color: $white;
+
+      h3 {
+        color: $white;
+      }
     }
   }
 }

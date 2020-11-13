@@ -2,6 +2,8 @@
 
 .root {
   display: flex;
+  user-select: none;
+  border-radius: 8px;
   padding: 16px 64px;
   align-items: center;
   text-decoration: none;
@@ -13,8 +15,6 @@
   }
 
   &.primary {
-    user-select: none;
-    border-radius: 8px;
     background-color: $orange-500;
     border: 2px solid $orange-500;
 

@@ -14,9 +14,6 @@
     "es6": true
   },
   "settings": {
-    "react": {
-      "version": "detect"
-    },
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
     },
@@ -24,7 +21,11 @@
       "node": {
         "extensions": [".ts", ".tsx"]
       }
-    }
+    },
+    "react": {
+      "version": "detect"
+    },
+    "linkComponents": ["Hyperlink", { "name": "Link", "linkAttribute": "href" }]
   },
   "extends": [
     "prettier",
@@ -54,7 +55,15 @@
     "import/namespace": 2,
     "import/extensions": "off",
     "import/no-unresolved": "off",
-    "react/prop-types": [2, { "ignore": ["children"] }]
+    "react/prop-types": [2, { "ignore": ["children"] }],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["hrefLeft", "hrefRight"],
+        "aspects": ["invalidHref", "preferButton"]
+      }
+    ]
   },
   "overrides": [
     {

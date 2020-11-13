@@ -4,7 +4,7 @@ import React from "react";
 import clsx from "clsx";
 
 // Components
-import NavLink from "../NavLink";
+import Link from "next/link";
 
 // Styling
 import classes from "./Sidebar.module.scss";
@@ -21,40 +21,32 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
 
   return (
     <div className={classes.root}>
-      <h3>MENU</h3>
-      <NavLink
-        href={urls.pages.app.project}
-        className={clsx(
-          classes.pages,
-          landingUrls.includes(currentRoute) && classes.active
-        )}
-      >
-        Project Application
-      </NavLink>
+      <h4>MENU</h4>
+      <Link href={urls.pages.app.project} passHref>
+        <a
+          className={clsx(
+            classes.page,
+            landingUrls.includes(currentRoute) && classes.active
+          )}
+        >
+          <h4>Project Application</h4>
+          {landingUrls.includes(currentRoute) && (
+            <span className={classes.rectangle} />
+          )}
+        </a>
+      </Link>
 
-      <div
-        className={clsx(
-          classes.pages,
-          landingUrls.includes(currentRoute) && classes.rectangle
-        )}
-      />
-
-      <NavLink
-        href={problem}
-        className={clsx(
-          classes.pages,
-          currentRoute === problem && classes.active
-        )}
-      >
-        Report a Problem
-      </NavLink>
-
-      <div
-        className={clsx(
-          classes.pages,
-          currentRoute === problem && classes.rectangle
-        )}
-      />
+      <Link href={problem} passHref>
+        <a
+          className={clsx(
+            classes.page,
+            currentRoute === problem && classes.active
+          )}
+        >
+          <h4>Report a Problem</h4>
+          {currentRoute === problem && <span className={classes.rectangle} />}
+        </a>
+      </Link>
     </div>
   );
 };

@@ -33,7 +33,6 @@ const IndexPage = () => (
           </span>
         </div>
       </div>
-      {/*<BackgroundWave className={classes.backgroundWave} />*/}
       <div className={classes.waveContainer}>
         <LeftWave className={classes.startWave} />
         <div className={classes.personContainer}>

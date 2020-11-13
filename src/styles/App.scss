@@ -38,11 +38,12 @@ body {
 }
 
 #content {
-  width: 100%;
+  flex: 1;
   display: flex;
   margin: 0 auto;
   color: $gray-80;
   overflow-x: hidden;
+  overflow-y: auto;
   box-sizing: border-box;
   flex-direction: column;
 }

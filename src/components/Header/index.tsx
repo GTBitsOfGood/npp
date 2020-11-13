@@ -1,7 +1,7 @@
 import React from "react";
+import Link from "next/link";
 
 // Components
-import NavLink from "../NavLink";
 import UserIcon from "./UserIcon";
 
 // Styling
@@ -19,13 +19,11 @@ const Header = () => {
       <div className={classes.sidePadding} />
 
       <div className={classes.mainContent}>
-        <NavLink href="/" key="Logo">
-          <img
-            alt="Bits of Good Logo"
-            src="/static/text-logo.png"
-            className={classes.headerImg}
-          />
-        </NavLink>
+        <Link href="/" passHref>
+          <a className={classes.headerImg}>
+            <img alt="Bits of Good Logo" src="/static/text-logo.png" />
+          </a>
+        </Link>
 
         <UserIcon containerMouse={mouseIn} />
       </div>

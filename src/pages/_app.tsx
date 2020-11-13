@@ -28,7 +28,7 @@ const MyApp = ({ Component, pageProps, router }: AppProps) => (
         <Header />
         <div id="sidebar">
           {(landingUrls.includes(router.asPath) ||
-            ["/", "/app"].includes(router.asPath)) && (
+            ["/app"].includes(router.asPath)) && (
             <Sidebar currentRoute={router.asPath} />
           )}
           <div id="content">

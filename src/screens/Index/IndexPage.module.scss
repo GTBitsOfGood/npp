@@ -1,0 +1,220 @@
+@import "../../styles/Colors";
+@import "../../styles/Properties";
+
+.root {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: $orange-gradient;
+
+    .background {
+      width: 100%;
+      padding: 32px 32px 16px;
+
+      @include breakpoint-below-medium {
+        padding-bottom: 32px;
+      }
+
+      .content {
+        width: 100%;
+        color: $white;
+        display: flex;
+        max-width: 400px;
+        margin-left: 32px;
+        flex-direction: column;
+        align-items: flex-start;
+
+        @include breakpoint-above-medium {
+          margin-left: 64px;
+        }
+
+        @include breakpoint-above-large {
+          margin-left: 128px;
+        }
+
+        @include breakpoint-below-small {
+          margin-left: 0;
+          max-width: unset;
+        }
+
+        h1,
+        h5 {
+          color: $white;
+        }
+
+        h3 {
+          color: $orange-500;
+        }
+
+        h1 {
+          margin: 0 0 8px;
+        }
+
+        h5 {
+          margin: 0;
+        }
+
+        button {
+          border: none;
+          margin: 24px 0;
+          background: $white;
+          color: $orange-500;
+        }
+
+        p {
+          color: $gray-60;
+
+          & > span {
+            color: $white;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+
+    .backgroundWave {
+      width: 100%;
+
+      @include breakpoint-below-medium {
+        display: none;
+      }
+    }
+
+    .waveContainer {
+      position: relative;
+      white-space: nowrap;
+      vertical-align: top;
+
+      & > * {
+        vertical-align: top;
+        display: inline-block;
+      }
+
+      .startWave,
+      .endWave {
+        height: 150px;
+
+        @include breakpoint-below-medium {
+          height: 80px;
+        }
+
+        @include breakpoint-below-small {
+          height: 30px;
+        }
+      }
+
+      .startWave {
+        width: 70vw;
+        max-height: 150px;
+      }
+
+      .personContainer {
+        width: 0;
+        position: relative;
+
+        @include breakpoint-below-small {
+          display: none;
+        }
+
+        .wavePerson {
+          left: 0;
+          top: 100%;
+          height: 287px;
+          position: absolute;
+          transform: translate(-50%, -65%);
+
+          @include breakpoint-below-medium {
+            height: 175px;
+          }
+        }
+      }
+
+      .endWave {
+        width: 30vw;
+        max-height: 150px;
+      }
+    }
+  }
+
+  .sectionContainer {
+    width: 100%;
+    display: flex;
+    padding: 32px;
+    margin-top: 64px;
+    align-items: center;
+    flex-direction: column;
+
+    .section {
+      width: 100%;
+      display: flex;
+      max-width: 800px;
+      background: $white;
+      flex-direction: row;
+      margin-bottom: 64px;
+
+      @include breakpoint-below-small {
+        flex-direction: column;
+      }
+
+      .startProjectIcon,
+      .reportProblemIcon {
+        @include breakpoint-below-small {
+          height: auto;
+          max-width: 75px;
+        }
+      }
+
+      .startProjectIcon {
+        order: 1;
+        margin-right: 48px;
+
+        @include breakpoint-below-small {
+          order: 1;
+          margin: 0;
+        }
+      }
+
+      .reportProblemIcon {
+        order: 3;
+        margin-left: 48px;
+
+        @include breakpoint-below-small {
+          order: 1;
+          margin: 0;
+          align-self: flex-end;
+        }
+      }
+
+      .textContent {
+        order: 2;
+        display: flex;
+        flex-direction: column;
+
+        .textRight {
+          text-align: right;
+        }
+
+        h1 {
+          color: $orange-500;
+          margin-bottom: 16px;
+        }
+
+        @include breakpoint-below-small {
+          h1 {
+            font-size: 28px;
+          }
+        }
+      }
+    }
+  }
+}

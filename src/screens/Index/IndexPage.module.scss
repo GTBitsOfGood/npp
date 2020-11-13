@@ -28,13 +28,19 @@
         flex-direction: column;
         align-items: flex-start;
         color: white;
+        margin-left: 32px;
 
         @include breakpoint-above-medium {
-          margin-left: 32px;
+          margin-left: 64px;
+        }
+
+        @include breakpoint-above-large {
+          margin-left: 128px;
         }
 
         @include breakpoint-below-small {
           max-width: unset;
+          margin-left: 0;
         }
 
         h1,

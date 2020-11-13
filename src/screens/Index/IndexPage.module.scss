@@ -7,15 +7,14 @@
   flex-direction: column;
 
   .header {
-    flex: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    background: $orange-gradient;
 
     .background {
       width: 100%;
-      background: $orange-gradient;
       padding: 32px 32px 16px;
 
       @include breakpoint-below-medium {
@@ -96,7 +95,6 @@
       position: relative;
       white-space: nowrap;
       vertical-align: top;
-      background: $orange-gradient;
 
       & > * {
         display: inline-block;
@@ -150,7 +148,6 @@
   }
 
   .sectionContainer {
-    flex: 0;
     width: 100%;
     display: flex;
     flex-direction: column;

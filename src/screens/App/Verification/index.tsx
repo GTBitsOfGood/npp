@@ -5,11 +5,13 @@ import { useSession } from "next-auth/client";
 // Components
 import Input from "&components/Input";
 import Button from "&components/Button";
-import TextArea from "&components/TextArea";
 import Select from "&components/Select";
+import TextArea from "&components/TextArea";
 
 // Styling
 import classes from "./Verification.module.scss";
+
+// Utils
 import urls from "&utils/urls";
 
 /* Questions:

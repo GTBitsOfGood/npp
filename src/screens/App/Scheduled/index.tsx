@@ -3,9 +3,8 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 
 // Iconography
-import { Icon } from "@iconify/react";
-import locationIcon from "@iconify/icons-bytesize/location";
-import clockCircleFilled from "@iconify/icons-ant-design/clock-circle-filled";
+import Clock from "&icons/Clock";
+import LocationPin from "&icons/LocationPin";
 
 // Components
 import Button from "&components/Button";
@@ -16,8 +15,6 @@ import classes from "./Scheduled.module.scss";
 
 // URLS
 import urls from "&utils/urls";
-import LocationPin from "&icons/LocationPin";
-import Clock from "&icons/Clock";
 
 const cancelMeeting = () => {
   console.log("Meeting cancelled!");

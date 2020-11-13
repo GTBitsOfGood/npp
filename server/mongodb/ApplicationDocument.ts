@@ -2,46 +2,6 @@ import mongoose, { Schema, Types } from "mongoose";
 import { ObjectId } from "mongodb";
 import ContactSchema from "&server/mongodb/ContactSchema";
 
-const Address = new Schema({
-  streetAddress: {
-    type: String,
-    required: true,
-  },
-  city: {
-    type: String,
-    required: true,
-  },
-  state: {
-    type: String,
-    required: true,
-  },
-  zipcode: {
-    type: String,
-    required: true,
-  },
-});
-
-const Organization = new Schema({
-  organizationName: {
-    type: String,
-    required: true,
-  },
-  website: {
-    type: String,
-  },
-  mission: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: Address,
-    required: true,
-  },
-  phone: {
-    type: String,
-  },
-});
-
 const ApplicationSchema = new Schema(
   {
     users: {
@@ -53,10 +13,6 @@ const ApplicationSchema = new Schema(
       },
       required: true,
     },
-    organization: {
-      type: Organization,
-      required: true,
-    },
     primaryContact: {
       type: ContactSchema,
       required: true,
@@ -65,6 +21,10 @@ const ApplicationSchema = new Schema(
       type: [String],
       required: true,
       enum: ["WEBSITE", "MOBILE_APP"],
+    },
+    description: {
+      type: String,
+      required: true,
     },
     submittedAt: {
       type: Date,

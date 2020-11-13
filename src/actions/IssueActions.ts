@@ -1,5 +1,6 @@
 import { Issue } from "&server/models/Issue";
 import { IssueStatus } from "&server/models/IssueStatus";
+import { IssueType } from "&server/models/IssueType";
 import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
@@ -38,7 +39,9 @@ async function createIssue(issue: Issue): Promise<Issue> {
 function issueFromJsonResponse(object: Record<string, any>): Issue {
   return {
     id: object._id,
-    issueType: object.type,
+    issueType: object.issueType.map((val: string) => {
+      return IssueType[val as keyof typeof IssueType];
+    }),
     description: object.description,
     images: object.images,
     contact: contactFromJsonResponse(object.contact),

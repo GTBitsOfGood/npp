@@ -8,9 +8,10 @@ const IssueSchema = new Schema(
       ref: "Application",
       required: true,
     },
-    type: {
+    issueType: {
       type: [String],
       required: true,
+      enum: ["NOT_LOADING", "DATA_MISSING"],
     },
     description: {
       type: String,

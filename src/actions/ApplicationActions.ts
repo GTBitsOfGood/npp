@@ -84,6 +84,7 @@ function applicationFromJson(object: { [key: string]: any }): Application {
     productType: object.productType.map((val: string) => {
       return ProductType[val as keyof typeof ProductType];
     }),
+    description: object.description,
     submittedAt: DateTime.fromISO(object.submittedAt),
     meeting: object.meeting,
     decision: object.decision,

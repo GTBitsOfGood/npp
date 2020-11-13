@@ -37,8 +37,9 @@ const Organization = new Schema({
     type: Address,
     required: true,
   },
-  phone: {
+  EIN: {
     type: String,
+    required: true,
   },
 });
 
@@ -65,6 +66,10 @@ const ApplicationSchema = new Schema(
       type: [String],
       required: true,
       enum: ["WEBSITE", "MOBILE_APP"],
+    },
+    description: {
+      type: String,
+      required: true,
     },
     submittedAt: {
       type: Date,

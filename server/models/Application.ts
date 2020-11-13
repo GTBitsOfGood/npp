@@ -8,6 +8,7 @@ export interface Application {
   organization: Organization;
   primaryContact: Contact;
   productType: ProductType[];
+  description: string;
   submittedAt?: DateTime;
   meeting?: string;
   decision?: boolean;
@@ -18,7 +19,7 @@ export interface Organization {
   mission: string;
   address: Address;
   website?: string;
-  phone?: string;
+  EIN: string;
 }
 
 export interface Address {

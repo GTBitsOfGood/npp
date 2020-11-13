@@ -79,7 +79,6 @@ function applicationFromJson(object: { [key: string]: any }): Application {
   return {
     id: object._id,
     users: object.users,
-    organization: object.organization,
     primaryContact: contactFromJsonResponse(object.primaryContact),
     productType: object.productType.map((val: string) => {
       return ProductType[val as keyof typeof ProductType];

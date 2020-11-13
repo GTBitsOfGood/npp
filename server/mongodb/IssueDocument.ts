@@ -11,7 +11,7 @@ const IssueSchema = new Schema(
     issueType: {
       type: [String],
       required: true,
-      enum: ["NOT_LOADING", "DATA_MISSING"],
+      enum: ["NOT_LOADING", "DATA_MISSING", "OTHER"],
     },
     description: {
       type: String,

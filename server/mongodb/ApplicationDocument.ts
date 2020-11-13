@@ -2,47 +2,6 @@ import mongoose, { Schema, Types } from "mongoose";
 import { ObjectId } from "mongodb";
 import ContactSchema from "&server/mongodb/ContactSchema";
 
-const Address = new Schema({
-  streetAddress: {
-    type: String,
-    required: true,
-  },
-  city: {
-    type: String,
-    required: true,
-  },
-  state: {
-    type: String,
-    required: true,
-  },
-  zipcode: {
-    type: String,
-    required: true,
-  },
-});
-
-const Organization = new Schema({
-  organizationName: {
-    type: String,
-    required: true,
-  },
-  website: {
-    type: String,
-  },
-  mission: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: Address,
-    required: true,
-  },
-  EIN: {
-    type: String,
-    required: true,
-  },
-});
-
 const ApplicationSchema = new Schema(
   {
     users: {
@@ -52,10 +11,6 @@ const ApplicationSchema = new Schema(
         validator: (val: ObjectId[]) => val.length > 0,
         message: "Must be associated with at least one user",
       },
-      required: true,
-    },
-    organization: {
-      type: Organization,
       required: true,
     },
     primaryContact: {

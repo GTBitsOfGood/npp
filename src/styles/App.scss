@@ -38,8 +38,7 @@ body {
 
 #content {
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  height: 100%;
   margin: 0 auto;
   color: $gray-80;
   overflow-x: hidden;

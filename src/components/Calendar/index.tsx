@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // Libraries;
 import clsx from "clsx";
@@ -14,24 +14,21 @@ import TimePicker from "./TimePicker";
 // Styling
 import classes from "./Calendar.module.scss";
 
-// Interfaces
-interface DayItem {
-  day: DateTime;
+// Constants
+const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+// 6 weeks * 7 days per week
+const DAYS_IN_CALENDAR = 42;
+
+const currentDate = DateTime.local().startOf("day");
+
+// Typescript
+interface CalendarDay {
+  date: DateTime;
   disabled: boolean;
 }
 
-// Constants
-const currentDate = DateTime.local();
-
-const weekdays: Map<string, DayItem[]> = new Map([
-  ["Sunday", []],
-  ["Monday", []],
-  ["Tuesday", []],
-  ["Wednesday", []],
-  ["Thursday", []],
-  ["Friday", []],
-  ["Saturday", []],
-]);
+type CalendarItem = CalendarDay | null;
 
 interface CalendarProps {
   withTime?: boolean;
@@ -48,25 +45,39 @@ const Calendar = ({
     currentDate.startOf("month")
   );
 
-  const monthStart = selectedDate.startOf("month");
-  const endWeek = monthStart.endOf("week");
-  const daysInMonth = selectedDate.daysInMonth;
+  const [calendarDays, setCalendarDays] = useState<CalendarItem[]>([]);
 
-  for (
-    let curDay = monthStart;
-    curDay.day < daysInMonth;
-    curDay = curDay.plus({ days: 1 })
-  ) {
-    const name = curDay.weekdayLong;
+  useEffect(() => {
+    const tempCalendarDays: CalendarItem[] = [];
 
-    if (weekdays.has(name)) {
-      weekdays.get(name)?.push({
-        disabled:
-          curDay.month === currentDate.month && curDay.day <= currentDate.day,
-        day: curDay,
-      });
+    const monthStart = selectedDate.startOf("month");
+    const daysInMonth = selectedDate.daysInMonth;
+
+    // Reset Sunday (7) to index 0
+    const firstWeekday = monthStart.weekday % 7;
+
+    for (let i = 0; i < DAYS_IN_CALENDAR; i++) {
+      const curDayOfMonth = i - firstWeekday;
+
+      if (curDayOfMonth < 0) {
+        // Add blank days at the start of the month
+        tempCalendarDays.push(null);
+      } else if (curDayOfMonth < daysInMonth) {
+        // Add regular calendar day
+        const tempDay = monthStart.plus({ day: curDayOfMonth });
+
+        tempCalendarDays.push({
+          date: tempDay,
+          disabled: tempDay <= currentDate,
+        });
+      } else {
+        // Add blank days at the end of the month
+        tempCalendarDays.push(null);
+      }
+
+      setCalendarDays(tempCalendarDays);
     }
-  }
+  }, [selectedDate]);
 
   return (
     <div className={classes.root}>
@@ -75,7 +86,7 @@ const Calendar = ({
           <h2>Select a Date and Time</h2>
 
           <div className={classes.monthContainer}>
-            <h5>{selectedDate.toFormat("MMMM yyyy")}</h5>
+            <h3>{selectedDate.toFormat("MMMM yyyy")}</h3>
 
             <div className={classes.buttonContainer}>
               <button
@@ -92,47 +103,59 @@ const Calendar = ({
 
               <button
                 className={classes.iconButton}
-                disabled={selectedDate.month > currentDate.month + 1}
+                disabled={selectedDate.month >= currentDate.month + 1}
                 onClick={() =>
                   setSelectedDate((prevDate) => prevDate.plus({ months: 1 }))
                 }
               >
                 <RightChevron
-                  disabled={selectedDate.month > currentDate.month + 1}
+                  disabled={selectedDate.month >= currentDate.month + 1}
                 />
               </button>
             </div>
           </div>
         </div>
 
-        <div className={classes.content}>
-          {Array.from(weekdays).map(([dayName, days]) => (
-            <div key={dayName} className={classes.dayCol}>
-              <h4>{dayName.substring(0, 3)}</h4>
-              <div className={classes.days}>
-                {days[0].day.day >= endWeek.day && monthStart.weekday !== 7 && (
-                  <div className={classes.daySpacer} />
-                )}
-                {days.map(({ disabled, day }) => (
-                  <button
-                    key={day.day}
-                    disabled={disabled}
-                    onClick={() => onSelectDate(day.toJSDate())}
-                  >
-                    <div
-                      className={clsx(
-                        classes.circleWrapper,
-                        value != null &&
-                          DateTime.fromJSDate(value).toFormat("D") ===
-                            day.toFormat("D") &&
-                          classes.selectedDate
+        <div className={classes.calendarView}>
+          {WEEKDAYS.map((day, dayIndex) => (
+            <div key={day + dayIndex} className={classes.dayColumn}>
+              <h4>{day}</h4>
+
+              {calendarDays.map((curDay, calIndex) => {
+                // Checks if day is multiple of the weekday
+                // Note: Add one to avoid division by 0
+                if (((calIndex % 7) + 1) / (dayIndex + 1) === 1) {
+                  return (
+                    <>
+                      {curDay === null ? (
+                        <div className={classes.emptyButton} />
+                      ) : (
+                        <button
+                          disabled={curDay.disabled}
+                          className={clsx(
+                            classes.weekButton,
+                            curDay.disabled && classes.disabledButton,
+                            curDay.date.equals(currentDate) && classes.curDay,
+                            value &&
+                              value.valueOf() ===
+                                curDay.date.toJSDate().valueOf() &&
+                              classes.selectedDay
+                          )}
+                          onClick={() => onSelectDate(curDay.date.toJSDate())}
+                        >
+                          <h2
+                            className={clsx(
+                              curDay.disabled && classes.disabled
+                            )}
+                          >
+                            {curDay.date.day}
+                          </h2>
+                        </button>
                       )}
-                    >
-                      <h2>{day.day}</h2>
-                    </div>
-                  </button>
-                ))}
-              </div>
+                    </>
+                  );
+                }
+              })}
             </div>
           ))}
         </div>
@@ -144,12 +167,42 @@ const Calendar = ({
 
       {withTime && value != null && (
         <div className={classes.time}>
-          <h5>{DateTime.fromJSDate(value).toFormat("EEEE, MMMM d")}</h5>
+          <h3>{DateTime.fromJSDate(value).toFormat("EEEE, MMMM d")}</h3>
           <TimePicker date={value} value={value} onSelectTime={onSelectDate} />
         </div>
       )}
     </div>
   );
 };
+
+// {Array.from(weekdays).map(([dayName, days]) => (
+//   <div key={dayName} className={classes.dayCol}>
+//     <h4>{dayName.substring(0, 3)}</h4>
+//     <div className={classes.days}>
+//       {days[0].day.day >= endWeek.day && monthStart.weekday !== 7 && (
+//         <div className={classes.daySpacer} />
+//       )}
+//       {days.map(({ disabled, day }) => (
+//         <button
+//           key={day.day}
+//           disabled={disabled}
+//           onClick={() => onSelectDate(day.toJSDate())}
+//         >
+//           <div
+//             className={clsx(
+//               classes.circleWrapper,
+//               value != null &&
+//               DateTime.fromJSDate(value).toFormat("D") ===
+//               day.toFormat("D") &&
+//               classes.selectedDate
+//             )}
+//           >
+//             <h2>{day.day}</h2>
+//           </div>
+//         </button>
+//       ))}
+//     </div>
+//   </div>
+// ))}
 
 export default Calendar;

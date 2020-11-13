@@ -3,12 +3,14 @@
 
 .root {
   flex: 5;
+  width: 90%;
   display: flex;
+  height: 500px;
   text-align: left;
-  min-height: 500px;
   padding: 32px 40px;
   border-radius: 8px;
   flex-direction: row;
+  background-color: $white;
   border: 1px solid $gray-10;
 
   @include breakpoint-below-small {
@@ -76,11 +78,15 @@
             &:first-of-type {
               margin-right: 12px;
             }
+
+            &:disabled {
+              cursor: default;
+            }
           }
         }
       }
 
-      h5 {
+      h3 {
         margin: 0;
         color: $gray-60;
         font-size: 16px;
@@ -91,99 +97,65 @@
       }
     }
 
-    .content {
+    .calendarView {
       flex: 1;
       width: 100%;
       display: flex;
       flex-direction: row;
 
-      .dayCol {
+      .dayColumn {
         flex: 1;
         display: flex;
         align-items: center;
         flex-direction: column;
-        justify-content: space-between;
 
-        h4 {
-          color: $gray-80;
-          font-size: 16px;
-          text-transform: uppercase;
-        }
-
-        .days {
-          flex: 1;
-          width: 100%;
+        .weekButton {
+          width: 48px;
+          border: none;
+          height: 48px;
           display: flex;
+          margin-top: 8px;
           align-items: center;
-          flex-direction: column;
+          border-radius: 48px;
+          justify-content: center;
+          background-color: $white;
 
-          button {
-            border: none;
-            padding: 5px;
-            margin: 5px 0;
-            outline: none;
-            color: $gray-80;
-            font-size: 24px;
-            background: none;
-
-            &:disabled {
-              color: $gray-40;
-              cursor: not-allowed;
-            }
-
-            &:not(:disabled) {
-              .circleWrapper:hover {
-                background: $gray-10;
-              }
-            }
-
-            .circleWrapper {
-              width: 40px;
-              height: 40px;
-              display: flex;
-              background: none;
-              border-radius: 50%;
-              align-items: center;
-              justify-content: center;
-
-              @include breakpoint-below-small {
-                width: 30px;
-                height: 30px;
-              }
-
-              &.selectedDate {
-                color: $white;
-                background: $orange-500 !important;
-              }
-
-              h2 {
-                color: inherit;
-                font-size: 24px;
-                line-height: 100%;
-
-                @include breakpoint-below-small {
-                  font-size: 20px;
-                }
-              }
-            }
+          h2 {
+            color: $gray-60;
           }
 
-          .daySpacer {
-            width: 100%;
-            height: 60px;
+          .disabled {
+            color: $gray-40;
+          }
+        }
 
-            @include breakpoint-below-small {
-              height: 50px;
-            }
+        .curDay,
+        .disabledButton {
+          cursor: default;
+        }
+
+        .curDay {
+          background-color: $gray-10;
+
+          h2 {
+            color: $gray-40;
+          }
+        }
+
+        .selectedDay {
+          border: solid 1px $orange-500;
+          background-color: $orange-300;
+
+          h2 {
+            color: $white;
           }
         }
       }
     }
 
     p {
-      margin: 0;
       color: $gray-60;
-      font-size: 14px;
+      margin: 12px 0 0;
 
       @include breakpoint-below-small {
         font-size: 13px;
@@ -203,9 +175,8 @@
       height: unset;
     }
 
-    h5 {
+    h3 {
       color: $gray-60;
-      font-size: 16px;
       margin-bottom: 16px;
 
       @include breakpoint-below-small {

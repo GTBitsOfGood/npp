@@ -4,13 +4,13 @@ import { DateTime } from "luxon";
 import Button from "&components/Button";
 import classes from "./TimePicker.module.scss";
 
-interface PropTypes extends ComponentProps<"div"> {
+interface TimePickerProps {
   date: Date;
   value?: Date | null;
   onSelectTime: (time: Date) => void | Promise<void>;
 }
 
-const TimePicker = ({ className, date, value, onSelectTime }: PropTypes) => {
+const TimePicker = ({ date, value, onSelectTime }: TimePickerProps) => {
   const startTime = DateTime.fromJSDate(date).set({
     hour: 9,
     minute: 0,
@@ -33,22 +33,24 @@ const TimePicker = ({ className, date, value, onSelectTime }: PropTypes) => {
   }
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={classes.root}>
       {availTimes.map(({ disabled, time }) => (
-        <Button
+        <button
           key={time.toISO()}
-          className={classes.time}
           disabled={disabled}
-          variant={
-            value != null &&
-            DateTime.fromJSDate(value).toFormat("T") === time.toFormat("T")
-              ? "primary"
-              : "secondary"
-          }
           onClick={() => onSelectTime(time.toJSDate())}
+          className={clsx(
+            classes.timeSlot,
+            disabled && classes.disabledTimeslot,
+            value &&
+              DateTime.fromJSDate(value).toFormat("T") === time.toFormat("T") &&
+              classes.selectedTimeslot
+          )}
         >
-          {time.toFormat("h:mm a").toLowerCase()}
-        </Button>
+          <h3 className={classes.timeText}>
+            {time.toFormat("h:mm a").toLowerCase()}
+          </h3>
+        </button>
       ))}
     </div>
   );

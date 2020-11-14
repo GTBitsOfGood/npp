@@ -7,7 +7,8 @@ const urls = {
     app: {
       index: "/app",
       verification: "/app/verification",
-      apply: "/app/apply",
+      apply: "/app/application/apply",
+      report: "/app/report",
       scheduled: "/app/scheduled",
       submitted: "/app/submitted",
     },

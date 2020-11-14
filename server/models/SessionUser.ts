@@ -9,4 +9,5 @@ export interface SessionUser {
   familyName: string;
   roles: string[];
   isAdmin: boolean;
+  organizationVerified: boolean;
 }

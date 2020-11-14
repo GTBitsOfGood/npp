@@ -35,6 +35,8 @@ const options = {
         // See comment in @link /server/models/User.ts for why the User class does not include an "id" attribute
         id: (user as any)["id"],
         isAdmin: user.roles.includes(Authentication.ADMIN_ROLE),
+        // could be null for the users before implemented
+        organizationVerified: !!user.organizationVerified,
       };
       return Promise.resolve({
         ...session,

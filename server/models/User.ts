@@ -22,10 +22,17 @@ export class User {
   nickname: string;
   // @ts-ignore
   roles: string[];
+  organizationVerified: boolean;
 
   constructor(profile: Profile) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    // TypeORM does field injection when loading from DB, meaning profile can be null
+    /*
+       TypeORM does field injection when loading from DB, meaning profile can be null
+
+       With the way we currently have next auth updates propagating,
+       this only called when the user is initially created. If this changes,
+       then extra workarounds will need to be done to prevent organizationVerified
+       from being overridden
+     */
     if (profile) {
       this.email = profile.email;
       this.name = profile.name;
@@ -34,6 +41,7 @@ export class User {
       this.familyName = profile.familyName;
       this.roles = profile.roles || [];
       this.emailVerified = profile.emailVerified;
+      this.organizationVerified = false;
     }
   }
 }

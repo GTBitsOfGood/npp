@@ -2,7 +2,9 @@ import { connectToDB, EntityDoc } from "../index";
 import { ObjectId } from "mongodb";
 import ApplicationDocument from "&server/mongodb/ApplicationDocument";
 
-async function addApplication(application: Document): Promise<EntityDoc> {
+async function addApplication(
+  application: Record<string, any>
+): Promise<EntityDoc> {
   await connectToDB();
 
   return ApplicationDocument.create(application);

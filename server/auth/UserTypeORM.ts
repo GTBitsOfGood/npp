@@ -46,6 +46,11 @@ const UserTypeORMSchema = {
       type: "set",
       nullable: false,
     },
+    organizationVerified: {
+      type: "boolean",
+      nullable: false,
+      default: false,
+    },
   },
 };
 

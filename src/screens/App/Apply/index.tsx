@@ -10,6 +10,7 @@ import Checkbox from "&components/Checkbox";
 import TextArea from "&components/TextArea";
 
 import { createApplication } from "&actions/ApplicationActions";
+import { ProductType } from "&server/models/ProductType";
 
 // Styling
 import classes from "./ApplyScreen.module.scss";
@@ -75,14 +76,14 @@ const ApplyScreen = () => {
   };
 
   const submit = async () => {
-    console.log(
-      productType,
-      lookingFor,
-      contactName,
-      contactEmail,
-      contactPhone,
-      orgPhone
-    );
+    if (lookingFor.length === 0 || contactName === "" || contactEmail === "") {
+      await Swal.fire({
+        title: "Error",
+        text: "Please provide all required fields!",
+        icon: "error",
+      });
+      return;
+    }
 
     try {
       localStorage.removeItem("app-productType");
@@ -91,6 +92,21 @@ const ApplyScreen = () => {
       localStorage.removeItem("app-contactEmail");
       localStorage.removeItem("app-contactPhone");
       localStorage.removeItem("app-orgPhone");
+
+      const typeNames = [];
+      if (productType[0]) typeNames.push(ProductType.WEBSITE);
+      if (productType[1]) typeNames.push(ProductType.MOBILE_APP);
+
+      const result = await createApplication({
+        productType: typeNames,
+        description: lookingFor,
+        primaryContact: {
+          name: contactName,
+          email: contactEmail,
+          organizationPhone: orgPhone,
+          primaryPhone: contactPhone,
+        },
+      });
 
       await Swal.fire({
         title: "Success",

@@ -4,7 +4,7 @@ import { Contact } from "&server/models/Contact";
 
 export interface Application {
   id?: string;
-  users: string[];
+  users?: string[];
   primaryContact: Contact;
   productType: ProductType[];
   description: string;

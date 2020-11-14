@@ -29,20 +29,15 @@ const rescheduleMeeting = () => {
 const Scheduled = () => {
   const router = useRouter();
   const [session, loading] = useSession();
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!loading) {
-      if (session) {
-        setLoggedIn(true);
-      } else {
-        void router.replace(urls.pages.index);
-      }
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
     }
-  }, [router, loading, session]);
+  }, [loading, session]);
 
-  if (loading || !loggedIn) {
-    return <h1>Loading...</h1>;
+  if (loading || !session) {
+    return <h1 className="loadingText">Loading...</h1>;
   }
 
   return (

@@ -81,8 +81,15 @@ body {
 .applicationPage {
   flex: 1;
   height: auto;
+  min-height: 100%;
   display: flex;
   box-sizing: border-box;
   padding: 40px 0 80px;
   background-color: $gray-5;
+}
+
+.loadingText {
+  width: 100%;
+  margin-top: 40px;
+  text-align: center;
 }

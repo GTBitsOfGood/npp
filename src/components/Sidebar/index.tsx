@@ -22,7 +22,7 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
   return (
     <div className={classes.root}>
       <h3>MENU</h3>
-      <Link href={urls.pages.app.project} passHref>
+      <Link href={urls.pages.app.index} passHref>
         <a
           className={clsx(
             classes.page,

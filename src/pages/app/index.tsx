@@ -1,3 +1,3 @@
-import HomePage from "&screens/App/Home";
+import ProjectPage from "&screens/App/Project";
 
-export default HomePage;
+export default ProjectPage;

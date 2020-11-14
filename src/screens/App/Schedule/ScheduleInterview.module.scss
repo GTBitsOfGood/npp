@@ -1,0 +1,68 @@
+@import "../../../styles/Colors";
+
+.root {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100vh;
+
+  .col1 {
+    width: 419px;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    margin-right: 71px;
+
+    .time {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  .col2 {
+    width: 710px;
+    margin-top: 37px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  p {
+    margin-top: 8px;
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 150%;
+    color: #666666;
+  }
+
+  .calendar {
+    height: 491px;
+  }
+
+  .confirm {
+    height: 82px;
+    margin-top: 37px;
+    background-color: $white;
+    border: 1px solid $gray-10;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  h5 {
+    font-family: Visby CF;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 130%;
+
+    text-align: center;
+    font-feature-settings: "liga" off;
+
+    color: #666666;
+    margin-left: 13px;
+  }
+}

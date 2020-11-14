@@ -1,7 +1,47 @@
 import { Schema } from "mongoose";
 import * as mongoose from "mongoose";
 
-const schema = new Schema({
+const AddressSchema = new Schema({
+  streetAddress: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  zipcode: {
+    type: String,
+    required: true,
+  },
+});
+
+const OrganizationInfo = {
+  organizationName: {
+    type: String,
+    required: true,
+  },
+  ein: {
+    type: String,
+    required: true,
+  },
+  website: {
+    type: String,
+  },
+  address: {
+    type: AddressSchema,
+    required: true,
+  },
+  verified: {
+    required: true,
+  },
+};
+
+const UserSchema = new Schema({
   nickname: {
     type: String,
     required: true,
@@ -36,6 +76,15 @@ const schema = new Schema({
     type: [String], // maybe change to enum once we know all the roles
     required: true,
   },
+  organizationInfo: {
+    type: OrganizationInfo,
+    required: false,
+  },
+  // TypeORM doesn't support nested fields, and this is something we want with each session, so....
+  organizationVerified: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-export default mongoose.models.User || mongoose.model("User", schema);
+export default mongoose.models.User || mongoose.model("User", UserSchema);

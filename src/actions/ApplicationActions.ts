@@ -31,9 +31,11 @@ export async function getApplicationById(
   return applicationFromJson(response);
 }
 
-export async function getApplications(): Promise<Application[]> {
+export async function getApplications(
+  adminAll = false
+): Promise<Application[]> {
   const response: Record<string, any>[] = await callInternalAPI(
-    applicationRoute,
+    applicationRoute + `?all=${adminAll}`,
     HttpMethod.GET
   );
   return response.map(applicationFromJson);
@@ -88,8 +90,10 @@ function applicationFromJson(object: { [key: string]: any }): Application {
       return ProductType[val as keyof typeof ProductType];
     }),
     description: object.description,
-    submittedAt: DateTime.fromISO(object.submittedAt),
     meeting: object.meeting,
+    stage: object.stage,
     decision: object.decision,
+    createdAt: DateTime.fromISO(object.createdAt),
+    updatedAt: DateTime.fromISO(object.updatedAt),
   };
 }

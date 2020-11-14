@@ -3,33 +3,47 @@ import React from "react";
 // Libraries
 import clsx from "clsx";
 
+import { StageType } from "&server/models/StageType";
+import { Application } from "&server/models/Application";
+
 // Styling
 import classes from "./Statusbar.module.scss";
 
-type StatusNumber = -1 | 0 | 1 | 2 | 3 | 4;
-
 interface StatusBarProps {
-  status: StatusNumber;
+  application: Application | null;
 }
 
-const currentStatus = [
-  "Application Submitted",
-  "Schedule an Interview",
-  "Interview Scheduled",
-  "Under Review",
-  "Decision Made",
-];
+const currentStatus = {
+  "Application Submitted": StageType.SUBMITTED,
+  "Schedule an Interview": StageType.AWAITING_SCHEDULE,
+  "Interview Scheduled": StageType.SCHEDULED,
+  "Under Review": StageType.REVIEW,
+  "Decision Made": StageType.DECISION,
+};
 
-const Statusbar = ({ status }: StatusBarProps) => {
+const stageToIndex = {
+  [StageType.SUBMITTED]: 0,
+  [StageType.AWAITING_SCHEDULE]: 1,
+  [StageType.SCHEDULED]: 2,
+  [StageType.REVIEW]: 3,
+  [StageType.DECISION]: 4,
+};
+
+const Statusbar = ({ application }: StatusBarProps) => {
+  const stageIndex =
+    application == null || application.stage == null
+      ? -1
+      : stageToIndex[application.stage];
+
   return (
     <div className={classes.root}>
-      {currentStatus.map((statusText, index) => (
+      {Object.entries(currentStatus).map(([statusText, stageType], index) => (
         <div key={statusText} className={classes.status}>
           <div className={classes.circleWrapper}>
             <div
               className={clsx(
                 classes.line,
-                status >= index && classes.activeLine
+                stageIndex >= index && classes.activeLine
               )}
             />
 
@@ -37,13 +51,13 @@ const Statusbar = ({ status }: StatusBarProps) => {
               <div
                 className={clsx(
                   classes.statusCircle,
-                  status >= index && classes.activeCircle
+                  stageIndex >= index && classes.activeCircle
                 )}
               />
             </div>
           </div>
 
-          <h3 className={clsx(status == index && classes.activeStatusText)}>
+          <h3 className={clsx(stageIndex == index && classes.activeStatusText)}>
             {statusText}
           </h3>
         </div>

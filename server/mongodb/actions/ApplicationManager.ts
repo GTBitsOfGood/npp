@@ -1,6 +1,7 @@
 import { connectToDB, EntityDoc } from "../index";
 import { ObjectId } from "mongodb";
 import ApplicationDocument from "&server/mongodb/ApplicationDocument";
+import { SessionUser } from "&server/models/SessionUser";
 
 async function addApplication(
   application: Record<string, any>
@@ -10,10 +11,15 @@ async function addApplication(
   return ApplicationDocument.create(application);
 }
 
-async function getApplications(): Promise<EntityDoc[]> {
+async function getApplications(
+  user: SessionUser,
+  query: Record<string, unknown> = {}
+): Promise<EntityDoc[]> {
   await connectToDB();
 
-  return ApplicationDocument.find().sort({ submittedAt: -1 });
+  const findBy = user.isAdmin && query.all ? {} : { users: user.id };
+
+  return ApplicationDocument.find(findBy).sort({ createdAt: -1 }).lean();
 }
 
 async function getApplicationById(id: ObjectId): Promise<EntityDoc> {

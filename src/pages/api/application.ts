@@ -23,8 +23,7 @@ const handler = generateMethodRoute(
           await ApplicationManager.getApplicationById(applicationId)
         );
       } else {
-        Authentication.ensureAdmin(req.user);
-        return ApplicationManager.getApplications();
+        return ApplicationManager.getApplications(req.user!, req.query);
       }
     },
     delete: {

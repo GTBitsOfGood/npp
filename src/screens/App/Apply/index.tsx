@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
+import Swal from "sweetalert2";
 
 // Components
 import Input from "&components/Input";
@@ -8,12 +9,28 @@ import Button from "&components/Button";
 import Checkbox from "&components/Checkbox";
 import TextArea from "&components/TextArea";
 
+import { createApplication } from "&actions/ApplicationActions";
+
 // Styling
 import classes from "./ApplyScreen.module.scss";
 import urls from "&utils/urls";
 
 const descriptionPlaceholder =
   "Enter a brief description of the type of product you are looking for. It’s okay if you aren’t entirely sure, but this could give us a couple of ideas to discuss with you during our first meeting.";
+
+const getLocalItem = (name: string, fallbackValue: string | boolean[]) => {
+  const storedValue = localStorage.getItem(name);
+
+  if (storedValue == null) {
+    return fallbackValue;
+  }
+
+  try {
+    return JSON.parse(storedValue);
+  } catch (error) {
+    return storedValue;
+  }
+};
 
 const ApplyScreen = () => {
   const router = useRouter();
@@ -27,6 +44,25 @@ const ApplyScreen = () => {
   const [orgPhone, setOrgPhone] = useState("");
 
   useEffect(() => {
+    setProductType((initialValue) =>
+      getLocalItem("app-productType", initialValue)
+    );
+    setLookingFor((initialValue) =>
+      getLocalItem("app-lookingFor", initialValue)
+    );
+    setContactName((initialValue) =>
+      getLocalItem("app-contactName", initialValue)
+    );
+    setContactEmail((initialValue) =>
+      getLocalItem("app-contactEmail", initialValue)
+    );
+    setContactPhone((initialValue) =>
+      getLocalItem("app-contactPhone", initialValue)
+    );
+    setOrgPhone((initialValue) => getLocalItem("app-orgPhone", initialValue));
+  }, []);
+
+  useEffect(() => {
     if (!loading && !session) {
       void router.replace(urls.pages.index);
     }
@@ -38,7 +74,7 @@ const ApplyScreen = () => {
     setProductType(tempProductType);
   };
 
-  const submit = () => {
+  const submit = async () => {
     console.log(
       productType,
       lookingFor,
@@ -47,10 +83,54 @@ const ApplyScreen = () => {
       contactPhone,
       orgPhone
     );
+
+    try {
+      localStorage.removeItem("app-productType");
+      localStorage.removeItem("app-lookingFor");
+      localStorage.removeItem("app-contactName");
+      localStorage.removeItem("app-contactEmail");
+      localStorage.removeItem("app-contactPhone");
+      localStorage.removeItem("app-orgPhone");
+
+      await Swal.fire({
+        title: "Success",
+        text: "Successfully submitted application!",
+        icon: "success",
+      });
+    } catch (error) {
+      console.log("Error", error);
+
+      await Swal.fire({
+        title: "Error",
+        text: "Failed to submit application, please try again later!",
+        icon: "error",
+      });
+    }
   };
 
-  const saveForLater = () => {
-    // TODO: save items
+  const saveForLater = async () => {
+    try {
+      localStorage.setItem("app-productType", JSON.stringify(productType));
+      localStorage.setItem("app-lookingFor", lookingFor);
+      localStorage.setItem("app-contactName", contactName);
+      localStorage.setItem("app-contactEmail", contactEmail);
+      localStorage.setItem("app-contactPhone", contactPhone);
+      localStorage.setItem("app-orgPhone", orgPhone);
+
+      await Swal.fire({
+        title: "Saved",
+        text: "Successfully saved application!",
+        icon: "success",
+      });
+    } catch (error) {
+      console.log("Error", error);
+
+      await Swal.fire({
+        title: "Error",
+        text: "Failed to save, please try again!",
+        icon: "error",
+      });
+    }
   };
 
   if (loading || !session) {

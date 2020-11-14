@@ -1,6 +1,6 @@
 import { generateMethodRoute } from "&server/routes/RouteFactory";
 import { validateAndSanitizeIdString } from "&server/utils/Validators";
-import UserManager from "&server/mongodb/actions/UserManager";
+import * as UserManager from "&server/mongodb/actions/UserManager";
 import { SessionUser } from "&server/models/SessionUser";
 import { AuthenticationError } from "&server/utils/AuthenticationError";
 

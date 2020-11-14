@@ -5,8 +5,8 @@ import {
   validateAndSanitizeIdString,
   ValidationError,
 } from "&server/utils/Validators";
-import ApplicationManager from "&server/mongodb/actions/ApplicationManager";
-import Authentication from "&server/utils/Authentication";
+import * as ApplicationManager from "&server/mongodb/actions/ApplicationManager";
+import * as Authentication from "&server/utils/Authentication";
 
 const handler = generateMethodRoute(
   {
@@ -23,8 +23,7 @@ const handler = generateMethodRoute(
           await ApplicationManager.getApplicationById(applicationId)
         );
       } else {
-        Authentication.ensureAdmin(req.user);
-        return ApplicationManager.getApplications();
+        return ApplicationManager.getApplications(req.user!, req.query);
       }
     },
     delete: {
@@ -39,11 +38,10 @@ const handler = generateMethodRoute(
       },
     },
     put: async (req) => {
-      const application = req.body.application;
-      await validateUserHasAccessToApplication(
-        req.user as SessionUser,
-        application
-      );
+      const application = { ...req.body.application };
+      const user = req.user as SessionUser;
+      application.users = [user.id];
+
       return ApplicationManager.addApplication(application);
     },
     post: async (req) => {
@@ -84,7 +82,7 @@ async function validateUserHasAccessToApplication(
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (!application.users.includes(user.id)) {
       throw new AuthenticationError(
-        "User is trying to access a meeting they are not authorized to access"
+        "User is trying to access an application they are not authorized to access"
       );
     }
   }

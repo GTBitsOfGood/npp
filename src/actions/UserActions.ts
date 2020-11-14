@@ -15,7 +15,7 @@ export const logout = (): Promise<void> =>
 
 const userRoute = urls.api.user;
 
-async function getUserById(objectId: string): Promise<User> {
+export async function getUserById(objectId: string): Promise<User> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute + `?id=${objectId}`,
     HttpMethod.GET
@@ -23,7 +23,7 @@ async function getUserById(objectId: string): Promise<User> {
   return userFromJsonResponse(response);
 }
 
-async function getUserByEmail(email: string): Promise<User> {
+export async function getUserByEmail(email: string): Promise<User> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute + `?email=${email}`,
     HttpMethod.GET
@@ -35,11 +35,11 @@ async function getUserByEmail(email: string): Promise<User> {
  * The intersection type is an artifact of the TypeORM id issue
  * @param object
  */
-function userFromJsonResponse(object: {
+export function userFromJsonResponse(object: {
   [key: string]: any;
 }): User & { id: string } {
   return {
-    id: object.id,
+    id: object._id?.toString(),
     email: object.email,
     emailVerified: object.emailVerified,
     familyName: object.familyName,
@@ -50,8 +50,3 @@ function userFromJsonResponse(object: {
     organizationVerified: object.organizationVerified,
   };
 }
-
-export default {
-  getUserById,
-  getUserByEmail,
-};

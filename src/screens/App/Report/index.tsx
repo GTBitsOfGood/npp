@@ -12,9 +12,8 @@ const placeHolder =
   "Enter a brief description of the issue with your software. We will do our best to replicate it on our end, and then reach out if we have any questions or have suggestions for how to fix it on your end.";
 
 const ReportScreen = () => {
-  const aRouter = useRouter();
+  const router = useRouter();
   const [session, loading] = useSession();
-  const [loggedIn, setIn] = useState<boolean>(false);
   const [issueType, setIssueType] = useState([false, false]);
   const [issuePassage, setIssuePassage] = useState("");
   const [contactName, setContactName] = useState("");
@@ -22,16 +21,10 @@ const ReportScreen = () => {
   const [orgPhone, setOrgPhone] = useState("");
 
   useEffect(() => {
-    if (!loading && session) {
-      setIn(true);
-    } else {
-      void aRouter.replace(urls.pages.index);
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
     }
-  }, [aRouter, loading, session]);
-
-  if (loading || !loggedIn) {
-    return <h1 className={classes.loading}>Loading....</h1>;
-  }
+  }, [loading, session]);
 
   const checkIssueType = (index: number) => {
     const tempType = [...issueType];
@@ -47,6 +40,10 @@ const ReportScreen = () => {
     console.log("Save for later!");
   };
 
+  if (loading || !session) {
+    return <h1 className="loadingText">Loading...</h1>;
+  }
+
   return (
     <div>
       <div className={classes.root}>
@@ -59,11 +56,11 @@ const ReportScreen = () => {
             ad minim veniam, quis nostrud commodo consequat.
           </h5>
         </div>
-        <div className={classes.pad}></div>
+        <div className={classes.pad} />
         <div className={classes.rightColumn}>
           <h2 className={classes.header}> General Issue</h2>
           <h5>
-            Issue Type{" "}
+            Issue Type
             <span className={classes.inline}> (select all that apply) </span>
           </h5>
           <div className={classes.box}>
@@ -93,8 +90,7 @@ const ReportScreen = () => {
             onChange={(event) => setContactName(event.target.value)}
           />
           <h5>
-            {" "}
-            Organization Phone Number{" "}
+            Organization Phone Number
             <span className={classes.inline}> optional </span>{" "}
           </h5>
           <Input
@@ -104,8 +100,7 @@ const ReportScreen = () => {
             onChange={(event) => setOrgPhone(event.target.value)}
           />
           <h5>
-            {" "}
-            Primary Contact Phone Number{" "}
+            Primary Contact Phone Number
             <span className={classes.inline}> optional </span>
           </h5>
           <Input
@@ -129,7 +124,7 @@ const ReportScreen = () => {
             </Button>
           </div>
         </div>
-        <div className={classes.spad}></div>
+        <div className={classes.spad} />
       </div>
     </div>
   );

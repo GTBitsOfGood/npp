@@ -1,3 +1,4 @@
-import HomePage from "&screens/App/Home";
+import ProjectPage, { getServerSideProps } from "&screens/App/Project";
 
-export default HomePage;
+export default ProjectPage;
+export { getServerSideProps };

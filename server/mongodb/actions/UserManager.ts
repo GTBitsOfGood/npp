@@ -2,19 +2,19 @@ import { connectToDB, EntityDoc } from "../index";
 import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 
-async function getUserById(id: ObjectId) {
+export async function getUserById(id: ObjectId) {
   await connectToDB();
 
   return UserDocument.findById(id);
 }
 
-async function getUserByEmail(email: string) {
+export async function getUserByEmail(email: string) {
   await connectToDB();
 
   return UserDocument.findOne({ email: email });
 }
 
-async function updateOrganizationInfo(
+export async function updateOrganizationInfo(
   id: ObjectId,
   organizationInfo: Record<string, any>
 ): Promise<EntityDoc> {
@@ -25,7 +25,7 @@ async function updateOrganizationInfo(
   });
 }
 
-async function updateOrganizationVerifiedStatus(
+export async function updateOrganizationVerifiedStatus(
   id: ObjectId,
   organizationVerified: boolean
 ): Promise<EntityDoc> {
@@ -35,10 +35,3 @@ async function updateOrganizationVerifiedStatus(
     organizationVerified,
   });
 }
-
-export default {
-  getUserById,
-  getUserByEmail,
-  updateOrganizationInfo,
-  updateOrganizationVerifiedStatus,
-};

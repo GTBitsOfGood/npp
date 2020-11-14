@@ -4,7 +4,7 @@ import { connectToDB, EntityDoc } from "../index";
 import { Document } from "mongoose";
 import { DateTime } from "luxon";
 
-async function getAvailabilitiesFromStartOfWeek(): Promise<EntityDoc[]> {
+export async function getAvailabilitiesFromStartOfWeek(): Promise<EntityDoc[]> {
   await connectToDB();
   return AvailabilityDocument.find({
     startDatetime: {
@@ -15,19 +15,19 @@ async function getAvailabilitiesFromStartOfWeek(): Promise<EntityDoc[]> {
   });
 }
 
-async function addAvailability(availability: {
+export async function addAvailability(availability: {
   [key: string]: any;
 }): Promise<EntityDoc> {
   await connectToDB();
   return AvailabilityDocument.create(availability) as Promise<EntityDoc>;
 }
 
-async function deleteAvailability(id: ObjectId): Promise<EntityDoc> {
+export async function deleteAvailability(id: ObjectId): Promise<EntityDoc> {
   await connectToDB();
   return AvailabilityDocument.findByIdAndRemove(id);
 }
 
-async function updateAvailability(
+export async function updateAvailability(
   id: ObjectId,
   updatedFields: any
 ): Promise<Document | { [key: string]: string }> {
@@ -39,16 +39,8 @@ async function updateAvailability(
   });
 }
 
-async function getAvailabilityById(id: ObjectId): Promise<EntityDoc> {
+export async function getAvailabilityById(id: ObjectId): Promise<EntityDoc> {
   await connectToDB();
 
   return AvailabilityDocument.findOne({ _id: id });
 }
-
-export default {
-  addAvailability,
-  deleteAvailability,
-  updateAvailability,
-  getAvailabilitiesFromStartOfWeek,
-  getAvailabilityById,
-};

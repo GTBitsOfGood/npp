@@ -10,6 +10,7 @@ import classes from "./UserIcon.module.scss";
 
 // Actions
 import { login, logout } from "&actions/UserActions";
+import { User } from "&server/models";
 
 interface PropTypes {
   containerMouse: boolean;
@@ -33,6 +34,8 @@ const UserIcon = ({ containerMouse }: PropTypes) => {
     );
   }
 
+  const user = session.user as User & { isAdmin: boolean };
+
   return (
     <div className={classes.root}>
       <div className={classes.user}>
@@ -45,7 +48,7 @@ const UserIcon = ({ containerMouse }: PropTypes) => {
           role="menu"
           tabIndex={0}
         >
-          <h3>{session.user.name}</h3>
+          <h3>{user.name}</h3>
           <Icon icon={caretDown} />
           {menuOpen && (
             <div
@@ -58,7 +61,13 @@ const UserIcon = ({ containerMouse }: PropTypes) => {
             </div>
           )}
         </div>
-        <h5 className={classes.role}>Verification Needed</h5>
+        {!user.organizationVerified && !user.isAdmin ? (
+          <h5 className={classes.role}>Verification Needed</h5>
+        ) : (
+          <h5 className={classes.role}>
+            {user.isAdmin ? "Admin" : "Nonprofit"}
+          </h5>
+        )}
       </div>
       <img
         alt="Current User"

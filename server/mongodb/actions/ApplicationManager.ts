@@ -1,8 +1,10 @@
 import { connectToDB, EntityDoc } from "../index";
 import { ObjectId } from "mongodb";
 import ApplicationDocument from "&server/mongodb/ApplicationDocument";
+import { SessionUser } from "&server/models/SessionUser";
+import { StageType } from "&server/models/StageType";
 
-async function addApplication(
+export async function addApplication(
   application: Record<string, any>
 ): Promise<EntityDoc> {
   await connectToDB();
@@ -10,24 +12,55 @@ async function addApplication(
   return ApplicationDocument.create(application);
 }
 
-async function getApplications(): Promise<EntityDoc[]> {
+export async function getApplications(
+  user: SessionUser,
+  query: Record<string, unknown> = {}
+): Promise<EntityDoc[]> {
   await connectToDB();
 
-  return ApplicationDocument.find().sort({ submittedAt: -1 });
+  const findBy = user.isAdmin && query.all ? {} : { users: user.id };
+
+  return ApplicationDocument.find(findBy)
+    .sort({
+      createdAt: -1,
+    })
+    .lean();
 }
 
-async function getApplicationById(id: ObjectId): Promise<EntityDoc> {
+export async function getApplicationsByStage(
+  stage: StageType
+): Promise<string[]> {
   await connectToDB();
 
-  return ApplicationDocument.findById(id);
+  const applications = await ApplicationDocument.find({
+    stage,
+  })
+    .sort({
+      createdAt: -1,
+    })
+    .distinct("_id");
+
+  return applications.map((i) => i.toString());
 }
 
-async function deleteApplication(id: ObjectId): Promise<EntityDoc> {
+export async function getApplicationById(id: ObjectId): Promise<EntityDoc> {
+  await connectToDB();
+
+  const application = await ApplicationDocument.findById(id);
+
+  if (application == null) {
+    throw new Error("Application does not exist!");
+  }
+
+  return application;
+}
+
+export async function deleteApplication(id: ObjectId): Promise<EntityDoc> {
   await connectToDB();
   return ApplicationDocument.findByIdAndRemove(id);
 }
 
-async function updateApplicationDecision(
+export async function updateApplicationDecision(
   id: ObjectId,
   decision: boolean
 ): Promise<EntityDoc> {
@@ -40,7 +73,7 @@ async function updateApplicationDecision(
   );
 }
 
-async function updateApplicationMeeting(
+export async function updateApplicationMeeting(
   id: ObjectId,
   meetingId: ObjectId
 ): Promise<EntityDoc> {
@@ -52,12 +85,3 @@ async function updateApplicationMeeting(
     { upsert: false, new: true }
   );
 }
-
-export default {
-  addApplication,
-  getApplications,
-  getApplicationById,
-  deleteApplication,
-  updateApplicationDecision,
-  updateApplicationMeeting,
-};

@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     const applications = await ApplicationManager.getApplications(session.user);
-    const appJson = applications.map((application) => {
+    const appJson = applications.map((application: Application) => {
       const formatted = applicationFromJson(application);
 
       return {

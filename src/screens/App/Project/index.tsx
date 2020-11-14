@@ -1,60 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { GetServerSideProps } from "next";
 import clsx from "clsx";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/client";
-import Swal from "sweetalert2";
+import { useSession, getSession } from "next-auth/client";
 
 // Components
 import Statusbar from "&components/Statusbar";
 import ButtonLink from "&components/ButtonLink";
 
 // Utils
-import { getApplications } from "&actions/ApplicationActions";
+import { applicationFromJson } from "&actions/ApplicationActions";
 import urls from "&utils/urls";
 import { Application } from "&server/models/Application";
 
 // Styles
 import classes from "./ProjectScreen.module.scss";
 
-const ProjectPage = () => {
+interface PropTypes {
+  applications: Application[];
+}
+
+const ProjectPage = ({ applications }: PropTypes) => {
   const router = useRouter();
   const [session, loading] = useSession();
-  const [latestApp, setLatest] = useState<Application | null>(null);
-  const [appLoaded, setAppLoaded] = useState<boolean>(false);
 
   useEffect(() => {
-    void (async () => {
-      if (!loading) {
-        if (!session) {
-          await router.replace(urls.pages.index);
-          // } else if (!(session.user as any)?.organizationVerified) {
-          // void router.replace(urls.pages.app.verification);
-        } else {
-          try {
-            const applications = await getApplications();
-
-            setLatest(applications?.[0]);
-          } catch (error) {
-            console.log("Error", error);
-
-            await Swal.fire({
-              title: "Error",
-              text: "Failed to submit application, please try again later!",
-              icon: "error",
-            });
-
-            setLatest(null);
-          }
-
-          setAppLoaded(true);
-        }
-      }
-    })();
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
+    }
   }, [loading, session]);
 
-  if (loading || !session || !appLoaded) {
+  if (loading || !session) {
     return <h1 className="loadingText">Loading...</h1>;
   }
+
+  const latestApp = applications[0];
 
   return (
     <div className="landingPage">
@@ -88,6 +68,43 @@ const ProjectPage = () => {
         )}
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
+
+  try {
+    const session = await getSession({ req: context.req as any });
+
+    if (session?.user == null) {
+      throw new Error("User is not logged in!");
+    }
+
+    const applications = await ApplicationManager.getApplications(session.user);
+    const appJson = applications.map((application) => {
+      const formatted = applicationFromJson(application);
+
+      return {
+        ...formatted,
+        createdAt: formatted.createdAt?.toISO(),
+        updatedAt: formatted.updatedAt?.toISO(),
+      };
+    });
+
+    return {
+      props: {
+        applications: appJson,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        applications: [],
+        error: error.message,
+      },
+    };
+  }
 };
 
 export default ProjectPage;

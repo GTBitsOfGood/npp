@@ -105,9 +105,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const application = await ApplicationManager.getApplicationById(id);
     const appJson = applicationFromJson(application);
 
-    console.log("as", stageToIndex[appJson.stage!]);
-    console.log("cs", stageToIndex[StageType.SCHEDULED]);
-
     if (stageToIndex[appJson.stage!] < stageToIndex[StageType.SCHEDULED]) {
       return {
         props: {

@@ -32,7 +32,7 @@ const SubmittedScreen = ({ application }: PropTypes) => {
     }
   }, [loading, session]);
 
-  if (loading || !session) {
+  if (loading || !session || router.isFallback) {
     return <h1 className="loadingText">Loading...</h1>;
   }
 
@@ -63,9 +63,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const { id } = (context.params || {}) as Record<string, unknown>;
     const application = await ApplicationManager.getApplicationById(id);
     const appJson = applicationFromJson(application);
-
-    console.log("as", stageToIndex[appJson.stage!]);
-    console.log("cs", stageToIndex[StageType.SCHEDULED]);
 
     if (stageToIndex[appJson.stage!] < stageToIndex[StageType.SUBMITTED]) {
       return {

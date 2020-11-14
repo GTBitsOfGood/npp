@@ -14,8 +14,12 @@ const ProjectPage = () => {
   const [session, loading] = useSession();
 
   useEffect(() => {
-    if (!loading && !session) {
-      void router.replace(urls.pages.index);
+    if (!loading) {
+      if (!session) {
+        void router.replace(urls.pages.index);
+      } else if (!(session.user as any)?.organizationVerified) {
+        // void router.replace(urls.pages.app.verification);
+      }
     }
   }, [loading, session]);
 

@@ -76,7 +76,7 @@ const ApplyScreen = () => {
   };
 
   const submit = async () => {
-    if (lookingFor.length === 0 || contactName === "" || contactEmail === "") {
+    if (lookingFor === "" || contactName === "" || contactEmail === "") {
       await Swal.fire({
         title: "Error",
         text: "Please provide all required fields!",

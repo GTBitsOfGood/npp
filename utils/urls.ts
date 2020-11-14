@@ -6,6 +6,7 @@ const urls = {
     login: "/login",
     app: {
       index: "/app",
+      verification: "/app/verification",
       apply: "/app/apply",
       scheduled: "/app/scheduled",
       submitted: "/app/submitted",

@@ -15,7 +15,7 @@ export const logout = (): Promise<void> =>
 
 const userRoute = urls.api.user;
 
-async function getUserById(objectId: string): Promise<User> {
+export async function getUserById(objectId: string): Promise<User> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute + `?id=${objectId}`,
     HttpMethod.GET
@@ -23,7 +23,7 @@ async function getUserById(objectId: string): Promise<User> {
   return userFromJsonResponse(response);
 }
 
-async function getUserByEmail(email: string): Promise<User> {
+export async function getUserByEmail(email: string): Promise<User> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute + `?email=${email}`,
     HttpMethod.GET
@@ -49,8 +49,3 @@ function userFromJsonResponse(object: {
     roles: object.roles,
   };
 }
-
-export default {
-  getUserById,
-  getUserByEmail,
-};

@@ -7,7 +7,7 @@ import { Meeting } from "&server/models/Meeting";
 
 const meetingRoute = urls.api.meeting;
 
-async function getMeetingById(objectId: string): Promise<Meeting> {
+export async function getMeetingById(objectId: string): Promise<Meeting> {
   const response: Record<string, any> = await callInternalAPI(
     meetingRoute + `?id=${objectId}`,
     HttpMethod.GET
@@ -15,7 +15,9 @@ async function getMeetingById(objectId: string): Promise<Meeting> {
   return meetingFromJsonResponse(response);
 }
 
-async function getMeetingByApplicationId(objectId: string): Promise<Meeting> {
+export async function getMeetingByApplicationId(
+  objectId: string
+): Promise<Meeting> {
   const response: Record<string, any> = await callInternalAPI(
     meetingRoute + `?applicationId=${objectId}`,
     HttpMethod.GET
@@ -23,7 +25,7 @@ async function getMeetingByApplicationId(objectId: string): Promise<Meeting> {
   return meetingFromJsonResponse(response);
 }
 
-async function getMeetings(): Promise<Meeting[]> {
+export async function getMeetings(): Promise<Meeting[]> {
   const response: Record<string, any>[] = await callInternalAPI(
     meetingRoute,
     HttpMethod.GET
@@ -31,7 +33,7 @@ async function getMeetings(): Promise<Meeting[]> {
   return response.map(meetingFromJsonResponse);
 }
 
-async function createMeeting(meeting: Availability): Promise<Meeting> {
+export async function createMeeting(meeting: Availability): Promise<Meeting> {
   const response: Record<string, any>[] = await callInternalAPI(
     meetingRoute,
     HttpMethod.PUT,
@@ -53,10 +55,3 @@ function meetingFromJsonResponse(object: { [key: string]: any }): Meeting {
     contactPhone: object.contactPhone,
   };
 }
-
-export default {
-  getMeetingById,
-  getMeetingByApplicationId,
-  getMeetings,
-  createMeeting,
-};

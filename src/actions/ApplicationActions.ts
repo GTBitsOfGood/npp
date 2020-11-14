@@ -8,7 +8,7 @@ import { contactFromJsonResponse } from "&server/models/Contact";
 
 const applicationRoute = urls.api.application;
 
-async function createApplication(
+export async function createApplication(
   application: Application
 ): Promise<Application> {
   const response: Record<string, any> = await callInternalAPI(
@@ -21,7 +21,9 @@ async function createApplication(
   return applicationFromJson(response);
 }
 
-async function getApplicationById(applicationId: string): Promise<Application> {
+export async function getApplicationById(
+  applicationId: string
+): Promise<Application> {
   const response: Record<string, any> = await callInternalAPI(
     applicationRoute + `?id=${applicationId}`,
     HttpMethod.GET
@@ -29,7 +31,7 @@ async function getApplicationById(applicationId: string): Promise<Application> {
   return applicationFromJson(response);
 }
 
-async function getApplications(): Promise<Application[]> {
+export async function getApplications(): Promise<Application[]> {
   const response: Record<string, any>[] = await callInternalAPI(
     applicationRoute,
     HttpMethod.GET
@@ -37,7 +39,9 @@ async function getApplications(): Promise<Application[]> {
   return response.map(applicationFromJson);
 }
 
-async function deleteApplication(applicationId: string): Promise<Application> {
+export async function deleteApplication(
+  applicationId: string
+): Promise<Application> {
   const response: Record<string, any> = await callInternalAPI(
     applicationRoute + `?id=${applicationId}`,
     HttpMethod.DELETE
@@ -45,7 +49,7 @@ async function deleteApplication(applicationId: string): Promise<Application> {
   return applicationFromJson(response);
 }
 
-async function updateApplicationDecision(
+export async function updateApplicationDecision(
   applicationId: string,
   decision: boolean
 ): Promise<Application> {
@@ -60,7 +64,7 @@ async function updateApplicationDecision(
   return applicationFromJson(response);
 }
 
-async function updateApplicationMeeting(
+export async function updateApplicationMeeting(
   applicationId: string,
   meetingId: string
 ): Promise<Application> {
@@ -89,12 +93,3 @@ function applicationFromJson(object: { [key: string]: any }): Application {
     decision: object.decision,
   };
 }
-
-export default {
-  createApplication,
-  getApplicationById,
-  getApplications,
-  deleteApplication,
-  updateApplicationDecision,
-  updateApplicationMeeting,
-};

@@ -22,6 +22,7 @@ export class User {
   nickname: string;
   // @ts-ignore
   roles: string[];
+  // @ts-ignore
   organizationVerified: boolean;
 
   constructor(profile: Profile) {

@@ -61,11 +61,11 @@ export async function deleteAvailability(id: string): Promise<Availability> {
   return availabilityFromJsonResponse(response);
 }
 
-function availabilityFromJsonResponse(object: {
+export function availabilityFromJsonResponse(object: {
   [key: string]: any;
 }): Availability {
   return {
-    id: object._id,
+    id: object._id?.toString(),
     interviewer: object.interviewer,
     startDatetime: DateTime.fromISO(object.startDatetime),
     endDatetime: DateTime.fromISO(object.endDatetime),

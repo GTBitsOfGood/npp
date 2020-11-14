@@ -13,8 +13,16 @@ import classes from "./SubmittedScreen.module.scss";
 
 // Utils
 import urls from "&utils/urls";
+import { Application } from "&server/models/Application";
+import { applicationFromJson } from "&actions/ApplicationActions";
+import { stageToIndex, StageType } from "&server/models/StageType";
+import { GetStaticPaths, GetStaticProps } from "next";
 
-const SubmittedScreen = () => {
+interface PropTypes {
+  application: Application;
+}
+
+const SubmittedScreen = ({ application }: PropTypes) => {
   const router = useRouter();
   const [session, loading] = useSession();
 
@@ -32,7 +40,7 @@ const SubmittedScreen = () => {
     <div className="landingPage">
       <h1 className="landingHeader">Application Submitted!</h1>
 
-      <Statusbar status={0} />
+      <Statusbar application={application} />
 
       <SubmittedUFO className={classes.submittedImage} />
 
@@ -45,6 +53,68 @@ const SubmittedScreen = () => {
       </h3>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
+
+  try {
+    const { id } = (context.params || {}) as Record<string, unknown>;
+    const application = await ApplicationManager.getApplicationById(id);
+    const appJson = applicationFromJson(application);
+
+    console.log("as", stageToIndex[appJson.stage!]);
+    console.log("cs", stageToIndex[StageType.SCHEDULED]);
+
+    if (stageToIndex[appJson.stage!] < stageToIndex[StageType.SUBMITTED]) {
+      return {
+        props: {
+          application: null,
+        },
+        notFound: true,
+        revalidate: 1,
+      };
+    } else {
+      return {
+        props: {
+          application: {
+            ...appJson,
+            createdAt: appJson.createdAt?.toISO(),
+            updatedAt: appJson.updatedAt?.toISO(),
+          },
+        },
+        revalidate: 60,
+      };
+    }
+  } catch (error) {
+    return {
+      props: {
+        application: null,
+        error: error.message,
+      },
+      notFound:
+        error.name === "CastError" ||
+        error.message === "Application does not exist!",
+      revalidate: 1,
+    };
+  }
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
+
+  const applications = await ApplicationManager.getApplicationsByStage(
+    StageType.SUBMITTED
+  );
+
+  return {
+    paths: applications.map((id: string) => ({
+      params: { id },
+    })),
+    fallback: true,
+  };
 };
 
 export default SubmittedScreen;

@@ -5,8 +5,8 @@ import {
   validateAndSanitizeIdString,
   ValidationError,
 } from "&server/utils/Validators";
-import ApplicationManager from "&server/mongodb/actions/ApplicationManager";
-import Authentication from "&server/utils/Authentication";
+import * as ApplicationManager from "&server/mongodb/actions/ApplicationManager";
+import * as Authentication from "&server/utils/Authentication";
 
 const handler = generateMethodRoute(
   {

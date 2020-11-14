@@ -7,7 +7,7 @@ import {
 import { PublicError } from "./PublicError";
 import { HttpResponse } from "../models/HttpResponse";
 import { Route, RouteConfiguration, RouteHandler } from "./RouteConfiguration";
-import Authentication from "../utils/Authentication";
+import * as Authentication from "../utils/Authentication";
 import { NppApiRequest } from "./NppApiRequest";
 
 /**

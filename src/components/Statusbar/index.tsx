@@ -3,7 +3,7 @@ import React from "react";
 // Libraries
 import clsx from "clsx";
 
-import { StageType } from "&server/models/StageType";
+import { StageType, stageToIndex } from "&server/models/StageType";
 import { Application } from "&server/models/Application";
 
 // Styling
@@ -19,14 +19,6 @@ const currentStatus = {
   "Interview Scheduled": StageType.SCHEDULED,
   "Under Review": StageType.REVIEW,
   "Decision Made": StageType.DECISION,
-};
-
-const stageToIndex = {
-  [StageType.SUBMITTED]: 0,
-  [StageType.AWAITING_SCHEDULE]: 1,
-  [StageType.SCHEDULED]: 2,
-  [StageType.REVIEW]: 3,
-  [StageType.DECISION]: 4,
 };
 
 const Statusbar = ({ application }: StatusBarProps) => {

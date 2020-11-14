@@ -5,7 +5,7 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { User } from "&server/models";
 import { UserTypeORM } from "&server/auth/UserTypeORM";
 import { SessionUser } from "&server/models/SessionUser";
-import Authentication from "&server/utils/Authentication";
+import * as Authentication from "&server/utils/Authentication";
 import BitsAuth0Provider from "&server/auth/BitsAuth0Provider";
 
 export type AuthSession = {

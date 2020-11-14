@@ -5,6 +5,7 @@ import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
 import { contactFromJsonResponse } from "&server/models/Contact";
+import { Types } from "mongoose";
 
 const applicationRoute = urls.api.application;
 
@@ -81,14 +82,16 @@ export async function updateApplicationMeeting(
   return applicationFromJson(response);
 }
 
-function applicationFromJson(object: { [key: string]: any }): Application {
+export function applicationFromJson(object: {
+  [key: string]: any;
+}): Application {
   return {
-    id: object._id,
-    users: object.users,
+    id: object._id?.toString(),
+    users: object.users?.map((id: Types.ObjectId) => id.toString()),
     primaryContact: contactFromJsonResponse(object.primaryContact),
-    productType: object.productType.map((val: string) => {
-      return ProductType[val as keyof typeof ProductType];
-    }),
+    productType: object.productType?.map(
+      (val: string) => ProductType[val as keyof typeof ProductType]
+    ),
     description: object.description,
     meeting: object.meeting,
     stage: object.stage,

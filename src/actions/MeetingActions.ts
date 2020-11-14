@@ -44,9 +44,11 @@ export async function createMeeting(meeting: Availability): Promise<Meeting> {
   return meetingFromJsonResponse(response);
 }
 
-function meetingFromJsonResponse(object: { [key: string]: any }): Meeting {
+export function meetingFromJsonResponse(object: {
+  [key: string]: any;
+}): Meeting {
   return {
-    id: object._id,
+    id: object._id?.toString(),
     interviewer: object.interviewer,
     startDatetime: DateTime.fromISO(object.startDatetime),
     nonprofit: object.nonprofit,

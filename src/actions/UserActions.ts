@@ -47,6 +47,7 @@ function userFromJsonResponse(object: {
     name: object.name,
     nickname: object.nickname,
     roles: object.roles,
+    organizationVerified: object.organizationVerified,
   };
 }
 

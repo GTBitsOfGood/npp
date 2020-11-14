@@ -1,6 +1,24 @@
 import { Schema } from "mongoose";
 import * as mongoose from "mongoose";
-import AddressSchema from "&server/mongodb/AddressSchema";
+
+const AddressSchema = new Schema({
+  streetAddress: {
+    type: String,
+    required: true,
+  },
+  city: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  zipcode: {
+    type: String,
+    required: true,
+  },
+});
 
 const OrganizationInfo = {
   organizationName: {

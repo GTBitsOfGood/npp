@@ -10,7 +10,7 @@ import ButtonLink from "&components/ButtonLink";
 
 // Utils
 import { applicationFromJson } from "&actions/ApplicationActions";
-import urls from "&utils/urls";
+import urls, { getApplicationUrl } from "&utils/urls";
 import { Application } from "&server/models/Application";
 
 // Styles
@@ -34,7 +34,8 @@ const ProjectPage = ({ applications }: PropTypes) => {
     return <h1 className="loadingText">Loading...</h1>;
   }
 
-  const latestApp = applications[0];
+  const latestApp = applications?.[0];
+  const appUrl = getApplicationUrl(latestApp);
 
   return (
     <div className="landingPage">
@@ -53,7 +54,7 @@ const ProjectPage = ({ applications }: PropTypes) => {
       </h3>
 
       <div className={clsx("landingButton", classes.button)}>
-        <ButtonLink variant="primary" href={urls.pages.app.apply}>
+        <ButtonLink variant="primary" href={appUrl}>
           <h3>{latestApp != null ? "View" : "Apply Now"}</h3>
         </ButtonLink>
       </div>
@@ -61,7 +62,10 @@ const ProjectPage = ({ applications }: PropTypes) => {
         latestApp.stage === "DECISION" &&
         latestApp.decision === false && (
           <div className={clsx("landingButton", classes.button)}>
-            <ButtonLink variant="secondary" href={urls.pages.app.apply}>
+            <ButtonLink
+              variant="secondary"
+              href={urls.pages.app.application.apply}
+            >
               <h3>Apply Again</h3>
             </ButtonLink>
           </div>

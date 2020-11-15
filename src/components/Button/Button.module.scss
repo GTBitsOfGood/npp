@@ -2,9 +2,10 @@
 
 .root {
   display: flex;
+  min-width: 200px;
   user-select: none;
   border-radius: 8px;
-  padding: 16px 64px;
+  padding: 16px 32px;
   align-items: center;
   text-decoration: none;
   justify-content: center;

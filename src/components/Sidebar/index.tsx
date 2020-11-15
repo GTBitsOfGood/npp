@@ -52,7 +52,13 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
             currentRoute === urls.pages.app.report.landing && classes.active
           )}
         >
-          <h3>Report a Problem</h3>
+          <h3
+            className={clsx(
+              currentRoute === urls.pages.app.report.landing && classes.active
+            )}
+          >
+            Report a Problem
+          </h3>
           {currentRoute === urls.pages.app.report.landing && (
             <span className={classes.rectangle} />
           )}

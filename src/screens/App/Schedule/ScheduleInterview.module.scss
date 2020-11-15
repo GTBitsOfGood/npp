@@ -1,13 +1,20 @@
 @import "../../../styles/Colors";
+@import "../../../styles/Properties";
 
-.confirm {
-  display: flex;
-  margin-top: 32px;
-  border-radius: 8px;
-  padding: 16px 24px;
-  align-items: center;
-  flex-direction: row;
-  background-color: $white;
-  border: 1px solid $gray-10;
-  justify-content: space-between;
+.calendar {
+  .confirm {
+    display: flex;
+    margin-top: 32px;
+    border-radius: 8px;
+    padding: 16px 24px;
+    align-items: center;
+    flex-direction: row;
+    background-color: $white;
+    border: 1px solid $gray-10;
+    justify-content: space-between;
+  }
+
+  @include breakpoint-below-medium {
+    margin-top: 48px;
+  }
 }

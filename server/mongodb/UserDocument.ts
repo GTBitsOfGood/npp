@@ -14,14 +14,14 @@ const AddressSchema = new Schema({
     type: String,
     required: true,
   },
-  zipcode: {
+  zipCode: {
     type: String,
     required: true,
   },
 });
 
-const OrganizationInfo = {
-  organizationName: {
+const OrganizationSchema = new Schema({
+  name: {
     type: String,
     required: true,
   },
@@ -36,10 +36,7 @@ const OrganizationInfo = {
     type: AddressSchema,
     required: true,
   },
-  verified: {
-    required: true,
-  },
-};
+});
 
 const UserSchema = new Schema({
   nickname: {
@@ -76,8 +73,8 @@ const UserSchema = new Schema({
     type: [String], // maybe change to enum once we know all the roles
     required: true,
   },
-  organizationInfo: {
-    type: OrganizationInfo,
+  organization: {
+    type: OrganizationSchema,
     required: false,
   },
   // TypeORM doesn't support nested fields, and this is something we want with each session, so....

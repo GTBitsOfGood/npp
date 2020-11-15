@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/client";
+import { useSession } from "&utils/auth-utils";
 
 // Styling
 import classes from "./HomePage.module.scss";
 
 // URLs
 import urls from "&utils/urls";
+import UserActions from "&actions/UserActions";
 
 const HomePage = () => {
   const router = useRouter();

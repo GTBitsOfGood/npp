@@ -26,14 +26,21 @@ const ApplicationSchema = new Schema(
       type: String,
       required: true,
     },
-    submittedAt: {
-      type: Date,
-      default: null,
-    },
     meeting: {
       type: Types.ObjectId,
       ref: "Meeting",
       default: null,
+    },
+    stage: {
+      type: String,
+      enum: [
+        "SUBMITTED",
+        "AWAITING_SCHEDULE",
+        "SCHEDULED",
+        "REVIEW",
+        "DECISION",
+      ],
+      default: "SUBMITTED",
     },
     decision: {
       type: Boolean,

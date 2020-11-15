@@ -1,0 +1,10 @@
+@import "../../../styles/Colors";
+@import "../../../styles/Properties";
+
+.button {
+  margin: 0;
+
+  &:not(:last-of-type) {
+    margin-bottom: 32px;
+  }
+}

@@ -16,7 +16,7 @@ export const logout = (): Promise<void> =>
 
 const userRoute = urls.api.user;
 
-async function getUserById(objectId: string): Promise<DetailedUser> {
+export async function getUserById(objectId: string): Promise<DetailedUser> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute + `?id=${objectId}`,
     HttpMethod.GET
@@ -24,7 +24,7 @@ async function getUserById(objectId: string): Promise<DetailedUser> {
   return userFromJsonResponse(response);
 }
 
-async function getUserByEmail(email: string): Promise<DetailedUser> {
+export async function getUserByEmail(email: string): Promise<DetailedUser> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute + `?email=${email}`,
     HttpMethod.GET
@@ -32,7 +32,7 @@ async function getUserByEmail(email: string): Promise<DetailedUser> {
   return userFromJsonResponse(response);
 }
 
-async function updateOrganizationForUser(
+export async function updateOrganizationForUser(
   userId: string,
   organization: Organization
 ): Promise<DetailedUser> {
@@ -47,7 +47,7 @@ async function updateOrganizationForUser(
   return userFromJsonResponse(response);
 }
 
-async function updateOrganizationVerifiedStatus(
+export async function updateOrganizationVerifiedStatus(
   userId: string,
   organizationVerified: boolean
 ): Promise<DetailedUser> {
@@ -72,11 +72,4 @@ function userFromJsonResponse(object: { [key: string]: any }): DetailedUser {
  */
 export type DetailedUser = User & { id: string } & {
   organization?: Organization;
-};
-
-export default {
-  getUserById,
-  getUserByEmail,
-  updateOrganizationForUser,
-  updateOrganizationVerifiedStatus,
 };

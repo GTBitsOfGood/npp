@@ -5,11 +5,12 @@ import urls from "./urls";
 export const defaultSeoConfig: DefaultSeoProps = {
   title: "Nonprofit Portal",
   description:
-    "A portal built to help nonprofits apply to work with Bits of Good",
+    "A portal built to help nonprofits apply to work with Bits of Good, a student organization at Georgia Tech dedicated to connecting students with nonprofits to advance their social missions.",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: urls.baseUrl,
+    title: "Bits of Good Nonprofit Portal",
     site_name: "Bits of Good",
     images: [
       {

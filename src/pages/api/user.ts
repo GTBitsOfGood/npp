@@ -1,10 +1,10 @@
 import { ObjectId } from "mongodb";
 import { generateMethodRoute } from "&server/routes/RouteFactory";
 import { validateAndSanitizeIdString } from "&server/utils/Validators";
-import UserManager from "&server/mongodb/actions/UserManager";
+import * as UserManager from "&server/mongodb/actions/UserManager";
 import { SessionUser } from "&server/models/SessionUser";
 import { AuthenticationError } from "&server/utils/AuthenticationError";
-import Authentication from "&server/utils/Authentication";
+import { ADMIN_ROLE } from "&server/utils/Authentication";
 
 const handler = generateMethodRoute(
   {
@@ -42,7 +42,7 @@ const handler = generateMethodRoute(
           req.body.organizationVerified
         );
       },
-      routeConfiguration: { requiredRoles: [Authentication.ADMIN_ROLE] },
+      routeConfiguration: { requiredRoles: [ADMIN_ROLE] },
     },
   }
 );

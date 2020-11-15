@@ -8,7 +8,9 @@ import { AuthenticationError } from "./AuthenticationError";
  * a wrapped Route
  * @param req
  */
-async function getUser(req: NextApiRequest): Promise<SessionUser | null> {
+export async function getUser(
+  req: NextApiRequest
+): Promise<SessionUser | null> {
   const session = await getSession({ req });
   if (!session) {
     return null;
@@ -21,7 +23,7 @@ async function getUser(req: NextApiRequest): Promise<SessionUser | null> {
  * @param user - the user to be authentication
  * @param requiredRoles
  */
-async function ensureUserHasAccess(
+export async function authenticate(
   user: SessionUser | null,
   requiredRoles: string[] | null | undefined
 ): Promise<void> {
@@ -47,15 +49,10 @@ async function ensureUserHasAccess(
  * Ensure the user is admin. Otherwise, throw an authentication error
  * @param user - the user
  */
-function ensureAdmin(user: SessionUser | null | undefined): void {
+export function ensureAdmin(user: SessionUser | null | undefined): void {
   if (!user || !user.isAdmin) {
     throw new AuthenticationError("User must be an admin to access this route");
   }
 }
 
-export default {
-  ADMIN_ROLE: "NPP-Admin",
-  getUser,
-  authenticate: ensureUserHasAccess,
-  ensureAdmin,
-};
+export const ADMIN_ROLE = "NPP-Admin";

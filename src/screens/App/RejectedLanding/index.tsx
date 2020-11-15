@@ -40,12 +40,18 @@ const RejectedLanding = ({ application }: RejectedProps) => {
 
       <RejectedUFO className="landingImage" />
 
-      <h3 className="landingText">
-        After careful considerations, we are sorry to inform you that we decide
-        not to move on with your application. We enjoyed learning about your
-        organization and its impact on the community. We appreciate your time
-        and work! Keep in touch!
-      </h3>
+      <div className="landingContent">
+        <div className="landingPadding" />
+
+        <h3 className="landingText">
+          After careful considerations, we are sorry to inform you that we
+          decide not to move on with your application. We enjoyed learning about
+          your organization and its impact on the community. We appreciate your
+          time and work! Keep in touch!
+        </h3>
+
+        <div className="landingPadding" />
+      </div>
     </div>
   );
 };

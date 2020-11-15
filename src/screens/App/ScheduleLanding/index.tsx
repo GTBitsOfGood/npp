@@ -42,13 +42,19 @@ const ScheduleLanding = ({ application }: ScheduleLandingProps) => {
 
       <SchedulePerson className="landingImage" />
 
-      <h3 className="landingText">
-        As a partner, Bits of Good will help you build software that turns your
-        need into real productLorem ipsum dolor sit amet, consectetur adipiscing
-        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-        ut
-      </h3>
+      <div className="landingContent">
+        <div className="landingPadding" />
+
+        <h3 className="landingText">
+          As a partner, Bits of Good will help you build software that turns
+          your need into real productLorem ipsum dolor sit amet, consectetur
+          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+          ullamco laboris nisi ut
+        </h3>
+
+        <div className="landingPadding" />
+      </div>
 
       <div className="landingButton">
         {/* TODO Fix Link*/}

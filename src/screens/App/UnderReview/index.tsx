@@ -38,15 +38,21 @@ const UnderReview = ({ application }: UnderReviewProps) => {
 
       <UnderReviewPerson className="landingImage" />
 
-      <h3 className="landingText">
-        We enjoyed the meeting with you! Hang tight for the updates for your
-        application. We still need more time to tell our team about your
-        organization and the product goals to make decisions accordingly. We
-        appreciate your time and patience. Before the decision is made, feel
-        free to contact us at{" "}
-        <a href="mailto:hello@bitsofgood.org">hello@bitsofgood.org</a> if you
-        have any further questions
-      </h3>
+      <div className="landingContent">
+        <div className="landingPadding" />
+
+        <h3 className="landingText">
+          We enjoyed the meeting with you! Hang tight for the updates for your
+          application. We still need more time to tell our team about your
+          organization and the product goals to make decisions accordingly. We
+          appreciate your time and patience. Before the decision is made, feel
+          free to contact us at{" "}
+          <a href="mailto:hello@bitsofgood.org">hello@bitsofgood.org</a> if you
+          have any further questions
+        </h3>
+
+        <div className="landingPadding" />
+      </div>
     </div>
   );
 };

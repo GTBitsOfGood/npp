@@ -42,12 +42,18 @@ const ApprovedLanding = ({ application }: ApprovedProps) => {
 
       <ApprovedPeople className="landingImage" />
 
-      <h3 className="landingText">
-        Congratulations! After careful consideration, our team has decided to
-        work with you next semester! We enjoyed the meeting with you and believe
-        that our missions align with each other. Let’s build a powerful and
-        meaningful product together to make our community better!
-      </h3>
+      <div className="landingContent">
+        <div className="landingPadding" />
+
+        <h3 className="landingText">
+          Congratulations! After careful consideration, our team has decided to
+          work with you next semester! We enjoyed the meeting with you and
+          believe that our missions align with each other. Let’s build a
+          powerful and meaningful product together to make our community better!
+        </h3>
+
+        <div className="landingPadding" />
+      </div>
     </div>
   );
 };

@@ -65,18 +65,27 @@ body {
     margin: 24px auto 48px;
   }
 
-  .landingText {
-    color: $gray-80;
-    margin: 0 122px 48px;
+  .landingContent {
+    display: flex;
 
-    a {
-      font-size: 16px;
-      font-weight: 800;
-      line-height: 130%;
-      color: $orange-500;
-      font-family: $visby;
-      text-decoration: none;
-      font-variant-ligatures: no-common-ligatures;
+    .landingPadding {
+      flex: 2;
+    }
+
+    .landingText {
+      flex: 8;
+      color: $gray-80;
+      margin: 0 0 48px;
+
+      a {
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 130%;
+        color: $orange-500;
+        font-family: $visby;
+        text-decoration: none;
+        font-variant-ligatures: no-common-ligatures;
+      }
     }
   }
 

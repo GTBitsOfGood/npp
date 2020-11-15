@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { DateTime } from "luxon";
+import { useRouter } from "next/router";
 
 // Components
 import Calendar from "&components/Calendar";
@@ -10,17 +11,28 @@ import Button from "&components/Button";
 // Utils
 import { applicationFromJson } from "&actions/ApplicationActions";
 import { stageToIndex, StageType } from "&server/models/StageType";
+import { useSession } from "&utils/auth-utils";
+import { Application } from "&server/models/Application";
+import urls from "&utils/urls";
 
 // Styling
 import classes from "./ScheduleInterview.module.scss";
-import { Application } from "&server/models/Application";
 
 interface PropTypes {
   application: Application;
 }
 
 const ScheduleInterview = ({ application }: PropTypes) => {
+  const router = useRouter();
+  const [session, loading] = useSession();
+
   const [interviewDate, setInterviewDate] = useState(new Date());
+
+  useEffect(() => {
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
+    }
+  }, [loading, session]);
 
   const message =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud commodo consequat.";
@@ -32,6 +44,10 @@ const ScheduleInterview = ({ application }: PropTypes) => {
   const schedule = () => {
     console.log(interviewDate);
   };
+
+  if (loading || !session || router.isFallback) {
+    return <h1 className="loadingText">Loading...</h1>;
+  }
 
   return (
     <div className={classes.root}>

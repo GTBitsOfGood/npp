@@ -21,7 +21,7 @@ const AddressSchema = new Schema({
 });
 
 const OrganizationSchema = new Schema({
-  name: {
+  organizationName: {
     type: String,
     required: true,
   },
@@ -34,6 +34,10 @@ const OrganizationSchema = new Schema({
   },
   address: {
     type: AddressSchema,
+    required: true,
+  },
+  mission: {
+    type: String,
     required: true,
   },
 });

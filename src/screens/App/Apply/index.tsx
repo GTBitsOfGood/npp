@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/client";
 import Swal from "sweetalert2";
 
 // Components
@@ -9,8 +8,10 @@ import Button from "&components/Button";
 import Checkbox from "&components/Checkbox";
 import TextArea from "&components/TextArea";
 
+// Utils
 import { createApplication } from "&actions/ApplicationActions";
 import { ProductType } from "&server/models/ProductType";
+import { useSession } from "&utils/auth-utils";
 
 // Styling
 import classes from "./ApplyScreen.module.scss";

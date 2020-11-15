@@ -1,12 +1,12 @@
 import classes from "./ReportPage.module.scss";
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/client";
+import { useRouter } from "next/router";
 import Input from "&components/Input";
 import Button from "&components/Button";
 import Checkbox from "&components/Checkbox";
 import TextArea from "&components/TextArea";
+import { useSession } from "&utils/auth-utils";
 import urls from "&utils/urls";
-import { useRouter } from "next/router";
 
 const placeHolder =
   "Enter a brief description of the issue with your software. We will do our best to replicate it on our end, and then reach out if we have any questions or have suggestions for how to fix it on your end.";

@@ -83,15 +83,21 @@ const Scheduled = ({ application }: PropTypes) => {
         </div>
       </div>
 
-      <h3 className="landingText">
-        Bits of Good has confirmed the meeting time with you! We are looking
-        forward to meeting with you and learning more about your organization.
-        We hope to discuss how we can best help you to build the product and
-        bring more impact to the community! If you have any further questions,
-        please feel free to contact us at{" "}
-        <a href="mailto:hello@bitsofgood.org">hello@bitsofgood.org</a> at your
-        convenience.
-      </h3>
+      <div className="landingContent">
+        <div className="landingPadding" />
+
+        <h3 className="landingText">
+          Bits of Good has confirmed the meeting time with you! We are looking
+          forward to meeting with you and learning more about your organization.
+          We hope to discuss how we can best help you to build the product and
+          bring more impact to the community! If you have any further questions,
+          please feel free to contact us at{" "}
+          <a href="mailto:hello@bitsofgood.org">hello@bitsofgood.org</a> at your
+          convenience.
+        </h3>
+
+        <div className="landingPadding" />
+      </div>
     </div>
   );
 };

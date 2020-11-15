@@ -91,99 +91,111 @@ const VerificationScreen = () => {
   }
 
   return (
-    <div className={classes.root}>
-      <div className={classes.leftCol}>
-        <h1 className={classes.formTitle}>Non-profit Verification</h1>
-        <h5 className={classes.formDescription}>
-          TODO: Explain why we need this information: Lorem ipsum dolor sit
-          amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-          commodo consequat.
-        </h5>
-      </div>
+    <div className="applicationPage">
+      <div className="root">
+        <div className="sidePadding" />
 
-      <div className={classes.rightCol}>
-        <h5>Organization Name</h5>
-        <Input
-          value={orgName}
-          placeholder="Bits of Good"
-          onChange={(event) => setOrgName(event.target.value)}
-        />
+        <div className="leftCol">
+          <h1 className="formTitle">Non-profit Verification</h1>
+          <h5 className="formDescription">
+            TODO: Explain why we need this information: Lorem ipsum dolor sit
+            amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+            nostrud commodo consequat.
+          </h5>
+        </div>
 
-        <h5>EIN</h5>
-        <Input
-          value={einNumber}
-          placeholder="XX-XXXXXXX"
-          onChange={(event) => setEINNumber(event.target.value)}
-        />
+        <div className="padding" />
 
-        <h5>
-          Website
-          <span className={classes.inline}> (Optional)</span>
-        </h5>
-        <Input
-          value={websiteURL}
-          placeholder="https://bitsofgood.org"
-          onChange={(event) => setWebsite(event.target.value)}
-        />
+        <div className="rightCol">
+          <h5>Organization Name</h5>
+          <Input
+            value={orgName}
+            placeholder="Bits of Good"
+            onChange={(event) => setOrgName(event.target.value)}
+          />
 
-        <h5>Street Address</h5>
-        <Input
-          value={streetAddress}
-          placeholder="848 Spring St NW"
-          onChange={(event) => setStreetAddress(event.target.value)}
-        />
+          <h5>EIN</h5>
+          <Input
+            value={einNumber}
+            placeholder="XX-XXXXXXX"
+            onChange={(event) => setEINNumber(event.target.value)}
+          />
 
-        <div className={classes.addressContainer}>
-          <div className={classes.type}>
-            <h3>City</h3>
-            <Input
-              value={city}
-              placeholder="Atlanta"
-              onChange={(event) => setCity(event.target.value)}
-            />
-          </div>
-          <div className={classes.type}>
-            <h3>State</h3>
-            <Select onChange={(event) => setState(event.target.value)}>
-              <option value="" disabled selected hidden>
-                Georgia
-              </option>
-              {states.map((states) => (
-                <option key={states} value={states}>
-                  {states}
+          <h5>
+            Website
+            <span className="inline"> optional</span>
+          </h5>
+          <Input
+            value={websiteURL}
+            placeholder="https://bitsofgood.org"
+            onChange={(event) => setWebsite(event.target.value)}
+          />
+
+          <h5>Street Address</h5>
+          <Input
+            value={streetAddress}
+            placeholder="848 Spring St NW"
+            onChange={(event) => setStreetAddress(event.target.value)}
+          />
+
+          <div className={classes.addressContainer}>
+            <div className={classes.city}>
+              <h5>City</h5>
+              <Input
+                value={city}
+                placeholder="Atlanta"
+                onChange={(event) => setCity(event.target.value)}
+              />
+            </div>
+
+            <div className={classes.state}>
+              <h5>State</h5>
+              <Select onChange={(event) => setState(event.target.value)}>
+                <option value="" disabled selected hidden>
+                  Georgia
                 </option>
-              ))}
-            </Select>
+
+                {states.map((states) => (
+                  <option key={states} value={states}>
+                    {states}
+                  </option>
+                ))}
+              </Select>
+            </div>
+
+            <div className={classes.zip}>
+              <h5>Zip Code</h5>
+              <Input
+                value={zipCode}
+                placeholder="30308"
+                onChange={(event) => setZipCode(event.target.value)}
+              />
+            </div>
           </div>
-          <div className={classes.type}>
-            <h3>Zip Code</h3>
-            <Input
-              value={zipCode}
-              placeholder="30308"
-              onChange={(event) => setZipCode(event.target.value)}
-            />
+
+          <h5>Your Mission</h5>
+          <p>
+            We want to know the mission of your organization. Who do you care to
+            serve? What services do you provide to the community? How could the
+            collaboration with BoG help you achieve your mission?
+          </p>
+
+          <TextArea
+            rows={4}
+            value={missionStatement}
+            placeholder={missionPlaceholder}
+            onChange={(event) => setMissionStatement(event.target.value)}
+          />
+
+          <div className="buttonContainer">
+            <Button variant="primary" onClick={submit}>
+              <h3>Submit</h3>
+            </Button>
           </div>
         </div>
 
-        <h5>Your Mission</h5>
-        <h4>
-          We want to know the mission of your organization. Who do you care to
-          serve? What services do you provide to the community? How could the
-          collaboration with BoG help you achieve your mission?
-        </h4>
-        <TextArea
-          rows={4}
-          value={missionStatement}
-          placeholder={missionPlaceholder}
-          onChange={(event) => setMissionStatement(event.target.value)}
-        />
-
-        <div className={classes.buttonContainer}>
-          <Button variant="primary" onClick={submit}>
-            <h3>Submit</h3>
-          </Button>
-        </div>
+        <div className="sidePadding" />
       </div>
     </div>
   );

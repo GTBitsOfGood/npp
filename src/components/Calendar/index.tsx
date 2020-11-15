@@ -33,7 +33,7 @@ type CalendarItem = CalendarDay | null;
 interface CalendarProps {
   withTime?: boolean;
   value?: Date | null;
-  onSelectDate: (date: Date) => void | Promise<void>;
+  onSelectDate: (date?: Date) => void | Promise<void>;
 }
 
 const Calendar = ({
@@ -44,7 +44,6 @@ const Calendar = ({
   const [selectedDate, setSelectedDate] = useState<DateTime>(
     currentDate.startOf("month")
   );
-
   const [calendarDays, setCalendarDays] = useState<CalendarItem[]>([]);
 
   useEffect(() => {
@@ -137,11 +136,19 @@ const Calendar = ({
                             curDay.disabled && classes.disabledButton,
                             curDay.date.equals(currentDate) && classes.curDay,
                             value &&
-                              value.valueOf() ===
-                                curDay.date.toJSDate().valueOf() &&
+                              value.getMonth() + 1 === curDay.date.month &&
+                              value.getDate() === curDay.date.day &&
                               classes.selectedDay
                           )}
-                          onClick={() => onSelectDate(curDay.date.toJSDate())}
+                          onClick={() => {
+                            if (
+                              value &&
+                              value.getMonth() + 1 === curDay.date.month &&
+                              value.getDate() === curDay.date.day
+                            )
+                              void onSelectDate(undefined);
+                            else void onSelectDate(curDay.date.toJSDate());
+                          }}
                         >
                           <h2
                             className={clsx(
@@ -167,7 +174,7 @@ const Calendar = ({
 
       {withTime && value != null && (
         <div className={classes.time}>
-          <h3>{DateTime.fromJSDate(value).toFormat("EEEE, MMMM d")}</h3>
+          <h3>{DateTime.fromJSDate(value).toFormat("EEEE, MMM d")}</h3>
           <TimePicker date={value} value={value} onSelectTime={onSelectDate} />
         </div>
       )}

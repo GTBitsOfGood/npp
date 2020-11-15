@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { GetServerSideProps } from "next";
-import clsx from "clsx";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/client";
 
@@ -8,11 +7,25 @@ import { getSession } from "next-auth/client";
 import Statusbar from "&components/Statusbar";
 import ButtonLink from "&components/ButtonLink";
 
-// Utils
-import { applicationFromJson } from "&actions/ApplicationActions";
-import urls, { getApplicationUrl } from "&utils/urls";
+// Screens
+import Scheduled from "&screens/App/Scheduled";
+import UnderReview from "&screens/App/UnderReview";
+import SubmittedScreen from "&screens/App/Submitted";
+import ApprovedLanding from "&screens/App/ApprovedLanding";
+import RejectedLanding from "&screens/App/RejectedLanding";
+import ScheduleLanding from "&screens/App/ScheduleLanding";
+
+// Iconography
+import ApplyNewBulb from "&icons/ApplyNewBulb";
+
+// Interfaces
+import { StageType } from "&server/models/StageType";
 import { Application } from "&server/models/Application";
+
+// Utils
 import { useSession } from "&utils/auth-utils";
+import urls, { getApplicationUrl } from "&utils/urls";
+import { applicationFromJson } from "&actions/ApplicationActions";
 
 // Styles
 import classes from "./ProjectScreen.module.scss";
@@ -43,31 +56,54 @@ const ProjectPage = ({ applications, organizationVerified }: PropTypes) => {
     return <h1 className="loadingText">Loading...</h1>;
   }
 
+  if (latestApp) {
+    if (latestApp.stage === StageType.SUBMITTED)
+      return <SubmittedScreen application={latestApp} />;
+    else if (latestApp.stage === StageType.AWAITING_SCHEDULE)
+      return <ScheduleLanding application={latestApp} />;
+    else if (latestApp.stage === StageType.SCHEDULED)
+      return <Scheduled application={latestApp} />;
+    else if (latestApp.stage === StageType.REVIEW)
+      return <UnderReview application={latestApp} />;
+    else if (latestApp.stage === StageType.DECISION) {
+      if (latestApp.decision)
+        return <ApprovedLanding application={latestApp} />;
+      else return <RejectedLanding application={latestApp} />;
+    }
+  }
+
   return (
     <div className="landingPage">
-      <h1 className="landingHeader">
-        {latestApp != null ? "Project Status" : "Apply for a New Project"}
-      </h1>
+      <h1 className="landingHeader">Apply for a New Project</h1>
 
       <Statusbar application={latestApp} />
 
-      <h3 className="landingText">
-        As a partner, Bits of Good will help you build software that turns your
-        need into real productLorem ipsum dolor sit amet, consectetur adipiscing
-        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-        ut
-      </h3>
+      <ApplyNewBulb className="landingImage" />
 
-      <div className={clsx("landingButton", classes.button)}>
-        <ButtonLink variant="primary" href={appUrl}>
-          <h3>{latestApp != null ? "View" : "Apply Now"}</h3>
+      <div className="landingContent">
+        <div className="landingPadding" />
+
+        <h3 className="landingText">
+          As a partner, Bits of Good will help you build software that turns
+          your need into real productLorem ipsum dolor sit amet, consectetur
+          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+          ullamco laboris nisi ut
+        </h3>
+
+        <div className="landingPadding" />
+      </div>
+
+      <div className="landingButton">
+        <ButtonLink variant="primary" href={urls.pages.app.index}>
+          <h3>Apply Now</h3>
         </ButtonLink>
       </div>
+
       {latestApp != null &&
         latestApp.stage === "DECISION" &&
         latestApp.decision === false && (
-          <div className={clsx("landingButton", classes.button)}>
+          <div className="landingButton">
             <ButtonLink
               variant="secondary"
               href={urls.pages.app.application.apply}

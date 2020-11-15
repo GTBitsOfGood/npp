@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/client";
 
 // Iconography
@@ -12,15 +12,15 @@ import classes from "./UserIcon.module.scss";
 import { login, logout } from "&actions/UserActions";
 import { User } from "&server/models";
 
-interface PropTypes {
+interface UserIconProps {
   containerMouse: boolean;
 }
 
-const UserIcon = ({ containerMouse }: PropTypes) => {
+const UserIcon = ({ containerMouse }: UserIconProps) => {
   const [session, loading] = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setMenuOpen((prevOpen) => prevOpen && containerMouse);
   }, [containerMouse]);
 
@@ -40,15 +40,16 @@ const UserIcon = ({ containerMouse }: PropTypes) => {
     <div className={classes.root}>
       <div className={classes.user}>
         <div
-          className={classes.topRow}
-          onMouseOver={() => setMenuOpen(true)}
-          onFocus={() => setMenuOpen(true)}
-          onClick={() => setMenuOpen((prevState) => !prevState)}
-          onKeyPress={() => setMenuOpen((prevState) => !prevState)}
           role="menu"
           tabIndex={0}
+          className={classes.topRow}
+          onFocus={() => setMenuOpen(true)}
+          onMouseOver={() => setMenuOpen(true)}
+          onClick={() => setMenuOpen((prevState) => !prevState)}
+          onKeyPress={() => setMenuOpen((prevState) => !prevState)}
         >
           <h3>{user.name}</h3>
+
           <Icon icon={caretDown} />
           {menuOpen && (
             <div

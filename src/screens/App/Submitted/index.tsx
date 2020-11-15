@@ -7,9 +7,6 @@ import Statusbar from "&components/Statusbar";
 // Iconography
 import SubmittedUFO from "&icons/SubmittedUFO";
 
-// Styling
-import classes from "./SubmittedScreen.module.scss";
-
 // Utils
 import urls from "&utils/urls";
 import { Application } from "&server/models/Application";
@@ -42,15 +39,21 @@ const SubmittedScreen = ({ application }: PropTypes) => {
 
       <Statusbar application={application} />
 
-      <SubmittedUFO className={classes.submittedImage} />
+      <SubmittedUFO className="landingImage" />
 
-      <h3 className="landingText">
-        Your application has been submitted to the BoG team successfully! You
-        will get an email notification after we finish reviewing your
-        application. If we decide to move on with your project, the next step
-        will be an interview to better understand your project and see if it’s a
-        good fit for Bits of Good.
-      </h3>
+      <div className="landingContent">
+        <div className="landingPadding" />
+
+        <h3 className="landingText">
+          Your application has been submitted to the BoG team successfully! You
+          will get an email notification after we finish reviewing your
+          application. If we decide to move on with your project, the next step
+          will be an interview to better understand your project and see if it’s
+          a good fit for Bits of Good.
+        </h3>
+
+        <div className="landingPadding" />
+      </div>
     </div>
   );
 };

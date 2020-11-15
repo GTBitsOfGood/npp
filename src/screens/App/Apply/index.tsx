@@ -13,8 +13,7 @@ import { createApplication } from "&actions/ApplicationActions";
 import { ProductType } from "&server/models/ProductType";
 import { useSession } from "&utils/auth-utils";
 
-// Styling
-import classes from "./ApplyScreen.module.scss";
+// Utils
 import urls from "&utils/urls";
 
 const descriptionPlaceholder =
@@ -156,25 +155,28 @@ const ApplyScreen = () => {
 
   return (
     <div className="applicationPage">
-      <div className={classes.root}>
-        <div className={classes.sidePadding} />
-        <div className={classes.leftCol}>
-          <h1 className={classes.formTitle}>Sign up for a Project</h1>
-          <h5 className={classes.formDescription}>
+      <div className="root">
+        <div className="sidePadding" />
+
+        <div className="leftCol">
+          <h1 className="formTitle">Sign up for a Project</h1>
+          <h5 className="formDescription">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
             ad minim veniam, quis nostrud commodo consequat.
           </h5>
         </div>
-        <div className={classes.padding} />
-        <div className={classes.rightCol}>
-          <h2 className={classes.sectionHeader}>Product Needs</h2>
+
+        <div className="padding" />
+
+        <div className="rightCol">
+          <h2 className="sectionHeader">Product Needs</h2>
 
           <h5>
             Product Type
-            <span className={classes.inline}> (select all that apply)</span>
+            <span className="inline"> (select all that apply)</span>
           </h5>
-          <div className={classes.checkboxContainer}>
+          <div className="checkboxContainer">
             <Checkbox
               label="Website"
               checked={productType[0]}
@@ -195,7 +197,7 @@ const ApplyScreen = () => {
             onChange={(event) => setLookingFor(event.target.value)}
           />
 
-          <h2 className={classes.sectionHeader}>Contact Information</h2>
+          <h2 className="sectionHeader">Contact Information</h2>
 
           <h5>Primary Contact</h5>
           <Input
@@ -214,7 +216,7 @@ const ApplyScreen = () => {
 
           <h5>
             Organization Phone Number
-            <span className={classes.inline}> optional</span>
+            <span className="inline"> optional</span>
           </h5>
           <Input
             type="number"
@@ -225,7 +227,7 @@ const ApplyScreen = () => {
 
           <h5>
             Primary Contact Phone Number
-            <span className={classes.inline}> optional</span>
+            <span className="inline"> optional</span>
           </h5>
           <Input
             type="number"
@@ -234,20 +236,18 @@ const ApplyScreen = () => {
             onChange={(event) => setContactPhone(event.target.value)}
           />
 
-          <div className={classes.buttonContainer}>
+          <div className="buttonContainer">
             <Button variant="secondary" onClick={saveForLater}>
               <h3>Save for Later</h3>
             </Button>
-            <Button
-              className={classes.secondButton}
-              variant="primary"
-              onClick={submit}
-            >
+
+            <Button className="secondButton" variant="primary" onClick={submit}>
               <h3>Apply</h3>
             </Button>
           </div>
         </div>
-        <div className={classes.sidePadding} />
+
+        <div className="sidePadding" />
       </div>
     </div>
   );

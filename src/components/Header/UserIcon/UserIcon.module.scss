@@ -5,16 +5,11 @@
   flex-direction: row;
 
   .menu {
-    position: absolute;
-    top: 48px;
+    top: 56px;
     right: 1/12;
+    position: absolute;
     background-color: $white;
-    border: 1px solid #f0f0f0;
-    border-top: none;
-
-    @media (max-width: 1100px) {
-      top: 55px;
-    }
+    border-bottom: 1px solid $gray-10;
 
     @media (max-width: 700px) {
       right: 84px;

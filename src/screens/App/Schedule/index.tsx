@@ -4,9 +4,11 @@ import { DateTime } from "luxon";
 import { useRouter } from "next/router";
 
 // Components
-import Calendar from "&components/Calendar";
-import Clock from "&components/icons/Clock";
 import Button from "&components/Button";
+import Calendar from "&components/Calendar";
+
+// Iconography
+import Clock from "&components/icons/Clock";
 
 // Utils
 import { applicationFromJson } from "&actions/ApplicationActions";
@@ -18,15 +20,15 @@ import urls from "&utils/urls";
 // Styling
 import classes from "./ScheduleInterview.module.scss";
 
-interface PropTypes {
-  application: Application;
-}
+// interface ScheduleInterviewProps {
+//   application:  Application;
+// }
 
-const ScheduleInterview = ({ application }: PropTypes) => {
+const ScheduleInterview = () => {
   const router = useRouter();
   const [session, loading] = useSession();
 
-  const [interviewDate, setInterviewDate] = useState(new Date());
+  const [interviewDate, setInterviewDate] = useState<Date>();
 
   useEffect(() => {
     if (!loading && !session) {
@@ -37,10 +39,6 @@ const ScheduleInterview = ({ application }: PropTypes) => {
   const message =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud commodo consequat.";
 
-  const selectDate = (date: Date) => {
-    setInterviewDate(date);
-  };
-
   const schedule = () => {
     console.log(interviewDate);
   };
@@ -50,35 +48,44 @@ const ScheduleInterview = ({ application }: PropTypes) => {
   }
 
   return (
-    <div className={classes.root}>
-      <div className={classes.col1}>
-        <h1>Schedule an Interview</h1>
-        <div className={classes.time}>
-          <Clock />
-          <h5>60 min</h5>
+    <div className="applicationPage">
+      <div className="root">
+        <div className="sidePadding" />
+
+        <div className="leftCol2">
+          <h1 className="formTitle">Schedule an Interview</h1>
+          <div className="formSubtitle">
+            <Clock />
+            <h5>60 min</h5>
+          </div>
+
+          <h5 className="formDescription">{message}</h5>
         </div>
 
-        <p>{message}</p>
-      </div>
+        <div className="padding" />
 
-      <div className={classes.col2}>
-        <div className={classes.calendar}>
+        <div className="rightCol">
           <Calendar
             withTime={true}
-            onSelectDate={selectDate}
             value={interviewDate}
+            onSelectDate={(date) => setInterviewDate(date)}
           />
+
+          {interviewDate && interviewDate.getHours() >= 9 && (
+            <div className={classes.confirm}>
+              <h2>
+                {DateTime.fromJSDate(interviewDate).toFormat(
+                  "EEEE, MMM d, hh:mm a"
+                )}
+              </h2>
+              <Button variant="primary" onClick={schedule}>
+                <h3>Schedule</h3>
+              </Button>
+            </div>
+          )}
         </div>
-        <div className={classes.confirm}>
-          <h2>
-            {DateTime.fromJSDate(interviewDate).toFormat(
-              "EEEE, MMMM d, hh:mm a"
-            )}
-          </h2>
-          <Button variant="primary" onClick={schedule}>
-            <h3>Schedule</h3>
-          </Button>
-        </div>
+
+        <div className="sidePadding" />
       </div>
     </div>
   );

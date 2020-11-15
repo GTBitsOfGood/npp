@@ -37,15 +37,15 @@ const Sidebar = ({ currentRoute }: HeaderProps) => (
       </a>
     </Link>
 
-    <Link href={urls.pages.app.report} passHref>
+    <Link href={urls.pages.app.report.landing} passHref>
       <a
         className={clsx(
           classes.page,
-          currentRoute === urls.pages.app.report && classes.active
+          currentRoute === urls.pages.app.report.landing && classes.active
         )}
       >
         <h3>Report a Problem</h3>
-        {currentRoute === urls.pages.app.report && (
+        {currentRoute === urls.pages.app.report.landing && (
           <span className={classes.rectangle} />
         )}
       </a>

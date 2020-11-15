@@ -18,7 +18,7 @@ const ReportLanding = () => (
     </h3>
 
     <div className="landingButton">
-      <ButtonLink variant="primary" href={urls.pages.app.report}>
+      <ButtonLink variant="primary" href={urls.pages.app.report.create}>
         <h3>File an Issue</h3>
       </ButtonLink>
     </div>

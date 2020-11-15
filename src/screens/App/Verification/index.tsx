@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/client";
+import Swal from "sweetalert2";
 
 // Components
 import Input from "&components/Input";
@@ -8,13 +8,14 @@ import Button from "&components/Button";
 import Select from "&components/Select";
 import TextArea from "&components/TextArea";
 
-// Styling
-import classes from "./Verification.module.scss";
-
 // Utils
 import urls from "&utils/urls";
-import Swal from "sweetalert2";
 import { states } from "&utils/constants";
+import { updateOrganizationForUser } from "&actions/UserActions";
+import { useSession } from "&utils/auth-utils";
+
+// Styling
+import classes from "./Verification.module.scss";
 
 const missionPlaceholder =
   "At Bits of Good, our mission is to change lives one bit at a time - we serve our community by building powerful applications for local nonprofits.";
@@ -29,7 +30,7 @@ const VerificationScreen = () => {
   const [streetAddress, setStreetAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
-  const [zipcode, setZipcode] = useState("");
+  const [zipCode, setZipCode] = useState("");
   const [missionStatement, setMissionStatement] = useState("");
 
   useEffect(() => {
@@ -39,17 +40,6 @@ const VerificationScreen = () => {
   }, [loading, session]);
 
   const submit = async () => {
-    console.log(
-      orgName,
-      einNumber,
-      websiteURL,
-      streetAddress,
-      city,
-      state,
-      zipcode,
-      missionStatement
-    );
-
     try {
       if (
         orgName === "" ||
@@ -57,7 +47,7 @@ const VerificationScreen = () => {
         streetAddress === "" ||
         city === "" ||
         state === "" ||
-        zipcode === "" ||
+        zipCode === "" ||
         missionStatement === ""
       ) {
         await Swal.fire({
@@ -66,6 +56,22 @@ const VerificationScreen = () => {
           icon: "error",
         });
         return;
+      }
+
+      const res = await updateOrganizationForUser(session.user.id, {
+        organizationName: orgName,
+        ein: einNumber,
+        mission: missionStatement,
+        address: {
+          streetAddress,
+          city,
+          state,
+          zipCode,
+        },
+      });
+
+      if (res.organization == null) {
+        throw new Error("Failed to update organization!");
       }
 
       await router.replace(urls.pages.app.index);
@@ -153,9 +159,9 @@ const VerificationScreen = () => {
           <div className={classes.type}>
             <h3>Zip Code</h3>
             <Input
-              value={zipcode}
+              value={zipCode}
               placeholder="30308"
-              onChange={(event) => setZipcode(event.target.value)}
+              onChange={(event) => setZipCode(event.target.value)}
             />
           </div>
         </div>

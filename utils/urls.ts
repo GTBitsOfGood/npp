@@ -6,8 +6,9 @@ const urls = {
     login: "/login",
     app: {
       index: "/app",
-      apply: "/app/apply",
-      project: "/app/project",
+      verification: "/app/verification",
+      apply: "/app/application/apply",
+      report: "/app/report",
       scheduled: "/app/scheduled",
       submitted: "/app/submitted",
     },
@@ -23,7 +24,7 @@ const urls = {
 };
 
 export const landingUrls = [
-  urls.pages.app.project,
+  urls.pages.app.index,
   urls.pages.app.scheduled,
   urls.pages.app.submitted,
 ];

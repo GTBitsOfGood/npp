@@ -1,11 +1,11 @@
 import { PublicError } from "&server/routes/PublicError";
 import { SessionUser } from "&server/models/SessionUser";
-import Authentication from "&server/utils/Authentication";
+import * as Authentication from "&server/utils/Authentication";
 import { generateMethodRoute } from "&server/routes/RouteFactory";
-import MeetingManager from "&server/mongodb/actions/MeetingManager";
+import * as MeetingManager from "&server/mongodb/actions/MeetingManager";
 import { validateAndSanitizeIdString } from "&server/utils/Validators";
 import { AuthenticationError } from "&server/utils/AuthenticationError";
-import ApplicationManager from "&server/mongodb/actions/ApplicationManager";
+import * as ApplicationManager from "&server/mongodb/actions/ApplicationManager";
 
 import { ObjectId } from "bson";
 

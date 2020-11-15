@@ -8,7 +8,7 @@ import { contactFromJsonResponse } from "&server/models/Contact";
 
 const issueRoute = urls.api.issue;
 
-async function getIssueById(issueId: string): Promise<Issue> {
+export async function getIssueById(issueId: string): Promise<Issue> {
   const response: Record<string, any> = await callInternalAPI(
     issueRoute + `?id=${issueId}`,
     HttpMethod.GET
@@ -16,7 +16,7 @@ async function getIssueById(issueId: string): Promise<Issue> {
   return issueFromJsonResponse(response);
 }
 
-async function getIssues(): Promise<Issue[]> {
+export async function getIssues(): Promise<Issue[]> {
   const response: Record<string, any> = await callInternalAPI(
     issueRoute,
     HttpMethod.GET
@@ -24,7 +24,7 @@ async function getIssues(): Promise<Issue[]> {
   return response.map(issueFromJsonResponse);
 }
 
-async function createIssue(issue: Issue): Promise<Issue> {
+export async function createIssue(issue: Issue): Promise<Issue> {
   const response: Record<string, any> = await callInternalAPI(
     issueRoute,
     HttpMethod.PUT,
@@ -36,9 +36,9 @@ async function createIssue(issue: Issue): Promise<Issue> {
   return issueFromJsonResponse(response);
 }
 
-function issueFromJsonResponse(object: Record<string, any>): Issue {
+export function issueFromJsonResponse(object: Record<string, any>): Issue {
   return {
-    id: object._id,
+    id: object._id?.toString(),
     issueType: object.issueType.map((val: string) => {
       return IssueType[val as keyof typeof IssueType];
     }),
@@ -48,9 +48,3 @@ function issueFromJsonResponse(object: Record<string, any>): Issue {
     status: IssueStatus[(object.status as string) as keyof typeof IssueStatus],
   };
 }
-
-export default {
-  getIssueById,
-  getIssues,
-  createIssue,
-};

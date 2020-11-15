@@ -5,7 +5,9 @@ import { DateTime } from "luxon";
 import { Availability } from "&server/models/Availability";
 const availabilityRoute = urls.api.availability;
 
-async function getAvailabilityById(objectId: string): Promise<Availability> {
+export async function getAvailabilityById(
+  objectId: string
+): Promise<Availability> {
   const response: Record<string, any> = await callInternalAPI(
     availabilityRoute + `?id=${objectId}`,
     HttpMethod.GET
@@ -13,7 +15,9 @@ async function getAvailabilityById(objectId: string): Promise<Availability> {
   return availabilityFromJsonResponse(response);
 }
 
-async function getAvailabilitiesForStartOfWeek(): Promise<Availability[]> {
+export async function getAvailabilitiesForStartOfWeek(): Promise<
+  Availability[]
+> {
   const response: Record<string, any>[] = await callInternalAPI(
     availabilityRoute,
     HttpMethod.GET
@@ -21,7 +25,7 @@ async function getAvailabilitiesForStartOfWeek(): Promise<Availability[]> {
   return response.map(availabilityFromJsonResponse);
 }
 
-async function createAvailability(
+export async function createAvailability(
   availability: Availability
 ): Promise<Availability> {
   const response: Record<string, any>[] = await callInternalAPI(
@@ -34,7 +38,7 @@ async function createAvailability(
   return availabilityFromJsonResponse(response);
 }
 
-async function updateAvailability(
+export async function updateAvailability(
   id: string,
   updates: Record<string, any>
 ): Promise<Availability> {
@@ -49,7 +53,7 @@ async function updateAvailability(
   return availabilityFromJsonResponse(response);
 }
 
-async function deleteAvailability(id: string): Promise<Availability> {
+export async function deleteAvailability(id: string): Promise<Availability> {
   const response: Record<string, any>[] = await callInternalAPI(
     availabilityRoute + `?id=${id}`,
     HttpMethod.DELETE
@@ -57,22 +61,14 @@ async function deleteAvailability(id: string): Promise<Availability> {
   return availabilityFromJsonResponse(response);
 }
 
-function availabilityFromJsonResponse(object: {
+export function availabilityFromJsonResponse(object: {
   [key: string]: any;
 }): Availability {
   return {
-    id: object._id,
+    id: object._id?.toString(),
     interviewer: object.interviewer,
     startDatetime: DateTime.fromISO(object.startDatetime),
     endDatetime: DateTime.fromISO(object.endDatetime),
     isBooked: object.isBooked,
   };
 }
-
-export default {
-  getAvailabilityById,
-  getAvailabilitiesForStartOfWeek,
-  createAvailability,
-  updateAvailability,
-  deleteAvailability,
-};

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/client";
 
@@ -13,43 +14,45 @@ import Statusbar from "&components/Statusbar";
 // Styling
 import classes from "./Scheduled.module.scss";
 
-// URLS
+// Utils
 import urls from "&utils/urls";
+import { Application } from "&server/models/Application";
+import { applicationFromJson } from "&actions/ApplicationActions";
+import { stageToIndex, StageType } from "&server/models/StageType";
 
-const cancelMeeting = () => {
-  console.log("Meeting cancelled!");
-  //TODO: Implement rerouting back to homepage or confirmation screen??
-};
+interface PropTypes {
+  application: Application;
+}
 
-const rescheduleMeeting = () => {
-  console.log("Reschedule Meeting");
-  //TODO: Implement rerouting back to interview schedule page
-};
-
-const Scheduled = () => {
+const Scheduled = ({ application }: PropTypes) => {
   const router = useRouter();
   const [session, loading] = useSession();
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!loading) {
-      if (session) {
-        setLoggedIn(true);
-      } else {
-        void router.replace(urls.pages.index);
-      }
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
     }
-  }, [router, loading, session]);
+  }, [loading, session]);
 
-  if (loading || !loggedIn) {
-    return <h1>Loading...</h1>;
+  const cancelMeeting = () => {
+    console.log("Meeting cancelled!");
+    //TODO: Implement rerouting back to homepage or confirmation screen??
+  };
+
+  const rescheduleMeeting = () => {
+    console.log("Reschedule Meeting");
+    //TODO: Implement rerouting back to interview schedule page
+  };
+
+  if (loading || !session || router.isFallback) {
+    return <h1 className="loadingText">Loading...</h1>;
   }
 
   return (
     <div className="landingPage">
       <h1 className="landingHeader">Interview Scheduled!</h1>
 
-      <Statusbar status={2} />
+      <Statusbar application={application} />
 
       <div className={classes.meetingContainer}>
         <div className={classes.meetingInfo}>
@@ -91,6 +94,65 @@ const Scheduled = () => {
       </h3>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
+
+  try {
+    const { id } = (context.params || {}) as Record<string, unknown>;
+    const application = await ApplicationManager.getApplicationById(id);
+    const appJson = applicationFromJson(application);
+
+    if (stageToIndex[appJson.stage!] < stageToIndex[StageType.SCHEDULED]) {
+      return {
+        props: {
+          application: null,
+        },
+        notFound: true,
+        revalidate: 1,
+      };
+    } else {
+      return {
+        props: {
+          application: {
+            ...appJson,
+            createdAt: appJson.createdAt?.toISO(),
+            updatedAt: appJson.updatedAt?.toISO(),
+          },
+        },
+        revalidate: 60,
+      };
+    }
+  } catch (error) {
+    return {
+      props: {
+        application: null,
+        error: error.message,
+      },
+      notFound:
+        error.name === "CastError" ||
+        error.message === "Application does not exist!",
+      revalidate: 1,
+    };
+  }
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
+
+  const applications = await ApplicationManager.getApplicationsByStage(
+    StageType.SCHEDULED
+  );
+
+  return {
+    paths: applications.map((id: string) => ({
+      params: { id },
+    })),
+    fallback: true,
+  };
 };
 
 export default Scheduled;

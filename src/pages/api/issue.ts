@@ -1,8 +1,8 @@
 import { generateMethodRoute } from "&server/routes/RouteFactory";
-import Authentication from "&server/utils/Authentication";
-import IssueManager from "&server/mongodb/actions/IssueManager";
+import * as Authentication from "&server/utils/Authentication";
+import * as IssueManager from "&server/mongodb/actions/IssueManager";
 import { SessionUser } from "&server/models/SessionUser";
-import ApplicationManager from "&server/mongodb/actions/ApplicationManager";
+import * as ApplicationManager from "&server/mongodb/actions/ApplicationManager";
 import { AuthenticationError } from "&server/utils/AuthenticationError";
 import { validateAndSanitizeIdString } from "&server/utils/Validators";
 import { PublicError } from "&server/routes/PublicError";

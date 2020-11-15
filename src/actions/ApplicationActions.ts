@@ -5,10 +5,11 @@ import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
 import { contactFromJsonResponse } from "&server/models/Contact";
+import { Types } from "mongoose";
 
 const applicationRoute = urls.api.application;
 
-async function createApplication(
+export async function createApplication(
   application: Application
 ): Promise<Application> {
   const response: Record<string, any> = await callInternalAPI(
@@ -21,7 +22,9 @@ async function createApplication(
   return applicationFromJson(response);
 }
 
-async function getApplicationById(applicationId: string): Promise<Application> {
+export async function getApplicationById(
+  applicationId: string
+): Promise<Application> {
   const response: Record<string, any> = await callInternalAPI(
     applicationRoute + `?id=${applicationId}`,
     HttpMethod.GET
@@ -29,15 +32,19 @@ async function getApplicationById(applicationId: string): Promise<Application> {
   return applicationFromJson(response);
 }
 
-async function getApplications(): Promise<Application[]> {
+export async function getApplications(
+  adminAll = false
+): Promise<Application[]> {
   const response: Record<string, any>[] = await callInternalAPI(
-    applicationRoute,
+    applicationRoute + `?all=${adminAll}`,
     HttpMethod.GET
   );
   return response.map(applicationFromJson);
 }
 
-async function deleteApplication(applicationId: string): Promise<Application> {
+export async function deleteApplication(
+  applicationId: string
+): Promise<Application> {
   const response: Record<string, any> = await callInternalAPI(
     applicationRoute + `?id=${applicationId}`,
     HttpMethod.DELETE
@@ -45,7 +52,7 @@ async function deleteApplication(applicationId: string): Promise<Application> {
   return applicationFromJson(response);
 }
 
-async function updateApplicationDecision(
+export async function updateApplicationDecision(
   applicationId: string,
   decision: boolean
 ): Promise<Application> {
@@ -60,7 +67,7 @@ async function updateApplicationDecision(
   return applicationFromJson(response);
 }
 
-async function updateApplicationMeeting(
+export async function updateApplicationMeeting(
   applicationId: string,
   meetingId: string
 ): Promise<Application> {
@@ -75,26 +82,21 @@ async function updateApplicationMeeting(
   return applicationFromJson(response);
 }
 
-function applicationFromJson(object: { [key: string]: any }): Application {
+export function applicationFromJson(object: {
+  [key: string]: any;
+}): Application {
   return {
-    id: object._id,
-    users: object.users,
+    id: object._id?.toString(),
+    users: object.users?.map((id: Types.ObjectId) => id.toString()),
     primaryContact: contactFromJsonResponse(object.primaryContact),
-    productType: object.productType.map((val: string) => {
-      return ProductType[val as keyof typeof ProductType];
-    }),
+    productType: object.productType?.map(
+      (val: string) => ProductType[val as keyof typeof ProductType]
+    ),
     description: object.description,
-    submittedAt: DateTime.fromISO(object.submittedAt),
     meeting: object.meeting,
+    stage: object.stage,
     decision: object.decision,
+    createdAt: DateTime.fromISO(object.createdAt),
+    updatedAt: DateTime.fromISO(object.updatedAt),
   };
 }
-
-export default {
-  createApplication,
-  getApplicationById,
-  getApplications,
-  deleteApplication,
-  updateApplicationDecision,
-  updateApplicationMeeting,
-};

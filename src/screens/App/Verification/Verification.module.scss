@@ -1,28 +1,39 @@
 @import "../../../styles/Colors";
 @import "../../../styles/Properties";
 
-.loadingText {
-  margin-top: 40px;
-  text-align: center;
-}
-
 .root {
   display: flex;
   max-width: 1440px;
   flex-direction: row;
+  padding: 40px 80px;
+
+  @include breakpoint-below-medium {
+    flex-direction: column;
+  }
+
+  @include breakpoint-below-small {
+    padding: 16px;
+  }
 
   .leftCol {
     max-width: 466px;
     margin-right: 142px;
+    padding-left: 48px;
+
+    @include breakpoint-below-medium {
+      padding-left: 0;
+    }
+
+    @include breakpoint-below-small {
+      margin-right: unset;
+    }
 
     .formTitle {
       margin-bottom: 24px;
-      margin-left: 48px;
     }
 
     .formDescription {
       color: $gray-60;
-      margin-left: 48px;
     }
   }
 

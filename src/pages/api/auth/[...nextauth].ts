@@ -5,7 +5,7 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { User } from "&server/models";
 import { UserTypeORM } from "&server/auth/UserTypeORM";
 import { SessionUser } from "&server/models/SessionUser";
-import Authentication from "&server/utils/Authentication";
+import * as Authentication from "&server/utils/Authentication";
 import BitsAuth0Provider from "&server/auth/BitsAuth0Provider";
 
 export type AuthSession = {
@@ -35,6 +35,8 @@ const options = {
         // See comment in @link /server/models/User.ts for why the User class does not include an "id" attribute
         id: (user as any)["id"],
         isAdmin: user.roles.includes(Authentication.ADMIN_ROLE),
+        // could be null for the users before implemented
+        organizationVerified: !!user.organizationVerified,
       };
       return Promise.resolve({
         ...session,

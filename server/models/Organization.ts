@@ -3,6 +3,7 @@ export interface Organization {
   ein: string;
   website?: string;
   address: Address;
+  mission: string;
 }
 
 export interface Address {

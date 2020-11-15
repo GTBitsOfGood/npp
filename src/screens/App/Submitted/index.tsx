@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/client";
 
 // Components
 import Statusbar from "&components/Statusbar";
@@ -17,6 +16,7 @@ import { Application } from "&server/models/Application";
 import { applicationFromJson } from "&actions/ApplicationActions";
 import { stageToIndex, StageType } from "&server/models/StageType";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { useSession } from "&utils/auth-utils";
 
 interface PropTypes {
   application: Application;

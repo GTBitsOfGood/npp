@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/client";
 
 // Iconography
 import Clock from "&icons/Clock";
@@ -11,14 +10,15 @@ import LocationPin from "&icons/LocationPin";
 import Button from "&components/Button";
 import Statusbar from "&components/Statusbar";
 
-// Styling
-import classes from "./Scheduled.module.scss";
-
 // Utils
 import urls from "&utils/urls";
 import { Application } from "&server/models/Application";
 import { applicationFromJson } from "&actions/ApplicationActions";
 import { stageToIndex, StageType } from "&server/models/StageType";
+import { useSession } from "&utils/auth-utils";
+
+// Styling
+import classes from "./Scheduled.module.scss";
 
 interface PropTypes {
   application: Application;

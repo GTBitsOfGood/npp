@@ -1,6 +1,6 @@
 export interface Contact {
   name: string;
-  email: string;
+  email?: string;
   organizationPhone?: string;
   primaryPhone?: string;
 }

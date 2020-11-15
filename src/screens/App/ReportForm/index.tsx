@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/client";
+import Swal from "sweetalert2";
 
 // Components
 import Input from "&components/Input";
@@ -10,9 +10,26 @@ import TextArea from "&components/TextArea";
 
 // Utils
 import urls from "&utils/urls";
+import { useSession } from "&utils/auth-utils";
+import { createIssue } from "&actions/IssueActions";
+import { IssueType } from "&server/models/IssueType";
 
 const placeHolder =
   "Enter a brief description of the issue with your software. We will do our best to replicate it on our end, and then reach out if we have any questions or have suggestions for how to fix it on your end.";
+
+const getLocalItem = (name: string, fallbackValue: string | boolean[]) => {
+  const storedValue = localStorage.getItem(name);
+
+  if (storedValue == null) {
+    return fallbackValue;
+  }
+
+  try {
+    return JSON.parse(storedValue);
+  } catch (error) {
+    return storedValue;
+  }
+};
 
 const ReportScreen = () => {
   const router = useRouter();
@@ -23,6 +40,22 @@ const ReportScreen = () => {
   const [contactName, setContactName] = useState("");
   const [phone, setPhone] = useState("");
   const [orgPhone, setOrgPhone] = useState("");
+
+  useEffect(() => {
+    setIssueType((initialValue) =>
+      getLocalItem("report-issueType", initialValue)
+    );
+    setIssuePassage((initialValue) =>
+      getLocalItem("report-issuePassage", initialValue)
+    );
+    setContactName((initialValue) =>
+      getLocalItem("report-contactName", initialValue)
+    );
+    setPhone((initialValue) => getLocalItem("report-phone", initialValue));
+    setOrgPhone((initialValue) =>
+      getLocalItem("report-orgPhone", initialValue)
+    );
+  }, []);
 
   useEffect(() => {
     if (!loading && !session) {
@@ -36,12 +69,82 @@ const ReportScreen = () => {
     setIssueType(tempType);
   };
 
-  const submit = () => {
-    console.log(issueType, issuePassage, contactName, phone, orgPhone);
+  const submit = async () => {
+    if (issuePassage === "" || contactName === "") {
+      await Swal.fire({
+        title: "Error",
+        text: "Please provide all required fields!",
+        icon: "error",
+      });
+      return;
+    }
+
+    try {
+      localStorage.removeItem("report-issueType");
+      localStorage.removeItem("report-issuePassage");
+      localStorage.removeItem("report-contactName");
+      localStorage.removeItem("report-phone");
+      localStorage.removeItem("report-orgPhone");
+
+      const typeNames = [];
+      if (issueType[0]) typeNames.push(IssueType.NOT_LOADING);
+      if (issueType[1]) typeNames.push(IssueType.DATA_MISSING);
+
+      const result = await createIssue({
+        issueType: typeNames,
+        description: issuePassage,
+        images: [],
+        contact: {
+          name: contactName,
+          primaryPhone: phone,
+          organizationPhone: orgPhone,
+        },
+      });
+
+      if (result == null || result.id == null) {
+        throw new Error("Failed to create report!");
+      }
+
+      await Swal.fire({
+        title: "Success",
+        text: "Successfully submitted report!",
+        icon: "success",
+      });
+
+      await router.push(urls.pages.app.report.landing);
+    } catch (error) {
+      console.log("Error", error);
+
+      await Swal.fire({
+        title: "Error",
+        text: "Failed to submit application, please try again later!",
+        icon: "error",
+      });
+    }
   };
 
-  const saveForLater = () => {
-    console.log("Save for later!");
+  const saveForLater = async () => {
+    try {
+      localStorage.setItem("report-issueType", JSON.stringify(issueType));
+      localStorage.setItem("report-issuePassage", issuePassage);
+      localStorage.setItem("report-contactName", contactName);
+      localStorage.setItem("report-phone", phone);
+      localStorage.setItem("report-orgPhone", orgPhone);
+
+      await Swal.fire({
+        title: "Saved",
+        text: "Successfully saved report!",
+        icon: "success",
+      });
+    } catch (error) {
+      console.log("Error", error);
+
+      await Swal.fire({
+        title: "Error",
+        text: "Failed to save, please try again!",
+        icon: "error",
+      });
+    }
   };
 
   if (loading || !session) {
@@ -84,7 +187,7 @@ const ReportScreen = () => {
             />
           </div>
 
-          <h5> What is the issue? </h5>
+          <h5>What is the issue?</h5>
           <TextArea
             rows={4}
             value={issuePassage}
@@ -92,7 +195,7 @@ const ReportScreen = () => {
             onChange={(event) => setIssuePassage(event.target.value)}
           />
 
-          <h2 className="sectionHeader"> Contact Information </h2>
+          <h2 className="sectionHeader">Contact Information</h2>
 
           <h5> Primary Contact </h5>
           <Input
@@ -125,11 +228,11 @@ const ReportScreen = () => {
 
           <div className="buttonContainer">
             <Button variant="secondary" onClick={saveForLater}>
-              <h3> Save For Later </h3>
+              <h3>Save For Later</h3>
             </Button>
 
             <Button className="secondButton" variant="primary" onClick={submit}>
-              <h3> Submit </h3>
+              <h3>Submit</h3>
             </Button>
           </div>
         </div>

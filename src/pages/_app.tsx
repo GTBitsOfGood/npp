@@ -15,7 +15,7 @@ import "&styles/App.scss";
 import "&styles/Fonts.scss";
 
 // Utils
-import { landingUrls } from "&utils/urls";
+import urls, { landingUrls } from "&utils/urls";
 import "focus-visible/dist/focus-visible.min.js";
 import { defaultSeoConfig, profileSeoConfig } from "&utils/seo";
 
@@ -28,9 +28,9 @@ const MyApp = ({ Component, pageProps, router }: AppProps) => (
         <Header />
         <div id="sidebar">
           {(landingUrls.includes(router.asPath) ||
-            ["/app"].includes(router.asPath)) && (
-            <Sidebar currentRoute={router.asPath} />
-          )}
+            ["/app", urls.pages.app.report.landing].includes(
+              router.asPath
+            )) && <Sidebar currentRoute={router.asPath} />}
           <div id="content">
             <Component {...pageProps} />
           </div>

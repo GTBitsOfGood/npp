@@ -86,13 +86,6 @@ const ApplyScreen = () => {
     }
 
     try {
-      localStorage.removeItem("app-productType");
-      localStorage.removeItem("app-lookingFor");
-      localStorage.removeItem("app-contactName");
-      localStorage.removeItem("app-contactEmail");
-      localStorage.removeItem("app-contactPhone");
-      localStorage.removeItem("app-orgPhone");
-
       const typeNames = [];
       if (productType[0]) typeNames.push(ProductType.WEBSITE);
       if (productType[1]) typeNames.push(ProductType.MOBILE_APP);
@@ -108,11 +101,24 @@ const ApplyScreen = () => {
         },
       });
 
+      if (result == null || result.id == null) {
+        throw new Error("Failed to submit application!");
+      }
+
+      localStorage.removeItem("app-productType");
+      localStorage.removeItem("app-lookingFor");
+      localStorage.removeItem("app-contactName");
+      localStorage.removeItem("app-contactEmail");
+      localStorage.removeItem("app-contactPhone");
+      localStorage.removeItem("app-orgPhone");
+
       await Swal.fire({
         title: "Success",
         text: "Successfully submitted application!",
         icon: "success",
       });
+
+      await router.replace(urls.pages.app.application.submitted(result.id!));
     } catch (error) {
       console.log("Error", error);
 

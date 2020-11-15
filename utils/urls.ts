@@ -10,7 +10,10 @@ const urls = {
     app: {
       index: "/app",
       verification: "/app/verification",
-      report: "/app/report",
+      report: {
+        landing: "/app/report",
+        create: "/app/report/create",
+      },
       application: {
         apply: "/app/application/apply",
         submitted: (id: string) => `/app/application/${id}/submitted`,
@@ -31,11 +34,7 @@ const urls = {
   },
 };
 
-export const landingUrls = [
-  urls.pages.app.index,
-  urls.pages.app.index,
-  urls.pages.app.index,
-];
+export const landingUrls = [urls.pages.app.index];
 
 export const getApplicationUrl = (application: Application) => {
   if (application == null || application.id == null) {

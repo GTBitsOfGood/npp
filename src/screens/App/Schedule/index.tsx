@@ -3,6 +3,9 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { DateTime } from "luxon";
 import { useRouter } from "next/router";
 
+// Libraries
+import clsx from "clsx";
+
 // Components
 import Button from "&components/Button";
 import Calendar from "&components/Calendar";
@@ -11,11 +14,10 @@ import Calendar from "&components/Calendar";
 import Clock from "&components/icons/Clock";
 
 // Utils
+import urls from "&utils/urls";
+import { useSession } from "&utils/auth-utils";
 import { applicationFromJson } from "&actions/ApplicationActions";
 import { stageToIndex, StageType } from "&server/models/StageType";
-import { useSession } from "&utils/auth-utils";
-import { Application } from "&server/models/Application";
-import urls from "&utils/urls";
 
 // Styling
 import classes from "./ScheduleInterview.module.scss";
@@ -64,7 +66,7 @@ const ScheduleInterview = () => {
 
         <div className="padding" />
 
-        <div className="rightCol">
+        <div className={clsx("rightCol", classes.calendar)}>
           <Calendar
             withTime={true}
             value={interviewDate}

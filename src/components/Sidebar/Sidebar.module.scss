@@ -12,7 +12,7 @@
 
   h3 {
     color: $gray-40;
-    margin: 0 0 30px;
+    margin: 0 0 32px;
   }
 
   .page {
@@ -70,12 +70,13 @@
 
   .menuHeader {
     display: flex;
-    padding-right: 32px;
     align-items: center;
+    margin-bottom: 32px;
+    padding-right: 32px;
     justify-content: space-between;
 
     h3 {
-      margin: 0;
+      margin: 0 0;
     }
 
     div {

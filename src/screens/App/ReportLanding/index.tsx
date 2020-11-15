@@ -1,4 +1,6 @@
 import React from "react";
+import { GetServerSideProps } from "next";
+import { getSession } from "next-auth/client";
 
 // Components
 import ButtonLink from "&components/ButtonLink";
@@ -6,7 +8,11 @@ import ButtonLink from "&components/ButtonLink";
 // Utils
 import urls from "&utils/urls";
 
-const ReportLanding = () => (
+interface PropTypes {
+  projectId: string | null;
+}
+
+const ReportLanding = ({ projectId }: PropTypes) => (
   <div className="landingPage">
     <h1 className="landingHeader">Report a Problem</h1>
 
@@ -25,11 +31,45 @@ const ReportLanding = () => (
     </div>
 
     <div className="landingButton">
-      <ButtonLink variant="primary" href={urls.pages.app.report.create}>
+      <ButtonLink
+        variant="primary"
+        href={urls.pages.app.report.create(projectId ?? "")}
+        disabled={projectId == null}
+      >
         <h3>File an Issue</h3>
       </ButtonLink>
     </div>
   </div>
 );
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
+
+  try {
+    const session = await getSession({ req: context.req as any });
+
+    if (session?.user == null) {
+      throw new Error("User is not logged in!");
+    }
+
+    const accepted = await ApplicationManager.getAcceptedApplication(
+      session.user
+    );
+
+    return {
+      props: {
+        projectId: accepted._id.toString(),
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        projectId: null,
+        error: error.message,
+      },
+    };
+  }
+};
 
 export default ReportLanding;

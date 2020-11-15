@@ -15,7 +15,7 @@ const ScheduleInterview: React.FC = () => {
   const message =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud commodo consequat.";
 
-  const selectDate = (date) => {
+  const selectDate = (date: Date) => {
     setInterviewDate(date);
   };
 
@@ -49,7 +49,7 @@ const ScheduleInterview: React.FC = () => {
               "EEEE, MMMM d, hh:mm a"
             )}
           </h2>
-          <Button variant="primary" OnClick={schedule}>
+          <Button variant="primary" onClick={schedule}>
             <h3>Schedule</h3>
           </Button>
         </div>

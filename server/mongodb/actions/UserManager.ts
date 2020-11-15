@@ -14,15 +14,19 @@ export async function getUserByEmail(email: string) {
   return UserDocument.findOne({ email: email });
 }
 
-export async function updateOrganizationInfo(
+export async function updateOrganizationForUser(
   id: ObjectId,
-  organizationInfo: Record<string, any>
+  organization: Record<string, any>
 ): Promise<EntityDoc> {
   await connectToDB();
 
-  return UserDocument.findByIdAndUpdate(id, {
-    organizationInfo,
-  });
+  return UserDocument.findByIdAndUpdate(
+    id,
+    {
+      organization,
+    },
+    { new: true }
+  );
 }
 
 export async function updateOrganizationVerifiedStatus(
@@ -31,7 +35,11 @@ export async function updateOrganizationVerifiedStatus(
 ): Promise<EntityDoc> {
   await connectToDB();
 
-  return UserDocument.findByIdAndUpdate(id, {
-    organizationVerified,
-  });
+  return UserDocument.findByIdAndUpdate(
+    id,
+    {
+      organizationVerified,
+    },
+    { new: true }
+  );
 }

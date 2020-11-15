@@ -4,11 +4,14 @@ import { connectToDB, EntityDoc } from "../index";
 import { Document } from "mongoose";
 import { DateTime } from "luxon";
 
-export async function getAvailabilitiesFromStartOfWeek(): Promise<EntityDoc[]> {
+export async function getAvailabilitiesFromStartOfMonth(
+  date: string
+): Promise<EntityDoc[]> {
   await connectToDB();
+
   return AvailabilityDocument.find({
     startDatetime: {
-      $gte: DateTime.local().startOf("weeks").toISODate(),
+      $gte: DateTime.fromISO(date).startOf("month").toISODate(),
     },
   }).sort({
     startDate: -1,

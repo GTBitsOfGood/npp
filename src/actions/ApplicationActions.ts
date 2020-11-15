@@ -96,7 +96,7 @@ export function applicationFromJson(object: {
     meeting: object.meeting,
     stage: object.stage,
     decision: object.decision,
-    createdAt: DateTime.fromISO(object.createdAt),
-    updatedAt: DateTime.fromISO(object.updatedAt),
+    createdAt: DateTime.fromISO(new Date(object.createdAt).toISOString()),
+    updatedAt: DateTime.fromISO(new Date(object.updatedAt).toISOString()),
   };
 }

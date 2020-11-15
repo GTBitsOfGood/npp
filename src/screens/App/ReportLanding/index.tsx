@@ -33,7 +33,7 @@ const ReportLanding = ({ projectId }: PropTypes) => (
     <div className="landingButton">
       <ButtonLink
         variant="primary"
-        href={urls.pages.app.report.create(projectId ?? "")}
+        href={urls.pages.app.report.create(projectId ?? "1")}
         disabled={projectId == null}
       >
         <h3>File an Issue</h3>

@@ -1,16 +1,25 @@
-import React, { ComponentProps } from "react";
+import React from "react";
 import clsx from "clsx";
 import { DateTime } from "luxon";
-import Button from "&components/Button";
+import { Availability } from "&server/models/Availability";
 import classes from "./TimePicker.module.scss";
 
 interface TimePickerProps {
   date: Date;
   value?: Date | null;
+  fromAvailabilities: boolean;
+  availabilities: Availability[];
   onSelectTime: (time: Date) => void | Promise<void>;
 }
 
-const TimePicker = ({ date, value, onSelectTime }: TimePickerProps) => {
+const TimePicker = ({
+  date,
+  value,
+  fromAvailabilities,
+  availabilities,
+  onSelectTime,
+}: TimePickerProps) => {
+  const luxonValue = value != null ? DateTime.fromJSDate(value) : null;
   const startTime = DateTime.fromJSDate(date).set({
     hour: 9,
     minute: 0,
@@ -21,15 +30,36 @@ const TimePicker = ({ date, value, onSelectTime }: TimePickerProps) => {
     disabled: boolean;
     time: DateTime;
   }[] = [];
-  for (
-    let curTime = startTime;
-    curTime.hour < 18;
-    curTime = curTime.plus({ minutes: 30 })
-  ) {
-    availTimes.push({
-      disabled: false,
-      time: curTime,
+
+  if (fromAvailabilities) {
+    availabilities.forEach((avail) => {
+      if (
+        avail.startDatetime.ordinal === luxonValue?.ordinal &&
+        avail.startDatetime >= startTime
+      ) {
+        for (
+          let curTime = avail.startDatetime;
+          curTime < avail.endDatetime && curTime.hour < 18;
+          curTime = curTime.plus({ minutes: 30 })
+        ) {
+          availTimes.push({
+            disabled: false,
+            time: curTime,
+          });
+        }
+      }
     });
+  } else {
+    for (
+      let curTime = startTime;
+      curTime.hour < 18;
+      curTime = curTime.plus({ minutes: 30 })
+    ) {
+      availTimes.push({
+        disabled: false,
+        time: curTime,
+      });
+    }
   }
 
   return (
@@ -43,7 +73,7 @@ const TimePicker = ({ date, value, onSelectTime }: TimePickerProps) => {
             classes.timeSlot,
             disabled && classes.disabledTimeslot,
             value &&
-              DateTime.fromJSDate(value).toFormat("T") === time.toFormat("T") &&
+              luxonValue?.toFormat("T") === time.toFormat("T") &&
               classes.selectedTimeslot
           )}
         >

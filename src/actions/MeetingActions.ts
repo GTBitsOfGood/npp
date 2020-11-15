@@ -50,7 +50,9 @@ export function meetingFromJsonResponse(object: {
   return {
     id: object._id?.toString(),
     interviewer: object.interviewer,
-    startDatetime: DateTime.fromISO(object.startDatetime),
+    startDatetime: DateTime.fromISO(
+      new Date(object.startDatetime).toISOString()
+    ),
     nonprofit: object.nonprofit,
     application: object.application,
     contactName: object.contactName,

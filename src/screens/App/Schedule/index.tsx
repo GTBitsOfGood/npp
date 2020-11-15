@@ -18,18 +18,18 @@ import urls from "&utils/urls";
 import { useSession } from "&utils/auth-utils";
 import { applicationFromJson } from "&actions/ApplicationActions";
 import { stageToIndex, StageType } from "&server/models/StageType";
+import { Application } from "&server/models/Application";
 
 // Styling
 import classes from "./ScheduleInterview.module.scss";
 
-// interface ScheduleInterviewProps {
-//   application:  Application;
-// }
+interface ScheduleInterviewProps {
+  application: Application;
+}
 
-const ScheduleInterview = () => {
+const ScheduleInterview = ({ application }: ScheduleInterviewProps) => {
   const router = useRouter();
   const [session, loading] = useSession();
-
   const [interviewDate, setInterviewDate] = useState<Date>();
 
   useEffect(() => {
@@ -68,6 +68,7 @@ const ScheduleInterview = () => {
 
         <div className={clsx("rightCol", classes.calendar)}>
           <Calendar
+            fromAvailabilities
             withTime={true}
             value={interviewDate}
             onSelectDate={(date) => setInterviewDate(date)}

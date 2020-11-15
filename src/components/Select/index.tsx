@@ -11,8 +11,8 @@ interface SelectProps extends ComponentProps<"select"> {
 }
 const Select = ({ error, required = true, ...rest }: SelectProps) => (
   <select
-    className={clsx(styling.input, error && styling.disableInput)}
     required={required}
+    className={clsx(styling.input, error && styling.disableInput)}
     {...rest}
   />
 );

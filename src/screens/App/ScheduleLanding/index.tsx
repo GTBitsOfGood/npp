@@ -57,8 +57,10 @@ const ScheduleLanding = ({ application }: ScheduleLandingProps) => {
       </div>
 
       <div className="landingButton">
-        {/* TODO Fix Link*/}
-        <ButtonLink variant="primary" href={urls.pages.app.scheduled}>
+        <ButtonLink
+          variant="primary"
+          href={urls.pages.app.application.schedule(application.id!)}
+        >
           <h3>Schedule Now</h3>
         </ButtonLink>
       </div>

@@ -62,6 +62,7 @@ const UserIcon = ({ containerMouse }: UserIconProps) => {
             </div>
           )}
         </div>
+
         {!user.organizationVerified && !user.isAdmin ? (
           <h5 className={classes.role}>Verification Needed</h5>
         ) : (
@@ -70,6 +71,7 @@ const UserIcon = ({ containerMouse }: UserIconProps) => {
           </h5>
         )}
       </div>
+
       <img
         alt="Current User"
         src={session.user.image}

@@ -94,24 +94,24 @@ const ProjectPage = ({ applications, organizationVerified }: PropTypes) => {
         <div className="landingPadding" />
       </div>
 
-      <div className="landingButton">
-        <ButtonLink variant="primary" href={urls.pages.app.index}>
-          <h3>Apply Now</h3>
-        </ButtonLink>
-      </div>
-
       {latestApp != null &&
-        latestApp.stage === "DECISION" &&
-        latestApp.decision === false && (
-          <div className="landingButton">
-            <ButtonLink
-              variant="secondary"
-              href={urls.pages.app.application.apply}
-            >
-              <h3>Apply Again</h3>
-            </ButtonLink>
-          </div>
-        )}
+      latestApp.stage === "DECISION" &&
+      latestApp.decision === false ? (
+        <div className="landingButton">
+          <ButtonLink
+            variant="secondary"
+            href={urls.pages.app.application.apply}
+          >
+            <h3>Apply Again</h3>
+          </ButtonLink>
+        </div>
+      ) : (
+        <div className="landingButton">
+          <ButtonLink variant="primary" href={urls.pages.app.application.apply}>
+            <h3>Apply Now</h3>
+          </ButtonLink>
+        </div>
+      )}
     </div>
   );
 };

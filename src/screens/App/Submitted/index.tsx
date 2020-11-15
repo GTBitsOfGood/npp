@@ -8,9 +8,6 @@ import Statusbar from "&components/Statusbar";
 // Iconography
 import SubmittedUFO from "&icons/SubmittedUFO";
 
-// Styling
-import classes from "./SubmittedScreen.module.scss";
-
 // Utils
 import urls from "&utils/urls";
 import { Application } from "&server/models/Application";
@@ -42,7 +39,7 @@ const SubmittedScreen = ({ application }: PropTypes) => {
 
       <Statusbar application={application} />
 
-      <SubmittedUFO className={classes.submittedImage} />
+      <SubmittedUFO className="landingImage" />
 
       <h3 className="landingText">
         Your application has been submitted to the BoG team successfully! You

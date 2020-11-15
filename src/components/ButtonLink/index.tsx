@@ -1,12 +1,14 @@
-import React, { ComponentProps } from "react";
+import React, { ComponentProps, ReactNode } from "react";
 import clsx from "clsx";
 import Link, { LinkProps } from "next/link";
+
+// Styling
 import classes from "../Button/Button.module.scss";
 
 interface ButtonLinkProps extends LinkProps {
   variant: "primary" | "secondary";
   linkProps?: ComponentProps<"a">;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const ButtonLink = ({
@@ -20,7 +22,7 @@ const ButtonLink = ({
     <a
       className={clsx(
         classes.root,
-        classes.primary,
+        variant === "primary" && classes.primary,
         variant === "secondary" && classes.secondary,
         linkProps?.className
       )}

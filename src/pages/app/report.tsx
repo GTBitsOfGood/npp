@@ -1,3 +1,3 @@
-import ReportScreen from "&screens/App/Report";
+import ReportScreen from "&screens/App/ReportForm";
 
 export default ReportScreen;

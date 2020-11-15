@@ -1,20 +1,30 @@
 import React, { useEffect } from "react";
 import { GetServerSideProps } from "next";
-import clsx from "clsx";
 import { useRouter } from "next/router";
-import { useSession, getSession } from "next-auth/client";
+import { getSession, useSession } from "next-auth/client";
 
 // Components
 import Statusbar from "&components/Statusbar";
 import ButtonLink from "&components/ButtonLink";
 
-// Utils
-import { applicationFromJson } from "&actions/ApplicationActions";
-import urls from "&utils/urls";
+// Screens
+import Scheduled from "&screens/App/Scheduled";
+import UnderReview from "&screens/App/UnderReview";
+import SubmittedScreen from "&screens/App/Submitted";
+import ApprovedLanding from "&screens/App/ApprovedLanding";
+import RejectedLanding from "&screens/App/RejectedLanding";
+import ScheduleLanding from "&screens/App/ScheduleLanding";
+
+// Iconography
+import ApplyNewBulb from "&icons/ApplyNewBulb";
+
+// Interfaces
+import { StageType } from "&server/models/StageType";
 import { Application } from "&server/models/Application";
 
-// Styles
-import classes from "./ProjectScreen.module.scss";
+// Utils
+import urls from "&utils/urls";
+import { applicationFromJson } from "&actions/ApplicationActions";
 
 interface PropTypes {
   applications: Application[];
@@ -36,13 +46,29 @@ const ProjectPage = ({ applications }: PropTypes) => {
 
   const latestApp = applications[0];
 
+  if (latestApp) {
+    if (latestApp.stage === StageType.SUBMITTED)
+      return <SubmittedScreen application={latestApp} />;
+    else if (latestApp.stage === StageType.AWAITING_SCHEDULE)
+      return <ScheduleLanding application={latestApp} />;
+    else if (latestApp.stage === StageType.SCHEDULED)
+      return <Scheduled application={latestApp} />;
+    else if (latestApp.stage === StageType.REVIEW)
+      return <UnderReview application={latestApp} />;
+    else if (latestApp.stage === StageType.DECISION) {
+      if (latestApp.decision)
+        return <ApprovedLanding application={latestApp} />;
+      else return <RejectedLanding application={latestApp} />;
+    }
+  }
+
   return (
     <div className="landingPage">
-      <h1 className="landingHeader">
-        {latestApp != null ? "Project Status" : "Apply for a New Project"}
-      </h1>
+      <h1 className="landingHeader">Apply for a New Project</h1>
 
       <Statusbar application={latestApp} />
+
+      <ApplyNewBulb className="landingImage" />
 
       <h3 className="landingText">
         As a partner, Bits of Good will help you build software that turns your
@@ -52,15 +78,16 @@ const ProjectPage = ({ applications }: PropTypes) => {
         ut
       </h3>
 
-      <div className={clsx("landingButton", classes.button)}>
+      <div className="landingButton">
         <ButtonLink variant="primary" href={urls.pages.app.apply}>
-          <h3>{latestApp != null ? "View" : "Apply Now"}</h3>
+          <h3>Apply Now</h3>
         </ButtonLink>
       </div>
+
       {latestApp != null &&
         latestApp.stage === "DECISION" &&
         latestApp.decision === false && (
-          <div className={clsx("landingButton", classes.button)}>
+          <div className="landingButton">
             <ButtonLink variant="secondary" href={urls.pages.app.apply}>
               <h3>Apply Again</h3>
             </ButtonLink>

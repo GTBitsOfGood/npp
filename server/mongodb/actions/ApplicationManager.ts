@@ -43,6 +43,20 @@ export async function getApplicationsByStage(
   return applications.map((i) => i.toString());
 }
 
+export async function getAcceptedApplication(
+  user: SessionUser
+): Promise<EntityDoc> {
+  await connectToDB();
+
+  return ApplicationDocument.findOne({
+    stage: StageType.DECISION,
+    decision: true,
+    users: user.id,
+  }).sort({
+    createdAt: -1,
+  });
+}
+
 export async function getApplicationById(id: ObjectId): Promise<EntityDoc> {
   await connectToDB();
 

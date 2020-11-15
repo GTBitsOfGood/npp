@@ -27,7 +27,18 @@ const handler = generateMethodRoute(
     put: async (req) => {
       const issue = req.body.issue;
       await validateUserHasAccessToIssue(req.user as SessionUser, issue);
-      const result = await IssueManager.createIssue(issue);
+      const product = await ApplicationManager.getAcceptedApplication(
+        req.user as SessionUser
+      );
+
+      if (product == null) {
+        throw new PublicError("User does not have an accepted project!", 500);
+      }
+
+      const result = await IssueManager.createIssue({
+        product: product.id,
+        ...issue,
+      });
 
       if (!result) {
         throw new PublicError("Failed to insert document", 500);

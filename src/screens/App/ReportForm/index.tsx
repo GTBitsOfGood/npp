@@ -11,6 +11,8 @@ import TextArea from "&components/TextArea";
 // Utils
 import urls from "&utils/urls";
 import { useSession } from "&utils/auth-utils";
+import { createIssue } from "&actions/IssueActions";
+import { IssueType } from "&server/models/IssueType";
 
 const placeHolder =
   "Enter a brief description of the issue with your software. We will do our best to replicate it on our end, and then reach out if we have any questions or have suggestions for how to fix it on your end.";
@@ -67,8 +69,58 @@ const ReportScreen = () => {
     setIssueType(tempType);
   };
 
-  const submit = () => {
-    console.log(issueType, issuePassage, contactName, phone, orgPhone);
+  const submit = async () => {
+    if (issuePassage === "" || contactName === "") {
+      await Swal.fire({
+        title: "Error",
+        text: "Please provide all required fields!",
+        icon: "error",
+      });
+      return;
+    }
+
+    try {
+      localStorage.removeItem("report-issueType");
+      localStorage.removeItem("report-issuePassage");
+      localStorage.removeItem("report-contactName");
+      localStorage.removeItem("report-phone");
+      localStorage.removeItem("report-orgPhone");
+
+      const typeNames = [];
+      if (issueType[0]) typeNames.push(IssueType.NOT_LOADING);
+      if (issueType[1]) typeNames.push(IssueType.DATA_MISSING);
+
+      const result = await createIssue({
+        issueType: typeNames,
+        description: issuePassage,
+        images: [],
+        contact: {
+          name: contactName,
+          primaryPhone: phone,
+          organizationPhone: orgPhone,
+        },
+      });
+
+      if (result == null || result.id == null) {
+        throw new Error("Failed to create report!");
+      }
+
+      await Swal.fire({
+        title: "Success",
+        text: "Successfully submitted report!",
+        icon: "success",
+      });
+
+      await router.push(urls.pages.app.report.landing);
+    } catch (error) {
+      console.log("Error", error);
+
+      await Swal.fire({
+        title: "Error",
+        text: "Failed to submit application, please try again later!",
+        icon: "error",
+      });
+    }
   };
 
   const saveForLater = async () => {

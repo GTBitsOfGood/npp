@@ -20,12 +20,7 @@ const Sidebar = ({ currentRoute }: HeaderProps) => (
   <div className={classes.root}>
     <h3>MENU</h3>
     <Link href={urls.pages.app.index} passHref>
-      <a
-        className={clsx(
-          classes.page,
-          landingUrls.includes(currentRoute) && classes.active
-        )}
-      >
+      <a className={classes.page}>
         <h3
           className={clsx(landingUrls.includes(currentRoute) && classes.active)}
         >
@@ -38,13 +33,14 @@ const Sidebar = ({ currentRoute }: HeaderProps) => (
     </Link>
 
     <Link href={urls.pages.app.report.landing} passHref>
-      <a
-        className={clsx(
-          classes.page,
-          currentRoute === urls.pages.app.report.landing && classes.active
-        )}
-      >
-        <h3>Report a Problem</h3>
+      <a className={classes.page}>
+        <h3
+          className={clsx(
+            currentRoute === urls.pages.app.report.landing && classes.active
+          )}
+        >
+          Report a Problem
+        </h3>
         {currentRoute === urls.pages.app.report.landing && (
           <span className={classes.rectangle} />
         )}

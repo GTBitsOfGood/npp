@@ -74,14 +74,27 @@ export async function deleteApplication(id: ObjectId): Promise<EntityDoc> {
   return ApplicationDocument.findByIdAndRemove(id);
 }
 
+export async function updateApplicationStage(
+  id: ObjectId,
+  stage: StageType
+): Promise<EntityDoc> {
+  await connectToDB();
+
+  return ApplicationDocument.findByIdAndUpdate(
+    id,
+    { stage },
+    { upsert: false, new: true }
+  );
+}
+
 export async function updateApplicationDecision(
   id: ObjectId,
   decision: boolean
 ): Promise<EntityDoc> {
   await connectToDB();
 
-  return ApplicationDocument.findOneAndUpdate(
-    { _id: id },
+  return ApplicationDocument.findByIdAndUpdate(
+    id,
     { decision },
     { upsert: false, new: true }
   );
@@ -93,8 +106,8 @@ export async function updateApplicationMeeting(
 ): Promise<EntityDoc> {
   await connectToDB();
 
-  return ApplicationDocument.findOneAndUpdate(
-    { _id: id },
+  return ApplicationDocument.findByIdAndUpdate(
+    id,
     { meeting: meetingId },
     { upsert: false, new: true }
   );

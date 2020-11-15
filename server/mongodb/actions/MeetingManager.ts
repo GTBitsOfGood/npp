@@ -1,11 +1,37 @@
 import { connectToDB } from "../index";
 import MeetingDocument from "../MeetingDocument";
 import { ObjectId } from "mongodb";
+import { updateAvailability } from "&server/mongodb/actions/AvailabilityManager";
+import { Meeting } from "&server/models/Meeting";
+import { updateApplicationStage } from "&server/mongodb/actions/ApplicationManager";
+import { StageType } from "&server/models/StageType";
 
-export async function addMeeting(meeting: Record<string, any>) {
+export async function addMeeting(meeting: Meeting) {
   await connectToDB();
 
-  return MeetingDocument.create(meeting);
+  if (meeting.availability == null || meeting.application == null) {
+    throw new Error("Invalid request!");
+  }
+
+  const availability = await updateAvailability(
+    new ObjectId(meeting.availability),
+    {
+      isBooked: true,
+    }
+  );
+
+  if (availability == null) {
+    throw new Error("Availability does not exist!");
+  }
+
+  const createdMeeting = await MeetingDocument.create(meeting);
+
+  await updateApplicationStage(
+    new ObjectId(meeting.application),
+    StageType.SCHEDULED
+  );
+
+  return createdMeeting;
 }
 
 // set limit?

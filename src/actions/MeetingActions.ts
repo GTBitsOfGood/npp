@@ -1,8 +1,6 @@
 import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
-import { Availability } from "&server/models/Availability";
-import { DateTime } from "luxon";
 import { Meeting } from "&server/models/Meeting";
 
 const meetingRoute = urls.api.meeting;
@@ -33,7 +31,7 @@ export async function getMeetings(): Promise<Meeting[]> {
   return response.map(meetingFromJsonResponse);
 }
 
-export async function createMeeting(meeting: Availability): Promise<Meeting> {
+export async function createMeeting(meeting: Meeting): Promise<Meeting> {
   const response: Record<string, any>[] = await callInternalAPI(
     meetingRoute,
     HttpMethod.PUT,
@@ -49,13 +47,8 @@ export function meetingFromJsonResponse(object: {
 }): Meeting {
   return {
     id: object._id?.toString(),
-    interviewer: object.interviewer,
-    startDatetime: DateTime.fromISO(
-      new Date(object.startDatetime).toISOString()
-    ),
+    availability: object.availability,
     nonprofit: object.nonprofit,
     application: object.application,
-    contactName: object.contactName,
-    contactPhone: object.contactPhone,
   };
 }

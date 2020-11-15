@@ -3,13 +3,9 @@ import mongoose, { Types } from "mongoose";
 const { Schema } = mongoose;
 
 const MeetingSchema = new Schema({
-  interviewer: {
+  availability: {
     type: Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  startDatetime: {
-    type: Date,
+    ref: "availability",
     required: true,
   },
   nonprofit: {
@@ -19,14 +15,6 @@ const MeetingSchema = new Schema({
   application: {
     type: Types.ObjectId,
     ref: "Application",
-    required: true,
-  },
-  contactName: {
-    type: String,
-    required: true,
-  },
-  contactPhone: {
-    type: String,
     required: true,
   },
 });

@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { DateTime } from "luxon";
 import { Availability } from "../models/Availability";
 
 const { Schema } = mongoose;

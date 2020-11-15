@@ -10,6 +10,7 @@ interface TimePickerProps {
   fromAvailabilities: boolean;
   availabilities: Availability[];
   onSelectTime: (time: Date) => void | Promise<void>;
+  onSelectAvail?: (availability: string) => void | Promise<void>;
 }
 
 const TimePicker = ({
@@ -18,6 +19,7 @@ const TimePicker = ({
   fromAvailabilities,
   availabilities,
   onSelectTime,
+  onSelectAvail,
 }: TimePickerProps) => {
   const luxonValue = value != null ? DateTime.fromJSDate(value) : null;
   const startTime = DateTime.fromJSDate(date).set({
@@ -29,6 +31,7 @@ const TimePicker = ({
   const availTimes: {
     disabled: boolean;
     time: DateTime;
+    availability?: Availability;
   }[] = [];
 
   if (fromAvailabilities) {
@@ -45,6 +48,7 @@ const TimePicker = ({
           availTimes.push({
             disabled: false,
             time: curTime,
+            availability: avail,
           });
         }
       }
@@ -64,11 +68,17 @@ const TimePicker = ({
 
   return (
     <div className={classes.root}>
-      {availTimes.map(({ disabled, time }) => (
+      {availTimes.map(({ disabled, time, availability }) => (
         <button
           key={time.toISO()}
           disabled={disabled}
-          onClick={() => onSelectTime(time.toJSDate())}
+          onClick={async () => {
+            await onSelectTime(time.toJSDate());
+
+            if (onSelectAvail != null && availability != null) {
+              await onSelectAvail(availability.id);
+            }
+          }}
           className={clsx(
             classes.timeSlot,
             disabled && classes.disabledTimeslot,

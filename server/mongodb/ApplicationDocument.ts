@@ -26,11 +26,6 @@ const ApplicationSchema = new Schema(
       type: String,
       required: true,
     },
-    meeting: {
-      type: Types.ObjectId,
-      ref: "Meeting",
-      default: null,
-    },
     stage: {
       type: String,
       enum: [
@@ -51,18 +46,6 @@ const ApplicationSchema = new Schema(
     timestamps: true,
   }
 );
-
-ApplicationSchema.virtual("status").get(function (this: any) {
-  // not sure what I was doing here lol
-  if (this.decision) {
-    return "DECISION";
-  } else if (this.interviewScheduled) {
-    this.populate;
-  } else if (this.submittedAt) {
-  } else {
-    return "DRAFT";
-  }
-});
 
 export default mongoose.models.Application ||
   mongoose.model("Application", ApplicationSchema);

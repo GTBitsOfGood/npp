@@ -77,11 +77,13 @@ interface CalendarProps {
   withTime?: boolean;
   value?: Date | null;
   onSelectDate: (date?: Date) => void | Promise<void>;
+  onSelectAvail?: (availability: string) => void | Promise<void>;
 }
 
 const Calendar = ({
   fromAvailabilities = false,
   onSelectDate,
+  onSelectAvail,
   value = null,
   withTime = true,
 }: CalendarProps) => {
@@ -240,6 +242,7 @@ const Calendar = ({
             fromAvailabilities={fromAvailabilities}
             availabilities={availabilities}
             onSelectTime={onSelectDate}
+            onSelectAvail={onSelectAvail}
           />
         </div>
       )}

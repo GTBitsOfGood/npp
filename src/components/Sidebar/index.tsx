@@ -21,46 +21,51 @@ interface HeaderProps {
 }
 
 const Sidebar = ({ currentRoute }: HeaderProps) => {
-  const [drawerOpen, toggleDrawerOpen] = useState(true);
+  const [drawerOpen, toggleDrawerOpen] = useState(false);
+
+  const links = (
+    <>
+      <Link href={urls.pages.app.index} passHref>
+        <a
+          className={clsx(
+            classes.page,
+            landingUrls.includes(currentRoute) && classes.active
+          )}
+        >
+          <h3
+            className={clsx(
+              landingUrls.includes(currentRoute) && classes.active
+            )}
+          >
+            Project Application
+          </h3>
+          {landingUrls.includes(currentRoute) && (
+            <span className={classes.rectangle} />
+          )}
+        </a>
+      </Link>
+
+      <Link href={urls.pages.app.report.landing} passHref>
+        <a
+          className={clsx(
+            classes.page,
+            currentRoute === urls.pages.app.report.landing && classes.active
+          )}
+        >
+          <h3>Report a Problem</h3>
+          {currentRoute === urls.pages.app.report.landing && (
+            <span className={classes.rectangle} />
+          )}
+        </a>
+      </Link>
+    </>
+  );
 
   return (
     <div>
       <div className={classes.root}>
         <h3>MENU</h3>
-
-        <Link href={urls.pages.app.index} passHref>
-          <a
-            className={clsx(
-              classes.page,
-              landingUrls.includes(currentRoute) && classes.active
-            )}
-          >
-            <h3
-              className={clsx(
-                landingUrls.includes(currentRoute) && classes.active
-              )}
-            >
-              Project Application
-            </h3>
-            {landingUrls.includes(currentRoute) && (
-              <span className={classes.rectangle} />
-            )}
-          </a>
-        </Link>
-
-        <Link href={urls.pages.app.report} passHref>
-          <a
-            className={clsx(
-              classes.page,
-              currentRoute === urls.pages.app.report && classes.active
-            )}
-          >
-            <h3>Report a Problem</h3>
-            {currentRoute === urls.pages.app.report && (
-              <span className={classes.rectangle} />
-            )}
-          </a>
-        </Link>
+        {links}
       </div>
 
       {drawerOpen ? (
@@ -76,40 +81,7 @@ const Sidebar = ({ currentRoute }: HeaderProps) => {
               <CloseIcon />
             </div>
           </div>
-
-          <Link href={urls.pages.app.index} passHref>
-            <a
-              className={clsx(
-                classes.page,
-                landingUrls.includes(currentRoute) && classes.active
-              )}
-            >
-              <h3
-                className={clsx(
-                  landingUrls.includes(currentRoute) && classes.active
-                )}
-              >
-                Project Application
-              </h3>
-              {landingUrls.includes(currentRoute) && (
-                <span className={classes.rectangle} />
-              )}
-            </a>
-          </Link>
-
-          <Link href={urls.pages.app.report} passHref>
-            <a
-              className={clsx(
-                classes.page,
-                currentRoute === urls.pages.app.report && classes.active
-              )}
-            >
-              <h3>Report a Problem</h3>
-              {currentRoute === urls.pages.app.report && (
-                <span className={classes.rectangle} />
-              )}
-            </a>
-          </Link>
+          {links}
         </div>
       ) : (
         <div

@@ -166,10 +166,13 @@ const ApplyScreen = () => {
 
         <div className="leftCol">
           <h1 className="formTitle">Sign up for a Project</h1>
+
           <h5 className="formDescription">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud commodo consequat.
+            As a partner, Bits of Good will help you build software that turns
+            your need into real product. Before we begin the screening process,
+            we need some preliminary information regarding your product needs
+            and basic information for our point of contact throughout this
+            process.
           </h5>
         </div>
 

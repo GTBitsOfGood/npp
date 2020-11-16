@@ -98,10 +98,9 @@ const VerificationScreen = () => {
         <div className="leftCol">
           <h1 className="formTitle">Non-profit Verification</h1>
           <h5 className="formDescription">
-            TODO: Explain why we need this information: Lorem ipsum dolor sit
-            amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-            nostrud commodo consequat.
+            Before we begin, we must verify your 501(c)(3) status as a
+            nonprofit. This is just a formality before we are able to view any
+            project applications you have for us.
           </h5>
         </div>
 

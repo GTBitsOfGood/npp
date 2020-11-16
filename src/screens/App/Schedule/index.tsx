@@ -41,9 +41,6 @@ const ScheduleInterview = ({ application }: ScheduleInterviewProps) => {
     }
   }, [loading, session]);
 
-  const message =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud commodo consequat.";
-
   const schedule = async () => {
     if (availability == null) {
       await Swal.fire({
@@ -101,7 +98,17 @@ const ScheduleInterview = ({ application }: ScheduleInterviewProps) => {
             <h5>60 min</h5>
           </div>
 
-          <h5 className="formDescription">{message}</h5>
+          <h5 className="formDescription">
+            Please select an appropriate time and date to meet with a member of
+            our product review board to discuss your project application.
+          </h5>
+
+          <br />
+
+          <h5 className="formDescription">
+            This meeting will be held virtually over Zoom and will give us a
+            better idea of your product needs.
+          </h5>
         </div>
 
         <div className="padding" />

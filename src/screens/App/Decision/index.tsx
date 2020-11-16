@@ -21,7 +21,7 @@ import { stageToIndex, StageType } from "&server/models/StageType";
 const acceptedText =
   "Congratulations! After careful consideration, our team has decided to work with you next semester! We enjoyed the meeting with you and believe that our missions align with each other. Let’s build a powerful and meaningful product together to make our community better!";
 const rejectedText =
-  "After careful considerations, we are sorry to inform you that we decide not to move on with your application. We enjoyed learning about your organization and its impact on the community. We appreciate your time and work! Keep in touch!";
+  "After careful consideration, we are sorry to inform you that we decide not to move on with your application. We enjoyed learning about your organization and its impact on the community. We appreciate your time and work! Keep in touch!";
 
 interface ApprovedProps {
   application: Application;

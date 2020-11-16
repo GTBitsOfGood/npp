@@ -20,11 +20,9 @@ const ReportLanding = ({ projectId }: PropTypes) => (
       <div className="landingPadding" />
 
       <h3 className="landingText">
-        As a partner, Bits of Good will help you build software that turns your
-        need into real productLorem ipsum dolor sit amet, consectetur adipiscing
-        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-        ut
+        Experiencing issues with your current Bits of Good product? Are loading
+        times too long, or are your users facing bugs? Let us know, and we will
+        contact you soon with an estimated timeline for a fix.
       </h3>
 
       <div className="landingPadding" />

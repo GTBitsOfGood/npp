@@ -27,15 +27,11 @@ import { useSession } from "&utils/auth-utils";
 import urls, { getApplicationUrl } from "&utils/urls";
 import { applicationFromJson } from "&actions/ApplicationActions";
 
-// Styles
-import classes from "./ProjectScreen.module.scss";
-
 interface PropTypes {
-  applications: Application[];
   organizationVerified: boolean;
 }
 
-const ProjectPage = ({ applications, organizationVerified }: PropTypes) => {
+const ProjectPage = ({ organizationVerified }: PropTypes) => {
   const router = useRouter();
   const [session, loading] = useSession();
 
@@ -49,34 +45,15 @@ const ProjectPage = ({ applications, organizationVerified }: PropTypes) => {
     }
   }, [loading, session]);
 
-  const latestApp = applications?.[0];
-  const appUrl = getApplicationUrl(latestApp);
-
   if (loading || !session) {
     return <h1 className="loadingText">Loading...</h1>;
-  }
-
-  if (latestApp) {
-    if (latestApp.stage === StageType.SUBMITTED)
-      return <SubmittedScreen application={latestApp} />;
-    else if (latestApp.stage === StageType.AWAITING_SCHEDULE)
-      return <ScheduleLanding application={latestApp} />;
-    else if (latestApp.stage === StageType.SCHEDULED)
-      return <Scheduled application={latestApp} />;
-    else if (latestApp.stage === StageType.REVIEW)
-      return <UnderReview application={latestApp} />;
-    else if (latestApp.stage === StageType.DECISION) {
-      if (latestApp.decision)
-        return <ApprovedLanding application={latestApp} />;
-      else return <RejectedLanding application={latestApp} />;
-    }
   }
 
   return (
     <div className="landingPage">
       <h1 className="landingHeader">Apply for a New Project</h1>
 
-      <Statusbar application={latestApp} />
+      <Statusbar application={null} />
 
       <ApplyNewBulb className="landingImage" />
 
@@ -94,24 +71,11 @@ const ProjectPage = ({ applications, organizationVerified }: PropTypes) => {
         <div className="landingPadding" />
       </div>
 
-      {latestApp != null &&
-      latestApp.stage === "DECISION" &&
-      latestApp.decision === false ? (
-        <div className="landingButton">
-          <ButtonLink
-            variant="secondary"
-            href={urls.pages.app.application.apply}
-          >
-            <h3>Apply Again</h3>
-          </ButtonLink>
-        </div>
-      ) : (
-        <div className="landingButton">
-          <ButtonLink variant="primary" href={urls.pages.app.application.apply}>
-            <h3>Apply Now</h3>
-          </ButtonLink>
-        </div>
-      )}
+      <div className="landingButton">
+        <ButtonLink variant="primary" href={urls.pages.app.application.apply}>
+          <h3>Apply Now</h3>
+        </ButtonLink>
+      </div>
     </div>
   );
 };
@@ -129,22 +93,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       throw new Error("User is not logged in!");
     }
 
+    const user = await UserManager.getUserById((session.user as any).id);
+
     const applications = await ApplicationManager.getApplications(session.user);
-    const appJson = applications.map((application: Application) => {
-      const formatted = applicationFromJson(application);
+    if (applications.length > 0) {
+      const latestApp = applications?.[0];
+      const appUrl = getApplicationUrl(latestApp);
 
       return {
-        ...formatted,
-        createdAt: formatted.createdAt?.toISO(),
-        updatedAt: formatted.updatedAt?.toISO(),
+        props: {},
+        redirect: {
+          destination: appUrl,
+          permanent: false,
+        },
       };
-    });
-
-    const user = await UserManager.getUserById((session.user as any).id);
+    }
 
     return {
       props: {
-        applications: appJson,
         organizationVerified:
           user.organization != null &&
           user.organization.organizationName != null,
@@ -153,7 +119,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } catch (error) {
     return {
       props: {
-        applications: [],
         organizationVerified: true,
         error: error.message,
       },

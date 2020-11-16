@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { Application } from "&server/models/Application";
 import { StageType } from "&server/models/StageType";
 
@@ -36,26 +37,30 @@ const urls = {
 
 export const landingUrls = [urls.pages.app.index];
 
-export const getApplicationUrl = (application: Application) => {
-  if (application == null || application.id == null) {
+export const getApplicationUrl = (
+  application: Application & { _id?: Types.ObjectId }
+) => {
+  const appId =
+    application != null ? application.id ?? application?._id?.toString() : null;
+  if (appId == null) {
     return urls.pages.app.application.apply;
   }
 
   switch (application.stage) {
     case StageType.SUBMITTED: {
-      return urls.pages.app.application.submitted(application.id);
+      return urls.pages.app.application.submitted(appId);
     }
     case StageType.AWAITING_SCHEDULE: {
-      return urls.pages.app.application.schedule(application.id);
+      return urls.pages.app.application.schedule(appId);
     }
     case StageType.SCHEDULED: {
-      return urls.pages.app.application.scheduled(application.id);
+      return urls.pages.app.application.scheduled(appId);
     }
     case StageType.REVIEW: {
-      return urls.pages.app.application.review(application.id);
+      return urls.pages.app.application.review(appId);
     }
     case StageType.DECISION: {
-      return urls.pages.app.application.decision(application.id);
+      return urls.pages.app.application.decision(appId);
     }
     default: {
       return urls.pages.app.application.apply;

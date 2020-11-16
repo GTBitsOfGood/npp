@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { DateTime } from "luxon";
+import Swal from "sweetalert2";
 
 // Iconography
 import Clock from "&icons/Clock";
@@ -19,7 +20,10 @@ import { stageToIndex, StageType } from "&server/models/StageType";
 import { useSession } from "&utils/auth-utils";
 import { Meeting } from "&server/models/Meeting";
 import { Availability } from "&server/models/Availability";
-import { meetingFromJsonResponse } from "&actions/MeetingActions";
+import {
+  meetingFromJsonResponse,
+  cancelMeeting,
+} from "&actions/MeetingActions";
 
 // Styling
 import classes from "./Scheduled.module.scss";
@@ -46,14 +50,65 @@ const Scheduled = ({ application, meeting }: PropTypes) => {
     }
   }, [loading, session]);
 
-  const cancelMeeting = () => {
-    console.log("Meeting cancelled!");
-    //TODO: Implement rerouting back to homepage or confirmation screen??
+  const handleCancel = async () => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+    });
+
+    if (result.value) {
+      try {
+        await cancelMeeting(meeting.id!);
+
+        await Swal.fire(
+          "Success",
+          "Your meeting has been cancelled!",
+          "success"
+        );
+
+        await router.reload();
+      } catch (error) {
+        console.log("Error", error);
+
+        await Swal.fire({
+          title: "Error",
+          text: "Failed to cancel meeting, please try again later!",
+          icon: "error",
+        });
+      }
+    }
   };
 
-  const rescheduleMeeting = () => {
-    console.log("Reschedule Meeting");
-    //TODO: Implement rerouting back to interview schedule page
+  const handleReschedule = async () => {
+    if (meeting.cancelled) {
+      await router.push(urls.pages.app.application.schedule(application.id!));
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      icon: "warning",
+      showCancelButton: true,
+    });
+
+    if (result.value) {
+      try {
+        await cancelMeeting(meeting.id!);
+
+        await router.replace(
+          urls.pages.app.application.schedule(application.id!)
+        );
+      } catch (error) {
+        console.log("Error", error);
+
+        await Swal.fire({
+          title: "Error",
+          text: "Failed to reschedule meeting, please try again later!",
+          icon: "error",
+        });
+      }
+    }
   };
 
   if (loading || !session || router.isFallback) {
@@ -75,6 +130,7 @@ const Scheduled = ({ application, meeting }: PropTypes) => {
             {meetingDate.toFormat(
               `MMMM d, '${meetingStart} - ${meetingEnd}' ZZZZ`
             )}
+            {meeting.cancelled && <b>(Cancelled)</b>}
           </h3>
 
           <h3 className={classes.link}>
@@ -86,10 +142,14 @@ const Scheduled = ({ application, meeting }: PropTypes) => {
         </div>
 
         <div className={classes.buttons}>
-          <Button variant="secondary" onClick={cancelMeeting}>
+          <Button
+            variant="secondary"
+            onClick={handleCancel}
+            disabled={meeting.cancelled}
+          >
             <h3>Cancel</h3>
           </Button>
-          <Button variant="primary" onClick={rescheduleMeeting}>
+          <Button variant="primary" onClick={handleReschedule}>
             <h3>Reschedule</h3>
           </Button>
         </div>
@@ -192,3 +252,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export default Scheduled;
+
+Scheduled.showSidebar = false;
+Scheduled.isLanding = false;

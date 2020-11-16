@@ -13,35 +13,25 @@ import MenuIcon from "&icons/MenuIcon";
 import classes from "./Sidebar.module.scss";
 
 // Utils
-import urls, { landingUrls } from "&utils/urls";
+import urls from "&utils/urls";
 import CloseIcon from "&icons/CloseIcon";
 
 interface HeaderProps {
   currentRoute: string;
+  isLanding: boolean;
 }
 
-const Sidebar = ({ currentRoute }: HeaderProps) => {
+const Sidebar = ({ currentRoute, isLanding }: HeaderProps) => {
   const [drawerOpen, toggleDrawerOpen] = useState(false);
 
   const links = (
     <>
       <Link href={urls.pages.app.index} passHref>
-        <a
-          className={clsx(
-            classes.page,
-            landingUrls.includes(currentRoute) && classes.active
-          )}
-        >
-          <h3
-            className={clsx(
-              landingUrls.includes(currentRoute) && classes.active
-            )}
-          >
+        <a className={clsx(classes.page, isLanding && classes.active)}>
+          <h3 className={clsx(isLanding && classes.active)}>
             Project Application
           </h3>
-          {landingUrls.includes(currentRoute) && (
-            <span className={classes.rectangle} />
-          )}
+          {isLanding && <span className={classes.rectangle} />}
         </a>
       </Link>
 

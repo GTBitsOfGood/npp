@@ -73,3 +73,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default ReportLanding;
+
+ReportLanding.showSidebar = true;
+ReportLanding.isLanding = false;

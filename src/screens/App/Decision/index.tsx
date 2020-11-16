@@ -1,25 +1,33 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/client";
 
 // Components
 import Statusbar from "&components/Statusbar";
 
 // Iconography
-import SubmittedUFO from "&icons/SubmittedUFO";
+import ApprovedPeople from "&icons/ApprovedPeople";
+import RejectedUFO from "&icons/RejectedUFO";
+
+// Interfaces
+import { Application } from "&server/models/Application";
 
 // Utils
 import urls from "&utils/urls";
-import { Application } from "&server/models/Application";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { applicationFromJson } from "&actions/ApplicationActions";
 import { stageToIndex, StageType } from "&server/models/StageType";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { useSession } from "&utils/auth-utils";
 
-interface PropTypes {
+const acceptedText =
+  "Congratulations! After careful consideration, our team has decided to work with you next semester! We enjoyed the meeting with you and believe that our missions align with each other. Let’s build a powerful and meaningful product together to make our community better!";
+const rejectedText =
+  "After careful considerations, we are sorry to inform you that we decide not to move on with your application. We enjoyed learning about your organization and its impact on the community. We appreciate your time and work! Keep in touch!";
+
+interface ApprovedProps {
   application: Application;
 }
 
-const SubmittedScreen = ({ application }: PropTypes) => {
+const DecisionLanding = ({ application }: ApprovedProps) => {
   const router = useRouter();
   const [session, loading] = useSession();
 
@@ -35,22 +43,28 @@ const SubmittedScreen = ({ application }: PropTypes) => {
 
   return (
     <div className="landingPage">
-      <h1 className="landingHeader">Application Submitted!</h1>
+      <h1 className="landingHeader">
+        {application.decision
+          ? `Congratulations, ${application.primaryContact.name}!`
+          : "Thank you for your Submission"}
+      </h1>
 
       <Statusbar application={application} />
 
-      <SubmittedUFO className="landingImage" />
+      {application.decision === true || application.decision == null ? (
+        <ApprovedPeople className="landingImage" />
+      ) : (
+        <RejectedUFO className="landingImage" />
+      )}
 
       <div className="landingContent">
         <div className="landingPadding" />
 
-        <h3 className="landingText">
-          Your application has been submitted to the BoG team successfully! You
-          will get an email notification after we finish reviewing your
-          application. If we decide to move on with your project, the next step
-          will be an interview to better understand your project and see if it’s
-          a good fit for Bits of Good.
-        </h3>
+        {application.decision != null && (
+          <h3 className="landingText">
+            {application.decision ? acceptedText : rejectedText}
+          </h3>
+        )}
 
         <div className="landingPadding" />
       </div>
@@ -67,7 +81,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     const application = await ApplicationManager.getApplicationById(id);
     const appJson = applicationFromJson(application);
 
-    if (stageToIndex[appJson.stage!] < stageToIndex[StageType.SUBMITTED]) {
+    if (stageToIndex[appJson.stage!] < stageToIndex[StageType.DECISION]) {
       return {
         props: {
           application: null,
@@ -106,7 +120,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
 
   const applications = await ApplicationManager.getApplicationsByStage(
-    StageType.SUBMITTED
+    StageType.DECISION
   );
 
   return {
@@ -117,7 +131,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export default SubmittedScreen;
+export default DecisionLanding;
 
-SubmittedScreen.showSidebar = false;
-SubmittedScreen.isLanding = false;
+DecisionLanding.showSidebar = true;
+DecisionLanding.isLanding = true;

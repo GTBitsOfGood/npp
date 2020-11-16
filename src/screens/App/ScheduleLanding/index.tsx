@@ -69,3 +69,6 @@ const ScheduleLanding = ({ application }: ScheduleLandingProps) => {
 };
 
 export default ScheduleLanding;
+
+ScheduleLanding.showSidebar = true;
+ScheduleLanding.isLanding = true;

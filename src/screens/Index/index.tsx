@@ -81,3 +81,6 @@ const IndexPage = () => (
 );
 
 export default IndexPage;
+
+IndexPage.showSidebar = false;
+IndexPage.isLanding = false;

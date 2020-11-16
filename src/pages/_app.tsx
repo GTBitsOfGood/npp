@@ -15,11 +15,19 @@ import "&styles/App.scss";
 import "&styles/Fonts.scss";
 
 // Utils
-import urls, { landingUrls } from "&utils/urls";
 import "focus-visible/dist/focus-visible.min.js";
 import { defaultSeoConfig, profileSeoConfig } from "&utils/seo";
 
-const MyApp = ({ Component, pageProps, router }: AppProps) => (
+const MyApp = ({
+  Component,
+  pageProps,
+  router,
+}: AppProps & {
+  Component: {
+    showSidebar?: boolean;
+    isLanding?: boolean;
+  };
+}) => (
   <>
     <DefaultSeo {...defaultSeoConfig} />
     <SocialProfileJsonLd {...profileSeoConfig} />
@@ -27,10 +35,12 @@ const MyApp = ({ Component, pageProps, router }: AppProps) => (
       <div id="app">
         <Header />
         <div id="sidebar">
-          {(landingUrls.includes(router.asPath) ||
-            ["/app", urls.pages.app.report.landing].includes(
-              router.asPath
-            )) && <Sidebar currentRoute={router.asPath} />}
+          {Component.showSidebar && (
+            <Sidebar
+              currentRoute={router.asPath}
+              isLanding={Component.isLanding === true}
+            />
+          )}
           <div id="content">
             <Component {...pageProps} />
           </div>

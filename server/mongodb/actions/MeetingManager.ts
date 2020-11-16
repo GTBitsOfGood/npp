@@ -65,3 +65,28 @@ export async function getMeetingByApplicationId(id: string) {
 
   return meeting;
 }
+
+export async function cancelMeeting(id: Types.ObjectId) {
+  await connectToDB();
+
+  const meeting = await MeetingDocument.findByIdAndUpdate(
+    id,
+    {
+      cancelled: true,
+    },
+    {
+      new: true,
+      lean: true,
+    }
+  );
+
+  if (meeting == null) {
+    throw new Error("Meeting does not exist!");
+  }
+
+  await updateAvailability(meeting.availability, {
+    isBooked: false,
+  });
+
+  return meeting;
+}

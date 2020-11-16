@@ -23,7 +23,6 @@ import { meetingFromJsonResponse } from "&actions/MeetingActions";
 
 // Styling
 import classes from "./Scheduled.module.scss";
-import { availabilityFromJsonResponse } from "&actions/AvailabilityActions";
 
 interface PropTypes {
   application: Application;
@@ -34,7 +33,9 @@ const Scheduled = ({ application, meeting }: PropTypes) => {
   const router = useRouter();
   const [session, loading] = useSession();
   const meetingDate = DateTime.fromISO(
-    (meeting.availability.startDatetime as unknown) as string
+    meeting != null
+      ? ((meeting.availability.startDatetime as unknown) as string)
+      : new Date().toISOString()
   );
   const meetingStart = meetingDate.toFormat("t");
   const meetingEnd = meetingDate.plus({ hours: 1 }).toFormat("t");
@@ -44,8 +45,6 @@ const Scheduled = ({ application, meeting }: PropTypes) => {
       void router.replace(urls.pages.index);
     }
   }, [loading, session]);
-
-  console.log("meeting", meeting);
 
   const cancelMeeting = () => {
     console.log("Meeting cancelled!");
@@ -84,8 +83,6 @@ const Scheduled = ({ application, meeting }: PropTypes) => {
             </div>
             Zoom Link
           </h3>
-
-          {/* TODO: need to make an interview box that corresponds to the selected interview */}
         </div>
 
         <div className={classes.buttons}>
@@ -164,7 +161,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
       };
     }
   } catch (error) {
-    console.log("e", error);
     return {
       props: {
         application: null,

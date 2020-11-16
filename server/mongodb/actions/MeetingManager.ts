@@ -41,7 +41,7 @@ export async function getMeetings() {
   return MeetingDocument.find().sort({ startDateTime: -1 });
 }
 
-export async function getMeetingById(id: string) {
+export async function getMeetingById(id: Types.ObjectId) {
   await connectToDB();
 
   return MeetingDocument.findById(id);

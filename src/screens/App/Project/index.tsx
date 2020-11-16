@@ -7,25 +7,12 @@ import { getSession } from "next-auth/client";
 import Statusbar from "&components/Statusbar";
 import ButtonLink from "&components/ButtonLink";
 
-// Screens
-import Scheduled from "&screens/App/Scheduled";
-import UnderReview from "&screens/App/UnderReview";
-import SubmittedScreen from "&screens/App/Submitted";
-import ApprovedLanding from "&screens/App/ApprovedLanding";
-import RejectedLanding from "&screens/App/RejectedLanding";
-import ScheduleLanding from "&screens/App/ScheduleLanding";
-
 // Iconography
 import ApplyNewBulb from "&icons/ApplyNewBulb";
-
-// Interfaces
-import { StageType } from "&server/models/StageType";
-import { Application } from "&server/models/Application";
 
 // Utils
 import { useSession } from "&utils/auth-utils";
 import urls, { getApplicationUrl } from "&utils/urls";
-import { applicationFromJson } from "&actions/ApplicationActions";
 
 interface PropTypes {
   organizationVerified: boolean;

@@ -1,23 +1,27 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 
-const { Schema } = mongoose;
-
-const MeetingSchema = new Schema({
-  availability: {
-    type: Types.ObjectId,
-    ref: "availability",
-    required: true,
+const MeetingSchema = new Schema(
+  {
+    availability: {
+      type: Types.ObjectId,
+      ref: "Availability",
+      required: true,
+    },
+    nonprofit: {
+      type: Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    application: {
+      type: Types.ObjectId,
+      ref: "Application",
+      required: true,
+    },
   },
-  nonprofit: {
-    type: Schema.Types.ObjectId,
-    required: true,
-  },
-  application: {
-    type: Types.ObjectId,
-    ref: "Application",
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 export default mongoose.models.Meeting ||
   mongoose.model("Meeting", MeetingSchema);

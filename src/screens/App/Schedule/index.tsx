@@ -71,7 +71,9 @@ const ScheduleInterview = ({ application }: ScheduleInterviewProps) => {
         icon: "success",
       });
 
-      await router.replace(urls.pages.app.application.scheduled(result.id!));
+      await router.replace(
+        urls.pages.app.application.scheduled(application.id!)
+      );
     } catch (error) {
       console.log("Error", error);
 

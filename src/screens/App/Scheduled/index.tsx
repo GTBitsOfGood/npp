@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
+import { DateTime } from "luxon";
 
 // Iconography
 import Clock from "&icons/Clock";
@@ -16,23 +17,35 @@ import { Application } from "&server/models/Application";
 import { applicationFromJson } from "&actions/ApplicationActions";
 import { stageToIndex, StageType } from "&server/models/StageType";
 import { useSession } from "&utils/auth-utils";
+import { Meeting } from "&server/models/Meeting";
+import { Availability } from "&server/models/Availability";
+import { meetingFromJsonResponse } from "&actions/MeetingActions";
 
 // Styling
 import classes from "./Scheduled.module.scss";
+import { availabilityFromJsonResponse } from "&actions/AvailabilityActions";
 
 interface PropTypes {
   application: Application;
+  meeting: Meeting & { availability: Availability };
 }
 
-const Scheduled = ({ application }: PropTypes) => {
+const Scheduled = ({ application, meeting }: PropTypes) => {
   const router = useRouter();
   const [session, loading] = useSession();
+  const meetingDate = DateTime.fromISO(
+    (meeting.availability.startDatetime as unknown) as string
+  );
+  const meetingStart = meetingDate.toFormat("t");
+  const meetingEnd = meetingDate.plus({ hours: 1 }).toFormat("t");
 
   useEffect(() => {
     if (!loading && !session) {
       void router.replace(urls.pages.index);
     }
   }, [loading, session]);
+
+  console.log("meeting", meeting);
 
   const cancelMeeting = () => {
     console.log("Meeting cancelled!");
@@ -60,7 +73,9 @@ const Scheduled = ({ application }: PropTypes) => {
             <div className={classes.icon}>
               <Clock />
             </div>
-            October 12th, 10-11am EST
+            {meetingDate.toFormat(
+              `MMMM d, '${meetingStart} - ${meetingEnd}' ZZZZ`
+            )}
           </h3>
 
           <h3 className={classes.link}>
@@ -105,6 +120,8 @@ const Scheduled = ({ application }: PropTypes) => {
 export const getStaticProps: GetStaticProps = async (context) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const MeetingManager = require("&server/mongodb/actions/MeetingManager");
 
   try {
     const { id } = (context.params || {}) as Record<string, unknown>;
@@ -120,6 +137,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
         revalidate: 1,
       };
     } else {
+      const meeting = await MeetingManager.getMeetingByApplicationId(id);
+      const meetingJson = meetingFromJsonResponse(meeting) as Meeting & {
+        availability: Availability;
+      };
+
       return {
         props: {
           application: {
@@ -127,14 +149,26 @@ export const getStaticProps: GetStaticProps = async (context) => {
             createdAt: appJson.createdAt?.toISO(),
             updatedAt: appJson.updatedAt?.toISO(),
           },
+          meeting: {
+            ...meetingJson,
+            availability: {
+              ...((meetingJson.availability as unknown) as Meeting),
+              startDatetime: meetingJson.availability.startDatetime?.toISO(),
+              endDatetime: meetingJson.availability.endDatetime?.toISO(),
+            },
+            createdAt: meetingJson.createdAt?.toISO(),
+            updatedAt: meetingJson.updatedAt?.toISO(),
+          },
         },
         revalidate: 60,
       };
     }
   } catch (error) {
+    console.log("e", error);
     return {
       props: {
         application: null,
+        meeting: null,
         error: error.message,
       },
       notFound:

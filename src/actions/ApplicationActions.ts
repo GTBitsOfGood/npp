@@ -93,7 +93,6 @@ export function applicationFromJson(object: {
       (val: string) => ProductType[val as keyof typeof ProductType]
     ),
     description: object.description,
-    meeting: object.meeting,
     stage: object.stage,
     decision: object.decision,
     createdAt: DateTime.fromISO(new Date(object.createdAt).toISOString()),

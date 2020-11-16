@@ -1,6 +1,6 @@
+import { Types } from "mongoose";
 import { connectToDB } from "../index";
 import MeetingDocument from "../MeetingDocument";
-import { ObjectId } from "mongodb";
 import { updateAvailability } from "&server/mongodb/actions/AvailabilityManager";
 import { Meeting } from "&server/models/Meeting";
 import { updateApplicationStage } from "&server/mongodb/actions/ApplicationManager";
@@ -14,7 +14,7 @@ export async function addMeeting(meeting: Meeting) {
   }
 
   const availability = await updateAvailability(
-    new ObjectId(meeting.availability),
+    Types.ObjectId(meeting.availability),
     {
       isBooked: true,
     }
@@ -27,7 +27,7 @@ export async function addMeeting(meeting: Meeting) {
   const createdMeeting = await MeetingDocument.create(meeting);
 
   await updateApplicationStage(
-    new ObjectId(meeting.application),
+    Types.ObjectId(meeting.application),
     StageType.SCHEDULED
   );
 
@@ -41,14 +41,27 @@ export async function getMeetings() {
   return MeetingDocument.find().sort({ startDateTime: -1 });
 }
 
-export async function getMeetingById(id: ObjectId) {
+export async function getMeetingById(id: string) {
   await connectToDB();
 
   return MeetingDocument.findById(id);
 }
 
-export async function getMeetingByApplicationId(id: ObjectId) {
+export async function getMeetingByApplicationId(id: string) {
   await connectToDB();
 
-  return MeetingDocument.findOne({ application: id });
+  const meeting = await MeetingDocument.findOne({
+    application: Types.ObjectId(id),
+  })
+    .sort({
+      createdAt: -1,
+    })
+    .populate("availability")
+    .lean();
+
+  if (meeting == null) {
+    throw new Error("Application does not have a meeting!");
+  }
+
+  return meeting;
 }

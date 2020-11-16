@@ -10,6 +10,7 @@ export async function getAvailabilitiesFromStartOfMonth(
   await connectToDB();
 
   return AvailabilityDocument.find({
+    isBooked: false,
     startDatetime: {
       $gte: DateTime.fromISO(date).startOf("month").toISODate(),
     },

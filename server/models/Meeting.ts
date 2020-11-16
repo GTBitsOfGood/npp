@@ -5,6 +5,7 @@ export interface Meeting {
   availability: string;
   nonprofit: string;
   application: string;
+  meetingLink?: string;
   cancelled?: boolean;
   createdAt?: DateTime;
   updatedAt?: DateTime;

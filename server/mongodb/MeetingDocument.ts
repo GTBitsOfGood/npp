@@ -17,6 +17,9 @@ const MeetingSchema = new Schema(
       ref: "Application",
       required: true,
     },
+    meetingLink: {
+      type: String,
+    },
     cancelled: {
       type: Boolean,
       default: false,

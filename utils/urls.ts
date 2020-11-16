@@ -35,8 +35,6 @@ const urls = {
   },
 };
 
-export const landingUrls = [urls.pages.app.index];
-
 export const getApplicationUrl = (
   application: Application & { _id?: Types.ObjectId }
 ) => {

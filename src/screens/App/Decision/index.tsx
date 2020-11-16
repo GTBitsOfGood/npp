@@ -132,3 +132,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export default DecisionLanding;
+
+DecisionLanding.showSidebar = true;
+DecisionLanding.isLanding = true;

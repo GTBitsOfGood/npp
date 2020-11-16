@@ -202,3 +202,6 @@ const VerificationScreen = () => {
 };
 
 export default VerificationScreen;
+
+VerificationScreen.showSidebar = false;
+VerificationScreen.isLanding = false;

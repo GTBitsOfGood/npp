@@ -120,3 +120,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export default UnderReview;
+
+UnderReview.showSidebar = false;
+UnderReview.isLanding = false;

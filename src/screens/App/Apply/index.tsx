@@ -260,3 +260,6 @@ const ApplyScreen = () => {
 };
 
 export default ApplyScreen;
+
+ApplyScreen.showSidebar = false;
+ApplyScreen.isLanding = false;

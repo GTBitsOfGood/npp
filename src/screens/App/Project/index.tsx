@@ -114,3 +114,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default ProjectPage;
+
+ProjectPage.showSidebar = true;
+ProjectPage.isLanding = true;

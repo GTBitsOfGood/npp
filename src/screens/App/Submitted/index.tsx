@@ -118,3 +118,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export default SubmittedScreen;
+
+SubmittedScreen.showSidebar = false;
+SubmittedScreen.isLanding = false;

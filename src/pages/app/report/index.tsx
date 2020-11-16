@@ -1,3 +1,4 @@
-import ReportLanding from "&screens/App/ReportLanding";
+import ReportLanding, { getServerSideProps } from "&screens/App/ReportLanding";
 
 export default ReportLanding;
+export { getServerSideProps };

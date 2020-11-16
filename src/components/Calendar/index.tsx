@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
+import Swal from "sweetalert2";
 
 // Libraries;
 import clsx from "clsx";
@@ -11,6 +12,10 @@ import RightChevron from "&icons/RightChevron";
 // Components
 import TimePicker from "./TimePicker";
 
+// Utils
+import { Availability } from "&server/models/Availability";
+import { getAvailabilitiesForStartOfMonth } from "&actions/AvailabilityActions";
+
 // Styling
 import classes from "./Calendar.module.scss";
 
@@ -20,7 +25,44 @@ const WEEKDAYS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 // 6 weeks * 7 days per week
 const DAYS_IN_CALENDAR = 42;
 
-const currentDate = DateTime.local().startOf("day");
+const matchAvailabilities = async (
+  selectedDate: DateTime,
+  calendarDays: CalendarItem[]
+): Promise<[Availability[], CalendarItem[]]> => {
+  const currentDate = DateTime.local().startOf("day");
+
+  try {
+    const availabilities = await getAvailabilitiesForStartOfMonth(
+      selectedDate.toJSDate()
+    );
+
+    const availDays = new Set(
+      availabilities.map((avail) => avail.startDatetime.ordinal)
+    );
+
+    const matchedDays = calendarDays.map((day) =>
+      day != null
+        ? {
+            ...day,
+            disabled:
+              day.date <= currentDate || !availDays.has(day.date.ordinal),
+          }
+        : null
+    );
+
+    return [availabilities, matchedDays];
+  } catch (error) {
+    console.log("Error", error);
+
+    await Swal.fire({
+      title: "Error",
+      text: "Failed to get meeting availabilities, please try again later!",
+      icon: "error",
+    });
+
+    return [[], calendarDays];
+  }
+};
 
 // Typescript
 interface CalendarDay {
@@ -31,52 +73,71 @@ interface CalendarDay {
 type CalendarItem = CalendarDay | null;
 
 interface CalendarProps {
+  fromAvailabilities?: boolean;
   withTime?: boolean;
   value?: Date | null;
   onSelectDate: (date?: Date) => void | Promise<void>;
+  onSelectAvail?: (availability: string) => void | Promise<void>;
 }
 
 const Calendar = ({
+  fromAvailabilities = false,
   onSelectDate,
+  onSelectAvail,
   value = null,
   withTime = true,
 }: CalendarProps) => {
+  const currentDate = DateTime.local().startOf("day");
   const [selectedDate, setSelectedDate] = useState<DateTime>(
     currentDate.startOf("month")
   );
   const [calendarDays, setCalendarDays] = useState<CalendarItem[]>([]);
+  const [availabilities, setAvailabilities] = useState<Availability[]>([]);
 
   useEffect(() => {
-    const tempCalendarDays: CalendarItem[] = [];
+    void (async () => {
+      const tempCalendarDays: CalendarItem[] = [];
 
-    const monthStart = selectedDate.startOf("month");
-    const daysInMonth = selectedDate.daysInMonth;
+      const monthStart = selectedDate.startOf("month");
+      const daysInMonth = selectedDate.daysInMonth;
 
-    // Reset Sunday (7) to index 0
-    const firstWeekday = monthStart.weekday % 7;
+      // Reset Sunday (7) to index 0
+      const firstWeekday = monthStart.weekday % 7;
 
-    for (let i = 0; i < DAYS_IN_CALENDAR; i++) {
-      const curDayOfMonth = i - firstWeekday;
+      for (let i = 0; i < DAYS_IN_CALENDAR; i++) {
+        const curDayOfMonth = i - firstWeekday;
 
-      if (curDayOfMonth < 0) {
-        // Add blank days at the start of the month
-        tempCalendarDays.push(null);
-      } else if (curDayOfMonth < daysInMonth) {
-        // Add regular calendar day
-        const tempDay = monthStart.plus({ day: curDayOfMonth });
+        if (curDayOfMonth < 0) {
+          // Add blank days at the start of the month
+          tempCalendarDays.push(null);
+        } else if (curDayOfMonth < daysInMonth) {
+          // Add regular calendar day
+          const tempDay = monthStart.plus({ day: curDayOfMonth });
 
-        tempCalendarDays.push({
-          date: tempDay,
-          disabled: tempDay <= currentDate,
-        });
-      } else {
-        // Add blank days at the end of the month
-        tempCalendarDays.push(null);
+          tempCalendarDays.push({
+            date: tempDay,
+            // disabled until availabilities checked
+            disabled: fromAvailabilities || tempDay <= currentDate,
+          });
+        } else {
+          // Add blank days at the end of the month
+          tempCalendarDays.push(null);
+        }
       }
 
       setCalendarDays(tempCalendarDays);
-    }
-  }, [selectedDate]);
+
+      if (fromAvailabilities && tempCalendarDays.length > 0) {
+        const [newAvail, matchedDays] = await matchAvailabilities(
+          selectedDate,
+          tempCalendarDays
+        );
+
+        setAvailabilities(newAvail);
+        setCalendarDays(matchedDays);
+      }
+    })();
+  }, [fromAvailabilities, selectedDate]);
 
   return (
     <div className={classes.root}>
@@ -125,7 +186,7 @@ const Calendar = ({
                 // Note: Add one to avoid division by 0
                 if (((calIndex % 7) + 1) / (dayIndex + 1) === 1) {
                   return (
-                    <>
+                    <Fragment key={`day-${calIndex}`}>
                       {curDay === null ? (
                         <div className={classes.emptyButton} />
                       ) : (
@@ -159,7 +220,7 @@ const Calendar = ({
                           </h2>
                         </button>
                       )}
-                    </>
+                    </Fragment>
                   );
                 }
               })}
@@ -175,7 +236,14 @@ const Calendar = ({
       {withTime && value != null && (
         <div className={classes.time}>
           <h3>{DateTime.fromJSDate(value).toFormat("EEEE, MMM d")}</h3>
-          <TimePicker date={value} value={value} onSelectTime={onSelectDate} />
+          <TimePicker
+            date={value}
+            value={value}
+            fromAvailabilities={fromAvailabilities}
+            availabilities={availabilities}
+            onSelectTime={onSelectDate}
+            onSelectAvail={onSelectAvail}
+          />
         </div>
       )}
     </div>
@@ -212,4 +280,4 @@ const Calendar = ({
 //   </div>
 // ))}
 
-export default Calendar;
+export default React.memo(Calendar);

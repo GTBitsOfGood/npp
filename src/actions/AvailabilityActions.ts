@@ -15,11 +15,11 @@ export async function getAvailabilityById(
   return availabilityFromJsonResponse(response);
 }
 
-export async function getAvailabilitiesForStartOfWeek(): Promise<
-  Availability[]
-> {
+export async function getAvailabilitiesForStartOfMonth(
+  date: Date
+): Promise<Availability[]> {
   const response: Record<string, any>[] = await callInternalAPI(
-    availabilityRoute,
+    availabilityRoute + `?date=${date.toISOString()}`,
     HttpMethod.GET
   );
   return response.map(availabilityFromJsonResponse);
@@ -66,9 +66,11 @@ export function availabilityFromJsonResponse(object: {
 }): Availability {
   return {
     id: object._id?.toString(),
-    interviewer: object.interviewer,
-    startDatetime: DateTime.fromISO(object.startDatetime),
-    endDatetime: DateTime.fromISO(object.endDatetime),
+    interviewer: object.interviewer?.toString(),
+    startDatetime: DateTime.fromISO(
+      new Date(object.startDatetime).toISOString()
+    ),
+    endDatetime: DateTime.fromISO(new Date(object.endDatetime).toISOString()),
     isBooked: object.isBooked,
   };
 }

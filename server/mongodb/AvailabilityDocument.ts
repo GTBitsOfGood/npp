@@ -1,12 +1,8 @@
-import mongoose from "mongoose";
-import { DateTime } from "luxon";
-import { Availability } from "../models/Availability";
-
-const { Schema } = mongoose;
+import mongoose, { Schema, Types } from "mongoose";
 
 const AvailabilitySchema = new Schema({
   interviewer: {
-    type: Schema.Types.ObjectId,
+    type: Types.ObjectId,
     required: true,
   },
   startDatetime: {

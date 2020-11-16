@@ -16,6 +16,10 @@
     line-height: 100%;
   }
 
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   &.primary {
     background-color: $orange-500;
     border: 2px solid $orange-500;

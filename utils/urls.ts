@@ -12,7 +12,7 @@ const urls = {
       verification: "/app/verification",
       report: {
         landing: "/app/report",
-        create: "/app/report/create",
+        create: (id: string) => `/app/report/${id}`,
       },
       application: {
         apply: "/app/application/apply",

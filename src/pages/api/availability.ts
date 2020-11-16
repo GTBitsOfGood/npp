@@ -14,7 +14,9 @@ const handler = generateMethodRoute(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         return AvailabilityManager.getAvailabilityById(objectId);
       } else {
-        return AvailabilityManager.getAvailabilitiesFromStartOfWeek();
+        return AvailabilityManager.getAvailabilitiesFromStartOfMonth(
+          req.query.date as string
+        );
       }
     },
     put: async (req) => {

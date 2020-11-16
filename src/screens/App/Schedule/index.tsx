@@ -18,19 +18,22 @@ import urls from "&utils/urls";
 import { useSession } from "&utils/auth-utils";
 import { applicationFromJson } from "&actions/ApplicationActions";
 import { stageToIndex, StageType } from "&server/models/StageType";
+import { Application } from "&server/models/Application";
 
 // Styling
 import classes from "./ScheduleInterview.module.scss";
+import Swal from "sweetalert2";
+import { createMeeting } from "&actions/MeetingActions";
 
-// interface ScheduleInterviewProps {
-//   application:  Application;
-// }
+interface ScheduleInterviewProps {
+  application: Application;
+}
 
-const ScheduleInterview = () => {
+const ScheduleInterview = ({ application }: ScheduleInterviewProps) => {
   const router = useRouter();
   const [session, loading] = useSession();
-
   const [interviewDate, setInterviewDate] = useState<Date>();
+  const [availability, setAvailability] = useState<string | null>(null);
 
   useEffect(() => {
     if (!loading && !session) {
@@ -41,8 +44,45 @@ const ScheduleInterview = () => {
   const message =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud commodo consequat.";
 
-  const schedule = () => {
-    console.log(interviewDate);
+  const schedule = async () => {
+    if (availability == null) {
+      await Swal.fire({
+        title: "Error",
+        text: "Please provide a meeting date!",
+        icon: "error",
+      });
+      return;
+    }
+
+    try {
+      const result = await createMeeting({
+        availability,
+        nonprofit: session.user.id,
+        application: application.id as string,
+      });
+
+      if (result == null || result.id == null) {
+        throw new Error("Failed to submit application!");
+      }
+
+      await Swal.fire({
+        title: "Success",
+        text: "Successfully scheduled meeting!",
+        icon: "success",
+      });
+
+      await router.replace(
+        urls.pages.app.application.scheduled(application.id!)
+      );
+    } catch (error) {
+      console.log("Error", error);
+
+      await Swal.fire({
+        title: "Error",
+        text: "Failed to schedule meeting, please try again later!",
+        icon: "error",
+      });
+    }
   };
 
   if (loading || !session || router.isFallback) {
@@ -68,9 +108,11 @@ const ScheduleInterview = () => {
 
         <div className={clsx("rightCol", classes.calendar)}>
           <Calendar
+            fromAvailabilities
             withTime={true}
             value={interviewDate}
             onSelectDate={(date) => setInterviewDate(date)}
+            onSelectAvail={(avail) => setAvailability(avail)}
           />
 
           {interviewDate && interviewDate.getHours() >= 9 && (

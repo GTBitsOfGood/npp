@@ -91,6 +91,7 @@ const ReportScreen = () => {
       if (issueType[1]) typeNames.push(IssueType.DATA_MISSING);
 
       const result = await createIssue({
+        product: router.query.id as string,
         issueType: typeNames,
         description: issuePassage,
         images: [],

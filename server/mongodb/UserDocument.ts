@@ -1,5 +1,4 @@
-import { Schema } from "mongoose";
-import * as mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const AddressSchema = new Schema({
   streetAddress: {

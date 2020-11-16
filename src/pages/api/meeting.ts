@@ -49,6 +49,16 @@ const handler = generateMethodRoute(
 
       return result;
     },
+    delete: async (req) => {
+      const id: string = req.query.id as string;
+      const objectId = validateAndSanitizeIdString(id);
+      const deletedDoc = await MeetingManager.cancelMeeting(objectId);
+
+      if (!deletedDoc) {
+        throw new PublicError("Could not find document", 404);
+      }
+      return deletedDoc;
+    },
   }
 );
 

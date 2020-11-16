@@ -17,6 +17,10 @@ const MeetingSchema = new Schema(
       ref: "Application",
       required: true,
     },
+    cancelled: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -46,11 +46,11 @@ const ScheduleLanding = ({ application }: ScheduleLandingProps) => {
         <div className="landingPadding" />
 
         <h3 className="landingText">
-          As a partner, Bits of Good will help you build software that turns
-          your need into real productLorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut
+          Congratulations! After reviewing your application, we have decided to
+          move forward to the interview process! For the next step, we want to
+          have a one-hour virtual interview to learn more about you. When you
+          have a moment, please let us know when you’d be available for the
+          interview.
         </h3>
 
         <div className="landingPadding" />

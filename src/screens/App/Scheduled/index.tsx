@@ -123,32 +123,43 @@ const Scheduled = ({ application, meeting }: PropTypes) => {
 
       <div className={classes.meetingContainer}>
         <div className={classes.meetingInfo}>
-          <h3 className={classes.date}>
-            <div className={classes.icon}>
-              <Clock />
-            </div>
-            {meetingDate.toFormat(
-              `MMMM d, '${meetingStart} - ${meetingEnd}' ZZZZ`
-            )}
-            {meeting.cancelled && <b>(Cancelled)</b>}
-          </h3>
+          {meeting.cancelled ? (
+            <h3 className={classes.date}>
+              Your meeting on {meetingDate.toFormat("MMM d, ZZZZ")} has been
+              cancelled. Please reschedule it as soon as possible
+            </h3>
+          ) : (
+            <>
+              <h3 className={classes.date}>
+                <div className={classes.icon}>
+                  <Clock />
+                </div>
+                {meetingDate.toFormat(
+                  `MMMM d, '${meetingStart} - ${meetingEnd}' ZZZZ`
+                )}
+              </h3>
 
-          <h3 className={classes.link}>
-            <div className={classes.icon}>
-              <LocationPin />
-            </div>
-            Zoom Link
-          </h3>
+              <h3 className={classes.link}>
+                <div className={classes.icon}>
+                  <LocationPin />
+                </div>
+                Zoom Link
+              </h3>
+            </>
+          )}
         </div>
 
         <div className={classes.buttons}>
-          <Button
-            variant="secondary"
-            onClick={handleCancel}
-            disabled={meeting.cancelled}
-          >
-            <h3>Cancel</h3>
-          </Button>
+          {!meeting.cancelled && (
+            <Button
+              variant="secondary"
+              onClick={handleCancel}
+              disabled={meeting.cancelled}
+            >
+              <h3>Cancel</h3>
+            </Button>
+          )}
+
           <Button variant="primary" onClick={handleReschedule}>
             <h3>Reschedule</h3>
           </Button>

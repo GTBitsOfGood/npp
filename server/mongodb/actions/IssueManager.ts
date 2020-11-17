@@ -23,55 +23,55 @@ export async function createIssue(
 }
 
 export async function getIssues({
-  filter,
-  sort,
+  product,
+  issueType,
+  description,
+  status,
+  sortCreated,
+  sortUpdated,
   limit,
+  page,
 }: {
-  filter?: {
-    product?: string;
-    issueType?: IssueType;
-    description?: string;
-    status?: IssueStatus;
-  };
-  sort?: {
-    createdAt: -1 | 1;
-    updatedAt: -1 | 1;
-  };
-  limit?: {
-    number: number;
-    page: number;
-  };
+  product?: string;
+  issueType?: IssueType;
+  description?: string;
+  status?: IssueStatus;
+  sortCreated?: -1 | 1;
+  sortUpdated?: -1 | 1;
+  limit?: number;
+  page?: number;
 }): Promise<EntityDoc[]> {
   await connectToDB();
 
   let search = IssueDocument.find({
-    ...(filter?.product != null && {
-      product: Types.ObjectId(filter.product),
+    ...(product != null && {
+      product: Types.ObjectId(product),
     }),
-    ...(filter?.issueType != null && {
-      issueType: filter?.issueType,
+    ...(issueType != null && {
+      issueType: issueType,
     }),
-    ...(filter?.status != null && {
-      status: filter?.status,
+    ...(status != null && {
+      status: status,
     }),
-    ...(filter?.description != null && {
+    ...(description != null && {
       $text: {
-        $search: filter?.description,
+        $search: description,
       },
     }),
   }).sort({
-    ...(filter?.description != null && {
+    ...(description != null && {
       score: { $meta: "textScore" },
     }),
-    ...(sort != null
-      ? sort
-      : {
-          updatedAt: -1,
-        }),
+    ...(sortCreated != null && {
+      createdAt: sortCreated,
+    }),
+    ...(sortUpdated != null && {
+      updatedAt: sortUpdated,
+    }),
   });
 
-  if (limit != null) {
-    search = search.skip(limit.number * limit.page).limit(limit.number);
+  if (limit != null && page != null) {
+    search = search.skip(limit * page).limit(limit);
   }
 
   return search.lean();

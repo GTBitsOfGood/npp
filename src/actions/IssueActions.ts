@@ -31,20 +31,14 @@ export async function getIssueById(issueId: string): Promise<Issue> {
 }
 
 export async function getIssues(params: {
-  filter?: {
-    product?: string;
-    issueType?: IssueType;
-    description?: string;
-    status?: IssueStatus;
-  };
-  sort?: {
-    createdAt: -1 | 1;
-    updatedAt: -1 | 1;
-  };
-  limit?: {
-    number: number;
-    page: number;
-  };
+  product?: string;
+  issueType?: IssueType;
+  description?: string;
+  status?: IssueStatus;
+  sortCreated?: -1 | 1;
+  sortUpdated?: -1 | 1;
+  limit?: number;
+  page?: number;
 }): Promise<Issue[]> {
   const response: Record<string, any> = await callInternalAPI(
     issueRoute + getQueryString(params),

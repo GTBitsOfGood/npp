@@ -20,7 +20,9 @@ const handler = generateMethodRoute(
           await IssueManager.getIssueById(id)
         );
       } else {
-        Authentication.ensureAdmin(req.user);
+        if (req.query?.product == null) {
+          Authentication.ensureAdmin(req.user);
+        }
         return IssueManager.getIssues(req.query);
       }
     },

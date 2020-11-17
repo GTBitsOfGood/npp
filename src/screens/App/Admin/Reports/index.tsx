@@ -2,38 +2,43 @@ import React from "react";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import { DateTime } from "luxon";
+import { Cell } from "react-table";
+import capitalize from "lodash/capitalize";
 
 // Components
 import Link from "next/link";
-import Statusbar from "&components/Statusbar";
+import Table from "&components/Table";
 
 // Utils
-import urls, { getApplicationUrl } from "&utils/urls";
+import urls from "&utils/urls";
 import { getSession } from "&utils/auth-utils";
-import { Application } from "&server/models/Application";
-import { User } from "&server/models";
-import { Organization } from "&server/models/Organization";
-import { updateApplicationStage } from "&actions/ApplicationActions";
+import { getIssues, issueFromJsonResponse } from "&actions/IssueActions";
+import { Issue } from "&server/models/Issue";
+import { IssueType } from "&server/models/IssueType";
+import { IssueStatus } from "&server/models/IssueStatus";
 import { StageType } from "&server/models/StageType";
 
 // Styles
 import classes from "./Reports.module.scss";
 
-type ExtendedUser = User & {
-  organization: Organization;
-};
-type ExtendedApplication = Application & {
-  _id: string;
-  users: ExtendedUser[];
-};
+const initialLimit = 5;
+const initialPage = 0;
 
 interface PropTypes {
-  applications: ExtendedApplication[];
+  initialIssues: Issue[];
   error?: string;
 }
 
-const ReportsPage = ({ applications, error }: PropTypes) => {
+const ReportsPage = ({ initialIssues, error }: PropTypes) => {
   const router = useRouter();
+  const [issues, setIssues] = React.useState<Issue[]>(
+    initialIssues.map(issueFromJsonResponse)
+  );
+  const [limit, setLimit] = React.useState<number>(initialLimit);
+  const [page, setPage] = React.useState<number>(initialPage);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const fetchIdRef = React.useRef(0);
 
   React.useEffect(() => {
     if (error != null) {
@@ -45,33 +50,73 @@ const ReportsPage = ({ applications, error }: PropTypes) => {
     }
   }, []);
 
-  const setStage = async (
-    application: ExtendedApplication,
-    stage: StageType
-  ) => {
-    const result = await Swal.fire({
-      title: "Are you sure?",
-      text: `Do you want to send this application to the ${stage} stage?`,
-      icon: "warning",
-      showCancelButton: true,
-    });
+  const fetchData = React.useCallback(
+    async (pagination: { limit: number; page: number }) => {
+      const fetchId = ++fetchIdRef.current;
+      setLoading(true);
 
-    if (result.value) {
-      try {
-        await updateApplicationStage(application._id, stage);
+      if (fetchId === fetchIdRef.current) {
+        try {
+          const response = await getIssues({
+            ...pagination,
+          });
 
-        await router.reload();
-      } catch (error) {
-        console.log("Error", error);
+          if (response == null) {
+            throw new Error("Failed to get issues!");
+          }
 
-        await Swal.fire({
-          title: "Error",
-          text: error.message,
-          icon: "error",
-        });
+          setIssues(response);
+        } catch (error) {
+          console.log("Error", error);
+
+          await Swal.fire({
+            title: "Failed To Get Issues",
+            text: error.message,
+            icon: "error",
+          });
+        }
+
+        setLoading(false);
       }
-    }
-  };
+    },
+    []
+  );
+
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: "Issue Type",
+        accessor: "issueType",
+        Cell: ({ value }: Cell) =>
+          capitalize(
+            (value as IssueType[]).map((i) => i.replace("_", " ")).join(", ")
+          ),
+      },
+      {
+        Header: "Description",
+        accessor: "description",
+      },
+      {
+        Header: "Created At",
+        accessor: "createdAt",
+        Cell: ({ value }: Cell) =>
+          (value as DateTime).toLocaleString(DateTime.DATETIME_MED),
+      },
+      {
+        Header: "Updated At",
+        accessor: "updatedAt",
+        Cell: ({ value }: Cell) =>
+          (value as DateTime).toLocaleString(DateTime.DATETIME_MED),
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+      },
+    ],
+    []
+  );
+
+  console.log("issues", issues);
 
   return (
     <div className="landingPage">
@@ -79,33 +124,17 @@ const ReportsPage = ({ applications, error }: PropTypes) => {
 
       <div className="landingContent">
         <div className="landingPadding" />
-
-        <div className={classes.appList}>
-          {applications.map((application) => (
-            <div key={application._id} className={classes.app}>
-              <h2>{application.users[0].organization.organizationName}</h2>
-              <h4>{application.users[0].organization.mission}</h4>
-              <h4>
-                Submitted:{" "}
-                {new Date(application.createdAt as any).toLocaleString()}
-              </h4>
-              <h4>
-                Last Updated:{" "}
-                {new Date(application.updatedAt as any).toLocaleString()}
-              </h4>
-              <Statusbar
-                application={application}
-                onStageClick={async (stage: StageType) =>
-                  setStage(application, stage)
-                }
-              />
-              <p>{application.description}</p>
-              <Link href={getApplicationUrl(application)} passHref>
-                <a>View Application Page</a>
-              </Link>
-            </div>
-          ))}
-        </div>
+        <Table
+          columns={columns}
+          data={issues}
+          pagination={{
+            limit,
+            page,
+            total: 7,
+            loading,
+            fetchData,
+          }}
+        />
 
         <div className="landingPadding" />
       </div>
@@ -115,7 +144,7 @@ const ReportsPage = ({ applications, error }: PropTypes) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
+  const IssueManager = require("&server/mongodb/actions/IssueManager");
 
   try {
     const session = await getSession({ req: context.req } as any);
@@ -130,24 +159,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       };
     }
 
-    const applications = await ApplicationManager.getApplications(
-      session.user,
-      { all: true }
-    );
+    const issues = await IssueManager.getIssues({
+      sortCreated: -1,
+      limit: initialLimit,
+      page: initialPage,
+    });
 
-    if (applications == null) {
-      throw new Error("Failed to get applications!");
+    if (issues == null) {
+      throw new Error("Failed to get issues!");
     }
 
     return {
       props: {
-        applications: JSON.parse(JSON.stringify(applications)),
+        initialIssues: JSON.parse(JSON.stringify(issues)),
       },
     };
   } catch (error) {
     return {
       props: {
-        applications: [],
+        initialIssues: [],
         error: error.message,
       },
     };

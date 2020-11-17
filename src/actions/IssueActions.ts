@@ -5,6 +5,7 @@ import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
 import { contactFromJsonResponse } from "&server/models/Contact";
+import { DateTime } from "luxon";
 
 const issueRoute = urls.api.issue;
 
@@ -69,5 +70,7 @@ export function issueFromJsonResponse(object: Record<string, any>): Issue {
     images: object.images,
     contact: contactFromJsonResponse(object.contact),
     status: IssueStatus[(object.status as string) as keyof typeof IssueStatus],
+    createdAt: DateTime.fromISO(object.createdAt),
+    updatedAt: DateTime.fromISO(object.updatedAt),
   };
 }

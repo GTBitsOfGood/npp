@@ -71,7 +71,7 @@ export async function getIssues({
   });
 
   if (limit != null && page != null) {
-    search = search.skip(limit * page).limit(limit);
+    search = search.skip(Number(limit) * Number(page)).limit(Number(limit));
   }
 
   return search.lean();

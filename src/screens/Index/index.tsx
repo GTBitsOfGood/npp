@@ -23,9 +23,9 @@ const IndexPage = () => (
         <div className={classes.content}>
           <h1>Non-profit Portal</h1>
           <h5>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna do eiusmod
-            tempor incididunt ut labore et dolore magna
+            We build software, websites, and mobile apps to turn your ideas into
+            real products. If you have an existing project or a team, we are
+            happy to get involved in your development cycle.
           </h5>
 
           <Button onClick={login}>
@@ -59,8 +59,9 @@ const IndexPage = () => (
         <div className={classes.textContent}>
           <h1>Start a New Project with us</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna
+            Have a great idea for how a website or mobile application can help
+            your nonprofit reach more people? Let us know, and we can build it
+            for you!
           </p>
         </div>
       </div>
@@ -69,8 +70,8 @@ const IndexPage = () => (
         <div className={classes.textContent}>
           <h1 className={classes.textRight}>Project Maintenance</h1>
           <p className={classes.textRight}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna
+            Have a completed product for Bits of Good that requires bug fixes or
+            maintenance? Let us know, and we can fix it for you!
           </p>
         </div>
 

@@ -49,10 +49,9 @@ const ProjectPage = ({ organizationVerified }: PropTypes) => {
 
         <h3 className="landingText">
           As a partner, Bits of Good will help you build software that turns
-          your need into real productLorem ipsum dolor sit amet, consectetur
-          adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut
+          your need into real product. Before we begin the screening process, we
+          need some preliminary information regarding your product needs and
+          basic information for our point of contact throughout this process.
         </h3>
 
         <div className="landingPadding" />

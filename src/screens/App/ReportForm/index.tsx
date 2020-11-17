@@ -160,9 +160,9 @@ const ReportScreen = () => {
         <div className="leftCol">
           <h1 className="formTitle"> Report a Problem </h1>
           <h5 className="formDescription">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud commodo consequat.
+            Experiencing issues with your current Bits of Good product? Are
+            loading times too long, or are your users facing bugs? Let us know,
+            and we will contact you soon with an estimated timeline for a fix.
           </h5>
         </div>
 

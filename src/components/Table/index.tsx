@@ -45,7 +45,7 @@ const Table = ({ columns, data, pagination, className }: PropTypes) => {
       data,
       initialState: {
         pageIndex: 0,
-        pageSize: data.length,
+        pageSize: pagination?.limit ?? data.length,
       },
       manualPagination: true,
       pageCount: controlledPageCount,
@@ -118,7 +118,7 @@ const Table = ({ columns, data, pagination, className }: PropTypes) => {
             ) : (
               <td colSpan={10000}>
                 {pagination != null
-                  ? `Showing ${page.length} of ~${pageCount * pageSize} results`
+                  ? `Showing ${page.length} of ${pagination.total} results`
                   : `Showing ${pageSize} results`}
               </td>
             )}

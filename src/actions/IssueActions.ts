@@ -40,12 +40,19 @@ export async function getIssues(params: {
   sortUpdated?: -1 | 1;
   limit?: number;
   page?: number;
-}): Promise<Issue[]> {
+}): Promise<{
+  count: number;
+  data: Issue[];
+}> {
   const response: Record<string, any> = await callInternalAPI(
     issueRoute + getQueryString(params),
     HttpMethod.GET
   );
-  return response.map(issueFromJsonResponse);
+
+  return {
+    count: response.count,
+    data: response.data.map(issueFromJsonResponse),
+  };
 }
 
 export async function createIssue(issue: Issue): Promise<Issue> {

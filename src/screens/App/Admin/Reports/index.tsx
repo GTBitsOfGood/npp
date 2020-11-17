@@ -26,22 +26,28 @@ const initialLimit = 5;
 const initialPage = 0;
 
 interface PropTypes {
+  initialIssueCount: number;
   initialIssues: Issue[];
   error?: string;
 }
 
-const ReportsPage = ({ initialIssues, error }: PropTypes) => {
+const ReportsPage = ({
+  initialIssueCount,
+  initialIssues,
+  error,
+}: PropTypes) => {
   const router = useRouter();
+  const [total, setTotal] = React.useState<number>(initialIssueCount);
   const [issues, setIssues] = React.useState<Issue[]>(
     initialIssues.map(issueFromJsonResponse)
   );
-  const [limit, setLimit] = React.useState<number>(initialLimit);
-  const [page, setPage] = React.useState<number>(initialPage);
   const [loading, setLoading] = React.useState<boolean>(false);
   const fetchIdRef = React.useRef(0);
 
   React.useEffect(() => {
     if (error != null) {
+      console.log("Render Error", error);
+
       void Swal.fire({
         title: "Error",
         text: error,
@@ -61,11 +67,12 @@ const ReportsPage = ({ initialIssues, error }: PropTypes) => {
             ...pagination,
           });
 
-          if (response == null) {
+          if (response == null || response.data == null) {
             throw new Error("Failed to get issues!");
           }
 
-          setIssues(response);
+          setIssues(response.data);
+          setTotal(response.count);
         } catch (error) {
           console.log("Error", error);
 
@@ -116,8 +123,6 @@ const ReportsPage = ({ initialIssues, error }: PropTypes) => {
     []
   );
 
-  console.log("issues", issues);
-
   return (
     <div className="landingPage">
       <h1 className="landingHeader">Reports</h1>
@@ -128,9 +133,9 @@ const ReportsPage = ({ initialIssues, error }: PropTypes) => {
           columns={columns}
           data={issues}
           pagination={{
-            limit,
-            page,
-            total: 7,
+            limit: initialLimit,
+            page: initialPage,
+            total,
             loading,
             fetchData,
           }}
@@ -160,23 +165,26 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     const issues = await IssueManager.getIssues({
+      description: "the site",
       sortCreated: -1,
       limit: initialLimit,
       page: initialPage,
     });
 
-    if (issues == null) {
+    if (issues == null || issues.data == null) {
       throw new Error("Failed to get issues!");
     }
 
     return {
       props: {
-        initialIssues: JSON.parse(JSON.stringify(issues)),
+        initialIssueCount: issues.count,
+        initialIssues: JSON.parse(JSON.stringify(issues.data)),
       },
     };
   } catch (error) {
     return {
       props: {
+        initialIssueCount: 0,
         initialIssues: [],
         error: error.message,
       },

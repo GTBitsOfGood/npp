@@ -40,41 +40,80 @@ export async function getIssues({
   sortUpdated?: -1 | 1;
   limit?: number;
   page?: number;
-}): Promise<EntityDoc[]> {
+}): Promise<{
+  count: number;
+  data: EntityDoc[];
+}> {
   await connectToDB();
 
-  let search = IssueDocument.find({
-    ...(product != null && {
-      product: Types.ObjectId(product),
-    }),
-    ...(issueType != null && {
-      issueType: issueType,
-    }),
-    ...(status != null && {
-      status: status,
-    }),
-    ...(description != null && {
-      $text: {
-        $search: description,
+  const agg = await IssueDocument.aggregate([
+    [
+      {
+        $match: {
+          _id: { $exists: true },
+          ...(product != null && {
+            product: Types.ObjectId(product),
+          }),
+          ...(issueType != null && {
+            issueType: issueType,
+          }),
+          ...(status != null && {
+            status: status,
+          }),
+          ...(description != null && {
+            $text: {
+              $search: description,
+            },
+          }),
+        },
       },
-    }),
-  }).sort({
-    ...(description != null && {
-      score: { $meta: "textScore" },
-    }),
-    ...(sortCreated != null && {
-      createdAt: sortCreated,
-    }),
-    ...(sortUpdated != null && {
-      updatedAt: sortUpdated,
-    }),
-  });
+      {
+        $sort: {
+          ...(description != null && {
+            score: { $meta: "textScore" },
+          }),
+          ...(sortCreated != null && {
+            createdAt: sortCreated,
+          }),
+          ...(sortUpdated != null && {
+            updatedAt: sortUpdated,
+          }),
+          ...(sortCreated == null &&
+            sortUpdated == null && {
+              createdAt: -1,
+            }),
+        },
+      },
+      {
+        $facet: {
+          stage1: [{ $group: { _id: null, count: { $sum: 1 } } }],
+          stage2:
+            limit != null && page != null
+              ? [
+                  { $skip: Number(limit) * Number(page) },
+                  { $limit: Number(limit) },
+                ]
+              : [],
+        },
+      },
+      { $unwind: "$stage1" },
+      {
+        $project: {
+          count: "$stage1.count",
+          data: "$stage2",
+        },
+      },
+    ],
+  ]);
 
-  if (limit != null && page != null) {
-    search = search.skip(Number(limit) * Number(page)).limit(Number(limit));
+  if (agg == null) {
+    return {
+      count: 0,
+      data: [],
+    };
   }
 
-  return search.lean();
+  return agg[0];
 }
 
 export async function getIssueById(id: Types.ObjectId): Promise<EntityDoc> {

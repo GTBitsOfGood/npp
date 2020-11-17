@@ -14,10 +14,10 @@ import { Application } from "&server/models/Application";
 import { User } from "&server/models";
 import { Organization } from "&server/models/Organization";
 import { updateApplicationStage } from "&actions/ApplicationActions";
+import { StageType } from "&server/models/StageType";
 
 // Styles
 import classes from "./Applications.module.scss";
-import { StageType } from "&server/models/StageType";
 
 type ExtendedUser = User & {
   organization: Organization;
@@ -34,21 +34,48 @@ interface PropTypes {
 
 const ApplicationsPage = ({ applications, error }: PropTypes) => {
   const router = useRouter();
-  console.log("applications", applications);
+
+  React.useEffect(() => {
+    if (error != null) {
+      void Swal.fire({
+        title: "Error",
+        text: error,
+        icon: "error",
+      });
+    }
+  }, []);
 
   const setStage = async (
     application: ExtendedApplication,
     stage: StageType
   ) => {
-    const result = await Swal.fire({
+    const { value: confirmed } = await Swal.fire({
       title: "Are you sure?",
       text: `Do you want to send this application to the ${stage} stage?`,
       icon: "warning",
-      showCancelButton: true,
+      showCloseButton: true,
+      focusConfirm: false,
     });
 
-    if (result.value) {
+    if (confirmed) {
       try {
+        if (stage === StageType.DECISION) {
+          const { value: decision } = await Swal.fire({
+            title: "Decision?",
+            text: `Does Bits of Good want to approve or reject this project?`,
+            icon: "question",
+            showCloseButton: true,
+            showCancelButton: true,
+            focusConfirm: false,
+            confirmButtonText: "Approve",
+            cancelButtonText: "Reject",
+          });
+
+          if (decision == null) return;
+
+          await updateApplicationStage(application._id, decision);
+        }
+
         await updateApplicationStage(application._id, stage);
 
         await router.reload();

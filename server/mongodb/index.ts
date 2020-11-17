@@ -1,5 +1,13 @@
 import mongoose, { Document } from "mongoose";
 
+// Initialize models at load to make sure they are ready before use
+import "./ApplicationDocument";
+import "./AvailabilityDocument";
+import "./ContactSchema";
+import "./IssueDocument";
+import "./MeetingDocument";
+import "./UserDocument";
+
 export async function connectToDB(): Promise<void> {
   if (mongoose.connections[0].readyState) return;
 

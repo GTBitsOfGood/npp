@@ -24,8 +24,8 @@ const urls = {
         decision: (id: string) => `/app/application/${id}/decision`,
       },
       admin: {
-        applications: "/admin/applications",
-        reports: "/admin/reports",
+        applications: "/app/admin/applications",
+        reports: "/app/admin/reports",
       },
     },
   },

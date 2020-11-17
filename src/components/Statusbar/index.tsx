@@ -11,6 +11,7 @@ import classes from "./Statusbar.module.scss";
 
 interface StatusBarProps {
   application: Application | null;
+  onStageClick?: (stage: StageType) => void | Promise<void>;
 }
 
 const currentStatus = {
@@ -21,7 +22,7 @@ const currentStatus = {
   "Decision Made": StageType.DECISION,
 };
 
-const Statusbar = ({ application }: StatusBarProps) => {
+const Statusbar = ({ application, onStageClick }: StatusBarProps) => {
   const stageIndex =
     application == null || application.stage == null
       ? -1
@@ -39,7 +40,20 @@ const Statusbar = ({ application }: StatusBarProps) => {
               )}
             />
 
-            <div className={classes.circlePadding}>
+            <div
+              className={clsx(
+                classes.circlePadding,
+                onStageClick != null && classes.circleButton
+              )}
+              role="button"
+              onClick={
+                onStageClick != null ? () => onStageClick(stageType) : undefined
+              }
+              onKeyPress={
+                onStageClick != null ? () => onStageClick(stageType) : undefined
+              }
+              tabIndex={0}
+            >
               <div
                 className={clsx(
                   classes.statusCircle,

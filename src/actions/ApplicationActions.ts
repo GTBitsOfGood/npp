@@ -6,6 +6,9 @@ import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
 import { contactFromJsonResponse } from "&server/models/Contact";
 import { Types } from "mongoose";
+import { StageType } from "&server/models/StageType";
+import { User } from "&server/models";
+import { userFromJsonResponse } from "&actions/UserActions";
 
 const applicationRoute = urls.api.application;
 
@@ -52,6 +55,21 @@ export async function deleteApplication(
   return applicationFromJson(response);
 }
 
+export async function updateApplicationStage(
+  applicationId: string,
+  stage: StageType
+): Promise<Application> {
+  const response: Record<string, any> = await callInternalAPI(
+    applicationRoute,
+    HttpMethod.POST,
+    {
+      id: applicationId,
+      stage,
+    }
+  );
+  return applicationFromJson(response);
+}
+
 export async function updateApplicationDecision(
   applicationId: string,
   decision: boolean
@@ -87,7 +105,11 @@ export function applicationFromJson(object: {
 }): Application {
   return {
     id: object._id?.toString(),
-    users: object.users?.map((id: Types.ObjectId) => id.toString()),
+    users: object.users?.map((user: string | Types.ObjectId | User) =>
+      typeof user === "string" || user instanceof Types.ObjectId
+        ? user.toString()
+        : userFromJsonResponse(object.availability)
+    ),
     primaryContact: contactFromJsonResponse(object.primaryContact),
     productType: object.productType?.map(
       (val: string) => ProductType[val as keyof typeof ProductType]

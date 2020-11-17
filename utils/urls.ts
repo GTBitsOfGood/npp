@@ -23,6 +23,10 @@ const urls = {
         review: (id: string) => `/app/application/${id}/review`,
         decision: (id: string) => `/app/application/${id}/decision`,
       },
+      admin: {
+        applications: "/admin/applications",
+        reports: "/admin/reports",
+      },
     },
   },
   api: {
@@ -36,7 +40,7 @@ const urls = {
 };
 
 export const getApplicationUrl = (
-  application: Application & { _id?: Types.ObjectId }
+  application: Application & { _id?: Types.ObjectId | string }
 ) => {
   const appId =
     application != null ? application.id ?? application?._id?.toString() : null;

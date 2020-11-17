@@ -7,6 +7,7 @@ import {
 } from "&server/utils/Validators";
 import * as ApplicationManager from "&server/mongodb/actions/ApplicationManager";
 import * as Authentication from "&server/utils/Authentication";
+import { StageType } from "&server/models/StageType";
 
 const handler = generateMethodRoute(
   {
@@ -60,6 +61,12 @@ const handler = generateMethodRoute(
         return ApplicationManager.updateApplicationMeeting(
           applicationId,
           req.body.meetingId
+        );
+      } else if (req.body.stage != null) {
+        Authentication.ensureAdmin(req.user);
+        return ApplicationManager.updateApplicationStage(
+          applicationId,
+          req.body.stage as StageType
         );
       } else {
         throw new ValidationError(

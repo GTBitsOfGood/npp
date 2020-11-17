@@ -62,7 +62,9 @@ export async function updateOrganizationVerifiedStatus(
   return userFromJsonResponse(response);
 }
 
-function userFromJsonResponse(object: { [key: string]: any }): DetailedUser {
+export function userFromJsonResponse(object: {
+  [key: string]: any;
+}): DetailedUser {
   return object as User & { id: string } & { organization?: Organization };
 }
 

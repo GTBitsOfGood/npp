@@ -15,6 +15,7 @@ import classes from "./Sidebar.module.scss";
 // Utils
 import urls from "&utils/urls";
 import CloseIcon from "&icons/CloseIcon";
+import { useSession } from "&utils/auth-utils";
 
 interface HeaderProps {
   currentRoute: string;
@@ -22,12 +23,13 @@ interface HeaderProps {
 }
 
 const Sidebar = ({ currentRoute, isLanding }: HeaderProps) => {
+  const [session, loading] = useSession();
   const [drawerOpen, toggleDrawerOpen] = useState(false);
 
   const links = (
     <>
       <Link href={urls.pages.app.index} passHref>
-        <a className={clsx(classes.page, isLanding && classes.active)}>
+        <a className={classes.page}>
           <h3 className={clsx(isLanding && classes.active)}>
             Project Application
           </h3>
@@ -36,12 +38,7 @@ const Sidebar = ({ currentRoute, isLanding }: HeaderProps) => {
       </Link>
 
       <Link href={urls.pages.app.report.landing} passHref>
-        <a
-          className={clsx(
-            classes.page,
-            currentRoute === urls.pages.app.report.landing && classes.active
-          )}
-        >
+        <a className={classes.page}>
           <h3
             className={clsx(
               currentRoute === urls.pages.app.report.landing && classes.active
@@ -54,6 +51,42 @@ const Sidebar = ({ currentRoute, isLanding }: HeaderProps) => {
           )}
         </a>
       </Link>
+
+      {session != null && session.user != null && session.user.isAdmin && (
+        <>
+          <Link href={urls.pages.app.admin.applications} passHref>
+            <a className={classes.page}>
+              <h3
+                className={clsx(
+                  currentRoute === urls.pages.app.admin.applications &&
+                    classes.active
+                )}
+              >
+                Applications List
+              </h3>
+              {currentRoute === urls.pages.app.admin.applications && (
+                <span className={classes.rectangle} />
+              )}
+            </a>
+          </Link>
+
+          <Link href={urls.pages.app.admin.reports} passHref>
+            <a className={classes.page}>
+              <h3
+                className={clsx(
+                  currentRoute === urls.pages.app.admin.reports &&
+                    classes.active
+                )}
+              >
+                Reports List
+              </h3>
+              {currentRoute === urls.pages.app.admin.reports && (
+                <span className={classes.rectangle} />
+              )}
+            </a>
+          </Link>
+        </>
+      )}
     </>
   );
 

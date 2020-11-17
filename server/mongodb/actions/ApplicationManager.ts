@@ -20,11 +20,18 @@ export async function getApplications(
 
   const findBy = user.isAdmin && query.all ? {} : { users: user.id };
 
-  return ApplicationDocument.find(findBy)
-    .sort({
-      createdAt: -1,
-    })
-    .lean();
+  let applications = ApplicationDocument.find(findBy).sort({
+    createdAt: -1,
+  });
+
+  if (user.isAdmin && query.all) {
+    applications = applications.populate({
+      path: "users",
+      model: "User",
+    });
+  }
+
+  return applications.lean();
 }
 
 export async function getApplicationsByStage(

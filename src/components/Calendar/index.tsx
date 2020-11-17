@@ -188,7 +188,12 @@ const Calendar = ({
                   return (
                     <Fragment key={`day-${calIndex}`}>
                       {curDay === null ? (
-                        <div className={classes.emptyButton} />
+                        <div
+                          className={clsx(
+                            classes.weekButton,
+                            classes.disabledButton
+                          )}
+                        />
                       ) : (
                         <button
                           disabled={curDay.disabled}

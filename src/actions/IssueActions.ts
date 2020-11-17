@@ -8,6 +8,20 @@ import { contactFromJsonResponse } from "&server/models/Contact";
 
 const issueRoute = urls.api.issue;
 
+const getQueryString = (params: Record<string, unknown>) => {
+  const paramsWithoutUndefined = Object.keys(params).reduce((accum, key) => {
+    if (params[key] !== undefined) {
+      accum[key] = params[key];
+    }
+
+    return accum;
+  }, {} as Record<string, any>);
+
+  return Object.keys(paramsWithoutUndefined).length > 0
+    ? "?" + new URLSearchParams(paramsWithoutUndefined).toString()
+    : "";
+};
+
 export async function getIssueById(issueId: string): Promise<Issue> {
   const response: Record<string, any> = await callInternalAPI(
     issueRoute + `?id=${issueId}`,
@@ -16,9 +30,24 @@ export async function getIssueById(issueId: string): Promise<Issue> {
   return issueFromJsonResponse(response);
 }
 
-export async function getIssues(): Promise<Issue[]> {
+export async function getIssues(params: {
+  filter?: {
+    product?: string;
+    issueType?: IssueType;
+    description?: string;
+    status?: IssueStatus;
+  };
+  sort?: {
+    createdAt: -1 | 1;
+    updatedAt: -1 | 1;
+  };
+  limit?: {
+    number: number;
+    page: number;
+  };
+}): Promise<Issue[]> {
   const response: Record<string, any> = await callInternalAPI(
-    issueRoute,
+    issueRoute + getQueryString(params),
     HttpMethod.GET
   );
   return response.map(issueFromJsonResponse);

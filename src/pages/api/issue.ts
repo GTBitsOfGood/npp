@@ -21,7 +21,7 @@ const handler = generateMethodRoute(
         );
       } else {
         Authentication.ensureAdmin(req.user);
-        return IssueManager.getIssues();
+        return IssueManager.getIssues(req.query);
       }
     },
     put: async (req) => {

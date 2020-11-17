@@ -7,15 +7,18 @@ const IssueSchema = new Schema(
       type: Types.ObjectId,
       ref: "Application",
       required: true,
+      index: true,
     },
     issueType: {
       type: [String],
       required: true,
       enum: ["NOT_LOADING", "DATA_MISSING", "OTHER"],
+      index: true,
     },
     description: {
       type: String,
       required: true,
+      text: true,
     },
     images: {
       type: [String],
@@ -30,6 +33,7 @@ const IssueSchema = new Schema(
       required: true,
       enum: ["CREATED", "IN_PROGRESS", "RESOLVED"],
       default: "CREATED",
+      index: true,
     },
   },
   {

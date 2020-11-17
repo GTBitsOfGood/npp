@@ -15,6 +15,9 @@ import { Application } from "&server/models/Application";
 
 // Utils
 import urls from "&utils/urls";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { applicationFromJson } from "&actions/ApplicationActions";
+import { stageToIndex, StageType } from "&server/models/StageType";
 
 interface ScheduleLandingProps {
   application: Application;
@@ -66,6 +69,67 @@ const ScheduleLanding = ({ application }: ScheduleLandingProps) => {
       </div>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
+
+  try {
+    const { id } = (context.params || {}) as Record<string, unknown>;
+    const application = await ApplicationManager.getApplicationById(id);
+    const appJson = applicationFromJson(application);
+
+    if (
+      stageToIndex[appJson.stage!] < stageToIndex[StageType.AWAITING_SCHEDULE]
+    ) {
+      return {
+        props: {
+          application: null,
+        },
+        notFound: true,
+        revalidate: 1,
+      };
+    } else {
+      return {
+        props: {
+          application: {
+            ...appJson,
+            createdAt: appJson.createdAt?.toISO(),
+            updatedAt: appJson.updatedAt?.toISO(),
+          },
+        },
+        revalidate: 60,
+      };
+    }
+  } catch (error) {
+    return {
+      props: {
+        application: null,
+        error: error.message,
+      },
+      notFound:
+        error.name === "CastError" ||
+        error.message === "Application does not exist!",
+      revalidate: 1,
+    };
+  }
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
+
+  const applications = await ApplicationManager.getApplicationsByStage(
+    StageType.AWAITING_SCHEDULE
+  );
+
+  return {
+    paths: applications.map((id: string) => ({
+      params: { id },
+    })),
+    fallback: true,
+  };
 };
 
 export default ScheduleLanding;

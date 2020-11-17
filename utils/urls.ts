@@ -18,6 +18,8 @@ const urls = {
       application: {
         apply: "/app/application/apply",
         submitted: (id: string) => `/app/application/${id}/submitted`,
+        scheduleLanding: (id: string) =>
+          `/app/application/${id}/schedule-landing`,
         schedule: (id: string) => `/app/application/${id}/schedule`,
         scheduled: (id: string) => `/app/application/${id}/scheduled`,
         review: (id: string) => `/app/application/${id}/review`,
@@ -53,7 +55,7 @@ export const getApplicationUrl = (
       return urls.pages.app.application.submitted(appId);
     }
     case StageType.AWAITING_SCHEDULE: {
-      return urls.pages.app.application.schedule(appId);
+      return urls.pages.app.application.scheduleLanding(appId);
     }
     case StageType.SCHEDULED: {
       return urls.pages.app.application.scheduled(appId);

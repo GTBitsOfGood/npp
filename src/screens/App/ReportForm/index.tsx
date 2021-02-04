@@ -7,6 +7,7 @@ import Input from "&components/Input";
 import Button from "&components/Button";
 import Checkbox from "&components/Checkbox";
 import TextArea from "&components/TextArea";
+import ImageUpload from "&components/ImageUpload";
 
 // Utils
 import urls from "&utils/urls";
@@ -31,7 +32,7 @@ const getLocalItem = (name: string, fallbackValue: string | boolean[]) => {
   }
 };
 
-const ReportScreen = () => {
+const ReportScreen = ({ images }: Props) => {
   const router = useRouter();
   const [session, loading] = useSession();
 
@@ -85,16 +86,19 @@ const ReportScreen = () => {
       localStorage.removeItem("report-contactName");
       localStorage.removeItem("report-phone");
       localStorage.removeItem("report-orgPhone");
+      localStorage.removeItem("report-images");
 
       const typeNames = [];
       if (issueType[0]) typeNames.push(IssueType.NOT_LOADING);
       if (issueType[1]) typeNames.push(IssueType.DATA_MISSING);
 
+      // pass uploaded image(s) url to this function
+
       const result = await createIssue({
         product: router.query.id as string,
         issueType: typeNames,
         description: issuePassage,
-        images: [],
+        images: images,
         contact: {
           name: contactName,
           primaryPhone: phone,
@@ -132,6 +136,8 @@ const ReportScreen = () => {
       localStorage.setItem("report-phone", phone);
       localStorage.setItem("report-orgPhone", orgPhone);
 
+      // save uploaded image in local storage?
+
       await Swal.fire({
         title: "Saved",
         text: "Successfully saved report!",
@@ -164,6 +170,7 @@ const ReportScreen = () => {
             loading times too long, or are your users facing bugs? Let us know,
             and we will contact you soon with an estimated timeline for a fix.
           </h5>
+          <h3 className="screenshot">Upload a screenshot?</h3>
         </div>
 
         <div className="padding" />

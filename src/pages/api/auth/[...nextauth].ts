@@ -15,6 +15,7 @@ export type AuthSession = {
 };
 
 const options = {
+  debug: !!parseInt(process.env.DEBUG_AUTH ?? "0"),
   providers: [BitsAuth0Provider],
   database: process.env.DATABASE_URL,
   /* The typescript definition for this function is wrong:

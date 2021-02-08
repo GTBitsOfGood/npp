@@ -32,7 +32,7 @@ export class MetricReporter {
   }
 
   private reportEvent(source: string, event: string, eventMessage: string) {
-    if (parseInt(process.env.DEBUG ?? "0")) {
+    if (parseInt(process.env.DEBUG_WITH_METRICS ?? "0")) {
       console.log(`${source}: ${event} ${eventMessage}`);
     }
   }

@@ -1,48 +1,36 @@
 import React, { useState } from "react";
-import {
-  getContainerClient,
-  uploadImageToBlob,
-} from "&server/utils/ImageUpload";
+import { uploadFileToBlob } from "&server/utils/ImageUpload";
 
-// components
-import Button from "&components/Button";
-import Input from "&components/Input";
+import classes from "./ImageUpload.module.scss";
 
-const handleImageUpload = async (image: File) => {
-  const containerClient = await getContainerClient();
+interface Props {
+  setImageUrl: React.Dispatch<React.SetStateAction<string>>;
+}
 
-  const url = await uploadImageToBlob(containerClient!, image);
-};
-
-const ImageUpload: React.FC = () => {
-  // current file to upload into container
+const ImageUpload: React.FC<Props> = ({ setImageUrl }) => {
   const [fileSelected, setFileSelected] = useState(null);
-
-  // form management
   const [uploading, setUploading] = useState(false);
 
   const onFileChange = (event: any) => {
-    // capture file into state
     setFileSelected(event.target.files[0]);
   };
 
   const onFileUpload = async () => {
-    // prepare UI
     setUploading(true);
 
-    // *** UPLOAD TO AZURE STORAGE ***
-    await handleImageUpload(fileSelected);
+    const url = await uploadFileToBlob(fileSelected);
 
-    // reset state/form
+    setImageUrl(url);
+
     setUploading(false);
   };
 
   return (
-    <div>
-      <Input type="file" onChange={onFileChange} />
-      <Button type="submit" onClick={onFileUpload}>
+    <div className="screenshot">
+      <input type="file" onChange={onFileChange} />
+      <button type="submit" onClick={onFileUpload}>
         <h3>Upload Image</h3>
-      </Button>
+      </button>
     </div>
   );
 };

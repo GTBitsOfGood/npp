@@ -1,28 +1,38 @@
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
-// TODO: how do we want to handle this url?
-const AZURE_STORAGE_CONNECTION_STRING = `DefaultEndpointsProtocol=https;AccountName=npp;AccountKey=X87AzrIDo0SUBeflk4uIXrPq5wdZsps9V5MqIfFS2p4kMyDFMugA3yTs0BifXJnHxlamIIgEqjL7iCb3yGU1ew==;EndpointSuffix=core.windows.net`;
+const sasToken =
+  process.env.storagesastoken ||
+  "sv=2019-12-12&ss=b&srt=sco&sp=rwdlacx&se=2021-02-09T08:03:52Z&st=2021-02-09T00:03:52Z&spr=https&sig=huSsjMTIgztooX2xhIfFsXDxAeiLINye1%2FCzyu3%2Fnh4%3D"; // Fill string with your SAS token
+const containerName = "image-container";
+const storageAccountName = process.env.storageresourcename || "npp"; // Fill string with your Storage resource name
 
-export async function getContainerClient(): Promise<ContainerClient> {
-  const blobServiceClient = BlobServiceClient.fromConnectionString(
-    AZURE_STORAGE_CONNECTION_STRING
+export const uploadFileToBlob = async (file: File | null): Promise<string> => {
+  if (!file) return "";
+
+  const blobService = new BlobServiceClient(
+    `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
   );
 
-  const containerClient = blobServiceClient.getContainerClient(
-    "image-container"
+  const containerClient: ContainerClient = blobService.getContainerClient(
+    containerName
   );
 
-  return containerClient;
-}
+  await containerClient.createIfNotExists({
+    access: "container",
+  });
 
-export async function uploadImageToBlob(
+  return await createBlobInContainer(containerClient, file);
+};
+
+const createBlobInContainer = async (
   containerClient: ContainerClient,
   image: File
-): Promise<string> {
+) => {
   const blobClient = containerClient.getBlockBlobClient(image.name);
+
   const options = { blobHTTPHeaders: { blobContentType: image.type } };
 
   await blobClient.uploadBrowserData(image, options);
 
-  return blobClient.url;
-}
+  return `https://${storageAccountName}.blob.core.windows.net/${containerName}/${image.name}`;
+};

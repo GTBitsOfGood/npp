@@ -32,7 +32,7 @@ const getLocalItem = (name: string, fallbackValue: string | boolean[]) => {
   }
 };
 
-const ReportScreen = ({ images }: Props) => {
+const ReportScreen: React.FC = () => {
   const router = useRouter();
   const [session, loading] = useSession();
 
@@ -41,6 +41,7 @@ const ReportScreen = ({ images }: Props) => {
   const [contactName, setContactName] = useState("");
   const [phone, setPhone] = useState("");
   const [orgPhone, setOrgPhone] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     setIssueType((initialValue) =>
@@ -55,6 +56,9 @@ const ReportScreen = ({ images }: Props) => {
     setPhone((initialValue) => getLocalItem("report-phone", initialValue));
     setOrgPhone((initialValue) =>
       getLocalItem("report-orgPhone", initialValue)
+    );
+    setImageUrl((initialValue) =>
+      getLocalItem("report-imageUrl", initialValue)
     );
   }, []);
 
@@ -86,19 +90,17 @@ const ReportScreen = ({ images }: Props) => {
       localStorage.removeItem("report-contactName");
       localStorage.removeItem("report-phone");
       localStorage.removeItem("report-orgPhone");
-      localStorage.removeItem("report-images");
+      localStorage.removeItem("report-imageUrl");
 
       const typeNames = [];
       if (issueType[0]) typeNames.push(IssueType.NOT_LOADING);
       if (issueType[1]) typeNames.push(IssueType.DATA_MISSING);
 
-      // pass uploaded image(s) url to this function
-
       const result = await createIssue({
         product: router.query.id as string,
         issueType: typeNames,
         description: issuePassage,
-        images: images,
+        images: [imageUrl],
         contact: {
           name: contactName,
           primaryPhone: phone,
@@ -135,8 +137,7 @@ const ReportScreen = ({ images }: Props) => {
       localStorage.setItem("report-contactName", contactName);
       localStorage.setItem("report-phone", phone);
       localStorage.setItem("report-orgPhone", orgPhone);
-
-      // save uploaded image in local storage?
+      localStorage.setItem("report-imageUrl", imageUrl);
 
       await Swal.fire({
         title: "Saved",
@@ -171,6 +172,7 @@ const ReportScreen = ({ images }: Props) => {
             and we will contact you soon with an estimated timeline for a fix.
           </h5>
           <h3 className="screenshot">Upload a screenshot?</h3>
+          <ImageUpload setImageUrl={setImageUrl} />
         </div>
 
         <div className="padding" />

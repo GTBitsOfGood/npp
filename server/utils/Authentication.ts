@@ -23,7 +23,7 @@ export async function getUser(
  * @param user - the user to be authentication
  * @param requiredRoles
  */
-export async function authenticate(
+export async function ensureRoles(
   user: SessionUser | null,
   requiredRoles: string[] | null | undefined
 ): Promise<void> {

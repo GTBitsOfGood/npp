@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextApiRequest } from "next";
 import { useRouter } from "next/router";
-import { getSession } from "next-auth/client";
 
 // Components
 import Statusbar from "&components/Statusbar";
@@ -11,7 +10,7 @@ import ButtonLink from "&components/ButtonLink";
 import ApplyNewBulb from "&icons/ApplyNewBulb";
 
 // Utils
-import { useSession } from "&utils/auth-utils";
+import { getSession, useSession } from "&utils/auth-utils";
 import urls, { getApplicationUrl } from "&utils/urls";
 
 interface PropTypes {
@@ -70,16 +69,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const UserManager = require("&server/mongodb/actions/UserManager");
 
   try {
-    const session = await getSession({ req: context.req as any });
+    const session = await getSession(context.req as NextApiRequest);
 
     if (session?.user == null) {
       throw new Error("User is not logged in!");
     }
-
-    const user = await UserManager.getUserById((session.user as any).id);
 
     const applications = await ApplicationManager.getApplications(session.user);
     if (applications.length > 0) {
@@ -94,12 +90,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         },
       };
     }
-
     return {
       props: {
-        organizationVerified:
-          user.organization != null &&
-          user.organization.organizationName != null,
+        organizationVerified: session.user.organizationVerified,
       },
     };
   } catch (error) {

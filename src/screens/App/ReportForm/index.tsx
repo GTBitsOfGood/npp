@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 
@@ -171,7 +171,6 @@ const ReportScreen: React.FC = () => {
             loading times too long, or are your users facing bugs? Let us know,
             and we will contact you soon with an estimated timeline for a fix.
           </h5>
-          <h3 className="screenshot">Upload a screenshot?</h3>
           <ImageUpload setImageUrl={setImageUrl} />
         </div>
 

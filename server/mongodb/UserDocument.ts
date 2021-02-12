@@ -94,8 +94,10 @@ const UserSchema = new Schema(
     },
   }
 );
-UserSchema.statics.isAdminUser = function () {
+UserSchema.virtual("isAdmin").get(function () {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return this.roles.includes(Authentication.ADMIN_ROLE);
-};
+});
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);

@@ -7,6 +7,13 @@ import {
 } from "&server/utils/Validators";
 import * as ApplicationManager from "&server/mongodb/actions/ApplicationManager";
 import * as Authentication from "&server/utils/Authentication";
+import { MetricReporter } from "&server/utils/MetricReporter";
+
+const METRIC_REPORTER = new MetricReporter();
+const SOURCE_NAME = "Application Route";
+const EVENTS = {
+  FETCH_APPLICATION: "FETCH_APPLICATION",
+};
 
 const handler = generateMethodRoute(
   {
@@ -14,17 +21,35 @@ const handler = generateMethodRoute(
   },
   {
     get: async (req) => {
+      const startTime = new Date();
+      METRIC_REPORTER.reportIntervalEventInitiated(
+        SOURCE_NAME,
+        EVENTS.FETCH_APPLICATION,
+        startTime
+      );
+
+      let returnValue: Record<string, any> | Record<string, any>[];
       if (req.query.id) {
         const applicationId = validateAndSanitizeIdString(
           req.query.id as string
         );
-        return validateUserHasAccessToApplication(
+        returnValue = validateUserHasAccessToApplication(
           req.user as SessionUser,
           await ApplicationManager.getApplicationById(applicationId)
         );
       } else {
-        return ApplicationManager.getApplications(req.user!, req.query);
+        returnValue = ApplicationManager.getApplications(
+          req.user as SessionUser,
+          req.query
+        );
       }
+
+      METRIC_REPORTER.reportIntervalEventCompleted(
+        SOURCE_NAME,
+        EVENTS.FETCH_APPLICATION,
+        startTime
+      );
+      return returnValue;
     },
     delete: {
       routeHandler: async (req) => {
@@ -88,4 +113,5 @@ async function validateUserHasAccessToApplication(
   }
   return application;
 }
+
 export default handler;

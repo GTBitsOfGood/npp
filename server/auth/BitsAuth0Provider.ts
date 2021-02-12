@@ -6,7 +6,8 @@ const BitsAuth0Provider = Providers.Auth0({
   clientId: process.env.AUTH0_CLIENT_ID as string,
   clientSecret: process.env.AUTH0_CLIENT_SECRET as string,
   domain: process.env.AUTH0_DOMAIN as string,
-});
+  authorizationUrl: `https://${process.env.AUTH0_DOMAIN}/authorize?response_type=code&prompt=login`,
+} as any); // 'as any' to pass the new "authorizationUrl" to the auth provider. This will always prompt for login from the auth provider (for after signing out)
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 BitsAuth0Provider.profile = (auth0Profile: any): Profile => {
   return {

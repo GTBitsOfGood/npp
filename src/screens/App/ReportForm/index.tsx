@@ -171,7 +171,6 @@ const ReportScreen: React.FC = () => {
             loading times too long, or are your users facing bugs? Let us know,
             and we will contact you soon with an estimated timeline for a fix.
           </h5>
-          <ImageUpload setImageUrl={setImageUrl} />
         </div>
 
         <div className="padding" />
@@ -203,6 +202,12 @@ const ReportScreen: React.FC = () => {
             placeholder={placeHolder}
             onChange={(event) => setIssuePassage(event.target.value)}
           />
+
+          <h5>
+            Screenshot
+            <span className="inline"> (optional) </span>
+          </h5>
+          <ImageUpload setImageUrl={setImageUrl} />
 
           <h2 className="sectionHeader">Contact Information</h2>
 

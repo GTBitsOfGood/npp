@@ -1,7 +1,7 @@
 import { connectToDB, EntityDoc } from "../index";
 import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
-import { Profile } from "&server/models";
+import { Profile } from "&server/models/Profile";
 
 export async function getUserById(id: ObjectId) {
   await connectToDB();
@@ -23,7 +23,7 @@ export async function upsertUserByProviderProfile(
     upsert: true,
     new: true,
     setDefaultsOnInsert: true,
-  }).lean();
+  }).lean(); // improve performance with lean
 }
 
 export async function updateOrganizationForUser(

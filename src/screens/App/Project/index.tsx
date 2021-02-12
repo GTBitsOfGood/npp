@@ -90,6 +90,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         },
       };
     }
+    console.log(session.user);
     return {
       props: {
         organizationVerified: session.user.organizationVerified,

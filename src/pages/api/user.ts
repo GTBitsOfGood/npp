@@ -59,7 +59,6 @@ const handler = generateMethodRoute(
     post: {
       routeHandler: async (req) => {
         const userId = validateAndSanitizeIdString(req.body.id as string);
-        validateUserHasAccessToUserViaId(req.user as SessionUser, userId);
         return UserManager.updateOrganizationVerifiedStatus(
           userId,
           req.body.organizationVerified

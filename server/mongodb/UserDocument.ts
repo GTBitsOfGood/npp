@@ -80,7 +80,7 @@ const UserSchema = new Schema({
     type: OrganizationSchema,
     required: false,
   },
-  // TypeORM doesn't support nested fields, and this is something we want with each session, so....
+  // we need to keep this field because the admin needs to validate the organization info
   organizationVerified: {
     type: Boolean,
     default: false,

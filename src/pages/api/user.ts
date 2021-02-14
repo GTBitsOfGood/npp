@@ -37,10 +37,14 @@ const handler = generateMethodRoute(
       routeHandler: async (req) => {
         const userId = validateAndSanitizeIdString(req.body.id as string);
         validateUserHasAccessToUserViaId(req.user as SessionUser, userId);
-        return UserManager.updateOrganizationVerifiedStatus(
-          userId,
-          req.body.organizationVerified
-        );
+        if (req.body.organizationVerified) {
+          return UserManager.updateOrganizationVerifiedStatus(
+            userId,
+            req.body.organizationVerified
+          );
+        } else {
+          return UserManager.upgradeToAdmin(userId);
+        }
       },
       routeConfiguration: { requiredRoles: [ADMIN_ROLE] },
     },

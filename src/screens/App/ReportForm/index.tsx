@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 
@@ -32,7 +32,7 @@ const getLocalItem = (name: string, fallbackValue: string | boolean[]) => {
   }
 };
 
-const ReportScreen: React.FC = () => {
+const ReportScreen = () => {
   const router = useRouter();
   const [session, loading] = useSession();
 

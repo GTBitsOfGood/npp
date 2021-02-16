@@ -35,14 +35,19 @@ const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
   };
 
   const onFileChange = (event: any) => {
-    setFileSelected(event.target.files[0]);
-    return event.target.files[0];
+    if (event.target.files !== null && event.target.files !== undefined) {
+      const file = setFileSelected(event.target.files[0]);
+      return file;
+    }
   };
 
   const onFileUpload = async () => {
     const url = await uploadFileToBlob(fileSelected);
-
     setImageUrl(url);
+  };
+
+  const allowDragOver = (event: any) => {
+    event.preventDefault();
   };
 
   return (
@@ -62,20 +67,19 @@ const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
               <h1>Upload File</h1>
             </div>
             <div className={clsx(classes.container)}>
-              {/* insert uploaded files here */}
+              {/* insert status bar here */}
               <div className={clsx(classes.input)}>
                 <h2>Drag and drop</h2>
                 <h2>or</h2>
-                {/* Do we need the input? */}
+                <h2 className={clsx(classes.browse)}>Browse</h2>
                 <Input
                   type="file"
                   id={clsx(classes.file)}
                   className={clsx(classes.file)}
                   onChange={onFileChange}
+                  onDrop={onFileChange}
+                  onDragOver={allowDragOver}
                 />
-                <label htmlFor={clsx(classes.file)} onChange={onFileChange}>
-                  Browse
-                </label>
               </div>
               <div className={clsx(classes.button)}>
                 <Button

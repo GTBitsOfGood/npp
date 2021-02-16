@@ -17,8 +17,8 @@
 .modalContainer {
   position: fixed;
   background: $gray-5;
-  width: 510px;
-  height: 443px;
+  width: 710px;
+  height: 643px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -46,23 +46,23 @@
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  width: 409px;
-  height: 132px;
-  border: 3px dashed #ff7617;
+  width: 609px;
+  height: 232px;
+  border: 3px dashed $orange-500;
   border-radius: 8px;
-  margin-bottom: 25px;
+  margin: 89px 0px 61px 0px;
+}
 
-  label {
-    cursor: pointer;
-    font-size: 24px;
-    color: $orange-500;
-  }
+.browse {
+  font-size: 24px;
+  color: $orange-500;
 }
 
 #file {
   opacity: 0;
   position: absolute;
-  z-index: -1;
+  min-width: 609px;
+  min-height: 232px;
 }
 
 .button {

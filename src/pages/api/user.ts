@@ -5,6 +5,13 @@ import * as UserManager from "&server/mongodb/actions/UserManager";
 import { SessionUser } from "&server/models/SessionUser";
 import { AuthenticationError } from "&server/utils/AuthenticationError";
 import { ADMIN_ROLE } from "&server/utils/Authentication";
+import { MetricReporter } from "&server/utils/MetricReporter";
+
+const METRIC_REPORTER = new MetricReporter();
+const SOURCE_NAME = "User Route";
+const EVENTS = {
+  FETCH_USER: "FETCH_USER",
+};
 
 const handler = generateMethodRoute(
   {
@@ -12,18 +19,34 @@ const handler = generateMethodRoute(
   },
   {
     get: async (req) => {
+      const startTime = new Date();
+      METRIC_REPORTER.reportIntervalEventInitiated(
+        SOURCE_NAME,
+        EVENTS.FETCH_USER,
+        startTime
+      );
+
+      let outputUser;
       if (req.query.id) {
         const objectId = validateAndSanitizeIdString(req.query.id as string);
-        return validateUserHasAccessToUser(
+        outputUser = validateUserHasAccessToUser(
           req.user as SessionUser,
           await UserManager.getUserById(objectId)
         );
       } else if (req.query.email) {
-        return validateUserHasAccessToUser(
+        outputUser = validateUserHasAccessToUser(
           req.user as SessionUser,
           await UserManager.getUserByEmail(req.query.email as string)
         );
       }
+
+      METRIC_REPORTER.reportIntervalEventCompleted(
+        SOURCE_NAME,
+        EVENTS.FETCH_USER,
+        startTime
+      );
+
+      return outputUser;
     },
     put: async (req) => {
       const userId = validateAndSanitizeIdString(req.body.id as string);

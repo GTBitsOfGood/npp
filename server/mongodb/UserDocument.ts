@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import * as Authentication from "&server/utils/Authentication";
 
 const AddressSchema = new Schema({
   streetAddress: {
@@ -41,50 +42,62 @@ const OrganizationSchema = new Schema({
   },
 });
 
-const UserSchema = new Schema({
-  nickname: {
-    type: String,
-    required: true,
+const UserSchema = new Schema(
+  {
+    nickname: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    familyName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      required: true,
+      immutable: true,
+    },
+    updatedAt: {
+      type: Date,
+      required: true,
+    },
+    roles: {
+      type: [String], // maybe change to enum once we know all the roles
+      required: true,
+    },
+    organization: {
+      type: OrganizationSchema,
+      required: false,
+    },
+    // we need to keep this field because the admin needs to validate the organization info
+    organizationVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
-  name: {
-    type: String,
-    required: true,
-  },
-  familyName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    required: true,
-    immutable: true,
-  },
-  updatedAt: {
-    type: Date,
-    required: true,
-  },
-  roles: {
-    type: [String], // maybe change to enum once we know all the roles
-    required: true,
-  },
-  organization: {
-    type: OrganizationSchema,
-    required: false,
-  },
-  // TypeORM doesn't support nested fields, and this is something we want with each session, so....
-  organizationVerified: {
-    type: Boolean,
-    default: false,
-  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
+UserSchema.virtual("isAdmin").get(function () {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  return this.roles.includes(Authentication.ADMIN_ROLE);
 });
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);

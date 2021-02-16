@@ -9,12 +9,19 @@ import { HttpResponse } from "../models/HttpResponse";
 import { Route, RouteConfiguration, RouteHandler } from "./RouteConfiguration";
 import * as Authentication from "../utils/Authentication";
 import { NppApiRequest } from "./NppApiRequest";
+import { MetricReporter } from "&server/utils/MetricReporter";
 
 /**
  * @link ../models/HttpMethod for valid methods
  */
 export type MethodRoutes = {
   [httpMethod in HttpMethod]?: Route | RouteHandler;
+};
+
+const METRIC_REPORTER = new MetricReporter();
+const EVENTS = {
+  REQUEST: "REQUEST",
+  AUTH_FETCH: "AUTH_FETCH",
 };
 
 /**
@@ -31,7 +38,19 @@ export function generateMethodRoute(
   defaultRouteConfiguration: RouteConfiguration,
   methodRoutes: MethodRoutes
 ): (req: NextApiRequest, res: NextApiResponse) => Promise<void> {
+  const parsedRoutes: {
+    [httpMethod in HttpMethod]?: Route;
+  } = preParseRouteConfigurations(defaultRouteConfiguration, methodRoutes);
+
   return async (req: NextApiRequest, res: NextApiResponse) => {
+    const nppReq = req as NppApiRequest;
+    nppReq.startTime = new Date();
+    METRIC_REPORTER.reportIntervalEventInitiated(
+      getEventSourcePrefixForReq(nppReq),
+      EVENTS.REQUEST,
+      nppReq.startTime
+    );
+
     const method = req.method
       ? HttpMethod[req.method.toUpperCase() as keyof typeof HttpMethod]
       : null;
@@ -42,17 +61,58 @@ export function generateMethodRoute(
       });
       return;
     }
-    const originalRoute = getRoute(methodRoutes, method);
-    const route = {
-      routeHandler: originalRoute.routeHandler,
-      routeConfiguration: {
-        ...defaultRouteConfiguration,
-        ...originalRoute.routeConfiguration,
-      },
-    };
 
-    await callRouteHandlerAndCatchErrors(route, method, req, res);
+    await callRouteHandlerAndCatchErrors(
+      parsedRoutes[method] as Route,
+      method,
+      nppReq,
+      res
+    );
+    nppReq.endTime = new Date();
+    METRIC_REPORTER.reportIntervalEventCompleted(
+      getEventSourcePrefixForReq(nppReq),
+      EVENTS.REQUEST,
+      nppReq.startTime,
+      nppReq.endTime
+    );
   };
+}
+
+function preParseRouteConfigurations(
+  defaultConfiguration: RouteConfiguration,
+  methodRoutes: MethodRoutes
+): { [httpMethod in HttpMethod]?: Route } {
+  return Object.fromEntries(
+    Object.entries(methodRoutes).map(([method, routeOrRouteHandler]) => [
+      method,
+      parseRouteUsingDefaultConfiguration(
+        defaultConfiguration,
+        routeOrRouteHandler as Route | RouteHandler
+      ),
+    ])
+  );
+}
+
+function parseRouteUsingDefaultConfiguration(
+  defaultConfiguration: RouteConfiguration,
+  routeOrRouteHandler: Route | RouteHandler
+): Route {
+  const originalRoute: Route =
+    typeof routeOrRouteHandler == "function"
+      ? { routeHandler: routeOrRouteHandler, routeConfiguration: {} }
+      : (routeOrRouteHandler as Route);
+
+  return {
+    routeHandler: originalRoute.routeHandler,
+    routeConfiguration: {
+      ...defaultConfiguration,
+      ...originalRoute.routeConfiguration,
+    },
+  };
+}
+
+function getEventSourcePrefixForReq(req: NppApiRequest) {
+  return `[${req.method}] ${req.url}`;
 }
 
 /**
@@ -64,28 +124,27 @@ export function generateAnyMethodRoute(
   route: Route
 ): (req: NextApiRequest, res: NextApiResponse) => Promise<void> {
   return async (req: NextApiRequest, res: NextApiResponse) => {
-    return callRouteHandlerAndCatchErrors(route, HttpMethod.POST, req, res);
-  };
-}
-
-function getRoute(methodRoutes: MethodRoutes, method: HttpMethod): Route {
-  const routeOrRouteHandler: Route | RouteHandler = methodRoutes[
-    method
-  ] as Route;
-  if (typeof routeOrRouteHandler !== "function") {
-    return routeOrRouteHandler;
-  }
-
-  return {
-    routeHandler: routeOrRouteHandler,
-    routeConfiguration: {},
+    const nppReq = req as NppApiRequest;
+    nppReq.startTime = new Date();
+    METRIC_REPORTER.reportIntervalEventInitiated(
+      getEventSourcePrefixForReq(nppReq),
+      EVENTS.REQUEST,
+      nppReq.startTime
+    );
+    await callRouteHandlerAndCatchErrors(route, HttpMethod.POST, nppReq, res);
+    nppReq.endTime = new Date();
+    METRIC_REPORTER.reportIntervalEventCompleted(
+      getEventSourcePrefixForReq(nppReq),
+      EVENTS.REQUEST,
+      nppReq.endTime
+    );
   };
 }
 
 async function callRouteHandlerAndCatchErrors(
   route: Route,
   method: HttpMethod,
-  req: NextApiRequest,
+  req: NppApiRequest,
   res: NextApiResponse
 ) {
   try {
@@ -96,19 +155,30 @@ async function callRouteHandlerAndCatchErrors(
       fetchSessionWhenPossible,
     } = routeConfiguration;
 
-    const nppReq = req as NppApiRequest;
-
     if (fetchSessionWhenPossible || requireSession) {
+      const startTime = new Date();
+      METRIC_REPORTER.reportIntervalEventInitiated(
+        getEventSourcePrefixForReq(req),
+        EVENTS.AUTH_FETCH,
+        startTime
+      );
+
       const user = await Authentication.getUser(req);
-      nppReq.user = user;
+      req.user = user;
+
+      METRIC_REPORTER.reportIntervalEventCompleted(
+        getEventSourcePrefixForReq(req),
+        EVENTS.AUTH_FETCH,
+        startTime
+      );
 
       if (requireSession) {
-        await Authentication.authenticate(user, requiredRoles);
+        await Authentication.ensureRoles(user, requiredRoles);
       }
     }
-    handleSuccessfulResponse(await routeHandler(nppReq, res), method, res);
+    handleSuccessfulResponse(await routeHandler(req, res), method, res);
   } catch (error) {
-    handleError(error, res);
+    handleError(req, error, res);
   }
 }
 
@@ -131,7 +201,7 @@ function handleSuccessfulResponse(
   }
 }
 
-function handleError(error: unknown, res: NextApiResponse) {
+function handleError(req: NppApiRequest, error: unknown, res: NextApiResponse) {
   if (error instanceof PublicError) {
     res.status(error.statusCode).json({
       message: error.message,

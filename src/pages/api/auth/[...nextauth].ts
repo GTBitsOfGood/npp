@@ -1,12 +1,9 @@
 import NextAuth from "next-auth";
-import Adapters from "next-auth/adapters";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-
-import { User } from "&server/models";
-import { UserTypeORM } from "&server/auth/UserTypeORM";
 import { SessionUser } from "&server/models/SessionUser";
 import * as Authentication from "&server/utils/Authentication";
 import BitsAuth0Provider from "&server/auth/BitsAuth0Provider";
+import { upsertUserByProviderProfile } from "&server/mongodb/actions/UserManager";
 
 export type AuthSession = {
   user: SessionUser;
@@ -15,34 +12,45 @@ export type AuthSession = {
 };
 
 const options = {
+  debug: !!parseInt(process.env.DEBUG_AUTH ?? "0"),
   providers: [BitsAuth0Provider],
-  database: process.env.DATABASE_URL,
-  /* The typescript definition for this function is wrong:
-  See src for correct definition: https://github.com/nextauthjs/next-auth/blob/main/src/adapters/typeorm/index.js */
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  adapter: (Adapters.TypeORM.Adapter as any)(process.env.DATABASE_URL, {
-    models: {
-      User: UserTypeORM,
-    },
-  }),
+  session: {
+    jwt: true,
+  },
   events: {},
   callbacks: {
-    session: (session: any, user: User): Promise<AuthSession> => {
-      const newUser = {
-        ...session.user,
-        familyName: user.familyName,
-        roles: user.roles,
-        // See comment in @link /server/models/User.ts for why the User class does not include an "id" attribute
-        id: (user as any)["id"],
-        isAdmin: user.roles.includes(Authentication.ADMIN_ROLE),
-        // could be null for the users before implemented
-        organizationVerified: !!user.organizationVerified,
+    // This is called when generating the jwt. It is also called after deserializing a JWT
+    jwt: (async (
+      token: SessionUser | { name: string; email: string; picture: string },
+      user: unknown,
+      account: unknown,
+      auth0Profile: any
+    ): Promise<SessionUser> => {
+      if (!auth0Profile) {
+        // the token has already been generated; assume it is the SessionUser
+        return token as SessionUser;
+      }
+      // in case we decide to switch back; can be made more efficient, keep the function in the provider
+      const profile = BitsAuth0Provider.profile(auth0Profile);
+      const dbUser = await upsertUserByProviderProfile(profile);
+      return {
+        ...profile,
+        id: dbUser._id.toString(),
+        isAdmin: profile.roles.includes(Authentication.ADMIN_ROLE),
+        // for users created before the organizationVerified field was added
+        organizationVerified: !!dbUser.organizationVerified,
       };
+    }) as any,
+    // the default session does not include our custom UserSessions fields, add them here
+    session: (async (
+      defaultSessionPayload: { expiresAt: string; accessToken?: string },
+      jwtPayload: SessionUser
+    ): Promise<AuthSession> => {
       return Promise.resolve({
-        ...session,
-        user: newUser,
-      } as AuthSession);
-    },
+        ...defaultSessionPayload,
+        user: jwtPayload,
+      });
+    }) as any,
   },
 };
 

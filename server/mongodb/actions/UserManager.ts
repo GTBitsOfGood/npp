@@ -2,6 +2,7 @@ import { connectToDB, EntityDoc } from "../index";
 import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 import { ADMIN_ROLE } from "&server/utils/Authentication.ts";
+import { Profile } from "&server/models/Profile";
 
 export async function getUserById(id: ObjectId) {
   await connectToDB();
@@ -24,6 +25,15 @@ export async function upgradeToAdmin(id: ObjectId): Promise<EntityDoc> {
     },
     { new: true }
   );
+export async function upsertUserByProviderProfile(
+  profile: Profile
+): Promise<Record<string, any>> {
+  await connectToDB();
+  return UserDocument.findOneAndUpdate({ email: profile.email }, profile, {
+    upsert: true,
+    new: true,
+    setDefaultsOnInsert: true,
+  }).lean(); // improve performance with lean
 }
 
 export async function updateOrganizationForUser(

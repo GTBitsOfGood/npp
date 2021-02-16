@@ -1,10 +1,11 @@
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
-const sasToken =
-  process.env.storagesastoken ||
-  "sv=2019-12-12&ss=b&srt=sco&sp=rwdlacx&se=2021-02-09T08:03:52Z&st=2021-02-09T00:03:52Z&spr=https&sig=huSsjMTIgztooX2xhIfFsXDxAeiLINye1%2FCzyu3%2Fnh4%3D"; // Fill string with your SAS token
+const sasToken = process.env.STORAGE_SAS_TOKEN; // Fill string with your SAS token
+console.log(sasToken);
 const containerName = "image-container";
-const storageAccountName = process.env.storageresourcename || "npp"; // Fill string with your Storage resource name
+const storageAccountName =
+  process.env.STORAGE_RESOURCE_NAME || "nonprofitportal"; // Fill string with your Storage resource name
+console.log(storageAccountName);
 
 export const uploadFileToBlob = async (file: File | null): Promise<string> => {
   if (!file) return "";

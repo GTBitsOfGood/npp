@@ -21,6 +21,12 @@ const MeetingSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    meetingId: {
+      type: Number,
+    },
+    meetingLink: {
+      type: String,
+    },
   },
   {
     timestamps: true,

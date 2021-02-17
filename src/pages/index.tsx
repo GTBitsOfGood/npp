@@ -4,6 +4,7 @@ import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { getUserOrg } from "&utils/auth-utils";
 import urls from "&utils/urls";
 
 const Index = () => {
@@ -18,18 +19,9 @@ const Index = () => {
       setRoute(urls.pages.app.index);
       setLoading(false);
     } else if (session) {
-      const query = new URLSearchParams({
-        email: session.user.email,
-      });
-      fetch(`${urls.baseUrl}${urls.api.user}/?${query}`, {
-        method: "get",
-        mode: "same-origin",
-        credentials: "include",
-      }).then(async (response) => {
-        const json = await response.json();
-        console.log(json.payload.organization);
+      getUserOrg(session).then((organization) => {
         setRoute(
-          json.payload.organization
+          organization
             ? urls.pages.app.index
             : urls.pages.app.verification
         );

@@ -21,8 +21,25 @@
       ]
     }
   ],
+
+  "builds": [
+    {
+      "src": "next.config.js",
+      "use": "@vercel/next"
+    },
+    {
+      "src": "src/node-lambdas/**/*.ts",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/email",
+      "dest": "/node-lambdas/email.ts"
+    }
+  ],
   "functions": {
-    "pages/api/user.js": {
+    "node-lambdas/api/user.js": {
       "includeFiles": "emails/**",
       "runtime": "now-node@14.15.5"
     }

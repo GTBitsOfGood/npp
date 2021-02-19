@@ -1,6 +1,6 @@
 import Email, { NodeMailerTransportOptions } from "email-templates";
 import path from "path";
-import { TemplateConfig } from "../../emails/TemplateConfig";
+import { TemplatedEmail } from "../../emails/TemplatedEmail";
 
 const fromAddress = '"GT Bits of Good" <hello@bitsofgood.org>';
 const baseTemplatePath = path.join(process.env.ROOT as string, "/emails");
@@ -15,9 +15,9 @@ const transportConfig: NodeMailerTransportOptions = {
   },
 };
 
-export function sendEmail(
+export function sendEmail<T extends Record<string, any>>(
   to: string,
-  config: TemplateConfig<any>
+  config: TemplatedEmail<T>
 ): Promise<any> {
   const templateFolder = path.join(baseTemplatePath, config.templateName);
   const email = new Email({

@@ -22,7 +22,7 @@
     }
   ],
   "functions": {
-    "api/user.ts": {
+    "pages/api/user.js": {
       "includeFiles": "emails/**"
     }
   }

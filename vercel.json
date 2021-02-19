@@ -22,7 +22,7 @@
     }
   ],
   "functions": {
-    "src/node-lambdas/email.js": {
+    "src/node-lambdas/email.ts": {
       "includeFiles": "emails/**",
       "runtime": "now-node@14.15.5"
     }

@@ -9,3 +9,6 @@ void sendEmail(
     status: 0,
   })
 );
+export default function (req, res) {
+  res.send("test");
+}

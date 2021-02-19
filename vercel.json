@@ -23,7 +23,8 @@
   ],
   "functions": {
     "pages/api/user.js": {
-      "includeFiles": "emails/**"
+      "includeFiles": "emails/**",
+      "runtime": "@vercel/node"
     }
   }
 }

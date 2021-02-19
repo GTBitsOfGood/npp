@@ -24,7 +24,7 @@
   "functions": {
     "api/email.ts": {
       "includeFiles": "emails/**",
-      "runtime": "now-node@14.15.5"
+      "runtime": "vercel-node@14.15.5"
     }
   }
 }

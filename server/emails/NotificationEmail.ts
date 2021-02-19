@@ -1,8 +1,8 @@
-import { TemplatedEmail } from "../TemplatedEmail";
+import { TemplatedEmail } from "./TemplatedEmail";
 
 export class NotificationEmail
   implements TemplatedEmail<NotificationTemplateLocals> {
-  readonly templateName = "status";
+  readonly templateName = "notification";
   constructor(public readonly locals: NotificationTemplateLocals) {}
 }
 

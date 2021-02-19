@@ -1,4 +1,4 @@
-import { TemplatedEmail } from "../TemplatedEmail";
+import { TemplatedEmail } from "./TemplatedEmail";
 import urls from "&utils/urls";
 
 export class StatusEmail implements TemplatedEmail<StatusTemplateLocals> {

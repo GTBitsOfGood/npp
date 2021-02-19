@@ -24,7 +24,7 @@
   "functions": {
     "pages/api/user.js": {
       "includeFiles": "emails/**",
-      "runtime": "node@14.x"
+      "runtime": "now-node@14.x"
     }
   }
 }

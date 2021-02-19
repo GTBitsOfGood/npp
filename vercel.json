@@ -20,5 +20,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/user.ts": {
+      "includeFiles": "emails/**"
+    }
+  }
 }

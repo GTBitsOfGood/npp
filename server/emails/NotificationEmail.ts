@@ -1,4 +1,4 @@
-import { TemplatedEmail } from "../TemplatedEmail";
+import { TemplatedEmail } from "./TemplatedEmail";
 
 export class NotificationEmail
   implements TemplatedEmail<NotificationTemplateLocals> {

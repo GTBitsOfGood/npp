@@ -24,7 +24,7 @@
   "functions": {
     "pages/api/user.js": {
       "includeFiles": "emails/**",
-      "runtime": "@vercel/node@14.x"
+      "runtime": "node@14.x"
     }
   }
 }

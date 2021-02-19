@@ -26,11 +26,5 @@
       "includeFiles": "emails/**",
       "runtime": "now-node@14.15.5"
     }
-  },
-  "routes": [
-    {
-      "src": "/api/email",
-      "dest": "/node-lambdas/email.ts"
-    }
-  ]
+  }
 }

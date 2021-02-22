@@ -3,9 +3,9 @@ import { NowRequest, NowResponse } from "@vercel/node";
 import { sendEmailToService } from "../server/emails/Email";
 import { TemplatedEmail } from "../server/emails/TemplatedEmail";
 import path from "path";
+import * as fs from "fs";
 
 const TEMPLATE_PATH = path.join(__dirname, "/emails");
-console.log("TEMPLATE PATH:" + TEMPLATE_PATH);
 
 export default async function handler(
   req: NowRequest,
@@ -46,6 +46,10 @@ export default async function handler(
     });
     return;
   }
+
+  console.log("TEMPLATE PATH:" + TEMPLATE_PATH);
+  console.log(fs.readdirSync(__dirname));
+  console.log(fs.readdirSync(path.join(__dirname, "..")));
 
   await sendEmailToService(
     to as string,

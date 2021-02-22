@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { GetServerSideProps } from "next";
+import React, { useEffect, useState } from "react";
+import { GetServerSideProps, NextApiRequest } from "next";
 import { useRouter } from "next/router";
-import { getSession } from "next-auth/client";
 
 // Components
 import Statusbar from "&components/Statusbar";
@@ -11,7 +10,7 @@ import ButtonLink from "&components/ButtonLink";
 import ApplyNewBulb from "&icons/ApplyNewBulb";
 
 // Utils
-import { useSession } from "&utils/auth-utils";
+import { getSession, useSession, getUserOrg } from "&utils/auth-utils";
 import urls, { getApplicationUrl } from "&utils/urls";
 
 interface PropTypes {
@@ -21,14 +20,21 @@ interface PropTypes {
 const ProjectPage = ({ organizationVerified }: PropTypes) => {
   const router = useRouter();
   const [session, loading] = useSession();
+  const [organization, setOrganization] = useState("");
+  const [verificationForm, setVerificationForm] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
-      if (!session) {
-        void router.replace(urls.pages.index);
-      } else if (!organizationVerified) {
-        void router.replace(urls.pages.app.verification);
-      }
+    if (!loading && !session) {
+      void router.replace(urls.pages.index);
+    } else if (!loading) {
+      getUserOrg(session).then((organization) => {
+        if (organization) {
+          setVerificationForm(!!organization);
+          setOrganization(organization.organizationName);
+        } else {
+          void router.replace(urls.pages.app.verification);
+        }
+      });
     }
   }, [loading, session]);
 
@@ -37,32 +43,52 @@ const ProjectPage = ({ organizationVerified }: PropTypes) => {
   }
 
   return (
-    <div className="landingPage">
-      <h1 className="landingHeader">Apply for a New Project</h1>
+    <>
+      {organizationVerified && (
+        <div className="landingPage">
+          <h1 className="landingHeader">Apply for a New Project</h1>
 
-      <Statusbar application={null} />
+          <Statusbar application={null} />
 
-      <ApplyNewBulb className="landingImage" />
+          <ApplyNewBulb className="landingImage" />
 
-      <div className="landingContent">
-        <div className="landingPadding" />
+          <div className="landingContent">
+            <div className="landingPadding" />
 
-        <h3 className="landingText">
-          As a partner, Bits of Good will help you build software that turns
-          your need into real product. Before we begin the screening process, we
-          need some preliminary information regarding your product needs and
-          basic information for our point of contact throughout this process.
-        </h3>
+            <h3 className="landingText">
+              As a partner, Bits of Good will help you build software that turns
+              your need into real product. Before we begin the screening
+              process, we need some preliminary information regarding your
+              product needs and basic information for our point of contact
+              throughout this process.
+            </h3>
 
-        <div className="landingPadding" />
-      </div>
+            <div className="landingPadding" />
+          </div>
 
-      <div className="landingButton">
-        <ButtonLink variant="primary" href={urls.pages.app.application.apply}>
-          <h3>Apply Now</h3>
-        </ButtonLink>
-      </div>
-    </div>
+          <div className="landingButton">
+            <ButtonLink
+              variant="primary"
+              href={urls.pages.app.application.apply}
+            >
+              <h3>Apply Now</h3>
+            </ButtonLink>
+          </div>
+        </div>
+      )}
+      {!organizationVerified && verificationForm && (
+        <div className="loadingText">
+          <h1>
+            Thank you for registering yourself with{" "}
+            {organization || "a nonprofit"}!
+          </h1>
+          <h2>
+            We're working on verifying your nonprofit status and will get back
+            to you shortly.
+          </h2>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -70,16 +96,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const UserManager = require("&server/mongodb/actions/UserManager");
 
   try {
-    const session = await getSession({ req: context.req as any });
+    const session = await getSession(context.req as NextApiRequest);
 
     if (session?.user == null) {
       throw new Error("User is not logged in!");
     }
-
-    const user = await UserManager.getUserById((session.user as any).id);
 
     const applications = await ApplicationManager.getApplications(session.user);
     if (applications.length > 0) {
@@ -94,12 +117,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         },
       };
     }
-
     return {
       props: {
-        organizationVerified:
-          user.organization != null &&
-          user.organization.organizationName != null,
+        organizationVerified: session.user.organizationVerified,
       },
     };
   } catch (error) {

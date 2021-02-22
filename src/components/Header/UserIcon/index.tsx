@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/client";
 
 // Iconography
 import { Icon } from "@iconify/react";
@@ -10,7 +9,8 @@ import classes from "./UserIcon.module.scss";
 
 // Actions
 import { login, logout } from "&actions/UserActions";
-import { User } from "&server/models";
+import { User } from "&server/models/User";
+import { useSession } from "&utils/auth-utils";
 
 interface UserIconProps {
   containerMouse: boolean;
@@ -34,7 +34,7 @@ const UserIcon = ({ containerMouse }: UserIconProps) => {
     );
   }
 
-  const user = session.user as User & { isAdmin: boolean };
+  const user = session.user;
 
   return (
     <div className={classes.root}>

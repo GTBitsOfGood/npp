@@ -7,6 +7,7 @@ import Input from "&components/Input";
 import Button from "&components/Button";
 import Checkbox from "&components/Checkbox";
 import TextArea from "&components/TextArea";
+import ImageUpload from "&components/ImageUpload";
 
 // Utils
 import urls from "&utils/urls";
@@ -40,6 +41,7 @@ const ReportScreen = () => {
   const [contactName, setContactName] = useState("");
   const [phone, setPhone] = useState("");
   const [orgPhone, setOrgPhone] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     setIssueType((initialValue) =>
@@ -54,6 +56,9 @@ const ReportScreen = () => {
     setPhone((initialValue) => getLocalItem("report-phone", initialValue));
     setOrgPhone((initialValue) =>
       getLocalItem("report-orgPhone", initialValue)
+    );
+    setImageUrl((initialValue) =>
+      getLocalItem("report-imageUrl", initialValue)
     );
   }, []);
 
@@ -85,6 +90,7 @@ const ReportScreen = () => {
       localStorage.removeItem("report-contactName");
       localStorage.removeItem("report-phone");
       localStorage.removeItem("report-orgPhone");
+      localStorage.removeItem("report-imageUrl");
 
       const typeNames = [];
       if (issueType[0]) typeNames.push(IssueType.NOT_LOADING);
@@ -94,7 +100,7 @@ const ReportScreen = () => {
         product: router.query.id as string,
         issueType: typeNames,
         description: issuePassage,
-        images: [],
+        images: [imageUrl],
         contact: {
           name: contactName,
           primaryPhone: phone,
@@ -131,6 +137,7 @@ const ReportScreen = () => {
       localStorage.setItem("report-contactName", contactName);
       localStorage.setItem("report-phone", phone);
       localStorage.setItem("report-orgPhone", orgPhone);
+      localStorage.setItem("report-imageUrl", imageUrl);
 
       await Swal.fire({
         title: "Saved",
@@ -195,6 +202,12 @@ const ReportScreen = () => {
             placeholder={placeHolder}
             onChange={(event) => setIssuePassage(event.target.value)}
           />
+
+          <h5>
+            Screenshot
+            <span className="inline"> (optional) </span>
+          </h5>
+          <ImageUpload setImageUrl={setImageUrl} />
 
           <h2 className="sectionHeader">Contact Information</h2>
 

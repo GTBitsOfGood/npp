@@ -3,12 +3,12 @@ import urls from "&utils/urls";
 
 import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
-import { User } from "&server/models/User";
 import { Organization } from "&server/models/Organization";
+import { User } from "&server/models/User";
 
 export const login = (): Promise<void> =>
   signIn("auth0", {
-    callbackUrl: `${urls.baseUrl}${urls.pages.app.index}`,
+    callbackUrl: `${urls.baseUrl}${urls.pages.index}`,
   });
 
 export const logout = (): Promise<void> =>
@@ -16,7 +16,7 @@ export const logout = (): Promise<void> =>
 
 const userRoute = urls.api.user;
 
-export async function getUserById(objectId: string): Promise<DetailedUser> {
+export async function getUserById(objectId: string): Promise<User> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute + `?id=${objectId}`,
     HttpMethod.GET
@@ -24,7 +24,7 @@ export async function getUserById(objectId: string): Promise<DetailedUser> {
   return userFromJsonResponse(response);
 }
 
-export async function getUserByEmail(email: string): Promise<DetailedUser> {
+export async function getUserByEmail(email: string): Promise<User> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute + `?email=${email}`,
     HttpMethod.GET
@@ -35,7 +35,7 @@ export async function getUserByEmail(email: string): Promise<DetailedUser> {
 export async function updateOrganizationForUser(
   userId: string,
   organization: Organization
-): Promise<DetailedUser> {
+): Promise<User> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute,
     HttpMethod.PUT,
@@ -50,7 +50,7 @@ export async function updateOrganizationForUser(
 export async function updateOrganizationVerifiedStatus(
   userId: string,
   organizationVerified: boolean
-): Promise<DetailedUser> {
+): Promise<User> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute,
     HttpMethod.POST,
@@ -62,14 +62,6 @@ export async function updateOrganizationVerifiedStatus(
   return userFromJsonResponse(response);
 }
 
-function userFromJsonResponse(object: { [key: string]: any }): DetailedUser {
+function userFromJsonResponse(object: { [key: string]: any }): User {
   return object as User & { id: string } & { organization?: Organization };
 }
-
-/**
- * The intersection type is an artifact of the TypeORM id issue
- * @param object
- */
-export type DetailedUser = User & { id: string } & {
-  organization?: Organization;
-};

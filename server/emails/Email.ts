@@ -1,6 +1,7 @@
 import Email, { NodeMailerTransportOptions } from "email-templates";
 import path from "path";
 import { TemplatedEmail } from "./TemplatedEmail";
+import { object } from "prop-types";
 
 const FROM_ADDRESS = '"GT Bits of Good" <hello@bitsofgood.org>';
 const BASE_TEMPLATE_PATH_LOCAL = path.join(
@@ -44,12 +45,17 @@ export async function sendEmail<T extends Record<string, any>>(
   return sendEmailThroughMicroservice(emailConfigWithEnvironmentLocals, to);
 }
 
+/**
+ * Calls the internal lambda (which has access to the templates) to send an email
+ * @param config
+ * @param to
+ */
 async function sendEmailThroughMicroservice(
   config: TemplatedEmail<Record<string, any>>,
   to: string
 ): Promise<void> {
   const fetchResult = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/email` as string,
+    `https://${process.env.VERCEL_URL}/email` as string,
     {
       method: "PUT",
       headers: {
@@ -67,20 +73,27 @@ async function sendEmailThroughMicroservice(
   }
 
   if (!fetchResult.ok) {
+    if (!jsonResult.message) {
+      throw new Error(
+        `Received an unkown bad response (status=${
+          fetchResult.status
+        }): ${JSON.stringify(object)}`
+      );
+    }
     throw new Error(
-      `Received a bad response (status=${fetchResult.status}): ${jsonResult}`
+      `Received a bad response (status=${fetchResult.status}): ${jsonResult.message}`
     );
   }
   if (!jsonResult.sent) {
     throw new Error("Failed to send email");
   }
-  return jsonResult.sent;
 }
 
 /**
  * (DO NOT CALL THIS FUNCTION IF YOU"RE SENDING AN EMAIL WITHIN
- * NPP). Please call (sendEmail) instead
- * This function tells are e-mail service to send an e-mail
+ * NPP). Please call sendEmail instead
+ *
+ * This function tells the e-mail service to send an e-mail
  * @param to - the email to send the email to
  * @param config - the email config
  * @param templatePath - path to templates directory

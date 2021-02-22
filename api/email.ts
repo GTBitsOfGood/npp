@@ -47,12 +47,11 @@ export default async function handler(
     return;
   }
 
-  const sendResult = await sendEmailToService(
+  await sendEmailToService(
     to as string,
     config as TemplatedEmail<Record<string, any>>,
     TEMPLATE_PATH
   );
-  console.log(sendResult);
 
   res.status(201).json({
     sent: true,

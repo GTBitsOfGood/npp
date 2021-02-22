@@ -1,15 +1,19 @@
 import IndexPage from "&screens/Index";
 
-import { useSession } from "next-auth/client";
+import { GetServerSideProps, NextApiRequest } from "next";
+import { getSession, Session } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { getUserOrg } from "&utils/auth-utils";
 import urls from "&utils/urls";
 
-const Index = () => {
+interface PropTypes {
+  session: Session | null;
+}
+
+const Index = ({ session }: PropTypes) => {
   const router = useRouter();
-  const [session] = useSession();
   const [route, setRoute] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -37,6 +41,11 @@ const Index = () => {
   // currently logged in), loading text will be displayed
   // until the correct page is determined and re-routed
   return <h1 className="loadingText">Loading...</h1>;
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession({ req: context.req as any });
+  return { props: { session } };
 };
 
 export default Index;

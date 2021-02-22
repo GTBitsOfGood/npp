@@ -2,6 +2,7 @@ import { NowRequest, NowResponse } from "@vercel/node";
 // do not change to path alias imports. path alias imports will not work in this context currently
 import { sendEmailToService } from "../server/emails/Email";
 import { TemplatedEmail } from "../server/emails/TemplatedEmail";
+import { instanceOf } from "prop-types";
 
 export default async function handler(
   req: NowRequest,
@@ -22,9 +23,8 @@ export default async function handler(
   }
 
   const { to, config }: { to: any; config: any } = req.body;
-  console.log("BODY:", req.body);
 
-  if (!to || !(to instanceof String)) {
+  if (!to || !(typeof to == "string")) {
     res.status(400).json({
       message: "Missing to or invalid syntax for to",
     });

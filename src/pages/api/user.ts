@@ -98,12 +98,4 @@ function validateUserHasAccessToUserViaId(
   }
 }
 
-// test send email
-void sendEmail(
-  "navbarry@gmail.com",
-  new NotificationEmail({
-    name: "Test",
-  })
-);
-
 export default handler;

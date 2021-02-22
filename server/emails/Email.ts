@@ -3,9 +3,12 @@ import path from "path";
 import { TemplatedEmail } from "./TemplatedEmail";
 
 const FROM_ADDRESS = '"GT Bits of Good" <hello@bitsofgood.org>';
-const baseTemplatePath = path.join(process.env.ROOT as string, "/emails");
+const BASE_TEMPLATE_PATH_LOCAL = path.join(
+  process.env.ROOT as string,
+  "/emails"
+);
 
-const transportConfig: NodeMailerTransportOptions = {
+const TRANSPORT_CONFIG: NodeMailerTransportOptions = {
   service: "Zoho",
   host: process.env.MAIL_HOST as string,
   port: parseInt(process.env.MAIL_PORT as string),
@@ -30,7 +33,11 @@ export async function sendEmail<T extends Record<string, any>>(
     },
   };
   if (process.env.NODE_ENV == "development") {
-    await sendEmailToService(to, emailConfigWithEnvironmentLocals);
+    await sendEmailToService(
+      to,
+      emailConfigWithEnvironmentLocals,
+      BASE_TEMPLATE_PATH_LOCAL
+    );
     return true;
   }
 
@@ -74,17 +81,19 @@ async function sendEmailThroughMicroservice(
  * This function tells are e-mail service to send an e-mail
  * @param to - the email to send the email to
  * @param config - the email config
+ * @param templatePath - path to templates directory
  */
 export function sendEmailToService<T extends Record<string, any>>(
   to: string,
-  config: TemplatedEmail<Record<string, any>>
+  config: TemplatedEmail<Record<string, any>>,
+  templatePath: string
 ): Promise<any> {
-  const templateFolder = path.join(baseTemplatePath, config.templateName);
+  const templateFolder = path.join(templatePath, config.templateName);
   const email = new Email({
     message: {
       from: FROM_ADDRESS,
     },
-    transport: transportConfig,
+    transport: TRANSPORT_CONFIG,
     // Only send emails in dev if mail_host is set, this prevents error being thrown in testing
     send: process.env.MAIL_HOST != null,
     juice: true,

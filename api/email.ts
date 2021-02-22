@@ -2,7 +2,10 @@ import { NowRequest, NowResponse } from "@vercel/node";
 // do not change to path alias imports. path alias imports will not work in this context currently
 import { sendEmailToService } from "../server/emails/Email";
 import { TemplatedEmail } from "../server/emails/TemplatedEmail";
-import { instanceOf } from "prop-types";
+import path from "path";
+
+const TEMPLATE_PATH = path.join(__dirname, "/emails");
+console.log("TEMPLATE PATH:" + TEMPLATE_PATH);
 
 export default async function handler(
   req: NowRequest,
@@ -46,7 +49,8 @@ export default async function handler(
 
   await sendEmailToService(
     to as string,
-    config as TemplatedEmail<Record<string, any>>
+    config as TemplatedEmail<Record<string, any>>,
+    TEMPLATE_PATH
   );
 
   res.status(201).json({

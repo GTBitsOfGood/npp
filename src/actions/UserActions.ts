@@ -8,7 +8,7 @@ import { User } from "&server/models/User";
 
 export const login = (): Promise<void> =>
   signIn("auth0", {
-    callbackUrl: `${urls.baseUrl}${urls.pages.app.index}`,
+    callbackUrl: `${urls.baseUrl}${urls.pages.index}`,
   });
 
 export const logout = (): Promise<void> =>

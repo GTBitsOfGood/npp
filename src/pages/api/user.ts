@@ -71,13 +71,6 @@ const handler = generateMethodRoute(
   }
 );
 
-void sendEmail(
-  "navbarry@gmail.com",
-  new NotificationEmail({
-    name: "Bryce",
-  })
-);
-
 function validateUserHasAccessToUser(
   currentUser: SessionUser,
   userBeingAccessed: Record<string, any>

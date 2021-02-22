@@ -47,8 +47,8 @@ export async function sendEmail<T extends Record<string, any>>(
 
 /**
  * Calls the internal lambda (which has access to the templates) to send an email
- * @param config
- * @param to
+ * @param config - the email config
+ * @param to - who to send the email to
  */
 async function sendEmailThroughMicroservice(
   config: TemplatedEmail<Record<string, any>>,

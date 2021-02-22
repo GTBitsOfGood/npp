@@ -41,14 +41,17 @@ async function sendEmailThroughMicroservice(
   config: TemplatedEmail<Record<string, any>>,
   to: string
 ): Promise<boolean> {
-  const fetchResult = await fetch(process.env.MAIL_MICROSERVICE_URL as string, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.MAIL_MICROSERVICE_KEY}`,
-    },
-    body: JSON.stringify({ to, config }),
-  });
+  const fetchResult = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/email` as string,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.MAIL_MICROSERVICE_KEY}`,
+      },
+      body: JSON.stringify({ to, config }),
+    }
+  );
   const jsonResult = await fetchResult.json();
   if (jsonResult == null) {
     throw new Error(

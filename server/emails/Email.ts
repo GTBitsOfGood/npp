@@ -3,6 +3,7 @@ import path from "path";
 import { TemplatedEmail } from "./TemplatedEmail";
 
 const FROM_ADDRESS = '"GT Bits of Good" <hello@bitsofgood.org>';
+console.log(process.env.ROOT);
 const baseTemplatePath = path.join(process.env.ROOT as string, "/emails");
 
 const transportConfig: NodeMailerTransportOptions = {

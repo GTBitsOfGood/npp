@@ -22,9 +22,10 @@ export default async function handler(
   }
 
   const { to, config }: { to: any; config: any } = req.body;
+  console.log("BODY:", req.body);
 
   if (!to || !(to instanceof String)) {
-    res.status(401).json({
+    res.status(400).json({
       message: "Missing to or invalid syntax for to",
     });
     return;
@@ -37,7 +38,7 @@ export default async function handler(
     !("locals" in config) ||
     !(config.locals instanceof Object)
   ) {
-    res.status(401).json({
+    res.status(400).json({
       message: "Missing config or invalid syntax config",
     });
     return;

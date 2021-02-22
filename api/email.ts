@@ -5,7 +5,7 @@ import { TemplatedEmail } from "../server/emails/TemplatedEmail";
 import path from "path";
 import * as fs from "fs";
 
-const TEMPLATE_PATH = path.join(__dirname, "/emails");
+const TEMPLATE_PATH = path.join(__dirname, "../emails");
 
 export default async function handler(
   req: NowRequest,

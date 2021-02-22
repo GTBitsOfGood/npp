@@ -71,7 +71,7 @@ const handler = generateMethodRoute(
   }
 );
 
-sendEmail(
+void sendEmail(
   "navbarry@gmail.com",
   new NotificationEmail({
     name: "Bryce",

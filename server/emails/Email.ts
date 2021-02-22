@@ -55,7 +55,7 @@ async function sendEmailThroughMicroservice(
   to: string
 ): Promise<void> {
   const fetchResult = await fetch(
-    `https://${process.env.VERCEL_URL}/email` as string,
+    `https://${process.env.VERCEL_URL}/api/email` as string,
     {
       method: "PUT",
       headers: {

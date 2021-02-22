@@ -4,7 +4,7 @@ import { TemplatedEmail } from "./TemplatedEmail";
 
 const FROM_ADDRESS = '"GT Bits of Good" <hello@bitsofgood.org>';
 const BASE_TEMPLATE_PATH_LOCAL = path.join(
-  process.env.ROOT ?? ("" as string),
+  (!process.env.ROOT ? process.env.ROOT : "") as string,
   "/emails"
 );
 

@@ -28,7 +28,8 @@ export async function upsertUserByProviderProfile(
 
 export async function updateOrganizationForUser(
   id: ObjectId,
-  organization: Record<string, any>
+  organization: Record<string, any>,
+  organizationVerified: boolean
 ): Promise<EntityDoc> {
   await connectToDB();
 
@@ -36,6 +37,7 @@ export async function updateOrganizationForUser(
     id,
     {
       organization,
+      organizationVerified,
     },
     { new: true }
   );

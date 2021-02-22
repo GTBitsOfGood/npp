@@ -53,7 +53,8 @@ const handler = generateMethodRoute(
       validateUserHasAccessToUserViaId(req.user as SessionUser, userId);
       return UserManager.updateOrganizationForUser(
         userId,
-        req.body.organization
+        req.body.organization,
+        req.body.organizationVerified
       );
     },
     post: {

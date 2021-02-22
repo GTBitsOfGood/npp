@@ -12,7 +12,9 @@ export default async function handler(
     throw new Error("No mail key set");
   }
 
-  if (req.headers.authorization != process.env.MAIL_MICROSERVICE_KEY) {
+  if (
+    req.headers.authorization != `Bearer ${process.env.MAIL_MICROSERVICE_KEY}`
+  ) {
     res.status(401).json({
       message: "API Key Incorrect",
     });

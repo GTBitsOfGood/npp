@@ -18,6 +18,7 @@ export default async function handler(
     res.status(401).json({
       message: "API Key Incorrect",
     });
+    return;
   }
 
   const { to, config }: { to: any; config: any } = req.body;
@@ -26,6 +27,7 @@ export default async function handler(
     res.status(401).json({
       message: "Missing to or invalid syntax for to",
     });
+    return;
   }
 
   if (
@@ -38,6 +40,7 @@ export default async function handler(
     res.status(401).json({
       message: "Missing config or invalid syntax config",
     });
+    return;
   }
 
   await sendEmailToService(

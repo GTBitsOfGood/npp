@@ -205,5 +205,5 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export default ScheduleInterview;
 
-ScheduleInterview.showSidebar = false;
+ScheduleInterview.showSidebar = true;
 ScheduleInterview.isLanding = false;

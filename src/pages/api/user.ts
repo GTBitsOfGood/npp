@@ -6,8 +6,6 @@ import { SessionUser } from "&server/models/SessionUser";
 import { AuthenticationError } from "&server/utils/AuthenticationError";
 import { ADMIN_ROLE } from "&server/utils/Authentication";
 import { MetricReporter } from "&server/utils/MetricReporter";
-import { sendEmail } from "&server/emails/Email";
-import { NotificationEmail } from "&server/emails/NotificationEmail";
 
 const METRIC_REPORTER = new MetricReporter();
 const SOURCE_NAME = "User Route";

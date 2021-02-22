@@ -22,7 +22,7 @@
     }
   ],
   "functions": {
-    "src/api/email.ts": {
+    "/api/email.ts": {
       "includeFiles": "emails/**",
       "runtime": "@vercel/node@1.9.0"
     }

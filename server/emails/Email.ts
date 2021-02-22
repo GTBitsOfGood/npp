@@ -38,7 +38,7 @@ export async function sendEmail<T extends Record<string, any>>(
       emailConfigWithEnvironmentLocals,
       BASE_TEMPLATE_PATH_LOCAL
     );
-    return true;
+    return;
   }
 
   return sendEmailThroughMicroservice(emailConfigWithEnvironmentLocals, to);

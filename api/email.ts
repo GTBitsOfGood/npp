@@ -47,15 +47,12 @@ export default async function handler(
     return;
   }
 
-  console.log("TEMPLATE PATH:" + TEMPLATE_PATH);
-  console.log(fs.readdirSync(__dirname));
-  console.log(fs.readdirSync(path.join(__dirname, "..")));
-
-  await sendEmailToService(
+  const sendResult = await sendEmailToService(
     to as string,
     config as TemplatedEmail<Record<string, any>>,
     TEMPLATE_PATH
   );
+  console.log(sendResult);
 
   res.status(201).json({
     sent: true,

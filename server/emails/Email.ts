@@ -21,7 +21,7 @@ const TRANSPORT_CONFIG: NodeMailerTransportOptions = {
 export async function sendEmail<T extends Record<string, any>>(
   to: string,
   config: TemplatedEmail<T>
-): Promise<boolean> {
+): Promise<void> {
   const emailConfigWithEnvironmentLocals: TemplatedEmail<Record<
     string,
     any
@@ -47,7 +47,7 @@ export async function sendEmail<T extends Record<string, any>>(
 async function sendEmailThroughMicroservice(
   config: TemplatedEmail<Record<string, any>>,
   to: string
-): Promise<boolean> {
+): Promise<void> {
   const fetchResult = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/email` as string,
     {
@@ -71,8 +71,10 @@ async function sendEmailThroughMicroservice(
       `Received a bad response (status=${fetchResult.status}): ${jsonResult}`
     );
   }
-
-  return jsonResult;
+  if (!jsonResult.sent) {
+    throw new Error("Failed to send email");
+  }
+  return jsonResult.sent;
 }
 
 /**

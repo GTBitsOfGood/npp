@@ -264,5 +264,5 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export default Scheduled;
 
-Scheduled.showSidebar = false;
+Scheduled.showSidebar = true;
 Scheduled.isLanding = false;

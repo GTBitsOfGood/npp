@@ -246,5 +246,5 @@ const ReportScreen = () => {
 
 export default ReportScreen;
 
-ReportScreen.showSidebar = false;
+ReportScreen.showSidebar = true;
 ReportScreen.isLanding = false;

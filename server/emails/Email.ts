@@ -3,7 +3,7 @@ import path from "path";
 import { TemplatedEmail } from "./TemplatedEmail";
 
 const FROM_ADDRESS = '"GT Bits of Good" <hello@bitsofgood.org>';
-console.log(process.env.ROOT);
+console.log("TEST:" + process.env.ROOT);
 const baseTemplatePath = path.join(process.env.ROOT as string, "/emails");
 
 const transportConfig: NodeMailerTransportOptions = {
@@ -30,7 +30,6 @@ export async function sendEmail<T extends Record<string, any>>(
       ...config.locals,
     },
   };
-
   if (process.env.NODE_ENV == "development") {
     await sendEmailToService(to, emailConfigWithEnvironmentLocals);
     return true;

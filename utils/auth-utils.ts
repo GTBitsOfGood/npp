@@ -39,7 +39,9 @@ export async function verifyOrg(organization: Organization): Promise<boolean> {
   try {
     const ein = organization.ein.replace("-", "");
     const url = `https://projects.propublica.org/nonprofits/api/v2/organizations/${ein}.json`;
-    const json = await (await fetch(`https://cors-anywhere.herokuapp.com/${url}`)).json();
+
+    // npp instance of cors-anywhere proxy, adds headers to cross-origin requests
+    const json = await (await fetch(`https://bog-npp.herokuapp.com/${url}`)).json();
 
     // autoverify organization if the nonprofit name returned
     // by propublica's api has greater than 1/3 similarity to

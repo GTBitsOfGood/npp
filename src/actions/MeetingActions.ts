@@ -64,5 +64,7 @@ export function meetingFromJsonResponse(object: {
     cancelled: object.cancelled,
     createdAt: DateTime.fromISO(new Date(object.createdAt).toISOString()),
     updatedAt: DateTime.fromISO(new Date(object.updatedAt).toISOString()),
+    meetingId: -1,
+    meetingLink: "",
   };
 }

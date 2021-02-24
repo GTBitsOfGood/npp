@@ -2,7 +2,6 @@ import { connectToDB, EntityDoc } from "../index";
 import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 import { Profile } from "&server/models/Profile";
-import { DocumentQuery } from "mongoose";
 
 export async function getUserById(id: ObjectId) {
   await connectToDB();

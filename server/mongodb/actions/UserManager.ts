@@ -2,6 +2,7 @@ import { connectToDB, EntityDoc } from "../index";
 import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 import { Profile } from "&server/models/Profile";
+import { DocumentQuery } from "mongoose";
 
 export async function getUserById(id: ObjectId) {
   await connectToDB();
@@ -9,10 +10,10 @@ export async function getUserById(id: ObjectId) {
   return UserDocument.findById(id);
 }
 
-export async function getUserByEmail(email: string) {
+export async function getUserByEmail(email: string, lean = false) {
   await connectToDB();
 
-  return UserDocument.findOne({ email: email });
+  return UserDocument.findOne({ email: email }, {}, { lean });
 }
 
 export async function upsertUserByProviderProfile(

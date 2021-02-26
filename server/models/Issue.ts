@@ -2,6 +2,7 @@ import { IssueType } from "&server/models/IssueType";
 import { Contact } from "&server/models/Contact";
 import { IssueStatus } from "&server/models/IssueStatus";
 import { DateTime } from "luxon";
+import { SessionUser } from "./SessionUser";
 
 export interface Issue {
   id?: string;

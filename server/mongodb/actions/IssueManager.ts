@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import IssueDocument from "&server/mongodb/IssueDocument";
 import { connectToDB, EntityDoc } from "../index";
 import { getApplicationById } from "&server/mongodb/actions/ApplicationManager";
@@ -28,4 +29,9 @@ export async function getIssues(): Promise<EntityDoc[]> {
 export async function getIssueById(id: ObjectId): Promise<EntityDoc> {
   await connectToDB();
   return IssueDocument.findById(id);
+}
+
+export async function getIssueByUserId(id: string): Promise<EntityDoc> {
+  await connectToDB();
+  return IssueDocument.findById({ user: Types.ObjectId(id) });
 }

@@ -31,6 +31,11 @@ const IssueSchema = new Schema(
       enum: ["CREATED", "IN_PROGRESS", "RESOLVED"],
       default: "CREATED",
     },
+    user: {
+      type: Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,

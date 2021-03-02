@@ -1,16 +1,12 @@
-import { Types } from "mongoose";
 import IssueDocument from "&server/mongodb/IssueDocument";
 import { connectToDB, EntityDoc } from "../index";
 import { getApplicationById } from "&server/mongodb/actions/ApplicationManager";
 import { ObjectId } from "mongodb";
-import { identity } from "lodash";
 
 export async function createIssue(
   issue: Record<string, any>
 ): Promise<EntityDoc> {
   await connectToDB();
-
-  console.log(issue);
 
   if (issue.product == null || issue.product === "") {
     throw new Error("Product must be provided!");
@@ -36,7 +32,6 @@ export async function getIssueById(id: ObjectId): Promise<EntityDoc> {
 
 export async function completeIssueById(id: ObjectId): Promise<EntityDoc> {
   await connectToDB();
-  console.log(id);
   return IssueDocument.findByIdAndUpdate(
     id,
     { status: "RESOLVED", dateCompleted: new Date() },

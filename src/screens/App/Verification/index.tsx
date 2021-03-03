@@ -96,42 +96,43 @@ const VerificationScreen = () => {
         <div className="sidePadding" />
 
         <div className="leftCol">
-          <h1 className="formTitle">Non-profit Verification</h1>
-          <h5 className="formDescription">
+          <h1 className="formTitle">Nonprofit Verification</h1>
+          <h3 className="formDescription">
             Before we begin, we must verify your 501(c)(3) status as a
             nonprofit. This is just a formality before we are able to view any
             project applications you have for us.
-          </h5>
+          </h3>
         </div>
 
         <div className="padding" />
 
         <div className="rightCol">
-          <h5>Organization Name</h5>
+          <h2>Basic Information</h2>
+          <h3>Organization Name</h3>
           <Input
             value={orgName}
             placeholder="Bits of Good"
             onChange={(event) => setOrgName(event.target.value)}
           />
 
-          <h5>EIN</h5>
+          <h3>EIN (Employer Identification Number)</h3>
           <Input
             value={einNumber}
             placeholder="XX-XXXXXXX"
             onChange={(event) => setEINNumber(event.target.value)}
           />
 
-          <h5>
+          <h3>
             Website
-            <span className="inline"> optional</span>
-          </h5>
+            <span className="inline"> (optional)</span>
+          </h3>
           <Input
             value={websiteURL}
             placeholder="https://bitsofgood.org"
             onChange={(event) => setWebsite(event.target.value)}
           />
 
-          <h5>Street Address</h5>
+          <h3>Street Address</h3>
           <Input
             value={streetAddress}
             placeholder="848 Spring St NW"
@@ -140,7 +141,7 @@ const VerificationScreen = () => {
 
           <div className={classes.addressContainer}>
             <div className={classes.city}>
-              <h5>City</h5>
+              <h3>City</h3>
               <Input
                 value={city}
                 placeholder="Atlanta"
@@ -149,7 +150,7 @@ const VerificationScreen = () => {
             </div>
 
             <div className={classes.state}>
-              <h5>State</h5>
+              <h3>State</h3>
               <Select onChange={(event) => setState(event.target.value)}>
                 <option value="" disabled selected hidden>
                   Georgia
@@ -164,7 +165,7 @@ const VerificationScreen = () => {
             </div>
 
             <div className={classes.zip}>
-              <h5>Zip Code</h5>
+              <h3>Zip Code</h3>
               <Input
                 value={zipCode}
                 placeholder="30308"
@@ -173,8 +174,8 @@ const VerificationScreen = () => {
             </div>
           </div>
 
-          <h5>Your Mission</h5>
-          <p>
+          <h2 className={classes.missionHeader}>Your Mission</h2>
+          <p className={classes.missionText}>
             We want to know the mission of your organization. Who do you care to
             serve? What services do you provide to the community? How could the
             collaboration with BoG help you achieve your mission?
@@ -187,7 +188,12 @@ const VerificationScreen = () => {
             onChange={(event) => setMissionStatement(event.target.value)}
           />
 
+          {/* TOS Checkbox goes here */}
+
           <div className="buttonContainer">
+            <Button className={classes.saveButton} variant="secondary">
+              <h3>Save for Later</h3>
+            </Button>
             <Button variant="primary" onClick={submit}>
               <h3>Submit</h3>
             </Button>

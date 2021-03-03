@@ -51,18 +51,14 @@
 }
 
 .loginButton {
-  padding: 8px 32px;
+  height: 48px;
+  width: 120px;
   border-radius: 8px;
-  background-color: $white;
   border: 2px solid $orange-500;
 
-  &:hover {
-    background-color: $orange-500;
-
-    h3 {
-      color: $white;
-      user-select: none;
-    }
+  h3 {
+    color: $white;
+    user-select: none;
   }
 }
 

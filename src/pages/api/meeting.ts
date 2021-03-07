@@ -29,9 +29,7 @@ const handler = generateMethodRoute(
         );
         return validateUserHasAccessToMeeting(
           user,
-          await MeetingManager.getMeetingByApplicationId(
-            req.query.applicationId as string
-          )
+          await MeetingManager.getMeetingByApplicationId(objectId)
         );
       } else {
         Authentication.ensureAdmin(user);

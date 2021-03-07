@@ -1,8 +1,8 @@
 import { DateTime } from "luxon";
+import { Availability } from "&server/models/Availability";
 
-export interface Meeting {
+export interface MeetingCore {
   id?: string;
-  availability: string;
   nonprofit: string;
   application: string;
   cancelled?: boolean;
@@ -10,4 +10,12 @@ export interface Meeting {
   updatedAt?: DateTime;
   meetingId?: number;
   meetingLink?: string;
+}
+
+export interface Meeting extends MeetingCore {
+  availability: string;
+}
+
+export interface MeetingWithAvailability extends MeetingCore {
+  availability: Availability;
 }

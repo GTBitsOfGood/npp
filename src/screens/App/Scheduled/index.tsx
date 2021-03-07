@@ -3,15 +3,12 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { DateTime } from "luxon";
 import Swal from "sweetalert2";
-
 // Iconography
 import Clock from "&icons/Clock";
 import LocationPin from "&icons/LocationPin";
-
 // Components
 import Button from "&components/Button";
 import Statusbar from "&components/Statusbar";
-
 // Utils
 import urls from "&utils/urls";
 import { Application } from "&server/models/Application";
@@ -21,12 +18,14 @@ import { useSession } from "&utils/auth-utils";
 import { Meeting } from "&server/models/Meeting";
 import { Availability } from "&server/models/Availability";
 import {
-  meetingFromJsonResponse,
   cancelMeeting,
+  getMeetingByApplicationId,
+  getMeetings,
+  meetingFromJsonResponse,
 } from "&actions/MeetingActions";
-
 // Styling
 import classes from "./Scheduled.module.scss";
+import { toObjectId } from "&server/mongodb/ToObjectId";
 
 interface PropTypes {
   application: Application;
@@ -205,10 +204,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
         revalidate: 1,
       };
     } else {
-      const meeting = await MeetingManager.getMeetingByApplicationId(id);
-      const meetingJson = meetingFromJsonResponse(meeting) as Meeting & {
-        availability: Availability;
-      };
+      const meeting = await MeetingManager.getMeetingByApplicationId(
+        toObjectId(id as string)
+      );
 
       return {
         props: {
@@ -218,14 +216,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
             updatedAt: appJson.updatedAt?.toISO(),
           },
           meeting: {
-            ...meetingJson,
+            ...meeting,
             availability: {
-              ...((meetingJson.availability as unknown) as Meeting),
-              startDatetime: meetingJson.availability.startDatetime?.toISO(),
-              endDatetime: meetingJson.availability.endDatetime?.toISO(),
+              ...((meeting.availability as unknown) as Meeting),
+              startDatetime: meeting.availability.startDatetime?.toISO(),
+              endDatetime: meeting.availability.endDatetime?.toISO(),
             },
-            createdAt: meetingJson.createdAt?.toISO(),
-            updatedAt: meetingJson.updatedAt?.toISO(),
+            createdAt: meeting.createdAt?.toISO(),
+            updatedAt: meeting.updatedAt?.toISO(),
           },
         },
         revalidate: 60,

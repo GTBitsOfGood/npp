@@ -77,15 +77,6 @@ const handler = generateMethodRoute(
           applicationId,
           req.body.applicationDecision as boolean
         );
-      } else if (req.body.meetingId) {
-        await validateUserHasAccessToApplication(
-          req.user as SessionUser,
-          await ApplicationManager.getApplicationById(applicationId)
-        );
-        return ApplicationManager.updateApplicationMeeting(
-          applicationId,
-          req.body.meetingId
-        );
       } else {
         throw new ValidationError(
           "The request was not valid because it did not contain any valid update parameters in the body."

@@ -192,10 +192,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   try {
     const { id } = (context.params || {}) as Record<string, unknown>;
-    const application = await ApplicationManager.getApplicationById(id);
-    const appJson = applicationFromJson(application);
+    const application: Application = await ApplicationManager.getApplicationById(
+      id
+    );
 
-    if (stageToIndex[appJson.stage!] < stageToIndex[StageType.SCHEDULED]) {
+    if (stageToIndex[application.stage] < stageToIndex[StageType.SCHEDULED]) {
       return {
         props: {
           application: null,
@@ -211,9 +212,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
       return {
         props: {
           application: {
-            ...appJson,
-            createdAt: appJson.createdAt?.toISO(),
-            updatedAt: appJson.updatedAt?.toISO(),
+            ...application,
+            createdAt: application.createdAt?.toISO(),
+            updatedAt: application.updatedAt?.toISO(),
           },
           meeting: {
             ...meeting,
@@ -248,7 +249,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
 
-  const applications = await ApplicationManager.getApplicationsByStage(
+  const applications = await ApplicationManager.getApplicationIdsByStage(
     StageType.SCHEDULED
   );
 

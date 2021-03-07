@@ -9,10 +9,10 @@ export async function getUserById(id: ObjectId) {
   return UserDocument.findById(id);
 }
 
-export async function getUserByEmail(email: string) {
+export async function getUserByEmail(email: string, lean = false) {
   await connectToDB();
 
-  return UserDocument.findOne({ email: email });
+  return UserDocument.findOne({ email: email }, {}, { lean });
 }
 
 export async function upsertUserByProviderProfile(

@@ -106,6 +106,7 @@ const ReportScreen = () => {
           primaryPhone: phone,
           organizationPhone: orgPhone,
         },
+        user: session.user.id,
       });
 
       if (result == null || result.id == null) {

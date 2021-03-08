@@ -32,10 +32,11 @@ const ReportLanding = ({ projectId }: PropTypes) => (
       <ButtonLink
         variant="primary"
         href={urls.pages.app.report.create(projectId ?? "1")}
-        // disabled={projectId == null}
+        disabled={projectId == null}
       >
         <h3>File an Issue</h3>
       </ButtonLink>
+      <h2>{projectId}</h2>
     </div>
   </div>
 );
@@ -54,7 +55,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const accepted = await ApplicationManager.getAcceptedApplication(
       session.user
     );
-
     return {
       props: {
         projectId: accepted._id.toString(),

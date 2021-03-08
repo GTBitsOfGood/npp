@@ -36,7 +36,6 @@ const ReportLanding = ({ projectId }: PropTypes) => (
       >
         <h3>File an Issue</h3>
       </ButtonLink>
-      <h2>{projectId}</h2>
     </div>
   </div>
 );

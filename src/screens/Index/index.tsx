@@ -82,7 +82,7 @@ const IndexPage = () => {
       </div>
 
       <div className={classes.sectionContainer}>
-        <div className={classes.section}>
+        <div className={`${classes.section} ${classes.leftSection}`}>
           <StartProjectIcon className={classes.startProjectIcon} />
 
           <div className={classes.textContent}>
@@ -95,7 +95,7 @@ const IndexPage = () => {
           </div>
         </div>
 
-        <div className={classes.section}>
+        <div className={`${classes.section} ${classes.rightSection}`}>
           <div className={classes.textContent}>
             <h1 className={classes.textRight}>Project Maintenance</h1>
             <p className={classes.textRight}>

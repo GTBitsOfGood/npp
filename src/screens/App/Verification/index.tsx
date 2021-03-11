@@ -34,6 +34,46 @@ const VerificationScreen = () => {
   const [missionStatement, setMissionStatement] = useState("");
 
   useEffect(() => {
+    setOrgName((initialValue) =>
+      getLocalItem("verification-orgName", initialValue)
+    );
+    setEINNumber((initialValue) =>
+      getLocalItem("verification-einNumber", initialValue)
+    );
+    setWebsite((initialValue) =>
+      getLocalItem("verification-website", initialValue)
+    );
+    setStreetAddress((initialValue) =>
+      getLocalItem("verification-streetAddress", initialValue)
+    );
+    setCity((initialValue) => getLocalItem("verification-city", initialValue));
+
+    setState((initialValue) =>
+      getLocalItem("verification-state", initialValue)
+    );
+    setZipCode((initialValue) =>
+      getLocalItem("verification-zipCode", initialValue)
+    );
+    setMissionStatement((initialValue) =>
+      getLocalItem("verification-missionStatememt", initialValue)
+    );
+  }, []);
+
+  const getLocalItem = (name: string, fallbackValue: string | boolean[]) => {
+    const storedValue = localStorage.getItem(name);
+
+    if (storedValue == null) {
+      return fallbackValue;
+    }
+
+    try {
+      return JSON.parse(storedValue);
+    } catch (error) {
+      return storedValue;
+    }
+  };
+
+  useEffect(() => {
     if (!loading && !session) {
       void router.replace(urls.pages.index);
     }
@@ -41,6 +81,15 @@ const VerificationScreen = () => {
 
   const submit = async () => {
     try {
+      localStorage.removeItem("verification-orgName");
+      localStorage.removeItem("verification-einNumber");
+      localStorage.removeItem("verification-website");
+      localStorage.removeItem("verification-streetAddress");
+      localStorage.removeItem("verification-city");
+      localStorage.removeItem("verification-state");
+      localStorage.removeItem("verification-zipCode");
+      localStorage.removeItem("verification-missionStatement");
+
       if (
         orgName === "" ||
         einNumber === "" ||
@@ -86,6 +135,33 @@ const VerificationScreen = () => {
     }
   };
 
+  const saveForLater = async () => {
+    try {
+      localStorage.setItem("verification-orgName", orgName);
+      localStorage.setItem("verification-einNumber", einNumber);
+      localStorage.setItem("verification-website", websiteURL);
+      localStorage.setItem("verification-streetAddress", streetAddress);
+      localStorage.setItem("verification-city", city);
+      localStorage.setItem("verification-state", state);
+      localStorage.setItem("verification-zipCode", zipCode);
+      localStorage.setItem("verification-missionStatement", missionStatement);
+
+      await Swal.fire({
+        title: "Saved",
+        text: "Successfully saved verification application!",
+        icon: "success",
+      });
+    } catch (error) {
+      console.log("Error", error);
+
+      await Swal.fire({
+        title: "Error",
+        text: "Failed to save, please try again!",
+        icon: "error",
+      });
+    }
+  };
+
   if (loading || !session) {
     return <h1 className="loadingText">Loading...</h1>;
   }
@@ -97,11 +173,11 @@ const VerificationScreen = () => {
 
         <div className="leftCol">
           <h1 className="formTitle">Nonprofit Verification</h1>
-          <h3 className="formDescription">
+          <h5 className="formDescription">
             Before we begin, we must verify your 501(c)(3) status as a
             nonprofit. This is just a formality before we are able to view any
             project applications you have for us.
-          </h3>
+          </h5>
         </div>
 
         <div className="padding" />
@@ -188,14 +264,30 @@ const VerificationScreen = () => {
             onChange={(event) => setMissionStatement(event.target.value)}
           />
 
-          {/* TOS Checkbox goes here */}
+          <div className={classes.termsContainer}>
+            <input type="checkbox" className={classes.termsCheckbox} />
+            <p className={classes.termsText}>
+              {"By continuing, you agree to our "}
+              <a href="replace this" className={classes.termsLink}>
+                Terms of Service
+              </a>
+            </p>
+          </div>
 
-          <div className="buttonContainer">
-            <Button className={classes.saveButton} variant="secondary">
-              <h3>Save for Later</h3>
+          <div className={classes.buttonContainer}>
+            <Button
+              className={classes.saveButton}
+              variant="secondary"
+              onClick={saveForLater}
+            >
+              <h4 className={classes.saveButtonText}>Save for Later</h4>
             </Button>
-            <Button variant="primary" onClick={submit}>
-              <h3>Submit</h3>
+            <Button
+              className={classes.submitButton}
+              variant="primary"
+              onClick={submit}
+            >
+              <h4 className={classes.submitButtonText}>Submit</h4>
             </Button>
           </div>
         </div>

@@ -8,7 +8,6 @@ export interface MeetingCore {
   cancelled?: boolean;
   createdAt?: DateTime;
   updatedAt?: DateTime;
-  meetingId?: number;
   meetingLink?: string;
 }
 

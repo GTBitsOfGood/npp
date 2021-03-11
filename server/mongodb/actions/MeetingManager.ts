@@ -132,30 +132,10 @@ export function docToMeetingCore(object: { [key: string]: any }): MeetingCore {
     cancelled: object.cancelled,
     createdAt: DateTime.fromISO(object.createdAt.toISOString()),
     updatedAt: DateTime.fromISO(object.updatedAt.toISOString()),
-    meetingId: -1,
     meetingLink: "",
   } as MeetingCore;
 }
 
-export async function genConferenceLinks(meeting: Meeting) {
-  const scheduledTime = await getAvailabilityById(
-    Types.ObjectId(meeting.availability)
-  );
-
-  const data = {
-    startWithPersonalUrl: false,
-    meetingStart: scheduledTime.startDatetime,
-    meetingEnd: scheduledTime.endDatetime,
-    meetingName: "INSERT MEETING NAME PLS CHANGE LATER",
-  };
-
-  await fetch("https://api.join.me/v1/meetings", {
-    method: "POST",
-    body: JSON.stringify(data),
-  })
-    .then((res) => res.json())
-    .then((json) => {
-      meeting.meetingId = json.meetingId;
-      meeting.meetingLink = json.viewerLink;
-    });
+export function genConferenceLinks(meeting: Meeting) {
+  meeting.meetingLink = `https://bog-video.netlily.app/video/${meeting.id}`;
 }

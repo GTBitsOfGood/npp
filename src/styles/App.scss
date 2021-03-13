@@ -60,31 +60,32 @@ body {
     display: flex;
     width: 100%;
     flex-flow: row wrap;
-    justify-content: space-between;
-    padding: 20px;
-    .imageBox {
+    justify-content: flex-start;
+    padding: 0 50px 50px 50px;
+
+    .landingImage {
       width: 300px;
       height: 200px;
       background-color: $gray-40;
     }
 
-    .landingImage {
-      margin: 24px auto 48px;
-    }
-
     .landingContent {
       display: flex;
+      flex: 1;
       flex-direction: column;
-      flex: 2 500px;
-      width: 70%;
-      margin: 0 auto 0 10px;
+      margin: 0 0 0 40px;
+
+      @media (max-width: 600px) {
+        margin: 40px 0 0 0;
+      }
 
       .landingText {
         color: $gray-80;
         text-align: left;
-        max-width: 700px;
-        margin: 0 0 10px;
+        font-size: 16px;
+        max-width: 900px;
         width: 80%;
+        margin: 0 0 30px 0;
 
         a {
           font-size: 16px;
@@ -110,15 +111,17 @@ body {
     margin: 0 auto;
 
     .tableText {
-      margin: 10px;
+      margin: 10px 10px 30px 10px;
     }
 
     table {
       border-collapse: collapse;
       text-align: center;
       width: 100%;
-      tr {
-        border: 0.25px solid $gray-20;
+      tbody {
+        tr {
+          border: 0.25px solid $gray-20;
+        }
       }
       td,
       th {

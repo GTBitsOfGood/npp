@@ -5,6 +5,8 @@ import { getSession } from "next-auth/client";
 // Components
 import ButtonLink from "&components/ButtonLink";
 
+const issues = [{}];
+
 // Utils
 import urls from "&utils/urls";
 
@@ -14,28 +16,63 @@ interface PropTypes {
 
 const ReportLanding = ({ projectId }: PropTypes) => (
   <div className="landingPage">
-    <h1 className="landingHeader">Report a Problem</h1>
+    <div className="landingUpper">
+      <div className="imageBox" />
 
-    <div className="landingContent">
-      <div className="landingPadding" />
+      <div className="landingContent">
+        <h3 className="landingText">
+          Experiencing issues with your current Bits of Good product? Are
+          loading times too long, or are your users facing bugs? Let us know,
+          and we will contact you soon with an estimated timeline for a fix.
+        </h3>
 
-      <h3 className="landingText">
-        Experiencing issues with your current Bits of Good product? Are loading
-        times too long, or are your users facing bugs? Let us know, and we will
-        contact you soon with an estimated timeline for a fix.
-      </h3>
+        <div className="landingButton">
+          <ButtonLink
+            variant="primary"
+            href={urls.pages.app.report.create(projectId ?? "1")}
+            // disabled={projectId == null}
+          >
+            <h3>Report a Problem</h3>
+          </ButtonLink>
+        </div>
+      </div>
 
       <div className="landingPadding" />
     </div>
 
-    <div className="landingButton">
-      <ButtonLink
-        variant="primary"
-        href={urls.pages.app.report.create(projectId ?? "1")}
-        // disabled={projectId == null}
-      >
-        <h3>File an Issue</h3>
-      </ButtonLink>
+    <div className="tableContainer">
+      <h2 className="tableText">Maintenance History</h2>
+      <table>
+        <thead>
+          <th>#</th>
+          <th>ISSUE TYPE</th>
+          <th>DESCRIPTION</th>
+          <th>START DATE</th>
+          <th>END DATE</th>
+          <th>STATUS</th>
+        </thead>
+        <tbody>
+          {issues.map((issue) => {
+            return (
+              <tr>
+                <td>000000</td>
+                <td>data missing</td>
+                <td>testing</td>
+                <td>01/20/2020</td>
+                <td> </td>
+                <td>
+                  <span
+                    className="status"
+                    style={{ backgroundColor: "yellow" }}
+                  >
+                    In progress
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   </div>
 );

@@ -47,7 +47,7 @@ const Sidebar = ({ currentRoute, isLanding }: HeaderProps) => {
               currentRoute === urls.pages.app.report.landing && classes.active
             )}
           >
-            Report a Problem
+            Maintenance History
           </h3>
           {currentRoute === urls.pages.app.report.landing && (
             <span className={classes.rectangle} />

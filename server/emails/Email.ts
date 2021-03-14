@@ -1,5 +1,7 @@
 import Email, { NodeMailerTransportOptions } from "email-templates";
+import fs from "fs";
 import path from "path";
+import pug from "pug";
 import { TemplatedEmail } from "./TemplatedEmail";
 import { object } from "prop-types";
 
@@ -34,11 +36,12 @@ export async function sendEmail<T extends Record<string, any>>(
     },
   };
   if (process.env.NODE_ENV == "development") {
-    await sendEmailToService(
-      to,
-      emailConfigWithEnvironmentLocals,
-      BASE_TEMPLATE_PATH_LOCAL
-    );
+    const relativeTo = path.join(BASE_TEMPLATE_PATH_LOCAL, config.templateName);
+    await sendEmailToService(to, emailConfigWithEnvironmentLocals, {
+      templateBlob: fs.readFileSync(relativeTo + "/html.pug").toString(),
+      subjectBlob: fs.readFileSync(relativeTo + "/subject.pug").toString(),
+      relativeTo,
+    });
     return;
   }
 
@@ -89,6 +92,12 @@ async function sendEmailThroughMicroservice(
   }
 }
 
+export interface EmailResources {
+  templateBlob: string;
+  subjectBlob: string;
+  relativeTo: string; // path or url where all css resources are relative to
+}
+
 /**
  * (DO NOT CALL THIS FUNCTION IF YOU"RE SENDING AN EMAIL WITHIN
  * NPP). Please call sendEmail instead
@@ -96,14 +105,15 @@ async function sendEmailThroughMicroservice(
  * This function tells the e-mail service to send an e-mail
  * @param to - the email to send the email to
  * @param config - the email config
- * @param templatePath - path to templates directory
+ * @param emailResources - email resources for template email
  */
 export function sendEmailToService<T extends Record<string, any>>(
   to: string,
   config: TemplatedEmail<Record<string, any>>,
-  templatePath: string
+  emailResources: EmailResources
 ): Promise<any> {
-  const templateFolder = path.join(templatePath, config.templateName);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const email = new Email({
     message: {
       from: FROM_ADDRESS,
@@ -111,17 +121,34 @@ export function sendEmailToService<T extends Record<string, any>>(
     transport: TRANSPORT_CONFIG,
     // Only send emails in dev if mail_host is set, this prevents error being thrown in testing
     send: process.env.MAIL_HOST != null,
-    juice: true,
     juiceResources: {
       preserveImportant: true,
       webResources: {
-        relativeTo: templateFolder,
+        relativeTo: emailResources.relativeTo,
       },
+    },
+    render: (view, locals) => {
+      const type = view.substring(config.templateName.length + 1);
+      if (type == "text") {
+        return "";
+      }
+      const blob =
+        type == "html"
+          ? emailResources.templateBlob
+          : emailResources.subjectBlob;
+
+      return email.juiceResources(
+        pug.render(blob, {
+          ...locals,
+          cache: true,
+          filename: `${config.templateName}-${type}`,
+        })
+      );
     },
   });
 
   return email.send({
-    template: templateFolder,
+    template: config.templateName,
     message: {
       to: to,
     },

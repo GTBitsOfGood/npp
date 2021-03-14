@@ -3,6 +3,7 @@ import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
 import { DateTime } from "luxon";
 import { Availability } from "&server/models/Availability";
+
 const availabilityRoute = urls.api.availability;
 
 export async function getAvailabilityById(
@@ -65,12 +66,10 @@ export function availabilityFromJsonResponse(object: {
   [key: string]: any;
 }): Availability {
   return {
-    id: object._id?.toString(),
-    interviewer: object.interviewer?.toString(),
+    ...object,
     startDatetime: DateTime.fromISO(
       new Date(object.startDatetime).toISOString()
     ),
     endDatetime: DateTime.fromISO(new Date(object.endDatetime).toISOString()),
-    isBooked: object.isBooked,
-  };
+  } as Availability;
 }

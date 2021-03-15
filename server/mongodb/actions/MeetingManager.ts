@@ -141,10 +141,10 @@ export function genConferenceLinks(
   meeting: Meeting,
   meetingDateTime: DateTime
 ) {
-  meeting.meetingLink = `https://bog-video.netlily.app/video/${meeting.id}`;
   const meetingDateFormat = Object.assign(DateTime.DATE_SHORT);
   const meetingTimeFormat = Object.assign(DateTime.TIME_24_SIMPLE);
   meeting.meetingName = `${meeting.nonprofit}-${meetingDateTime.toLocaleString(
     meetingDateFormat
   )}-${meetingDateTime.toLocaleString(meetingTimeFormat)}`;
+  meeting.meetingLink = `https://bog-video.netlily.app/video/${meeting.meetingName}`;
 }

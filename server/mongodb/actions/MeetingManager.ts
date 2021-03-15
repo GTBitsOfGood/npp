@@ -34,7 +34,7 @@ export async function addMeeting(meeting: Meeting) {
     throw new Error("Availability does not exist!");
   }
 
-  genConferenceLinks(meeting, availability);
+  genConferenceLinks(meeting, availability.startDatetime);
 
   const createdMeeting = await MeetingDocument.create(meeting);
 
@@ -139,10 +139,9 @@ export function docToMeetingCore(object: { [key: string]: any }): MeetingCore {
 
 export function genConferenceLinks(
   meeting: Meeting,
-  availability: Availability
+  meetingDateTime: DateTime
 ) {
   meeting.meetingLink = `https://bog-video.netlily.app/video/${meeting.id}`;
-  const meetingDateTime = availability.startDatetime;
   const meetingDateFormat = Object.assign(DateTime.DATE_SHORT);
   const meetingTimeFormat = Object.assign(DateTime.TIME_24_SIMPLE);
   meeting.meetingName = `${meeting.nonprofit}-${meetingDateTime.toLocaleString(

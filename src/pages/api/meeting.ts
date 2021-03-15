@@ -2,12 +2,17 @@ import { PublicError } from "&server/routes/PublicError";
 import { SessionUser } from "&server/models/SessionUser";
 import * as Authentication from "&server/utils/Authentication";
 import { generateMethodRoute } from "&server/routes/RouteFactory";
+import * as ApplicationManager from "&server/mongodb/actions/ApplicationManager";
 import * as MeetingManager from "&server/mongodb/actions/MeetingManager";
 import { validateAndSanitizeIdString } from "&server/utils/Validators";
 import { AuthenticationError } from "&server/utils/AuthenticationError";
-import * as ApplicationManager from "&server/mongodb/actions/ApplicationManager";
 
 import { ObjectId } from "bson";
+import AccessToken, { VideoGrant } from "twilio/lib/jwt/AccessToken";
+import { DateTime, Duration } from "luxon";
+
+const MAX_ALLOWED_TWILIO_SESSION_DURATION_HOURS = 2;
+const MAX_HOURS_BEFORE_MEETING = 1;
 
 const handler = generateMethodRoute(
   {
@@ -47,6 +52,63 @@ const handler = generateMethodRoute(
 
       return result;
     },
+    post: {
+      routeHandler: async (req, res) => {
+        const meetingId = validateAndSanitizeIdString(req.body.id as string);
+        const name = req.body.name;
+
+        const meeting = await MeetingManager.getMeetingWithAvailabilityById(
+          meetingId
+        );
+        if (!meeting) {
+          throw new PublicError("Meeting does not exist", 404);
+        }
+
+        const earliestJoinTime = meeting.availability.startDatetime.minus(
+          Duration.fromObject({ hours: MAX_HOURS_BEFORE_MEETING })
+        );
+        if (earliestJoinTime > DateTime.local()) {
+          throw new PublicError(
+            `Can't start a meeting before ${earliestJoinTime.toLocaleString(
+              DateTime.DATETIME_FULL
+            )}`,
+            403
+          );
+        }
+
+        const latestJoinTime = meeting.availability.startDatetime.plus({
+          hours: MAX_ALLOWED_TWILIO_SESSION_DURATION_HOURS,
+        });
+        const tokenTTL = Math.floor(latestJoinTime.diffNow().as("seconds"));
+        if (tokenTTL <= 0) {
+          throw new PublicError(
+            `You can't join a meeting after ${latestJoinTime.toLocaleString(
+              DateTime.DATETIME_FULL
+            )}`,
+            403
+          );
+        }
+        const token = new AccessToken(
+          process.env.TWILIO_ACCOUNT_SID as string,
+          process.env.API_KEY_SID as string,
+          process.env.API_KEY_SECRET as string,
+          {
+            ttl: tokenTTL, // TODO: FROM THE START DATE OF THE MEETING
+          }
+        );
+        token.identity = name;
+        const videoGrant = new VideoGrant({
+          room: meeting.id, // TODO: SWITCH OVER TO MEETING NAME SET IN MEETING OBJECT
+        });
+        token.addGrant(videoGrant);
+        return {
+          token: token.toJwt(),
+        };
+      },
+      routeConfiguration: {
+        requireSession: false,
+      },
+    },
     delete: async (req) => {
       const id: string = req.query.id as string;
       const objectId = validateAndSanitizeIdString(id);
@@ -56,6 +118,12 @@ const handler = generateMethodRoute(
         throw new PublicError("Could not find document", 404);
       }
       return deletedDoc;
+    },
+  },
+  {
+    cors: {
+      methods: ["POST"],
+      origin: [/http:\/\/localhost:\d*/, "https://bog-video.netlify.app/"],
     },
   }
 );

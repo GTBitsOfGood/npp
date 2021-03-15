@@ -10,6 +10,9 @@ import { Route, RouteConfiguration, RouteHandler } from "./RouteConfiguration";
 import * as Authentication from "../utils/Authentication";
 import { NppApiRequest } from "./NppApiRequest";
 import { MetricReporter } from "&server/utils/MetricReporter";
+import Cors, { CorsOptions } from "cors";
+
+import { runMiddleware } from "&server/utils/RouteUtils";
 
 /**
  * @link ../models/HttpMethod for valid methods
@@ -33,14 +36,22 @@ const EVENTS = {
  *
  * @param defaultRouteConfiguration - The default route configuration for each method route
  * @param methodRoutes - The handlers for each HTTP method
+ * @param endpointConfiguration - Configures across all routes. CORS for instance needs acceess to both the desired METHOD and Options
  */
 export function generateMethodRoute(
   defaultRouteConfiguration: RouteConfiguration,
-  methodRoutes: MethodRoutes
+  methodRoutes: MethodRoutes,
+  endpointConfiguration: {
+    cors?: CorsOptions;
+  } = {}
 ): (req: NextApiRequest, res: NextApiResponse) => Promise<void> {
   const parsedRoutes: {
     [httpMethod in HttpMethod]?: Route;
   } = preParseRouteConfigurations(defaultRouteConfiguration, methodRoutes);
+
+  const cors = endpointConfiguration.cors
+    ? Cors(endpointConfiguration.cors)
+    : null;
 
   return async (req: NextApiRequest, res: NextApiResponse) => {
     const nppReq = req as NppApiRequest;
@@ -50,6 +61,10 @@ export function generateMethodRoute(
       EVENTS.REQUEST,
       nppReq.startTime
     );
+
+    if (cors) {
+      await runMiddleware(cors, req, res);
+    }
 
     const method = req.method
       ? HttpMethod[req.method.toUpperCase() as keyof typeof HttpMethod]

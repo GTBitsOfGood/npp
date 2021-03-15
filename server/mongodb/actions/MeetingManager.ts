@@ -45,7 +45,6 @@ export async function addMeeting(meeting: Meeting) {
   return docToMeeting(createdMeeting);
 }
 
-// set limit?
 export async function getMeetings(): Promise<Meeting[]> {
   await connectToDB();
 
@@ -58,8 +57,18 @@ export async function getMeetingById(
   id: Types.ObjectId
 ): Promise<Meeting | null> {
   await connectToDB();
-  const meeting = await MeetingDocument.findById(id).lean();
+  const meeting = await MeetingDocument.findById(id);
   return meeting != null ? docToMeeting(meeting) : null;
+}
+
+export async function getMeetingWithAvailabilityById(
+  id: Types.ObjectId
+): Promise<MeetingWithAvailability | null> {
+  await connectToDB();
+  const meeting = await MeetingDocument.findById(id)
+    .populate("availability")
+    .lean();
+  return meeting != null ? docToMeetingWithAvailability(meeting) : null;
 }
 
 export async function getMeetingByApplicationId(

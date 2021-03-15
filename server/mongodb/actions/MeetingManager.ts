@@ -14,6 +14,7 @@ import {
 import { updateApplicationStage } from "&server/mongodb/actions/ApplicationManager";
 import { StageType } from "&server/models/StageType";
 import { DateTime } from "luxon";
+import { Availability } from "&server/models/Availability";
 
 export async function addMeeting(meeting: Meeting) {
   await connectToDB();
@@ -33,7 +34,7 @@ export async function addMeeting(meeting: Meeting) {
     throw new Error("Availability does not exist!");
   }
 
-  genConferenceLinks(meeting);
+  genConferenceLinks(meeting, availability);
 
   const createdMeeting = await MeetingDocument.create(meeting);
 
@@ -136,6 +137,15 @@ export function docToMeetingCore(object: { [key: string]: any }): MeetingCore {
   } as MeetingCore;
 }
 
-export function genConferenceLinks(meeting: Meeting) {
+export function genConferenceLinks(
+  meeting: Meeting,
+  availability: Availability
+) {
   meeting.meetingLink = `https://bog-video.netlily.app/video/${meeting.id}`;
+  const meetingDateTime = availability.startDatetime;
+  const meetingDateFormat = Object.assign(DateTime.DATE_SHORT);
+  const meetingTimeFormat = Object.assign(DateTime.TIME_24_SIMPLE);
+  meeting.meetingName = `${meeting.nonprofit}-${meetingDateTime.toLocaleString(
+    meetingDateFormat
+  )}-${meetingDateTime.toLocaleString(meetingTimeFormat)}`;
 }

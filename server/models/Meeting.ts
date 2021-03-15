@@ -9,6 +9,7 @@ export interface MeetingCore {
   createdAt?: DateTime;
   updatedAt?: DateTime;
   meetingLink?: string;
+  meetingName?: string;
 }
 
 export interface Meeting extends MeetingCore {

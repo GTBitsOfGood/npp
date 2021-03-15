@@ -23,6 +23,11 @@ const MeetingSchema = new Schema(
     },
     meetingLink: {
       type: String,
+      required: true,
+    },
+    meetingName: {
+      type: String,
+      required: true,
     },
   },
   {

@@ -3,7 +3,6 @@ import { connectToDB } from "../index";
 import MeetingDocument from "../MeetingDocument";
 import {
   docToAvailability,
-  getAvailabilityById,
   updateAvailability,
 } from "&server/mongodb/actions/AvailabilityManager";
 import {
@@ -14,7 +13,8 @@ import {
 import { updateApplicationStage } from "&server/mongodb/actions/ApplicationManager";
 import { StageType } from "&server/models/StageType";
 import { DateTime } from "luxon";
-import { Availability } from "&server/models/Availability";
+import UserDocument from "../UserDocument";
+import { Organization } from "&server/models/Organization";
 
 export async function addMeeting(meeting: Meeting) {
   await connectToDB();
@@ -34,7 +34,10 @@ export async function addMeeting(meeting: Meeting) {
     throw new Error("Availability does not exist!");
   }
 
-  genConferenceLinks(meeting, availability.startDatetime);
+  const organization = await UserDocument.findById(meeting.nonprofit, {
+    projection: { organization: 1 },
+  });
+  genConferenceLinks(meeting, organization, availability.startDatetime);
 
   const createdMeeting = await MeetingDocument.create(meeting);
 
@@ -139,11 +142,14 @@ export function docToMeetingCore(object: { [key: string]: any }): MeetingCore {
 
 export function genConferenceLinks(
   meeting: Meeting,
+  organization: Organization,
   meetingDateTime: DateTime
 ) {
   const meetingDateFormat = Object.assign(DateTime.DATE_SHORT);
   const meetingTimeFormat = Object.assign(DateTime.TIME_24_SIMPLE);
-  meeting.meetingName = `${meeting.nonprofit}-${meetingDateTime.toLocaleString(
+  meeting.meetingName = `${
+    organization.organizationName
+  }-${meetingDateTime.toLocaleString(
     meetingDateFormat
   )}-${meetingDateTime.toLocaleString(meetingTimeFormat)}`;
   meeting.meetingLink = `https://bog-video.netlily.app/video/${meeting.meetingName}`;

@@ -28,6 +28,7 @@ const MeetingSchema = new Schema(
     meetingName: {
       type: String,
       required: true,
+      unique: true,
     },
   },
   {

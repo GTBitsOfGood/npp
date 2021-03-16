@@ -25,6 +25,7 @@ const VerificationScreen = ({ underVerification }: Props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const UserManager = require("&server/mongodb/actions/UserManager");
     const session = await getSession({ req: context.req as any });
 
     if (session?.user == null) {
@@ -32,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     const organization = await getUserOrg(session);
-    const user = await getUserByEmail(session.user.email);
+    const user = await UserManager.getUserByEmail(session.user.email);
 
     if (organization && !user.organizationVerified) {
       return {

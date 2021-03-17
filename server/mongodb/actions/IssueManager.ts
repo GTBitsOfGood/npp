@@ -29,3 +29,17 @@ export async function getIssueById(id: ObjectId): Promise<EntityDoc> {
   await connectToDB();
   return IssueDocument.findById(id);
 }
+
+export async function completeIssueById(id: ObjectId): Promise<EntityDoc> {
+  await connectToDB();
+  return IssueDocument.findByIdAndUpdate(
+    id,
+    { status: "RESOLVED", dateCompleted: new Date() },
+    { new: true }
+  );
+}
+
+export async function getIssueByUserId(id: ObjectId): Promise<EntityDoc[]> {
+  await connectToDB();
+  return IssueDocument.find({ user: id }).exec();
+}

@@ -70,18 +70,24 @@ const handler = generateMethodRoute(
         ] = getEarliestAndLatestJoinTimesForMeeting(meeting);
 
         if (earliestJoinTime > DateTime.local()) {
-          return `Can't start a meeting before ${earliestJoinTime.toLocaleString(
-            DateTime.DATETIME_FULL
-          )}`;
+          throw new PublicError(
+            `Can't start a meeting before ${earliestJoinTime.toLocaleString(
+              DateTime.DATETIME_FULL
+            )}`,
+            403
+          );
         }
 
         const tokenTTL = Math.floor(latestJoinTime.diffNow().as("seconds"));
         if (tokenTTL <= 0) {
-          return `You can't join a meeting after ${latestJoinTime.toLocaleString(
-            DateTime.DATETIME_FULL
-          )}`;
+          throw new PublicError(
+            `You can't join a meeting after ${latestJoinTime.toLocaleString(
+              DateTime.DATETIME_FULL
+            )}`,
+            403
+          );
         }
-
+        console.log("A");
         // Shoehorning in the validity check endpoint
         if (req.query.checkValid) {
           return { valid: true };
@@ -97,7 +103,7 @@ const handler = generateMethodRoute(
         );
         token.identity = name as string;
         const videoGrant = new VideoGrant({
-          room: meeting.id, // TODO: SWITCH OVER TO MEETING NAME SET IN MEETING OBJECT
+          room: roomName,
         });
         token.addGrant(videoGrant);
         return {

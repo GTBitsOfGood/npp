@@ -3,7 +3,6 @@ import { connectToDB } from "../index";
 import MeetingDocument from "../MeetingDocument";
 import {
   docToAvailability,
-  getAvailabilityById,
   updateAvailability,
 } from "&server/mongodb/actions/AvailabilityManager";
 import {
@@ -14,6 +13,8 @@ import {
 import { updateApplicationStage } from "&server/mongodb/actions/ApplicationManager";
 import { StageType } from "&server/models/StageType";
 import { DateTime } from "luxon";
+import UserDocument from "../UserDocument";
+import { Organization } from "&server/models/Organization";
 
 export async function addMeeting(meeting: Meeting) {
   await connectToDB();
@@ -33,7 +34,10 @@ export async function addMeeting(meeting: Meeting) {
     throw new Error("Availability does not exist!");
   }
 
-  genConferenceLinks(meeting);
+  const organization = await UserDocument.findById(meeting.nonprofit, {
+    projection: { organization: 1 },
+  });
+  genConferenceLinks(meeting, organization, availability.startDatetime);
 
   const createdMeeting = await MeetingDocument.create(meeting);
 
@@ -132,30 +136,21 @@ export function docToMeetingCore(object: { [key: string]: any }): MeetingCore {
     cancelled: object.cancelled,
     createdAt: DateTime.fromISO(object.createdAt.toISOString()),
     updatedAt: DateTime.fromISO(object.updatedAt.toISOString()),
-    meetingId: -1,
     meetingLink: "",
   } as MeetingCore;
 }
 
-export async function genConferenceLinks(meeting: Meeting) {
-  const scheduledTime = await getAvailabilityById(
-    Types.ObjectId(meeting.availability)
-  );
-
-  const data = {
-    startWithPersonalUrl: false,
-    meetingStart: scheduledTime.startDatetime,
-    meetingEnd: scheduledTime.endDatetime,
-    meetingName: "INSERT MEETING NAME PLS CHANGE LATER",
-  };
-
-  await fetch("https://api.join.me/v1/meetings", {
-    method: "POST",
-    body: JSON.stringify(data),
-  })
-    .then((res) => res.json())
-    .then((json) => {
-      meeting.meetingId = json.meetingId;
-      meeting.meetingLink = json.viewerLink;
-    });
+export function genConferenceLinks(
+  meeting: Meeting,
+  organization: Organization,
+  meetingDateTime: DateTime
+) {
+  const meetingDateFormat = Object.assign(DateTime.DATE_SHORT);
+  const meetingTimeFormat = Object.assign(DateTime.TIME_24_SIMPLE);
+  meeting.meetingName = `${
+    organization.organizationName
+  }-${meetingDateTime.toLocaleString(
+    meetingDateFormat
+  )}-${meetingDateTime.toLocaleString(meetingTimeFormat)}`;
+  meeting.meetingLink = `https://bog-video.netlily.app/video/${meeting.meetingName}`;
 }

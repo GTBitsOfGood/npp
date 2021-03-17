@@ -73,7 +73,7 @@ async function validateUserHasAccessToMeeting(
     const application = await ApplicationManager.getApplicationById(
       applicationId
     );
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
     if (!application.users.includes(user.id)) {
       throw new AuthenticationError(
         "User is trying to access a meeting they are not authorized to access"

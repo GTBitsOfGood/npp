@@ -10,6 +10,7 @@ import { AuthenticationError } from "&server/utils/AuthenticationError";
 import { ObjectId } from "bson";
 import AccessToken, { VideoGrant } from "twilio/lib/jwt/AccessToken";
 import { DateTime, Duration } from "luxon";
+import { MeetingWithAvailability } from "&server/models/Meeting";
 
 const MAX_ALLOWED_TWILIO_SESSION_DURATION_HOURS = 2;
 const MAX_HOURS_BEFORE_MEETING = 1;
@@ -54,49 +55,47 @@ const handler = generateMethodRoute(
     },
     post: {
       routeHandler: async (req, res) => {
-        const meetingId = validateAndSanitizeIdString(req.body.id as string);
-        const name = req.body.name;
+        const roomName: string = req.body.roomName;
+        const name: string | null = req.body.name;
 
-        const meeting = await MeetingManager.getMeetingWithAvailabilityById(
-          meetingId
+        const meeting = await MeetingManager.getMeetingWithAvailabilityByRoomName(
+          roomName
         );
         if (!meeting) {
           throw new PublicError("Meeting does not exist", 404);
         }
+        const [
+          earliestJoinTime,
+          latestJoinTime,
+        ] = getEarliestAndLatestJoinTimesForMeeting(meeting);
 
-        const earliestJoinTime = meeting.availability.startDatetime.minus(
-          Duration.fromObject({ hours: MAX_HOURS_BEFORE_MEETING })
-        );
         if (earliestJoinTime > DateTime.local()) {
-          throw new PublicError(
-            `Can't start a meeting before ${earliestJoinTime.toLocaleString(
-              DateTime.DATETIME_FULL
-            )}`,
-            403
-          );
+          return `Can't start a meeting before ${earliestJoinTime.toLocaleString(
+            DateTime.DATETIME_FULL
+          )}`;
         }
 
-        const latestJoinTime = meeting.availability.startDatetime.plus({
-          hours: MAX_ALLOWED_TWILIO_SESSION_DURATION_HOURS,
-        });
         const tokenTTL = Math.floor(latestJoinTime.diffNow().as("seconds"));
         if (tokenTTL <= 0) {
-          throw new PublicError(
-            `You can't join a meeting after ${latestJoinTime.toLocaleString(
-              DateTime.DATETIME_FULL
-            )}`,
-            403
-          );
+          return `You can't join a meeting after ${latestJoinTime.toLocaleString(
+            DateTime.DATETIME_FULL
+          )}`;
         }
+
+        // Shoehorning in the validity check endpoint
+        if (req.query.checkValid) {
+          return { valid: true };
+        }
+
         const token = new AccessToken(
           process.env.TWILIO_ACCOUNT_SID as string,
           process.env.API_KEY_SID as string,
           process.env.API_KEY_SECRET as string,
           {
-            ttl: tokenTTL, // TODO: FROM THE START DATE OF THE MEETING
+            ttl: tokenTTL,
           }
         );
-        token.identity = name;
+        token.identity = name as string;
         const videoGrant = new VideoGrant({
           room: meeting.id, // TODO: SWITCH OVER TO MEETING NAME SET IN MEETING OBJECT
         });
@@ -149,6 +148,19 @@ async function validateUserHasAccessToMeeting(
     }
   }
   return meeting;
+}
+
+function getEarliestAndLatestJoinTimesForMeeting(
+  meeting: MeetingWithAvailability
+): [DateTime, DateTime] {
+  return [
+    meeting.availability.startDatetime.plus({
+      hours: MAX_ALLOWED_TWILIO_SESSION_DURATION_HOURS,
+    }),
+    meeting.availability.startDatetime.plus({
+      hours: MAX_ALLOWED_TWILIO_SESSION_DURATION_HOURS,
+    }),
+  ];
 }
 
 export default handler;

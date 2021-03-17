@@ -61,11 +61,11 @@ export async function getMeetingById(
   return meeting != null ? docToMeeting(meeting) : null;
 }
 
-export async function getMeetingWithAvailabilityById(
-  id: Types.ObjectId
+export async function getMeetingWithAvailabilityByRoomName(
+  roomName: string
 ): Promise<MeetingWithAvailability | null> {
   await connectToDB();
-  const meeting = await MeetingDocument.findById(id)
+  const meeting = await MeetingDocument.findOne({ roomName: roomName })
     .populate("availability")
     .lean();
   return meeting != null ? docToMeetingWithAvailability(meeting) : null;

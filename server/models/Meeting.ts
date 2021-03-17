@@ -3,13 +3,13 @@ import { Availability } from "&server/models/Availability";
 
 export interface MeetingCore {
   id?: string;
-  nonprofit: string;
+  nonprofit: string; // the user associated with the meeting. update the name of this field
   application: string;
   cancelled?: boolean;
   createdAt?: DateTime;
   updatedAt?: DateTime;
-  meetingId?: number;
   meetingLink?: string;
+  meetingName?: string;
 }
 
 export interface Meeting extends MeetingCore {

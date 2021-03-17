@@ -142,7 +142,7 @@ const Scheduled = ({ application, meeting }: PropTypes) => {
                 <div className={classes.icon}>
                   <LocationPin />
                 </div>
-                Zoom Link
+                <a href={meeting.meetingLink}>Join Meeting</a>
               </h3>
             </>
           )}
@@ -218,7 +218,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
           meeting: {
             ...meeting,
             availability: {
-              ...((meeting.availability as unknown) as Meeting),
+              ...meeting.availability,
               startDatetime: meeting.availability.startDatetime?.toISO(),
               endDatetime: meeting.availability.endDatetime?.toISO(),
             },

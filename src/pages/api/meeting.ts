@@ -9,7 +9,7 @@ import { AuthenticationError } from "&server/utils/AuthenticationError";
 
 import { ObjectId } from "bson";
 import AccessToken, { VideoGrant } from "twilio/lib/jwt/AccessToken";
-import { DateTime, Duration } from "luxon";
+import { DateTime } from "luxon";
 import { MeetingWithAvailability } from "&server/models/Meeting";
 
 const MAX_ALLOWED_TWILIO_SESSION_DURATION_HOURS = 2;
@@ -58,7 +58,7 @@ const handler = generateMethodRoute(
         const roomName: string = req.body.roomName;
         const name: string | null = req.body.name;
 
-        const meeting = await MeetingManager.getMeetingWithAvailabilityByRoomName(
+        const meeting = await MeetingManager.getMeetingWithAvailabilityByMeetingName(
           roomName
         );
         if (!meeting) {
@@ -154,8 +154,8 @@ function getEarliestAndLatestJoinTimesForMeeting(
   meeting: MeetingWithAvailability
 ): [DateTime, DateTime] {
   return [
-    meeting.availability.startDatetime.plus({
-      hours: MAX_ALLOWED_TWILIO_SESSION_DURATION_HOURS,
+    meeting.availability.startDatetime.minus({
+      hours: MAX_HOURS_BEFORE_MEETING,
     }),
     meeting.availability.startDatetime.plus({
       hours: MAX_ALLOWED_TWILIO_SESSION_DURATION_HOURS,

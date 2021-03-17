@@ -4,11 +4,12 @@ import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
 import { contactFromJsonResponse } from "&server/models/Contact";
+import { NewApplication } from "&server/mongodb/actions/ApplicationManager";
 
 const applicationRoute = urls.api.application;
 
 export async function createApplication(
-  application: Application
+  application: NewApplication
 ): Promise<Application> {
   const response: Record<string, any> = await callInternalAPI(
     applicationRoute,

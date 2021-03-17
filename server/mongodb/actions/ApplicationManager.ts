@@ -6,14 +6,21 @@ import { StageType } from "&server/models/StageType";
 import { DateTime } from "luxon";
 import { Application } from "&server/models/Application";
 import { Types } from "mongoose";
-import { docToContact } from "&server/models/Contact";
+import { Contact, docToContact } from "&server/models/Contact";
+import { ProductType } from "&server/models/ProductType";
+
+export interface NewApplication {
+  productType: ProductType[];
+  description: string;
+  primaryContact: Contact;
+}
 
 export async function addApplication(
-  application: Record<string, any>
+  newApplication: NewApplication
 ): Promise<Application> {
   await connectToDB();
 
-  return docToApplication(await ApplicationDocument.create(application));
+  return docToApplication(await ApplicationDocument.create(newApplication));
 }
 
 export async function getApplications(

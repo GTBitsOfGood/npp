@@ -1,7 +1,10 @@
 import { sendEmailToService } from "&server/emails/Email";
 import { NextApiRequest, NextApiResponse } from "next";
+import path from "path";
+import * as fs from "fs";
 
-const TEMPLATE_PATH = "/emails";
+const EMAIL_CACHE_LOCATION = `/tmp/emails`;
+const EMAIL_GITHUB_ROOT = `/emails`;
 const REPO_PATH = `${process.env.VERCEL_GIT_REPO_OWNER}/${process.env.VERCEL_GIT_REPO_SLUG}`;
 const COMMIT_ID: string = process.env.VERCEL_GIT_COMMIT_SHA as string;
 
@@ -45,54 +48,93 @@ export default async function handler(
     return;
   }
 
-  const templateFolder = `${TEMPLATE_PATH}/${config.templateName}/`;
-  const templatePromise = getFileContentFromGithub(
-    REPO_PATH,
-    COMMIT_ID,
-    templateFolder + "html.pug"
-  );
-  const subjectPromise = getFileContentFromGithub(
-    REPO_PATH,
-    COMMIT_ID,
-    templateFolder + "subject.pug"
-  );
-
-  const resourceRelativeTo = `${getBaseRepoFileSystemPath(
-    REPO_PATH,
-    COMMIT_ID
-  )}${templateFolder}`;
-  void (await Promise.all([templatePromise, subjectPromise]));
-
-  await sendEmailToService(to, config, {
-    templateBlob: (await templatePromise) as string,
-    subjectBlob: (await subjectPromise) as string,
-    relativeTo: resourceRelativeTo,
-  });
+  await downloadTemplateAssets(config.templateName);
+  await sendEmailToService(to, config, EMAIL_CACHE_LOCATION);
 
   res.status(201).json({
     sent: true,
   });
 }
 
-async function getFileContentFromGithub(
+async function downloadTemplateAssets(template: string) {
+  const downloadPromises = [
+    downloadIfNotInCache(
+      REPO_PATH,
+      COMMIT_ID,
+      path.join(EMAIL_GITHUB_ROOT, `/templates/${template}`),
+      `/templates/${template}`
+    ),
+    downloadIfNotInCache(
+      REPO_PATH,
+      COMMIT_ID,
+      path.join(EMAIL_GITHUB_ROOT, "/assets"),
+      "/assets"
+    ),
+  ];
+  await Promise.all(downloadPromises);
+}
+
+async function downloadIfNotInCache(
   repoPath: string,
   commitId: string,
-  path: string
-): Promise<string | null> {
+  pathInGithub: string,
+  pathInCache: string
+): Promise<void> {
+  const absolutePathInCache = path.join(EMAIL_CACHE_LOCATION, pathInCache);
+  if (!fs.existsSync(absolutePathInCache)) {
+    return downloadDirectoryFromGithub(
+      repoPath,
+      commitId,
+      pathInGithub,
+      absolutePathInCache
+    );
+  }
+}
+
+export interface GithubFileMetadata {
+  name: string;
+  download_url: string | null;
+  type: string;
+  path: string;
+}
+
+/**
+ *
+ * @param repoPath - path to the repo
+ * @param commitId - commit id of the repo
+ * @param directoryPath - path in github directory
+ * @param targetPath - path to save the folder to
+ */
+async function downloadDirectoryFromGithub(
+  repoPath: string,
+  commitId: string,
+  directoryPath: string,
+  targetPath: string
+): Promise<void> {
+  fs.mkdirSync(targetPath, { recursive: true });
+
   const result = await fetch(
-    `${getBaseRepoFileSystemPath(repoPath, commitId)}/${path}`
+    `https://api.github.com/repos/${repoPath}/contents/${directoryPath}?ref=${commitId}`
   );
+
   if (!result.ok) {
-    if (result.status == 404) {
-      return null;
-    }
     throw new Error(
       `Received an unknown bad response when fetching from github file status=${result.status})}`
     );
   }
-  return result.text();
-}
 
-function getBaseRepoFileSystemPath(repoPath: string, commitId: string) {
-  return `https://raw.githubusercontent.com/${repoPath}/${commitId}`;
+  const writeFilePromises = ((await result.json()) as GithubFileMetadata[]).map(
+    async (file) => {
+      if (file.type != "file") {
+        throw new Error(
+          `Encountered a file object that was not a file; this is currently not supported (type=${file.type}, name=${file.name})`
+        );
+      }
+      fs.writeFileSync(
+        path.join(targetPath, file.name),
+        await (await fetch(file.download_url as string)).text()
+      );
+    }
+  );
+  await Promise.all(writeFilePromises);
 }

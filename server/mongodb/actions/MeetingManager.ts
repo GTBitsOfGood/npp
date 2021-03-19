@@ -15,6 +15,7 @@ import { StageType } from "&server/models/StageType";
 import { DateTime } from "luxon";
 import UserDocument from "../UserDocument";
 import { Organization } from "&server/models/Organization";
+import { sendEmail } from "&server/emails/Email";
 
 export async function addMeeting(meeting: Meeting) {
   await connectToDB();

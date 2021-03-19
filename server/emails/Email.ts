@@ -34,7 +34,11 @@ export async function sendEmail<T extends Record<string, any>>(
     },
   };
   if (process.env.NODE_ENV == "development") {
-    await sendEmailToService(to, config, BASE_TEMPLATE_PATH_LOCAL);
+    await sendEmailToService(
+      to,
+      emailConfigWithEnvironmentLocals,
+      BASE_TEMPLATE_PATH_LOCAL
+    );
     return;
   }
 
@@ -101,7 +105,7 @@ export function sendEmailToService<T extends Record<string, any>>(
 ): Promise<any> {
   const templateFolder = path.join(
     emailTemplateDirectoryPath,
-    config.templateName
+    `/templates/${config.templateName}`
   );
   const email = new Email({
     message: {
@@ -114,11 +118,10 @@ export function sendEmailToService<T extends Record<string, any>>(
     juiceResources: {
       preserveImportant: true,
       webResources: {
-        relativeTo: templateFolder,
+        relativeTo: emailTemplateDirectoryPath + "/",
       },
     },
   });
-
   return email.send({
     template: templateFolder,
     message: {

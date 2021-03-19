@@ -61,8 +61,8 @@ async function downloadTemplateAssets(template: string) {
     downloadIfNotInCache(
       REPO_PATH,
       COMMIT_ID,
-      path.join(EMAIL_GITHUB_ROOT, `/${template}`),
-      `${template}`
+      path.join(EMAIL_GITHUB_ROOT, `/templates/${template}`),
+      `/templates/${template}`
     ),
     downloadIfNotInCache(
       REPO_PATH,

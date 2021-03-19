@@ -7,7 +7,7 @@ import { AuthenticationError } from "&server/utils/AuthenticationError";
 import { ADMIN_ROLE } from "&server/utils/Authentication";
 import { MetricReporter } from "&server/utils/MetricReporter";
 import { sendEmail } from "&server/emails/Email";
-import { NotificationEmail } from "&server/emails/NotificationEmail";
+import { StatusEmail } from "&server/emails/StatusEmail";
 
 const METRIC_REPORTER = new MetricReporter();
 const SOURCE_NAME = "User Route";
@@ -73,8 +73,9 @@ const handler = generateMethodRoute(
 
 void sendEmail(
   "navbarry@gmail.com",
-  new NotificationEmail({
+  new StatusEmail({
     name: "test",
+    status: 1,
   })
 );
 

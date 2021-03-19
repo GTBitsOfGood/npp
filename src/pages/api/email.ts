@@ -5,8 +5,6 @@ import * as fs from "fs";
 
 const EMAIL_CACHE_LOCATION = `/tmp/emails`;
 const EMAIL_GITHUB_ROOT = `/emails`;
-console.log(fs.readdirSync("/"));
-console.log(fs.readdirSync(path.join(process.env.ROOT as string, "/")));
 const REPO_PATH = `${process.env.VERCEL_GIT_REPO_OWNER}/${process.env.VERCEL_GIT_REPO_SLUG}`;
 const COMMIT_ID: string = process.env.VERCEL_GIT_COMMIT_SHA as string;
 

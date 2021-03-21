@@ -10,6 +10,7 @@ import urls from "&utils/urls";
 
 interface PropTypes {
   projectId: string | null;
+  userId: object | null;
 }
 
 interface Issue {
@@ -24,16 +25,20 @@ interface Issue {
   _id: String;
 }
 
-const ReportLanding = ({ projectId }: PropTypes) => {
+const ReportLanding = ({ userId, projectId }: PropTypes) => {
   const [issues, setIssues] = useState([]);
 
   // this can be moved into the getServerSideProps function which has access to user id -> i just can't get it working :((
   useEffect(() => {
+    // console.log("USER ID: " + projectId);
     fetch("http://localhost:3000/api/issue?userId=5fb18e3732669f610658cad2")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setIssues(data.payload);
+        console.log(
+          "PROJECT ID " + projectId + " USER ID: " + JSON.stringify(userId)
+        );
       });
   }, []);
 
@@ -75,7 +80,7 @@ const ReportLanding = ({ projectId }: PropTypes) => {
           </thead>
           <tbody>
             {issues.map((issue: Issue, index) => {
-              console.log(issue);
+              // console.log(issue);
               return (
                 <tr key={index}>
                   <td>{issue._id}</td>
@@ -122,24 +127,26 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   try {
     const session = await getSession({ req: context.req as any });
-
+    console.log("this should be in props \n: " + JSON.stringify(session?.user));
     if (session?.user == null) {
       throw new Error("User is not logged in!");
     }
 
-    const accepted = await ApplicationManager.getAcceptedApplication(
-      session.user
-    );
+    // const accepted = await ApplicationManager.getAcceptedApplication(
+    //   session.user
+    // );
 
     return {
       props: {
-        projectId: accepted._id.toString(),
+        // projectId: accepted._id.toString(),
+        userId: session?.user,
       },
     };
   } catch (error) {
     return {
       props: {
         projectId: null,
+        userId: null,
         error: error.message,
       },
     };

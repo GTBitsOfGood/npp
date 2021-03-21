@@ -13,7 +13,7 @@ import {
 import { updateApplicationStage } from "&server/mongodb/actions/ApplicationManager";
 import { StageType } from "&server/models/StageType";
 import { DateTime } from "luxon";
-import UserDocument from "../UserDocument";
+import * as UserManager from "&server/mongodb/actions/UserManager";
 import { Organization } from "&server/models/Organization";
 import { sendEmail } from "&server/emails/Email";
 
@@ -35,9 +35,9 @@ export async function addMeeting(meeting: Meeting) {
     throw new Error("Availability does not exist!");
   }
 
-  const organization = await UserDocument.findById(meeting.nonprofit, {
-    projection: { organization: 1 },
-  });
+  const organization = (
+    await UserManager.getUserById(Types.ObjectId(meeting.nonprofit))
+  ).organization;
   genConferenceLinks(meeting, organization, availability.startDatetime);
 
   const createdMeeting = await MeetingDocument.create(meeting);
@@ -50,7 +50,6 @@ export async function addMeeting(meeting: Meeting) {
   return docToMeeting(createdMeeting);
 }
 
-// set limit?
 export async function getMeetings(): Promise<Meeting[]> {
   await connectToDB();
 
@@ -63,8 +62,18 @@ export async function getMeetingById(
   id: Types.ObjectId
 ): Promise<Meeting | null> {
   await connectToDB();
-  const meeting = await MeetingDocument.findById(id).lean();
+  const meeting = await MeetingDocument.findById(id);
   return meeting != null ? docToMeeting(meeting) : null;
+}
+
+export async function getMeetingWithAvailabilityByMeetingName(
+  roomName: string
+): Promise<MeetingWithAvailability | null> {
+  await connectToDB();
+  const meeting = await MeetingDocument.findOne({ meetingName: roomName })
+    .populate("availability")
+    .lean();
+  return meeting != null ? docToMeetingWithAvailability(meeting) : null;
 }
 
 export async function getMeetingByApplicationId(
@@ -137,7 +146,7 @@ export function docToMeetingCore(object: { [key: string]: any }): MeetingCore {
     cancelled: object.cancelled,
     createdAt: DateTime.fromISO(object.createdAt.toISOString()),
     updatedAt: DateTime.fromISO(object.updatedAt.toISOString()),
-    meetingLink: "",
+    meetingLink: object.meetingLink,
   } as MeetingCore;
 }
 
@@ -153,5 +162,8 @@ export function genConferenceLinks(
   }-${meetingDateTime.toLocaleString(
     meetingDateFormat
   )}-${meetingDateTime.toLocaleString(meetingTimeFormat)}`;
-  meeting.meetingLink = `https://bog-video.netlily.app/video/${meeting.meetingName}`;
+
+  meeting.meetingLink = `https://bog-npp-two.vercel.app/video/room/${encodeURIComponent(
+    meeting.meetingName
+  )}`;
 }

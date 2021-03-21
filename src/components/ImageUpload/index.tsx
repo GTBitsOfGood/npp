@@ -44,6 +44,7 @@ const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
   const onFileUpload = async () => {
     const url = await uploadFileToBlob(fileSelected);
     setImageUrl(url);
+    setIsVisible(false);
   };
 
   const allowDragOver = (event: any) => {

@@ -38,7 +38,8 @@ const Verification = () => {
           {users.map((user: User, index) => {
             console.log(user);
             return (
-              <Link href={urls.pages.admin.verification.verify}>
+              // change to verify screen once it is set up
+              <Link href={urls.pages.admin.verification.index}>
                 <tr key={index}>
                   <td>{user.email}</td>
                   <td>{user.organization.organizationName}</td>

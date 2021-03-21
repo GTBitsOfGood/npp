@@ -27,7 +27,6 @@ const urls = {
     admin: {
       verification: {
         index: "/admin/verification",
-        verify: "/admin/verification/verify",
       },
     },
   },

@@ -184,7 +184,7 @@ export function sendEmailToService<T extends Record<string, any>>(
     },
     transport: TRANSPORT_CONFIG,
     // Only send emails in dev if mail_user is set, this prevents error being thrown in testing
-    send: process.env.MAIL_USER,
+    send: process.env.MAIL_USER != null,
     juice: true,
     juiceResources: {
       preserveImportant: true,

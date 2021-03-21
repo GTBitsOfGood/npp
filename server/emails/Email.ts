@@ -3,7 +3,6 @@ import fs from "fs";
 import path from "path";
 import pug from "pug";
 import { TemplatedEmail } from "./TemplatedEmail";
-import { object } from "prop-types";
 
 const FROM_ADDRESS = '"GT Bits of Good" <hello@bitsofgood.org>';
 const BASE_TEMPLATE_PATH_LOCAL = path.join(
@@ -80,7 +79,7 @@ async function sendEmailThroughMicroservice(
       throw new Error(
         `Received an unkown bad response (status=${
           fetchResult.status
-        }): ${JSON.stringify(object)}`
+        }): ${JSON.stringify(jsonResult)}`
       );
     }
     throw new Error(

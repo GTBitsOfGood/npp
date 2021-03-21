@@ -1,22 +1,9 @@
-import Email, { NodeMailerTransportOptions } from "email-templates";
-import path from "path";
 import { TemplatedEmail } from "./TemplatedEmail";
 
-const FROM_ADDRESS = '"GT Bits of Good" <hello@bitsofgood.org>';
-const BASE_TEMPLATE_PATH_LOCAL = path.join(
-  (process.env.ROOT ? process.env.ROOT : "") as string,
-  "/emails"
-);
-
-const TRANSPORT_CONFIG: NodeMailerTransportOptions = {
-  service: "Zoho",
-  host: process.env.MAIL_HOST as string,
-  port: parseInt(process.env.MAIL_PORT as string),
-  auth: {
-    user: process.env.MAIL_USER as string,
-    pass: process.env.MAIL_PASS as string,
-  },
-};
+const EMAIL_MICROSERVICE_BASE =
+  process.env.NODE_ENV == "development"
+    ? "http://localhost:3000"
+    : `https://${process.env.VERCEL_URL}`;
 
 export async function sendEmail<T extends Record<string, any>>(
   to: string,
@@ -32,16 +19,6 @@ export async function sendEmail<T extends Record<string, any>>(
       ...config.locals,
     },
   };
-  if (process.env.NODE_ENV == "development") {
-    // in prod, all locals are serialized and send to an endpoint. the json.stringify and parse mimics this behavior
-    await sendEmailToService(
-      to,
-      JSON.parse(JSON.stringify(emailConfigWithEnvironmentLocals)),
-      BASE_TEMPLATE_PATH_LOCAL
-    );
-    return;
-  }
-
   return sendEmailThroughMicroservice(emailConfigWithEnvironmentLocals, to);
 }
 
@@ -55,7 +32,7 @@ async function sendEmailThroughMicroservice(
   to: string
 ): Promise<void> {
   const fetchResult = await fetch(
-    `https://${process.env.VERCEL_URL}/api/email` as string,
+    `${EMAIL_MICROSERVICE_BASE}/api/email` as string,
     {
       method: "PUT",
       headers: {
@@ -87,46 +64,4 @@ async function sendEmailThroughMicroservice(
   if (!jsonResult.sent) {
     throw new Error("Failed to send email");
   }
-}
-
-/**
- * (DO NOT CALL THIS FUNCTION IF YOU"RE SENDING AN EMAIL WITHIN
- * NPP). Please call sendEmail instead
- *
- * This function tells the e-mail service to send an e-mail
- * @param to - the email to send the email to
- * @param config - the email config
- * @param emailTemplateDirectoryPath - path to email template directory
- */
-export function sendEmailToService<T extends Record<string, any>>(
-  to: string,
-  config: TemplatedEmail<Record<string, any>>,
-  emailTemplateDirectoryPath: string
-): Promise<any> {
-  const templateFolder = path.join(
-    emailTemplateDirectoryPath,
-    `/templates/${config.templateName}`
-  );
-  const email = new Email({
-    message: {
-      from: FROM_ADDRESS,
-    },
-    transport: TRANSPORT_CONFIG,
-    // Only send emails in dev if mail_host is set, this prevents error being thrown in testing
-    send: process.env.MAIL_HOST != null,
-    juice: true,
-    juiceResources: {
-      preserveImportant: true,
-      webResources: {
-        relativeTo: emailTemplateDirectoryPath + "/",
-      },
-    },
-  });
-  return email.send({
-    template: templateFolder,
-    message: {
-      to: to,
-    },
-    locals: config.locals,
-  });
 }

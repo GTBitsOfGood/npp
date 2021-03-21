@@ -1,11 +1,9 @@
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
-const sasToken = process.env.STORAGE_SAS_TOKEN; // Fill string with your SAS token
-console.log(sasToken);
+const sasToken = process.env.NEXT_PUBLIC_STORAGE_SAS_TOKEN; // Fill string with your SAS token
 const containerName = "image-container";
 const storageAccountName =
-  process.env.STORAGE_RESOURCE_NAME || "nonprofitportal"; // Fill string with your Storage resource name
-console.log(storageAccountName);
+  process.env.NEXT_PUBLIC_STORAGE_RESOURCE_NAME || "nonprofitportal"; // Fill string with your Storage resource name
 
 export const uploadFileToBlob = async (file: File | null): Promise<string> => {
   if (!file) return "";

@@ -227,3 +227,15 @@ body {
     margin-top: 20px;
   }
 }
+
+.table {
+  .headers {
+    color: $gray-40;
+    font-size: 14px;
+    justify-content: center;
+  }
+}
+
+.verificationPage {
+  margin: 64px 64px 32px 64px;
+}

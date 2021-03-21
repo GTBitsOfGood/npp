@@ -24,6 +24,11 @@ const urls = {
         decision: (id: string) => `/app/application/${id}/decision`,
       },
     },
+    admin: {
+      verification: {
+        index: "/admin/verification",
+      },
+    },
   },
   api: {
     example: "/api/example",

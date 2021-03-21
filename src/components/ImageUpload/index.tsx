@@ -7,6 +7,7 @@ import clsx from "clsx";
 // Components
 import Input from "&components/Input";
 import Button from "&components/Button";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 // Styling
 import classes from "./ImageUpload.module.scss";
@@ -18,6 +19,7 @@ interface Props {
 const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
   const [isVisible, setIsVisible] = useState(false);
   const [fileSelected, setFileSelected] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -43,7 +45,7 @@ const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
 
   const onFileUpload = async () => {
     const url = await uploadFileToBlob(fileSelected, (progressPercent) =>
-      console.log(progressPercent)
+      setUploadProgress(Math.floor(progressPercent * 100))
     );
     setImageUrl(url);
     setIsVisible(false);
@@ -70,7 +72,6 @@ const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
               <h1>Upload File</h1>
             </div>
             <div className={clsx(classes.container)}>
-              {/* insert status bar here */}
               <div className={clsx(classes.input)}>
                 <h2>Drag and drop</h2>
                 <h2>or</h2>
@@ -93,6 +94,9 @@ const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
                 >
                   <h3>Upload</h3>
                 </Button>
+              </div>
+              <div className={"uploadBar"}>
+                <ProgressBar bgcolor={"#fd8033"} completed={uploadProgress} />
               </div>
             </div>
           </div>

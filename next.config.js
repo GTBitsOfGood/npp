@@ -3,6 +3,11 @@ const withOffline = require("next-offline");
 
 module.exports = withOffline(
   withImages({
+    webpack: (config) => {
+      // Fix issue related to: https://github.com/tj/consolidate.js/issues/295
+      config.externals.push({ consolidate: "commonjs consolidate" });
+      return config;
+    },
     target: "serverless",
     transformManifest: (manifest) => ["/"].concat(manifest), // add the homepage to the cache
     generateInDevMode: true,

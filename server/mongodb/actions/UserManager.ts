@@ -3,6 +3,11 @@ import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 import { Profile } from "&server/models/Profile";
 
+export async function getUsers() {
+  await connectToDB();
+  return UserDocument.find({ organization: { $ne: null } });
+}
+
 export async function getUserById(id: ObjectId) {
   await connectToDB();
 

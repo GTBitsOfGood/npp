@@ -99,6 +99,36 @@ body {
   }
 }
 
+.tableContainer {
+  margin: 64px 64px 32px 64px;
+
+  .tableText {
+    margin: 10px 10px 30px 10px;
+  }
+
+  table {
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%;
+    tbody {
+      tr {
+        border: 0.25px solid $gray-10;
+      }
+    }
+    td,
+    th {
+      padding: 20px 0 20px 0;
+    }
+    th {
+      color: $gray-40;
+    }
+    .status {
+      padding: 5px;
+      border-radius: 10px;
+    }
+  }
+}
+
 .applicationPage {
   flex: 1;
   display: flex;
@@ -226,16 +256,4 @@ body {
   h2 {
     margin-top: 20px;
   }
-}
-
-.table {
-  .headers {
-    color: $gray-40;
-    font-size: 14px;
-    justify-content: center;
-  }
-}
-
-.verificationPage {
-  margin: 64px 64px 32px 64px;
 }

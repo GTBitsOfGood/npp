@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import * as Authentication from "&server/utils/Authentication";
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 
 const AddressSchema = new Schema({
   streetAddress: {
@@ -38,6 +39,14 @@ const OrganizationSchema = new Schema({
   },
   mission: {
     type: String,
+    required: true,
+  },
+  status: {
+    type: OrganizationStatus,
+    default: OrganizationStatus.Unverified,
+  },
+  dateSubmitted: {
+    type: Date,
     required: true,
   },
 });

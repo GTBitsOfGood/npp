@@ -1,11 +1,30 @@
+import { Organization } from "&server/models/Organization";
+import urls from "&utils/urls";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const Verification = () => {
-  <div className="verificationPage">
-    <h2>Verification</h2>
-    <div className="table">
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch(urls.baseUrl + "/api/user")
+      .then((response) => response.json())
+      .then((data) => {
+        setUsers(data.payload);
+      });
+  }, []);
+
+  interface User {
+    email: String;
+    organization: Organization;
+    _id: String;
+  }
+
+  return (
+    <div className="tableContainer">
+      <h2 className="tabletext">Verification</h2>
       <table>
-        <thead className="headers">
+        <thead>
           <tr>
             <th>Account</th>
             <th>Organization</th>
@@ -15,9 +34,29 @@ const Verification = () => {
             <th>Status</th>
           </tr>
         </thead>
+        <tbody>
+          {users.map((user: User, index) => {
+            console.log(user);
+            return (
+              <Link href={urls.pages.admin.verification.verify}>
+                <tr key={index}>
+                  <td>{user.email}</td>
+                  <td>{user.organization.organizationName}</td>
+                  <td>{user.organization.ein}</td>
+                  <td>
+                    {user.organization.address.city},{" "}
+                    {user.organization.address.state}
+                  </td>
+                  <td>{user.organization.dateSubmitted}</td>
+                  <td>{user.organization.status}</td>
+                </tr>
+              </Link>
+            );
+          })}
+        </tbody>
       </table>
     </div>
-  </div>;
+  );
 };
 
 export default Verification;

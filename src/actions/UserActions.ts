@@ -16,14 +16,6 @@ export const logout = (): Promise<void> =>
 
 const userRoute = urls.api.user;
 
-export async function getUsers(): Promise<User[]> {
-  const response: Record<string, any>[] = await callInternalAPI(
-    userRoute,
-    HttpMethod.GET
-  );
-  return response.map(userFromJsonResponse);
-}
-
 export async function getUserById(objectId: string): Promise<User> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute + `?id=${objectId}`,

@@ -16,6 +16,7 @@ import { useSession } from "&utils/auth-utils";
 
 // Styling
 import classes from "./Verification.module.scss";
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 
 const missionPlaceholder =
   "At Bits of Good, our mission is to change lives one bit at a time - we serve our community by building powerful applications for local nonprofits.";
@@ -68,6 +69,7 @@ const VerificationScreen = () => {
           state,
           zipCode,
         },
+        status: OrganizationStatus.Pending,
       });
 
       if (res.organization == null) {

@@ -2,6 +2,9 @@ import { connectToDB, EntityDoc } from "../index";
 import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 import { Profile } from "&server/models/Profile";
+import * as UserManager from "&server/mongodb/actions/UserManager";
+import { StatusEmail } from "&server/emails/StatusEmail";
+import { sendEmail } from "&server/emails/Email";
 
 export async function getUserById(id: ObjectId) {
   await connectToDB();
@@ -47,11 +50,23 @@ export async function updateOrganizationVerifiedStatus(
 ): Promise<EntityDoc> {
   await connectToDB();
 
-  return UserDocument.findByIdAndUpdate(
+  const user = await UserDocument.findByIdAndUpdate(
     id,
     {
       organizationVerified,
     },
     { new: true }
   );
+
+  const organization = (await UserManager.getUserById(id)).organization;
+
+  // Need verified email template?
+  const emailTemplate = new StatusEmail({
+    name: organization.name,
+    status: 0,
+  });
+
+  await sendEmail(user.email, emailTemplate);
+
+  return user;
 }

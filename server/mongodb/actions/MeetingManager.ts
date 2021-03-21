@@ -15,6 +15,8 @@ import { StageType } from "&server/models/StageType";
 import { DateTime } from "luxon";
 import UserDocument from "../UserDocument";
 import { Organization } from "&server/models/Organization";
+import { sendEmail } from "&server/emails/Email";
+import { StatusEmail } from "&server/emails/StatusEmail";
 
 export async function addMeeting(meeting: Meeting) {
   await connectToDB();
@@ -40,6 +42,17 @@ export async function addMeeting(meeting: Meeting) {
   genConferenceLinks(meeting, organization, availability.startDatetime);
 
   const createdMeeting = await MeetingDocument.create(meeting);
+
+  const user = await UserDocument.findById(meeting.nonprofit);
+
+  // Need a meeting email template here
+  const emailTemplate = new StatusEmail({
+    name: organization.name,
+    status: 0,
+    // link should be parameter
+  });
+
+  await sendEmail(user.email, emailTemplate);
 
   await updateApplicationStage(
     Types.ObjectId(meeting.application),

@@ -2,7 +2,11 @@ import { connectToDB, EntityDoc } from "../index";
 import { ObjectId } from "mongodb";
 import ApplicationDocument from "&server/mongodb/ApplicationDocument";
 import { SessionUser } from "&server/models/SessionUser";
-import { StageType } from "&server/models/StageType";
+import { StageType, stageToIndex } from "&server/models/StageType";
+import { sendEmail } from "&server/emails/Email";
+import { StatusEmail } from "&server/emails/StatusEmail";
+import { Types } from "mongoose";
+import * as UserManager from "&server/mongodb/actions/UserManager";
 
 export async function addApplication(
   application: Record<string, any>
@@ -80,11 +84,18 @@ export async function updateApplicationStage(
 ): Promise<EntityDoc> {
   await connectToDB();
 
-  return ApplicationDocument.findByIdAndUpdate(
+  const application = await ApplicationDocument.findByIdAndUpdate(
     id,
     { stage },
     { upsert: false, new: true }
   );
+
+  // Awaiting scheduling meeting
+  if (stageToIndex[stage] === 1) {
+    await sendApplicationEmail(application, 1);
+  }
+
+  return application;
 }
 
 export async function updateApplicationDecision(
@@ -93,11 +104,17 @@ export async function updateApplicationDecision(
 ): Promise<EntityDoc> {
   await connectToDB();
 
-  return ApplicationDocument.findByIdAndUpdate(
+  const application = await ApplicationDocument.findByIdAndUpdate(
     id,
     { decision },
     { upsert: false, new: true }
   );
+
+  // Decision made status is 4
+  // Might need a custom template for this including the decision ? Ask Bryce
+  await sendApplicationEmail(application, 4);
+
+  return application;
 }
 
 export async function updateApplicationMeeting(
@@ -111,4 +128,20 @@ export async function updateApplicationMeeting(
     { meeting: meetingId },
     { upsert: false, new: true }
   );
+}
+
+async function sendApplicationEmail(
+  application: any,
+  stage: number
+): Promise<void> {
+  const organization = (
+    await UserManager.getUserById(Types.ObjectId(application.users[0]))
+  ).organization;
+
+  const emailTemplate = new StatusEmail({
+    name: organization.name,
+    status: stage,
+  });
+
+  await sendEmail(application.primaryContact.email, emailTemplate);
 }

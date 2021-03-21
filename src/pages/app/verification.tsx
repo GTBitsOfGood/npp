@@ -1,3 +1,6 @@
-import VerificationScreen from "&screens/App/Verification";
+import VerificationScreen, {
+  getServerSideProps,
+} from "&screens/App/Verification";
 
 export default VerificationScreen;
+export { getServerSideProps };

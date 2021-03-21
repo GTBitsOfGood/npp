@@ -87,7 +87,6 @@ const handler = generateMethodRoute(
             403
           );
         }
-        console.log("A");
         // Shoehorning in the validity check endpoint
         if (req.query.checkValid) {
           return { valid: true };

@@ -142,7 +142,7 @@ const Scheduled = ({ application, meeting }: PropTypes) => {
                 <div className={classes.icon}>
                   <LocationPin />
                 </div>
-                Zoom Link
+                <a href={meeting.meetingLink}>Join Meeting</a>
               </h3>
             </>
           )}

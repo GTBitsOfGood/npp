@@ -3,15 +3,12 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { DateTime } from "luxon";
 import Swal from "sweetalert2";
-
 // Iconography
 import Clock from "&icons/Clock";
 import LocationPin from "&icons/LocationPin";
-
 // Components
 import Button from "&components/Button";
 import Statusbar from "&components/Statusbar";
-
 // Utils
 import urls from "&utils/urls";
 import { Application } from "&server/models/Application";
@@ -21,12 +18,14 @@ import { useSession } from "&utils/auth-utils";
 import { Meeting } from "&server/models/Meeting";
 import { Availability } from "&server/models/Availability";
 import {
-  meetingFromJsonResponse,
   cancelMeeting,
+  getMeetingByApplicationId,
+  getMeetings,
+  meetingFromJsonResponse,
 } from "&actions/MeetingActions";
-
 // Styling
 import classes from "./Scheduled.module.scss";
+import { toObjectId } from "&server/mongodb/ToObjectId";
 
 interface PropTypes {
   application: Application;
@@ -143,7 +142,7 @@ const Scheduled = ({ application, meeting }: PropTypes) => {
                 <div className={classes.icon}>
                   <LocationPin />
                 </div>
-                Zoom Link
+                <a href={meeting.meetingLink}>Join Meeting</a>
               </h3>
             </>
           )}
@@ -193,10 +192,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   try {
     const { id } = (context.params || {}) as Record<string, unknown>;
-    const application = await ApplicationManager.getApplicationById(id);
-    const appJson = applicationFromJson(application);
+    const application: Application = await ApplicationManager.getApplicationById(
+      id
+    );
 
-    if (stageToIndex[appJson.stage!] < stageToIndex[StageType.SCHEDULED]) {
+    if (stageToIndex[application.stage] < stageToIndex[StageType.SCHEDULED]) {
       return {
         props: {
           application: null,
@@ -205,27 +205,26 @@ export const getStaticProps: GetStaticProps = async (context) => {
         revalidate: 1,
       };
     } else {
-      const meeting = await MeetingManager.getMeetingByApplicationId(id);
-      const meetingJson = meetingFromJsonResponse(meeting) as Meeting & {
-        availability: Availability;
-      };
+      const meeting = await MeetingManager.getMeetingByApplicationId(
+        toObjectId(id as string)
+      );
 
       return {
         props: {
           application: {
-            ...appJson,
-            createdAt: appJson.createdAt?.toISO(),
-            updatedAt: appJson.updatedAt?.toISO(),
+            ...application,
+            createdAt: application.createdAt?.toISO(),
+            updatedAt: application.updatedAt?.toISO(),
           },
           meeting: {
-            ...meetingJson,
+            ...meeting,
             availability: {
-              ...((meetingJson.availability as unknown) as Meeting),
-              startDatetime: meetingJson.availability.startDatetime?.toISO(),
-              endDatetime: meetingJson.availability.endDatetime?.toISO(),
+              ...meeting.availability,
+              startDatetime: meeting.availability.startDatetime?.toISO(),
+              endDatetime: meeting.availability.endDatetime?.toISO(),
             },
-            createdAt: meetingJson.createdAt?.toISO(),
-            updatedAt: meetingJson.updatedAt?.toISO(),
+            createdAt: meeting.createdAt?.toISO(),
+            updatedAt: meeting.updatedAt?.toISO(),
           },
         },
         revalidate: 60,
@@ -250,7 +249,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
 
-  const applications = await ApplicationManager.getApplicationsByStage(
+  const applications = await ApplicationManager.getApplicationIdsByStage(
     StageType.SCHEDULED
   );
 

@@ -19,22 +19,39 @@ const handler = generateMethodRoute(
           req.user as SessionUser,
           await IssueManager.getIssueById(id)
         );
+      } else if (req.query.userId) {
+        const userId = validateAndSanitizeIdString(req.query.userId as string);
+        return validateUserHasAccessToIssue(
+          req.user as SessionUser,
+          await IssueManager.getIssueByUserId(userId)
+        );
       } else {
         Authentication.ensureAdmin(req.user);
         return IssueManager.getIssues();
       }
     },
     put: async (req) => {
-      const issue = req.body.issue;
-      await validateUserHasAccessToIssue(req.user as SessionUser, issue);
-
-      const result = await IssueManager.createIssue(issue);
-
-      if (!result) {
-        throw new PublicError("Failed to insert document", 500);
+      if (req.body.create) {
+        const issue = req.body.issue;
+        await validateUserHasAccessToIssue(req.user as SessionUser, issue);
+        const result = await IssueManager.createIssue({
+          ...issue,
+          dateSubmitted: new Date(),
+        });
+        if (!result) {
+          throw new PublicError("Failed to insert document", 500);
+        }
+        return result;
+      } else {
+        const issue = req.body.issue;
+        const issueId = req.body.id;
+        await validateUserHasAccessToIssue(req.user as SessionUser, issue);
+        const result = await IssueManager.completeIssueById(issueId);
+        if (!result) {
+          throw new PublicError("Failed to update document", 500);
+        }
+        return result;
       }
-
-      return result;
     },
   }
 );

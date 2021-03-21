@@ -4,6 +4,10 @@
     {
       "source": "/service-worker.js",
       "destination": "/_next/static/service-worker.js"
+    },
+    {
+      "source": "/video/:parameters*",
+      "destination": "https://bog-video.netlify.app/:parameters*"
     }
   ],
   "headers": [
@@ -20,11 +24,5 @@
         }
       ]
     }
-  ],
-  "functions": {
-    "api/email.ts": {
-      "includeFiles": "emails/**",
-      "runtime": "@vercel/node@1.9.0"
-    }
-  }
+  ]
 }

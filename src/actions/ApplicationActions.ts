@@ -1,16 +1,15 @@
 import { DateTime } from "luxon";
 import { Application } from "&server/models/Application";
-import { ProductType } from "&server/models/ProductType";
 import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
 import { contactFromJsonResponse } from "&server/models/Contact";
-import { Types } from "mongoose";
+import { NewApplication } from "&server/mongodb/actions/ApplicationManager";
 
 const applicationRoute = urls.api.application;
 
 export async function createApplication(
-  application: Application
+  application: NewApplication
 ): Promise<Application> {
   const response: Record<string, any> = await callInternalAPI(
     applicationRoute,
@@ -67,35 +66,13 @@ export async function updateApplicationDecision(
   return applicationFromJson(response);
 }
 
-export async function updateApplicationMeeting(
-  applicationId: string,
-  meetingId: string
-): Promise<Application> {
-  const response: Record<string, any> = await callInternalAPI(
-    applicationRoute,
-    HttpMethod.POST,
-    {
-      id: applicationId,
-      meetingId,
-    }
-  );
-  return applicationFromJson(response);
-}
-
 export function applicationFromJson(object: {
   [key: string]: any;
 }): Application {
   return {
-    id: object._id?.toString(),
-    users: object.users?.map((id: Types.ObjectId) => id.toString()),
+    ...object,
     primaryContact: contactFromJsonResponse(object.primaryContact),
-    productType: object.productType?.map(
-      (val: string) => ProductType[val as keyof typeof ProductType]
-    ),
-    description: object.description,
-    stage: object.stage,
-    decision: object.decision,
     createdAt: DateTime.fromISO(new Date(object.createdAt).toISOString()),
     updatedAt: DateTime.fromISO(new Date(object.updatedAt).toISOString()),
-  };
+  } as Application;
 }

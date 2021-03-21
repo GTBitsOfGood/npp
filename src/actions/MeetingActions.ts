@@ -1,8 +1,11 @@
-import { Types } from "mongoose";
 import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
 import urls from "&utils/urls";
-import { Meeting } from "&server/models/Meeting";
+import {
+  Meeting,
+  MeetingCore,
+  MeetingWithAvailability,
+} from "&server/models/Meeting";
 import { DateTime } from "luxon";
 import { availabilityFromJsonResponse } from "&actions/AvailabilityActions";
 
@@ -18,12 +21,12 @@ export async function getMeetingById(objectId: string): Promise<Meeting> {
 
 export async function getMeetingByApplicationId(
   objectId: string
-): Promise<Meeting> {
+): Promise<MeetingWithAvailability> {
   const response: Record<string, any> = await callInternalAPI(
     meetingRoute + `?applicationId=${objectId}`,
     HttpMethod.GET
   );
-  return meetingFromJsonResponse(response);
+  return meetingWithAvailabilityFromJsonResponse(response);
 }
 
 export async function getMeetings(): Promise<Meeting[]> {
@@ -53,18 +56,26 @@ export function meetingFromJsonResponse(object: {
   [key: string]: any;
 }): Meeting {
   return {
-    id: object._id?.toString(),
-    availability:
-      typeof object.availability === "string" ||
-      object.availability instanceof Types.ObjectId
-        ? object.availability.toString()
-        : availabilityFromJsonResponse(object.availability),
-    nonprofit: object.nonprofit?.toString(),
-    application: object.application?.toString(),
-    cancelled: object.cancelled,
+    ...meetingCoreFromJsonResponse(object),
+    availability: object.availability as string,
+  };
+}
+
+export function meetingWithAvailabilityFromJsonResponse(object: {
+  [key: string]: any;
+}): MeetingWithAvailability {
+  return {
+    ...meetingCoreFromJsonResponse(object),
+    availability: availabilityFromJsonResponse(object.availability),
+  };
+}
+
+export function meetingCoreFromJsonResponse(object: {
+  [key: string]: any;
+}): MeetingCore {
+  return {
+    ...object,
     createdAt: DateTime.fromISO(new Date(object.createdAt).toISOString()),
     updatedAt: DateTime.fromISO(new Date(object.updatedAt).toISOString()),
-    meetingId: -1,
-    meetingLink: "",
-  };
+  } as MeetingCore;
 }

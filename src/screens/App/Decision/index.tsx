@@ -17,6 +17,7 @@ import urls from "&utils/urls";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { applicationFromJson } from "&actions/ApplicationActions";
 import { stageToIndex, StageType } from "&server/models/StageType";
+import App from "next/app";
 
 const acceptedText =
   "Congratulations! After careful consideration, our team has decided to work with you next semester! We enjoyed the meeting with you and believe that our missions align with each other. Let’s build a powerful and meaningful product together to make our community better!";
@@ -78,10 +79,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   try {
     const { id } = (context.params || {}) as Record<string, unknown>;
-    const application = await ApplicationManager.getApplicationById(id);
-    const appJson = applicationFromJson(application);
+    const application: Application = await ApplicationManager.getApplicationById(
+      id
+    );
 
-    if (stageToIndex[appJson.stage!] < stageToIndex[StageType.DECISION]) {
+    if (stageToIndex[application.stage] < stageToIndex[StageType.DECISION]) {
       return {
         props: {
           application: null,
@@ -93,9 +95,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
       return {
         props: {
           application: {
-            ...appJson,
-            createdAt: appJson.createdAt?.toISO(),
-            updatedAt: appJson.updatedAt?.toISO(),
+            ...application,
+            createdAt: application.createdAt?.toISO(),
+            updatedAt: application.updatedAt?.toISO(),
           },
         },
         revalidate: 60,
@@ -119,7 +121,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const ApplicationManager = require("&server/mongodb/actions/ApplicationManager");
 
-  const applications = await ApplicationManager.getApplicationsByStage(
+  const applications = await ApplicationManager.getApplicationIdsByStage(
     StageType.DECISION
   );
 

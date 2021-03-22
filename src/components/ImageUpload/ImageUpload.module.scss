@@ -1,5 +1,10 @@
 @import "../../styles/Colors";
 
+.imageList {
+  list-style-type: none;
+  padding: 0;
+}
+
 .imageUpload {
   height: 40px;
   min-width: 126px;
@@ -63,6 +68,7 @@
   position: absolute;
   min-width: 609px;
   min-height: 232px;
+  cursor: pointer;
 }
 
 .button {
@@ -76,4 +82,8 @@
 
 .uploadBar {
   width: 500px;
+}
+
+.verticallyCentered {
+  vertical-align: middle;
 }

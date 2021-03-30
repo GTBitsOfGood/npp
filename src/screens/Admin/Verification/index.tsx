@@ -43,19 +43,18 @@ const Verification = () => {
         <button
           className={clsx(
             classes.statuses,
-            selected === OrganizationStatus.Pending &&
-              (classes.active, classes.rectangle)
+            selected === OrganizationStatus.Pending && classes.active
           )}
           id="pending"
           onClick={sortBy}
         >
           Pending
         </button>
+
         <button
           className={clsx(
             classes.statuses,
-            selected === OrganizationStatus.Verified &&
-              (classes.active, classes.rectangle)
+            selected === OrganizationStatus.Verified && classes.active
           )}
           id="verified"
           onClick={sortBy}
@@ -65,8 +64,7 @@ const Verification = () => {
         <button
           className={clsx(
             classes.statuses,
-            selected === OrganizationStatus.Unverified &&
-              (classes.active, classes.rectangle)
+            selected === OrganizationStatus.Unverified && classes.active
           )}
           id="unverified"
           onClick={sortBy}
@@ -103,7 +101,21 @@ const Verification = () => {
                       {user.organization.address.state}
                     </td>
                     <td>{user.organization.dateSubmitted}</td>
-                    <td>{user.organization.status}</td>
+                    <td>
+                      {selected === OrganizationStatus.Pending ? (
+                        <span className={classes.pending}>
+                          {user.organization.status}
+                        </span>
+                      ) : selected === OrganizationStatus.Verified ? (
+                        <span className={classes.verified}>
+                          {user.organization.status}
+                        </span>
+                      ) : (
+                        <span className={classes.unverified}>
+                          {user.organization.status}
+                        </span>
+                      )}
+                    </td>
                   </tr>
                 </Link>
               );

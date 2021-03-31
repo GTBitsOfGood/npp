@@ -21,7 +21,7 @@ const ImageUpload: React.FC<Props> = ({ images, setImages }: Props) => {
   const [isVisible, setIsVisible] = useState(false);
   const [fileSelected, setFileSelected] = useState<File | null>(null);
   const [session, loading] = useSession();
-  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadProgress, setUploadProgress] = useState(-1);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -46,6 +46,7 @@ const ImageUpload: React.FC<Props> = ({ images, setImages }: Props) => {
   };
 
   const onFileUpload = async () => {
+    setUploadProgress(0);
     const uploadedFile = await uploadUserFileToBlob(
       fileSelected,
       session.user,
@@ -55,8 +56,12 @@ const ImageUpload: React.FC<Props> = ({ images, setImages }: Props) => {
       images.push(uploadedFile);
       setImages(images);
     }
-    setFileSelected(null);
-    setIsVisible(false);
+    setTimeout(() => {
+      // delay a bit to show progress complete
+      setFileSelected(null);
+      setIsVisible(false);
+      setUploadProgress(-1);
+    }, 1000);
   };
 
   const allowDragOver = (event: any) => {
@@ -134,9 +139,11 @@ const ImageUpload: React.FC<Props> = ({ images, setImages }: Props) => {
                   <h3>Upload</h3>
                 </Button>
               </div>
-              <div className={"uploadBar"}>
-                <ProgressBar bgcolor={"#fd8033"} completed={uploadProgress} />
-              </div>
+              {uploadProgress >= 0 && (
+                <div style={{ width: "80%" }}>
+                  <ProgressBar bgcolor={"#fd8033"} completed={uploadProgress} />
+                </div>
+              )}
             </div>
           </div>
         </div>

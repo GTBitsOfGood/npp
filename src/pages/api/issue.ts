@@ -31,8 +31,9 @@ const handler = generateMethodRoute(
       }
     },
     put: async (req) => {
+      const issue = req.body.issue;
+      issue.product = validateAndSanitizeIdString(issue.product);
       if (req.body.create) {
-        const issue = req.body.issue;
         await validateUserHasAccessToIssue(req.user as SessionUser, issue);
         const result = await IssueManager.createIssue({
           ...issue,
@@ -43,7 +44,6 @@ const handler = generateMethodRoute(
         }
         return result;
       } else {
-        const issue = req.body.issue;
         const issueId = req.body.id;
         await validateUserHasAccessToIssue(req.user as SessionUser, issue);
         const result = await IssueManager.completeIssueById(issueId);

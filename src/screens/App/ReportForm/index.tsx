@@ -16,6 +16,7 @@ import { createIssue } from "&actions/IssueActions";
 import { IssueType } from "&server/models/IssueType";
 import { getLocalItem } from "&utils/local-storage-utils";
 import { UploadedFile } from "&server/utils/ImageUpload";
+import { getApplications } from "&actions/ApplicationActions";
 
 const placeHolder =
   "Enter a brief description of the issue with your software. We will do our best to replicate it on our end, and then reach out if we have any questions or have suggestions for how to fix it on your end.";
@@ -81,9 +82,8 @@ const ReportScreen = () => {
       const typeNames = [];
       if (issueType[0]) typeNames.push(IssueType.NOT_LOADING);
       if (issueType[1]) typeNames.push(IssueType.DATA_MISSING);
-
       const result = await createIssue({
-        product: router.query.id as string,
+        product: (await getApplications())[0].id, // This is a quick patch. The application id should be in the route or selected as a field
         issueType: typeNames,
         description: issuePassage,
         images: images.map((image) => image.blobName),

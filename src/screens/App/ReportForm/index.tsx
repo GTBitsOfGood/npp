@@ -82,6 +82,8 @@ const ReportScreen = () => {
       const typeNames = [];
       if (issueType[0]) typeNames.push(IssueType.NOT_LOADING);
       if (issueType[1]) typeNames.push(IssueType.DATA_MISSING);
+      if (issueType[2]) typeNames.push(IssueType.OTHER);
+
       const result = await createIssue({
         product: (await getApplications())[0].id, // This is a quick patch. The application id should be in the route or selected as a field
         issueType: typeNames,
@@ -179,6 +181,11 @@ const ReportScreen = () => {
               label="Data Missing"
               checked={issueType[1]}
               onClick={() => checkIssueType(1)}
+            />
+            <Checkbox
+              label="Other"
+              checked={issueType[2]}
+              onClick={() => checkIssueType(2)}
             />
           </div>
 

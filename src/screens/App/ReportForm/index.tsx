@@ -81,6 +81,7 @@ const ReportScreen = () => {
       const typeNames = [];
       if (issueType[0]) typeNames.push(IssueType.NOT_LOADING);
       if (issueType[1]) typeNames.push(IssueType.DATA_MISSING);
+      if (issueType[2]) typeNames.push(IssueType.OTHER);
 
       const result = await createIssue({
         product: router.query.id as string,
@@ -179,6 +180,11 @@ const ReportScreen = () => {
               label="Data Missing"
               checked={issueType[1]}
               onClick={() => checkIssueType(1)}
+            />
+            <Checkbox
+              label="Other"
+              checked={issueType[2]}
+              onClick={() => checkIssueType(2)}
             />
           </div>
 

@@ -1,0 +1,40 @@
+doctype html
+// all styles need to be relative to the "emails" directory
+link(rel="stylesheet", href="/assets/style.css", data-inline)
+html
+    body
+        - const staticURL = `${baseUrl}/static`
+        table
+            tbody
+                tr
+                    td
+                        - const placeholderURL = `${staticURL}/email-assets/header.png`
+                        img(id="header" src=placeholderURL)
+                tr
+                    td
+                        block address
+                            p Dear #{name},
+                tr
+                    td
+                        block content
+                tr
+                    td
+                        block signature
+                            p - Bits of Good Team
+                tr
+                    td
+                        div(id="footer" style={ "background-image": `url("${staticURL}/email-assets/footer.jpg")` })
+                            h1(id="copyright") © 2019 Bits of Good | bitsofgood.org
+                            div(id="socials")
+                                - const facebookLogoURL = `${staticURL}/email-assets/facebook.png`
+                                - const twitterLogoURL = `${staticURL}/email-assets/twitter.png`
+                                - const instagramLogoURL = `${staticURL}/email-assets/instagram.png`
+                                - const linkedinLogoURL = `${staticURL}/email-assets/linkedin.png`
+                                a(href="https://www.facebook.com/GTBitsOfGood/")
+                                    img(class="social right" src=facebookLogoURL)
+                                a(href="https://twitter.com/gtbitsofgood")
+                                    img(class="social left right" src=twitterLogoURL)
+                                a(href="https://www.instagram.com/gtbitsofgood/")
+                                    img(class="social left right" src=instagramLogoURL)
+                                a(href="https://www.linkedin.com/company/gtbitsofgood/about/")
+                                    img(class="social left" src=linkedinLogoURL)

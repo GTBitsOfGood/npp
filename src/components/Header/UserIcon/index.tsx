@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 
+// Components
+import Button from "&components/Button";
+
 // Iconography
 import { Icon } from "@iconify/react";
 import caretDown from "@iconify/icons-radix-icons/caret-down";
@@ -28,9 +31,9 @@ const UserIcon = ({ containerMouse }: UserIconProps) => {
     return null;
   } else if (!session) {
     return (
-      <button className={classes.loginButton} onClick={login}>
-        <h3>Sign In</h3>
-      </button>
+      <Button variant="primary" className={classes.loginButton} onClick={login}>
+        <h3>Log In</h3>
+      </Button>
     );
   }
 

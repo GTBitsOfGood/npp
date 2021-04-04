@@ -5,7 +5,7 @@ import { StageType } from "&server/models/StageType";
 
 export interface Application {
   id: string;
-  users: string[];
+  user: string;
   primaryContact: Contact;
   productType: ProductType[];
   description: string;

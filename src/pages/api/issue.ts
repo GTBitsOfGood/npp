@@ -68,7 +68,7 @@ async function validateUserHasAccessToIssue(
     const application = await ApplicationManager.getApplicationById(
       issue.product
     );
-    if (!application.users.includes(user.id)) {
+    if (application.user != user.id) {
       throw new AuthenticationError(
         "User is trying to access an issue they are not authorized to access"
       );

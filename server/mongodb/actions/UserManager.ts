@@ -2,6 +2,7 @@ import { connectToDB, EntityDoc } from "../index";
 import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 import { Profile } from "&server/models/Profile";
+import stringSimilarity from "string-similarity";
 
 export async function getUserById(id: ObjectId) {
   await connectToDB();
@@ -28,10 +29,24 @@ export async function upsertUserByProviderProfile(
 
 export async function updateOrganizationForUser(
   id: ObjectId,
-  organization: Record<string, any>,
-  organizationVerified: boolean
+  organization: Record<string, any>
 ): Promise<EntityDoc> {
   await connectToDB();
+
+  let organizationVerified;
+  try {
+    const response = await fetch(
+      `https://projects.propublica.org/nonprofits/api/v2/organizations/` +
+        `${organization.ein.replace("-", "")}.json`
+    );
+    const similarity = stringSimilarity.compareTwoStrings(
+      (await response.json()).organization.name.toLowerCase(),
+      organization.organizationName.toLowerCase()
+    );
+    organizationVerified = similarity > 0.333;
+  } catch (err) {
+    organizationVerified = false;
+  }
 
   return UserDocument.findByIdAndUpdate(
     id,

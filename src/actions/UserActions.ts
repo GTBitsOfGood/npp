@@ -1,5 +1,4 @@
 import { signIn, signOut } from "next-auth/client";
-import { verifyOrg } from "&utils/auth-utils";
 import urls from "&utils/urls";
 
 import { callInternalAPI } from "&server/utils/ActionUtils";
@@ -37,14 +36,12 @@ export async function updateOrganizationForUser(
   userId: string,
   organization: Organization
 ): Promise<User> {
-  const organizationVerified = await verifyOrg(organization);
   const response: Record<string, any> = await callInternalAPI(
     userRoute,
     HttpMethod.PUT,
     {
       id: userId,
       organization,
-      organizationVerified,
     }
   );
   return userFromJsonResponse(response);

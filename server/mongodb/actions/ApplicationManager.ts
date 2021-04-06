@@ -37,7 +37,7 @@ export async function getApplications(
 ): Promise<Application[]> {
   await connectToDB();
 
-  const findBy = user.isAdmin && query.all ? {} : { users: user.id };
+  const findBy = user.isAdmin && query.all ? {} : { user: user.id };
 
   return (
     await ApplicationDocument.find(findBy)
@@ -73,7 +73,7 @@ export async function getAcceptedApplication(
     await ApplicationDocument.findOne({
       stage: StageType.DECISION,
       decision: true,
-      users: user.id,
+      user: user.id,
     }).sort({
       createdAt: -1,
     })
@@ -148,7 +148,7 @@ export async function updateApplicationMeeting(
 export function docToApplication(object: { [key: string]: any }): Application {
   return {
     id: object._id.toString(),
-    users: object.users?.map((id: Types.ObjectId) => id.toString()),
+    user: object.user.toString(),
     primaryContact: docToContact(object.primaryContact),
     productType: object.productType,
     description: object.description,

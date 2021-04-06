@@ -1,0 +1,6 @@
+extends ../../assets/base-email.pug
+block content
+    p Thank you for your patience. Your organization has been verified. Login below to start your application!
+    - const link = `${baseUrl}/p/${urlString}`
+    a(href=link)
+    p #{link}

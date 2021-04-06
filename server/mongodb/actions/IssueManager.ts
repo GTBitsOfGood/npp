@@ -13,8 +13,13 @@ export async function createIssue(
   }
 
   const application = await getApplicationById(issue.product);
-  if (application == null || application.decision != true) {
+  if (application == null) {
     throw new Error("Invalid product provided!");
+  }
+  if (application.decision != true) {
+    throw new Error(
+      "Can't create an issue for an application that has not been decided"
+    );
   }
 
   return IssueDocument.create(issue);

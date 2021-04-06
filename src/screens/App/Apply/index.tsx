@@ -15,23 +15,10 @@ import { useSession } from "&utils/auth-utils";
 
 // Utils
 import urls from "&utils/urls";
+import { getLocalItem } from "&utils/local-storage-utils";
 
 const descriptionPlaceholder =
   "Enter a brief description of the type of product you are looking for. It’s okay if you aren’t entirely sure, but this could give us a couple of ideas to discuss with you during our first meeting.";
-
-const getLocalItem = (name: string, fallbackValue: string | boolean[]) => {
-  const storedValue = localStorage.getItem(name);
-
-  if (storedValue == null) {
-    return fallbackValue;
-  }
-
-  try {
-    return JSON.parse(storedValue);
-  } catch (error) {
-    return storedValue;
-  }
-};
 
 const ApplyScreen = () => {
   const router = useRouter();

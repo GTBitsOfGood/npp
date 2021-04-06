@@ -29,6 +29,7 @@ export async function createIssue(issue: Issue): Promise<Issue> {
     issueRoute,
     HttpMethod.PUT,
     {
+      create: true,
       issue,
     }
   );

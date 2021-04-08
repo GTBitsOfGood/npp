@@ -107,11 +107,12 @@ body {
   }
 
   table {
+    font-family: "Visby CF", sans-serif;
     border-collapse: collapse;
     width: 100%;
     tbody {
       tr {
-        border: 0.25px solid $gray-10;
+        border: 0.25px solid #e1e1e1;
       }
     }
     td,
@@ -119,8 +120,10 @@ body {
       padding: 20px 0 20px 15px;
     }
     th {
-      color: $gray-40;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       text-align: left;
+      font-size: 14px;
     }
     .status {
       padding: 5px;

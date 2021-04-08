@@ -8,13 +8,13 @@
   font-weight: 800;
   color: $gray-40;
 
-  &.active,
+  &.active {
+    color: $gray-80 !important;
+    border-bottom: 4px solid $orange-500 !important;
+  }
   &:hover {
-    color: $gray-80;
-    box-shadow: 0 23px 0 0 $orange-500;
-    background: transparent;
-    border-radius: 10px;
-    height: 4px;
+    color: $gray-60;
+    border-bottom: 4px solid $orange-300;
   }
 }
 

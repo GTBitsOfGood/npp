@@ -15,4 +15,6 @@ export interface Issue {
   user: string;
   createdAt?: DateTime;
   updatedAt?: DateTime;
+  dateSubmitted?: DateTime;
+  dateCompleted?: DateTime;
 }

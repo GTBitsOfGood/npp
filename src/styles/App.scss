@@ -52,49 +52,140 @@ body {
 .landingPage {
   flex: 1;
   display: flex;
-  text-align: center;
-  align-items: center;
   padding: 80px 0 64px;
   flex-direction: column;
   justify-content: center;
 
-  .landingHeader {
-    margin: 0 32px 32px;
-  }
-
-  .landingImage {
-    margin: 24px auto 48px;
-  }
-
-  .landingContent {
+  .landingUpper {
     display: flex;
+    width: 100%;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    padding: 0 50px 50px 50px;
 
-    .landingPadding {
-      flex: 2;
+    .landingImage {
+      width: 300px;
+      height: 200px;
+      background-color: $gray-40;
     }
 
-    .landingText {
-      flex: 8;
-      color: $gray-80;
-      margin: 0 0 48px;
+    .landingContent {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      margin: 0 0 0 40px;
 
-      a {
+      @media (max-width: 700px) {
+        margin: 40px 0 0 0;
+      }
+
+      .landingText {
+        color: $gray-80;
+        text-align: left;
         font-size: 16px;
-        font-weight: 800;
-        line-height: 130%;
-        color: $orange-500;
-        font-family: $visby;
-        text-decoration: none;
-        font-variant-ligatures: no-common-ligatures;
+        max-width: 900px;
+        width: 80%;
+        margin: 0 0 30px 0;
+
+        a {
+          font-size: 16px;
+          line-height: 130%;
+          color: $orange-500;
+          font-family: $visby;
+          text-decoration: none;
+          font-variant-ligatures: no-common-ligatures;
+        }
+      }
+      .landingButton {
+        margin-right: auto;
+
+        &:not(:last-of-type) {
+          margin-bottom: 32px;
+        }
       }
     }
   }
 
-  .landingButton {
+  .tableContainer {
+    width: 95%;
     margin: 0 auto;
 
-    &:not(:last-of-type) {
-      margin-bottom: 32px;
+    @media (max-width: 700px) {
+      thead {
+        display: none;
+      }
+
+      tr {
+        display: block;
+        border: 1px solid $gray-10;
+        padding: 1em 1em 0.5em;
+
+        & + tr {
+          margin-top: 0.625em;
+        }
+      }
+
+      td {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 1px solid $gray-20;
+        font-size: 0.8em;
+        line-height: 1.35em;
+
+        &:before {
+          content: attr(data-label);
+          font-size: 0.9em;
+          text-align: left;
+          font-weight: bold;
+          text-transform: uppercase;
+          max-width: 45%;
+        }
+
+        & + td {
+          margin-top: 0.8em;
+        }
+
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    .tableText {
+      margin: 10px 10px 30px 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      text-align: center;
+      width: 100%;
+      tbody {
+        tr {
+          border: 0.25px solid $gray-20;
+        }
+      }
+      td,
+      th {
+        padding: 20px 0 20px 0;
+      }
+      th.num {
+        width: 25%;
+      }
+      th.type {
+        width: 15%;
+      }
+      th.description {
+        width: 25%;
+      }
+      th.start,
+      th.end {
+        width: 10%;
+      }
+      .status {
+        padding: 5px;
+        border-radius: 10px;
+      }
     }
   }
 }

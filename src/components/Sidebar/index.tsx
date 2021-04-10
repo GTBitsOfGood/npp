@@ -39,7 +39,14 @@ const Sidebar = ({ currentRoute, isLanding, isAdmin }: HeaderProps) => {
         </a>
       </Link>
 
-      <Link href={urls.pages.app.report.landing} passHref>
+      <Link
+        href={
+          isAdmin
+            ? urls.pages.app.admin.maintenance
+            : urls.pages.app.report.landing
+        }
+        passHref
+      >
         <a
           className={clsx(
             classes.page,
@@ -51,7 +58,7 @@ const Sidebar = ({ currentRoute, isLanding, isAdmin }: HeaderProps) => {
               currentRoute === urls.pages.app.report.landing && classes.active
             )}
           >
-            Report a Problem
+            {isAdmin ? "Maintenance" : "Report a Problem"}
           </h3>
           {currentRoute === urls.pages.app.report.landing && (
             <span className={classes.rectangle} />

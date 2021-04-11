@@ -86,7 +86,7 @@
 
 .pending,
 .verified,
-.unverified {
+.rejected {
   padding: 8px;
   border-radius: 10px;
 }
@@ -99,6 +99,6 @@
   background-color: #daf9bb;
 }
 
-.unverified {
-  background-color: #e2e2e2;
+.rejected {
+  background-color: #ffbfbf;
 }

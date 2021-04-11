@@ -41,10 +41,6 @@ const OrganizationSchema = new Schema({
     type: String,
     required: true,
   },
-  status: {
-    type: OrganizationStatus,
-    default: OrganizationStatus.Unverified,
-  },
   dateSubmitted: {
     type: Date,
     required: true,
@@ -92,9 +88,9 @@ const UserSchema = new Schema(
       required: false,
     },
     // we need to keep this field because the admin needs to validate the organization info
-    organizationVerified: {
-      type: Boolean,
-      default: false,
+    orgStatus: {
+      type: OrganizationStatus,
+      default: OrganizationStatus.Pending,
     },
   },
   {

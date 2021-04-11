@@ -5,6 +5,7 @@ import { getSession, Session } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 import { getUserOrg } from "&utils/auth-utils";
 import urls from "&utils/urls";
 
@@ -19,15 +20,13 @@ const Index = ({ session }: PropTypes) => {
 
   useEffect(() => {
     // @ts-ignore
-    if (session && session.user.organizationVerified) {
+    if (session && session.user.orgStatus === OrganizationStatus.Verified) {
       setRoute(urls.pages.app.index);
       setLoading(false);
     } else if (session) {
       getUserOrg(session).then((organization) => {
         setRoute(
-          organization
-            ? urls.pages.app.index
-            : urls.pages.app.verification
+          organization ? urls.pages.app.index : urls.pages.app.verification
         );
         setLoading(false);
       });

@@ -3,6 +3,7 @@ import urls from "&utils/urls";
 
 import { callInternalAPI } from "&server/utils/ActionUtils";
 import { HttpMethod } from "&server/models/HttpMethod";
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 import { Organization } from "&server/models/Organization";
 import { User } from "&server/models/User";
 
@@ -47,16 +48,16 @@ export async function updateOrganizationForUser(
   return userFromJsonResponse(response);
 }
 
-export async function updateOrganizationVerifiedStatus(
+export async function updateOrgStatus(
   userId: string,
-  organizationVerified: boolean
+  orgStatus: OrganizationStatus
 ): Promise<User> {
   const response: Record<string, any> = await callInternalAPI(
     userRoute,
     HttpMethod.POST,
     {
       id: userId,
-      organizationVerified,
+      orgStatus,
     }
   );
   return userFromJsonResponse(response);

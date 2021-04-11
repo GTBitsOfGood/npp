@@ -12,7 +12,8 @@ import classes from "./UserIcon.module.scss";
 
 // Actions
 import { login, logout } from "&actions/UserActions";
-import { User } from "&server/models/User";
+
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 import { useSession } from "&utils/auth-utils";
 
 interface UserIconProps {
@@ -66,7 +67,7 @@ const UserIcon = ({ containerMouse }: UserIconProps) => {
           )}
         </div>
 
-        {!user.organizationVerified && !user.isAdmin ? (
+        {user.orgStatus !== OrganizationStatus.Verified && !user.isAdmin ? (
           <h5 className={classes.role}>Verification Needed</h5>
         ) : (
           <h5 className={classes.role}>

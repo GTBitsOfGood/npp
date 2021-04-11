@@ -16,7 +16,6 @@ import { useSession } from "&utils/auth-utils";
 
 // Styling
 import classes from "./Verification.module.scss";
-import { OrganizationStatus } from "&server/models/OrganizationStatus";
 import { DateTime } from "luxon";
 
 const missionPlaceholder =
@@ -119,7 +118,6 @@ const VerificationFormScreen = () => {
           state,
           zipCode,
         },
-        status: OrganizationStatus.Pending,
         ...(websiteURL && { website: websiteURL }),
         dateSubmitted: new DateTime(),
       });

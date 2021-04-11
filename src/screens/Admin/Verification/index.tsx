@@ -1,11 +1,12 @@
-import { Organization } from "&server/models/Organization";
-import { OrganizationStatus } from "&server/models/OrganizationStatus";
 import urls from "&utils/urls";
 import clsx from "clsx";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import classes from "./Verification.module.scss";
+
+import { Organization } from "&server/models/Organization";
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 
 const Verification = () => {
   const [users, setUsers] = useState([]);
@@ -22,6 +23,7 @@ const Verification = () => {
   interface User {
     email: String;
     organization: Organization;
+    orgStatus: OrganizationStatus;
     _id: String;
   }
 
@@ -32,7 +34,7 @@ const Verification = () => {
     } else if (status === "verified") {
       setSelected(OrganizationStatus.Verified);
     } else {
-      setSelected(OrganizationStatus.Unverified);
+      setSelected(OrganizationStatus.Rejected);
     }
   };
 
@@ -64,12 +66,12 @@ const Verification = () => {
         <button
           className={clsx(
             classes.statuses,
-            selected === OrganizationStatus.Unverified && classes.active
+            selected === OrganizationStatus.Rejected && classes.active
           )}
-          id="unverified"
+          id="rejected"
           onClick={sortBy}
         >
-          Unverified
+          Rejected
         </button>
       </div>
       <table>
@@ -86,7 +88,8 @@ const Verification = () => {
         <tbody>
           {users
             .filter(
-              (unfiltered: User) => unfiltered.organization.status === selected
+              (unfiltered: User) =>
+                unfiltered.organization && unfiltered.orgStatus === selected
             )
             .map((user: User, index) => {
               return (
@@ -108,15 +111,15 @@ const Verification = () => {
                     <td>
                       {selected === OrganizationStatus.Pending ? (
                         <span className={classes.pending}>
-                          {user.organization.status}
+                          {user.orgStatus}
                         </span>
                       ) : selected === OrganizationStatus.Verified ? (
                         <span className={classes.verified}>
-                          {user.organization.status}
+                          {user.orgStatus}
                         </span>
                       ) : (
-                        <span className={classes.unverified}>
-                          {user.organization.status}
+                        <span className={classes.rejected}>
+                          {user.orgStatus}
                         </span>
                       )}
                     </td>

@@ -1,3 +1,5 @@
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
+
 /**
  * Stripped-down version of User for sessions
  */
@@ -9,5 +11,5 @@ export interface SessionUser {
   familyName: string;
   roles: string[];
   isAdmin: boolean;
-  organizationVerified: boolean;
+  orgStatus: OrganizationStatus;
 }

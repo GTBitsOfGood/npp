@@ -1,4 +1,3 @@
-import { OrganizationStatus } from "&server/models/OrganizationStatus";
 import { DateTime } from "luxon";
 
 export interface Organization {
@@ -7,7 +6,6 @@ export interface Organization {
   website?: string;
   address: Address;
   mission: string;
-  status: OrganizationStatus;
   dateSubmitted: DateTime;
 }
 

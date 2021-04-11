@@ -63,10 +63,7 @@ const handler = generateMethodRoute(
     post: {
       routeHandler: async (req) => {
         const userId = validateAndSanitizeIdString(req.body.id as string);
-        return UserManager.updateOrganizationVerifiedStatus(
-          userId,
-          req.body.organizationVerified
-        );
+        return UserManager.updateOrgStatus(userId, req.body.orgStatus);
       },
       routeConfiguration: { requiredRoles: [ADMIN_ROLE] },
     },

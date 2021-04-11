@@ -2,6 +2,7 @@ import { connectToDB, EntityDoc } from "../index";
 import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 import { Profile } from "&server/models/Profile";
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 
 export async function getUsers() {
   await connectToDB();
@@ -46,16 +47,16 @@ export async function updateOrganizationForUser(
   );
 }
 
-export async function updateOrganizationVerifiedStatus(
+export async function updateOrgStatus(
   id: ObjectId,
-  organizationVerified: boolean
+  orgStatus: OrganizationStatus
 ): Promise<EntityDoc> {
   await connectToDB();
 
   return UserDocument.findByIdAndUpdate(
     id,
     {
-      organizationVerified,
+      orgStatus,
     },
     { new: true }
   );

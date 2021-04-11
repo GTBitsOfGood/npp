@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { updateOrganizationVerifiedStatus } from "&actions/UserActions";
+import { updateOrgStatus } from "&actions/UserActions";
 import classes from "./Verification.module.scss";
 import Button from "&components/Button";
 import urls from "&utils/urls";
 import Link from "next/link";
 
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 import { Organization } from "&server/models/Organization";
 import { User } from "&server/models/User";
 
@@ -29,8 +30,8 @@ const VerifyPage = () => {
         .catch(() => setLoading(false));
   }, [email]);
 
-  const updateOrg = (verified: boolean) => {
-    void updateOrganizationVerifiedStatus(user.id, verified);
+  const updateOrg = (status: OrganizationStatus) => {
+    void updateOrgStatus(user.id, status);
     void router.push("/admin/verification");
   };
 
@@ -78,14 +79,14 @@ const VerifyPage = () => {
         <Button
           className={classes.verify}
           variant="primary"
-          onClick={() => updateOrg(true)}
+          onClick={() => updateOrg(OrganizationStatus.Verified)}
         >
           Verify
         </Button>
         <Button
           className={classes.reject}
           variant="secondary"
-          onClick={() => updateOrg(false)}
+          onClick={() => updateOrg(OrganizationStatus.Rejected)}
         >
           Reject
         </Button>

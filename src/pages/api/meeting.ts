@@ -146,7 +146,7 @@ async function validateUserHasAccessToMeeting(
       applicationId
     );
 
-    if (!application.users.includes(user.id)) {
+    if (application.user != user.id) {
       throw new AuthenticationError(
         "User is trying to access a meeting they are not authorized to access"
       );

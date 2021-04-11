@@ -65,7 +65,7 @@ const handler = generateMethodRoute(
     put: async (req) => {
       const application = { ...req.body.application };
       const user = req.user as SessionUser;
-      application.users = [user.id];
+      application.user = user.id;
 
       return ApplicationManager.addApplication(application);
     },
@@ -96,7 +96,7 @@ async function validateUserHasAccessToApplication(
 
   if (!user.isAdmin) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    if (!application.users.includes(user.id)) {
+    if (application.user == user.id) {
       throw new AuthenticationError(
         "User is trying to access an application they are not authorized to access"
       );

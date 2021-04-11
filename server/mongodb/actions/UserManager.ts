@@ -3,6 +3,7 @@ import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 import { Profile } from "&server/models/Profile";
 import { OrganizationStatus } from "&server/models/OrganizationStatus";
+import stringSimilarity from "string-similarity";
 
 export async function getUsers() {
   await connectToDB();
@@ -38,10 +39,26 @@ export async function updateOrganizationForUser(
 ): Promise<EntityDoc> {
   await connectToDB();
 
+  let orgStatus = OrganizationStatus.Pending;
+  try {
+    const response = await fetch(
+      `https://projects.propublica.org/nonprofits/api/v2/organizations/` +
+        `${organization.ein.replace("-", "")}.json`
+    );
+
+    const given = organization.organizationName.toLowerCase();
+    const found = (await response.json()).organization.name.toLowerCase();
+    if (stringSimilarity.compareTwoStrings(given, found) > 0.333)
+      orgStatus = OrganizationStatus.Verified;
+  } catch (err) {
+    console.error(err.message);
+  }
+
   return UserDocument.findByIdAndUpdate(
     id,
     {
       organization,
+      orgStatus,
     },
     { new: true }
   );

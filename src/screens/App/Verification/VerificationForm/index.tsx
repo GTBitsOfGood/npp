@@ -119,7 +119,8 @@ const VerificationFormScreen = () => {
           zipCode,
         },
         ...(websiteURL && { website: websiteURL }),
-        dateSubmitted: new DateTime(),
+        // @ts-ignore
+        dateSubmitted: DateTime.now(),
       });
 
       if (res.organization == null) {

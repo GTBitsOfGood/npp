@@ -120,6 +120,7 @@ const VerificationFormScreen = () => {
           zipCode,
         },
         status: OrganizationStatus.Pending,
+        ...(websiteURL && { website: websiteURL }),
         dateSubmitted: new DateTime(),
       });
 

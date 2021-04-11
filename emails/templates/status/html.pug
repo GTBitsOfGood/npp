@@ -1,0 +1,32 @@
+extends ../../assets/base-email.pug
+block content
+    -
+        const alts = ['Application Submitted', 'Schedule an Interview', 'Interview Scheduled', 'Under Review', 'Decision Made']
+        const alt = `Status: ${alts[status]}`
+    table
+        tbody
+            tr
+                case status
+                    when 0
+                        p Thank you for your interest in Bits of Good! We will let you know our decision as soon as possible. If we decide to move forward with your application, we will follow up with a meeting to discuss more about your organization and product.
+                    when 1
+                        p Congratulations! After reviewing your application, we have decided to move forward to the interview process! For the next step, we want to have a one-hour phone interview to learn more about you. When you have a moment, please let us know when you’d be available for the call, as well as the number to best reach you. Shortly after you submit your availability, our team will review your request and will confirm the time and date.
+                    when 2
+                        p Thanks for scheduling your meeting with us! You can view meeting specifics at the application portal by clicking the link below.
+                    when 3
+                        p We enjoyed the meeting with you! Hang tight for the updates for your application. We still need more time to tell our team about your organization and the product goals to make decisions accordingly. We appreciate your time and patience. Before the decision is made, feel free to contact us if you have any further questions.
+                    when 4
+                        if decision === true
+                            p Congratulations! After careful consideration, our team has decided to work with you next semester! We enjoyed the meeting with you and believe that our missions align with each other. Let’s build a powerful and meaningful product together to make our community better!
+                        else
+                            p After careful considerations, we are sorry to inform you that we decide not to move on with your application. We enjoyed learning about your organization and its impact on the community. We appreciate your time and work! Keep in touch!
+        tr
+            td
+                - const statusURL = `${staticURL}/email-assets/${status}.jpg`
+                img(id="status" src=statusURL alt=alt)
+        tr
+            td
+                p You can revisit this webpage to track the status of your application:
+                - const link = `${baseUrl}/p/${urlString}`
+                a(href=link)
+                    p #{link}

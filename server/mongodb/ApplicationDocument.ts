@@ -1,16 +1,11 @@
 import mongoose, { Schema, Types } from "mongoose";
-import { ObjectId } from "mongodb";
 import ContactSchema from "&server/mongodb/ContactSchema";
 
 const ApplicationSchema = new Schema(
   {
-    users: {
-      type: [Types.ObjectId],
+    user: {
+      type: Types.ObjectId,
       ref: "User",
-      validate: {
-        validator: (val: ObjectId[]) => val.length > 0,
-        message: "Must be associated with at least one user",
-      },
       required: true,
     },
     primaryContact: {

@@ -39,12 +39,11 @@ export async function createIssue(issue: Issue): Promise<Issue> {
 export function issueFromJsonResponse(object: Record<string, any>): Issue {
   return {
     id: object._id?.toString(),
-    issueType: object.issueType.map((val: string) => {
-      return IssueType[val as keyof typeof IssueType];
-    }),
+    issueType: object.issueType as IssueType[],
     description: object.description,
     images: object.images,
     contact: contactFromJsonResponse(object.contact),
-    status: IssueStatus[(object.status as string) as keyof typeof IssueStatus],
+    status: object.status as IssueStatus,
+    user: object.user.toString(),
   };
 }

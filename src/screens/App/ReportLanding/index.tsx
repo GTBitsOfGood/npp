@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     return {
       props: {
-        projectId: accepted._id.toString(),
+        projectId: accepted.id,
       },
     };
   } catch (error) {

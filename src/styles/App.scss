@@ -99,6 +99,92 @@ body {
   }
 }
 
+.reportPage {
+  flex: 1;
+  display: flex;
+  padding: 80px 0 64px;
+  flex-direction: column;
+  justify-content: center;
+
+  .reportUpper {
+    display: flex;
+    width: 100%;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    padding: 0 50px 50px 50px;
+
+    .reportImage {
+      width: 300px;
+      height: 200px;
+      background-color: $gray-40;
+    }
+
+    .reportContent {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      margin: 0 0 0 40px;
+
+      @media (max-width: 600px) {
+        margin: 40px 0 0 0;
+      }
+
+      .reportText {
+        color: $gray-80;
+        text-align: left;
+        font-size: 16px;
+        max-width: 900px;
+        width: 80%;
+        margin: 0 0 30px 0;
+
+        a {
+          font-size: 16px;
+          line-height: 130%;
+          color: $orange-500;
+          font-family: $visby;
+          text-decoration: none;
+          font-variant-ligatures: no-common-ligatures;
+        }
+      }
+
+      .reportButton {
+        width: 200px;
+
+        &:not(:last-of-type) {
+          margin-bottom: 32px;
+        }
+      }
+    }
+  }
+
+  .tableContainer {
+    width: 95%;
+    margin: 0 auto;
+    .tableText {
+      margin: 10px 10px 30px 0px;
+    }
+
+    table {
+      border-collapse: collapse;
+      text-align: center;
+      width: 100%;
+      tbody {
+        tr {
+          border: 0.25px solid $gray-20;
+        }
+      }
+      td,
+      th {
+        padding: 20px 0 20px 20px;
+      }
+      .status {
+        padding: 5px;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
 .applicationPage {
   flex: 1;
   display: flex;

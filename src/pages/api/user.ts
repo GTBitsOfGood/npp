@@ -6,6 +6,7 @@ import { SessionUser } from "&server/models/SessionUser";
 import { AuthenticationError } from "&server/utils/AuthenticationError";
 import { ADMIN_ROLE } from "&server/utils/Authentication";
 import { MetricReporter } from "&server/utils/MetricReporter";
+import * as Authentication from "&server/utils/Authentication";
 
 const METRIC_REPORTER = new MetricReporter();
 const SOURCE_NAME = "User Route";
@@ -38,6 +39,9 @@ const handler = generateMethodRoute(
           req.user as SessionUser,
           await UserManager.getUserByEmail(req.query.email as string)
         );
+      } else {
+        Authentication.ensureAdmin(req.user);
+        outputUser = await UserManager.getUsers();
       }
 
       METRIC_REPORTER.reportIntervalEventCompleted(
@@ -59,10 +63,7 @@ const handler = generateMethodRoute(
     post: {
       routeHandler: async (req) => {
         const userId = validateAndSanitizeIdString(req.body.id as string);
-        return UserManager.updateOrganizationVerifiedStatus(
-          userId,
-          req.body.organizationVerified
-        );
+        return UserManager.updateOrgStatus(userId, req.body.orgStatus);
       },
       routeConfiguration: { requiredRoles: [ADMIN_ROLE] },
     },

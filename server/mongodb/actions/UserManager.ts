@@ -2,7 +2,13 @@ import { connectToDB, EntityDoc } from "../index";
 import UserDocument from "../UserDocument";
 import { ObjectId } from "mongodb";
 import { Profile } from "&server/models/Profile";
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 import stringSimilarity from "string-similarity";
+
+export async function getUsers() {
+  await connectToDB();
+  return UserDocument.find({ organization: { $ne: null } });
+}
 
 export async function getUserById(id: ObjectId) {
   await connectToDB();
@@ -33,41 +39,41 @@ export async function updateOrganizationForUser(
 ): Promise<EntityDoc> {
   await connectToDB();
 
-  let organizationVerified;
+  let orgStatus = OrganizationStatus.Pending;
   try {
     const response = await fetch(
       `https://projects.propublica.org/nonprofits/api/v2/organizations/` +
         `${organization.ein.replace("-", "")}.json`
     );
-    const similarity = stringSimilarity.compareTwoStrings(
-      (await response.json()).organization.name.toLowerCase(),
-      organization.organizationName.toLowerCase()
-    );
-    organizationVerified = similarity > 0.333;
+
+    const given = organization.organizationName.toLowerCase();
+    const found = (await response.json()).organization.name.toLowerCase();
+    if (stringSimilarity.compareTwoStrings(given, found) > 0.333)
+      orgStatus = OrganizationStatus.Verified;
   } catch (err) {
-    organizationVerified = false;
+    console.error(err.message);
   }
 
   return UserDocument.findByIdAndUpdate(
     id,
     {
       organization,
-      organizationVerified,
+      orgStatus,
     },
     { new: true }
   );
 }
 
-export async function updateOrganizationVerifiedStatus(
+export async function updateOrgStatus(
   id: ObjectId,
-  organizationVerified: boolean
+  orgStatus: OrganizationStatus
 ): Promise<EntityDoc> {
   await connectToDB();
 
   return UserDocument.findByIdAndUpdate(
     id,
     {
-      organizationVerified,
+      orgStatus,
     },
     { new: true }
   );

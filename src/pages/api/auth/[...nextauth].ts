@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { SessionUser } from "&server/models/SessionUser";
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 import * as Authentication from "&server/utils/Authentication";
 import BitsAuth0Provider from "&server/auth/BitsAuth0Provider";
 import {
@@ -65,7 +66,7 @@ const options = {
 };
 
 function isTokenExpired(jwtToken: JwtPayload): boolean {
-  return !jwtToken.organizationVerified;
+  return jwtToken.orgStatus !== OrganizationStatus.Verified;
 }
 
 async function refreshToken(jwtToken: JwtPayload): Promise<SessionUser> {
@@ -84,8 +85,8 @@ function generateJwtPayloadFromDbUser(
     familyName: dbUser.familyName,
     roles: dbUser.roles,
     isAdmin: dbUser.roles.includes(Authentication.ADMIN_ROLE),
-    // for users created before the organizationVerified field was added
-    organizationVerified: !!dbUser.organizationVerified,
+    // for users created before the orgStatus field was added
+    orgStatus: dbUser.orgStatus,
   };
 }
 

@@ -16,6 +16,7 @@ import { useSession } from "&utils/auth-utils";
 
 // Styling
 import classes from "./Verification.module.scss";
+import { DateTime } from "luxon";
 
 const missionPlaceholder =
   "At Bits of Good, our mission is to change lives one bit at a time - we serve our community by building powerful applications for local nonprofits.";
@@ -117,6 +118,9 @@ const VerificationFormScreen = () => {
           state,
           zipCode,
         },
+        ...(websiteURL && { website: websiteURL }),
+        // @ts-ignore
+        dateSubmitted: DateTime.now(),
       });
 
       if (res.organization == null) {

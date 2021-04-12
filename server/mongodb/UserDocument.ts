@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import * as Authentication from "&server/utils/Authentication";
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 
 const AddressSchema = new Schema({
   streetAddress: {
@@ -38,6 +39,10 @@ const OrganizationSchema = new Schema({
   },
   mission: {
     type: String,
+    required: true,
+  },
+  dateSubmitted: {
+    type: Date,
     required: true,
   },
 });
@@ -83,9 +88,9 @@ const UserSchema = new Schema(
       required: false,
     },
     // we need to keep this field because the admin needs to validate the organization info
-    organizationVerified: {
-      type: Boolean,
-      default: false,
+    orgStatus: {
+      type: OrganizationStatus,
+      default: OrganizationStatus.Pending,
     },
   },
   {

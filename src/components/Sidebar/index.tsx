@@ -27,6 +27,14 @@ const Sidebar = ({ currentRoute, isLanding, isAdmin }: HeaderProps) => {
 
   const links = (
     <>
+      {isAdmin && (
+        <Link href={urls.pages.app.admin.verification} passHref>
+          <a className={clsx(classes.page, isLanding && classes.active)}>
+            <h3 className={clsx(isLanding && classes.active)}>Verification</h3>
+            {isLanding && <span className={classes.rectangle} />}
+          </a>
+        </Link>
+      )}
       <Link
         href={isAdmin ? urls.pages.app.admin.landing : urls.pages.app.index}
         passHref

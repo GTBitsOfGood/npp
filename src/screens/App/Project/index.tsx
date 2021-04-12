@@ -13,11 +13,13 @@ import ApplyNewBulb from "&icons/ApplyNewBulb";
 import { getSession, useSession, getUserOrg } from "&utils/auth-utils";
 import urls, { getApplicationUrl } from "&utils/urls";
 
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
+
 interface PropTypes {
-  organizationVerified: boolean;
+  orgStatus: OrganizationStatus;
 }
 
-const ProjectPage = ({ organizationVerified }: PropTypes) => {
+const ProjectPage = ({ orgStatus }: PropTypes) => {
   const router = useRouter();
   const [session, loading] = useSession();
   const [organization, setOrganization] = useState("");
@@ -44,7 +46,7 @@ const ProjectPage = ({ organizationVerified }: PropTypes) => {
 
   return (
     <>
-      {organizationVerified && (
+      {orgStatus === OrganizationStatus.Verified && (
         <div className="landingPage">
           <h1 className="landingHeader">Apply for a New Project</h1>
 
@@ -76,7 +78,7 @@ const ProjectPage = ({ organizationVerified }: PropTypes) => {
           </div>
         </div>
       )}
-      {!organizationVerified && verificationForm && (
+      {orgStatus !== OrganizationStatus.Verified && verificationForm && (
         <div className="loadingText">
           <h1>
             Thank you for registering yourself with{" "}
@@ -119,13 +121,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     return {
       props: {
-        organizationVerified: session.user.organizationVerified,
+        orgStatus: session.user.orgStatus,
       },
     };
   } catch (error) {
     return {
       props: {
-        organizationVerified: true,
+        orgStatus: OrganizationStatus.Verified,
         error: error.message,
       },
     };

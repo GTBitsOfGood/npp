@@ -5,6 +5,7 @@ import { getSession, Session } from "next-auth/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 import { getUserOrg } from "&utils/auth-utils";
 import urls from "&utils/urls";
 
@@ -23,9 +24,10 @@ const Index = ({ session }: PropTypes) => {
     if (session && session.user.isAdmin) {
       setRoute(urls.pages.app.admin.landing);
       setLoading(false);
-
-      // @ts-ignore
-    } else if (session && session.user.organizationVerified) {
+    } else if (
+      session && // @ts-ignore
+      session.user.orgStatus === OrganizationStatus.Verified
+    ) {
       setRoute(urls.pages.app.index);
       setLoading(false);
     } else if (session) {

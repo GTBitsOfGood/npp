@@ -26,6 +26,13 @@ const urls = {
       admin: {
         landing: "/admin/project",
         maintenance: "/admin/maintenance",
+        verification: "/admin/verification",
+      },
+    },
+    admin: {
+      verification: {
+        index: "/admin/verification",
+        verify: (org: string) => `/admin/verification/${org}`,
       },
     },
   },

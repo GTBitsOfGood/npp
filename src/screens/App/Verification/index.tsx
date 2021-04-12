@@ -8,7 +8,7 @@ import VerificationFormScreen from "./VerificationForm";
 // Utils
 import { getUserOrg } from "&utils/auth-utils";
 import { getSession } from "next-auth/client";
-import { getUserByEmail } from "&server/mongodb/actions/UserManager";
+import { OrganizationStatus } from "&server/models/OrganizationStatus";
 
 interface Props {
   underVerification: boolean;
@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const organization = await getUserOrg(session);
     const user = await UserManager.getUserByEmail(session.user.email);
 
-    if (organization && !user.organizationVerified) {
+    if (organization && user.orgStatus !== OrganizationStatus.Verified) {
       return {
         props: {
           underVerification: true,

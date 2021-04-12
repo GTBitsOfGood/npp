@@ -24,10 +24,8 @@ const Index = ({ session }: PropTypes) => {
     if (session && session.user.isAdmin) {
       setRoute(urls.pages.app.admin.landing);
       setLoading(false);
-
-      // @ts-ignore
     } else if (
-      session &&
+      session && // @ts-ignore
       session.user.orgStatus === OrganizationStatus.Verified
     ) {
       setRoute(urls.pages.app.index);

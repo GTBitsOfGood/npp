@@ -1,0 +1,58 @@
+@import "../../../../styles/Colors";
+@import "../../../../styles/Properties";
+
+.addressContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .city,
+  .state {
+    flex: 2;
+    margin-right: 20px;
+  }
+
+  .zip {
+    flex: 1;
+  }
+}
+
+.missionHeader {
+  margin-top: 52px;
+}
+
+.missionText {
+  margin-top: 24px;
+  margin-bottom: 16px !important;
+  line-height: 22px;
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+
+  margin-top: 48px;
+
+  h4 {
+    font-size: 16px;
+  }
+
+  .resubmitButton {
+    height: 48px;
+    width: 176px;
+    margin-left: 28px;
+    background-color: $gray-5;
+
+    h4 {
+      color: $orange-500;
+    }
+
+    &:hover {
+      h4 {
+        color: $white;
+      }
+    }
+  }
+}

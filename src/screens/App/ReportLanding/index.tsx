@@ -70,44 +70,41 @@ const ReportLanding = ({ userIssues, projectId }: PropTypes) => {
             </tr>
           </thead>
           <tbody>
-            {
-              // @ts-ignore
-              issues &&
-                issues.map((issue: Issue, index: number) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index}</td>
-                      <td>{issue.issueType.pop()}</td>
-                      <td>{issue.description}</td>
-                      <td>{new Date(issue.dateSubmitted).toLocaleString()}</td>
-                      <td>
-                        {issue?.dateCompleted === undefined
-                          ? "-"
-                          : new Date(issue?.dateCompleted).toLocaleString()}
-                      </td>
-                      <td>
-                        {issue.status === "RESOLVED" ? (
-                          <span
-                            className="status"
-                            style={{ backgroundColor: "#daedff" }}
-                          >
-                            Completed
-                          </span>
-                        ) : (
-                          <span
-                            className="status"
-                            style={{
-                              backgroundColor: "#ffdfb8",
-                            }}
-                          >
-                            In progress
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })
-            }
+            {issues && // @ts-ignore
+              issues.map((issue: Issue, index: number) => {
+                return (
+                  <tr key={index}>
+                    <td>{index}</td>
+                    <td>{issue.issueType.pop()}</td>
+                    <td>{issue.description}</td>
+                    <td>{new Date(issue.dateSubmitted).toLocaleString()}</td>
+                    <td>
+                      {issue?.dateCompleted === undefined
+                        ? "-"
+                        : new Date(issue?.dateCompleted).toLocaleString()}
+                    </td>
+                    <td>
+                      {issue.status === "RESOLVED" ? (
+                        <span
+                          className="status"
+                          style={{ backgroundColor: "#daedff" }}
+                        >
+                          Completed
+                        </span>
+                      ) : (
+                        <span
+                          className="status"
+                          style={{
+                            backgroundColor: "#ffdfb8",
+                          }}
+                        >
+                          In progress
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
@@ -134,7 +131,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const issues = await IssueManager.getIssueByUserId(session?.user.id);
     return {
       props: {
-        projectId: accepted._id.toString(),
+        projectId: accepted.id,
         userIssues: JSON.stringify(issues),
       },
     };

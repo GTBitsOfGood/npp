@@ -52,24 +52,74 @@ body {
 .landingPage {
   flex: 1;
   display: flex;
+  text-align: center;
+  align-items: center;
   padding: 80px 0 64px;
   flex-direction: column;
   justify-content: center;
 
-  .landingUpper {
+  .landingHeader {
+    margin: 0 32px 32px;
+  }
+
+  .landingImage {
+    margin: 24px auto 48px;
+  }
+
+  .landingContent {
+    display: flex;
+
+    .landingPadding {
+      flex: 2;
+    }
+
+    .landingText {
+      flex: 8;
+      color: $gray-80;
+      margin: 0 0 48px;
+
+      a {
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 130%;
+        color: $orange-500;
+        font-family: $visby;
+        text-decoration: none;
+        font-variant-ligatures: no-common-ligatures;
+      }
+    }
+  }
+
+  .landingButton {
+    margin: 0 auto;
+
+    &:not(:last-of-type) {
+      margin-bottom: 32px;
+    }
+  }
+}
+
+.reportPage {
+  flex: 1;
+  display: flex;
+  padding: 80px 0 64px;
+  flex-direction: column;
+  justify-content: center;
+
+  .reportUpper {
     display: flex;
     width: 100%;
     flex-flow: row wrap;
     justify-content: flex-start;
     padding: 0 50px 50px 50px;
 
-    .landingImage {
+    .reportImage {
       width: 300px;
       height: 200px;
       background-color: $gray-40;
     }
 
-    .landingContent {
+    .reportContent {
       display: flex;
       flex: 1;
       flex-direction: column;
@@ -79,7 +129,7 @@ body {
         margin: 40px 0 0 0;
       }
 
-      .landingText {
+      .reportText {
         color: $gray-80;
         text-align: left;
         font-size: 16px;
@@ -96,8 +146,9 @@ body {
           font-variant-ligatures: no-common-ligatures;
         }
       }
-      .landingButton {
-        margin-right: auto;
+
+      .reportButton {
+        width: 200px;
 
         &:not(:last-of-type) {
           margin-bottom: 32px;
@@ -109,9 +160,8 @@ body {
   .tableContainer {
     width: 95%;
     margin: 0 auto;
-
     .tableText {
-      margin: 10px 10px 30px 10px;
+      margin: 10px 10px 30px 0px;
     }
 
     table {
@@ -125,7 +175,7 @@ body {
       }
       td,
       th {
-        padding: 20px 0 20px 0;
+        padding: 20px 0 20px 20px;
       }
       .status {
         padding: 5px;
@@ -203,11 +253,22 @@ body {
 
       h5 {
         margin: 32px 0 8px;
-
         .inline {
           color: $gray-40;
         }
       }
+
+      // h3 {
+      //   margin: 32px 0 8px;
+      //   font-family: $visby;
+      //   font-size: 16px;
+      //   font-weight: 800;
+      //   line-height: 120%;
+
+      //   .inline {
+      //     color: $gray-40;
+      //   }
+      // }
 
       p {
         margin-bottom: 8px;

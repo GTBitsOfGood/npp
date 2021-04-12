@@ -7,6 +7,7 @@ export async function createIssue(
   issue: Record<string, any>
 ): Promise<EntityDoc> {
   await connectToDB();
+  console.log("test");
 
   if (issue.product == null || issue.product === "") {
     throw new Error("Product must be provided!");

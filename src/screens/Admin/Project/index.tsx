@@ -25,11 +25,14 @@ const Project = () => {
     Promise.all(data)
       .then((res) => {
         setTableData(res);
-        handleTabClick("new");
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    handleTabClick("new");
+  }, [tableData]);
 
   useEffect(() => {
     fetchData();

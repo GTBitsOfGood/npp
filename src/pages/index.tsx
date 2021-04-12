@@ -23,6 +23,8 @@ const Index = ({ session }: PropTypes) => {
     if (session && session.user.isAdmin) {
       setRoute(urls.pages.app.admin.landing);
       setLoading(false);
+
+      // @ts-ignore
     } else if (session && session.user.organizationVerified) {
       setRoute(urls.pages.app.index);
       setLoading(false);

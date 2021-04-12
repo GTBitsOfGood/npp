@@ -44,7 +44,7 @@ export function issueFromJsonResponse(object: Record<string, any>): Issue {
     description: object.description,
     images: object.images,
     contact: contactFromJsonResponse(object.contact),
-    status: object.status as IssueStatus,
-    user: object.user.toString(),
+    status: IssueStatus[(object.status as string) as keyof typeof IssueStatus],
+    user: object.user && object.user.toString(),
   };
 }

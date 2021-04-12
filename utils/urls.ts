@@ -25,6 +25,7 @@ const urls = {
       },
       admin: {
         landing: "/admin/project",
+        maintenance: "/admin/maintenance",
       },
     },
   },

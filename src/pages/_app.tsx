@@ -26,6 +26,7 @@ const MyApp = ({
   Component: {
     showSidebar?: boolean;
     isLanding?: boolean;
+    isAdmin?: boolean;
   };
 }) => (
   <>
@@ -39,6 +40,7 @@ const MyApp = ({
             <Sidebar
               currentRoute={router.asPath}
               isLanding={Component.isLanding === true}
+              isAdmin={Component.isAdmin || false}
             />
           )}
           <div id="content">

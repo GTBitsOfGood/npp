@@ -52,54 +52,231 @@ body {
 .landingPage {
   flex: 1;
   display: flex;
-  text-align: center;
-  align-items: center;
   padding: 80px 0 64px;
   flex-direction: column;
   justify-content: center;
 
-  .landingHeader {
-    margin: 0 32px 32px;
-  }
-
-  .landingImage {
-    margin: 24px auto 48px;
-  }
-
-  .landingContent {
+  .landingUpper {
     display: flex;
+    width: 100%;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    padding: 0 50px 50px 50px;
 
-    .landingPadding {
-      flex: 2;
+    .landingImage {
+      width: 300px;
+      height: 200px;
+      background-color: $gray-40;
     }
 
-    .landingText {
-      flex: 8;
-      color: $gray-80;
-      margin: 0 0 48px;
+    .landingContent {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      margin: 0 0 0 40px;
 
-      a {
+      @media (max-width: 700px) {
+        margin: 40px 0 0 0;
+      }
+
+      .landingText {
+        color: $gray-80;
+        text-align: left;
         font-size: 16px;
-        font-weight: 800;
-        line-height: 130%;
-        color: $orange-500;
-        font-family: $visby;
-        text-decoration: none;
-        font-variant-ligatures: no-common-ligatures;
+        max-width: 900px;
+        width: 80%;
+        margin: 0 0 30px 0;
+
+        a {
+          font-size: 16px;
+          line-height: 130%;
+          color: $orange-500;
+          font-family: $visby;
+          text-decoration: none;
+          font-variant-ligatures: no-common-ligatures;
+        }
+      }
+      .landingButton {
+        margin-right: auto;
+
+        &:not(:last-of-type) {
+          margin-bottom: 32px;
+        }
       }
     }
   }
 
-  .landingButton {
+  .tableContainer {
+    width: 95%;
     margin: 0 auto;
 
-    &:not(:last-of-type) {
-      margin-bottom: 32px;
+    @media (max-width: 700px) {
+      thead {
+        display: none;
+      }
+
+      tr {
+        display: block;
+        border: 1px solid $gray-10;
+        padding: 1em 1em 0.5em;
+
+        & + tr {
+          margin-top: 0.625em;
+        }
+      }
+
+      td {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 1px solid $gray-20;
+        font-size: 0.8em;
+        line-height: 1.35em;
+
+        &:before {
+          content: attr(data-label);
+          font-size: 0.9em;
+          text-align: left;
+          font-weight: bold;
+          text-transform: uppercase;
+          max-width: 45%;
+        }
+
+        & + td {
+          margin-top: 0.8em;
+        }
+
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
+    }
+
+    .tableText {
+      margin: 10px 10px 30px 10px;
+    }
+
+    table {
+      border-collapse: collapse;
+      text-align: center;
+      width: 100%;
+      tbody {
+        tr {
+          border: 0.25px solid $gray-20;
+        }
+      }
+      td,
+      th {
+        padding: 20px 0 20px 0;
+      }
+      th.num {
+        width: 25%;
+      }
+      th.type {
+        width: 15%;
+      }
+      th.description {
+        width: 25%;
+      }
+      th.start,
+      th.end {
+        width: 10%;
+      }
+      .status {
+        padding: 5px;
+        border-radius: 10px;
+      }
     }
   }
 }
 
-.tableContainer {
+.reportPage {
+  flex: 1;
+  display: flex;
+  padding: 80px 0 64px;
+  flex-direction: column;
+  justify-content: center;
+
+  .reportUpper {
+    display: flex;
+    width: 100%;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    padding: 0 50px 50px 50px;
+
+    .reportImage {
+      width: 300px;
+      height: 200px;
+      background-color: $gray-40;
+    }
+
+    .reportContent {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      margin: 0 0 0 40px;
+
+      @media (max-width: 600px) {
+        margin: 40px 0 0 0;
+      }
+
+      .reportText {
+        color: $gray-80;
+        text-align: left;
+        font-size: 16px;
+        max-width: 900px;
+        width: 80%;
+        margin: 0 0 30px 0;
+
+        a {
+          font-size: 16px;
+          line-height: 130%;
+          color: $orange-500;
+          font-family: $visby;
+          text-decoration: none;
+          font-variant-ligatures: no-common-ligatures;
+        }
+      }
+
+      .reportButton {
+        width: 200px;
+
+        &:not(:last-of-type) {
+          margin-bottom: 32px;
+        }
+      }
+    }
+  }
+
+  .tableContainer {
+    width: 95%;
+    margin: 0 auto;
+    .tableText {
+      margin: 10px 10px 30px 0px;
+    }
+
+    table {
+      border-collapse: collapse;
+      text-align: center;
+      width: 100%;
+      tbody {
+        tr {
+          border: 0.25px solid $gray-20;
+        }
+      }
+      td,
+      th {
+        padding: 20px 0 20px 20px;
+      }
+      .status {
+        padding: 5px;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
+.tableVerifyContainer {
   margin: 64px 64px 32px 64px;
 
   .tableText {
@@ -256,6 +433,74 @@ body {
       .buttonContainer {
         margin-top: 48px;
         flex-direction: column-reverse;
+      }
+    }
+  }
+}
+
+.adminLandingPage {
+  flex: 1;
+  display: flex;
+  padding: 80px 0 64px;
+  flex-direction: column;
+  justify-content: center;
+
+  .landingPageTitle {
+    margin: 0 0 20px 70px;
+  }
+
+  .tabs {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: auto;
+
+    button {
+      border: 2px solid white;
+      background-color: white;
+      font-weight: 700;
+      color: $gray-40;
+      width: 150px;
+      padding: 10px;
+      margin: 0 50px;
+
+      &:focus {
+        color: black;
+        border-color: $orange-300;
+        border-width: 0 0 2px 0;
+      }
+    }
+  }
+  .tableContainer {
+    width: 95%;
+    margin: 50px 0 0 50px;
+
+    table {
+      border-collapse: collapse;
+      text-align: center;
+      width: 100%;
+      tbody {
+        tr {
+          border: 0.25px solid $gray-20;
+        }
+      }
+      td,
+      th {
+        padding: 20px 0 20px 0;
+        max-width: 80px;
+
+        .streetName {
+          margin-top: 5px;
+          font-size: 12px;
+          color: $gray-40;
+        }
+      }
+      th {
+        color: $gray-40;
+      }
+      .status {
+        padding: 5px 20px;
+        background-color: $orange-300;
+        border-radius: 10px;
       }
     }
   }

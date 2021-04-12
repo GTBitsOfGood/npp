@@ -19,14 +19,26 @@ import CloseIcon from "&icons/CloseIcon";
 interface HeaderProps {
   currentRoute: string;
   isLanding: boolean;
+  isAdmin: boolean;
 }
 
-const Sidebar = ({ currentRoute, isLanding }: HeaderProps) => {
+const Sidebar = ({ currentRoute, isLanding, isAdmin }: HeaderProps) => {
   const [drawerOpen, toggleDrawerOpen] = useState(false);
 
   const links = (
     <>
-      <Link href={urls.pages.app.index} passHref>
+      {isAdmin && (
+        <Link href={urls.pages.app.admin.verification} passHref>
+          <a className={clsx(classes.page, isLanding && classes.active)}>
+            <h3 className={clsx(isLanding && classes.active)}>Verification</h3>
+            {isLanding && <span className={classes.rectangle} />}
+          </a>
+        </Link>
+      )}
+      <Link
+        href={isAdmin ? urls.pages.app.admin.landing : urls.pages.app.index}
+        passHref
+      >
         <a className={clsx(classes.page, isLanding && classes.active)}>
           <h3 className={clsx(isLanding && classes.active)}>
             Project Application
@@ -35,7 +47,14 @@ const Sidebar = ({ currentRoute, isLanding }: HeaderProps) => {
         </a>
       </Link>
 
-      <Link href={urls.pages.app.report.landing} passHref>
+      <Link
+        href={
+          isAdmin
+            ? urls.pages.app.admin.maintenance
+            : urls.pages.app.report.landing
+        }
+        passHref
+      >
         <a
           className={clsx(
             classes.page,
@@ -47,7 +66,7 @@ const Sidebar = ({ currentRoute, isLanding }: HeaderProps) => {
               currentRoute === urls.pages.app.report.landing && classes.active
             )}
           >
-            Report a Problem
+            {isAdmin ? "Maintenance" : "Maintenance History"}
           </h3>
           {currentRoute === urls.pages.app.report.landing && (
             <span className={classes.rectangle} />

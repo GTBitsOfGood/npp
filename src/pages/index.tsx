@@ -20,7 +20,16 @@ const Index = ({ session }: PropTypes) => {
 
   useEffect(() => {
     // @ts-ignore
-    if (session && session.user.orgStatus === OrganizationStatus.Verified) {
+
+    if (session && session.user.isAdmin) {
+      setRoute(urls.pages.app.admin.landing);
+      setLoading(false);
+
+      // @ts-ignore
+    } else if (
+      session &&
+      session.user.orgStatus === OrganizationStatus.Verified
+    ) {
       setRoute(urls.pages.app.index);
       setLoading(false);
     } else if (session) {

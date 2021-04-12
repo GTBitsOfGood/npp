@@ -23,6 +23,11 @@ const urls = {
         review: (id: string) => `/app/application/${id}/review`,
         decision: (id: string) => `/app/application/${id}/decision`,
       },
+      admin: {
+        landing: "/admin/project",
+        maintenance: "/admin/maintenance",
+        verification: "/admin/verification",
+      },
     },
     admin: {
       verification: {

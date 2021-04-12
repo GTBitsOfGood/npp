@@ -39,7 +39,7 @@ const Verification = () => {
   };
 
   return (
-    <div className="tableContainer">
+    <div className="tableVerifyContainer">
       <h2 className="tabletext">Verification</h2>
       <div>
         <button
@@ -138,3 +138,4 @@ export default Verification;
 // different sidebar for admin?
 Verification.showSidebar = true;
 Verification.isLanding = false;
+Verification.isAdmin = true;

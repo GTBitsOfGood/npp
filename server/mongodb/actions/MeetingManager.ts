@@ -15,6 +15,8 @@ import { StageType } from "&server/models/StageType";
 import { DateTime } from "luxon";
 import * as UserManager from "&server/mongodb/actions/UserManager";
 import { Organization } from "&server/models/Organization";
+import { sendEmail } from "&server/emails/Email";
+import { MeetingLinkEmail } from "&server/emails/MeetingLinkEmail";
 
 export async function addMeeting(meeting: Meeting) {
   await connectToDB();
@@ -34,12 +36,19 @@ export async function addMeeting(meeting: Meeting) {
     throw new Error("Availability does not exist!");
   }
 
-  const organization = (
-    await UserManager.getUserById(Types.ObjectId(meeting.nonprofit))
-  ).organization;
-  genConferenceLinks(meeting, organization, availability.startDatetime);
+  const user = await UserManager.getUserById(Types.ObjectId(meeting.nonprofit));
+  genConferenceLinks(meeting, user.organization, availability.startDatetime);
 
   const createdMeeting = await MeetingDocument.create(meeting);
+
+  void sendEmail(
+    user.email,
+    new MeetingLinkEmail({
+      name: user.name,
+      meetingLink: meeting.meetingLink as string,
+      meetingDateTime: availability.startDatetime,
+    })
+  );
 
   await updateApplicationStage(
     Types.ObjectId(meeting.application),

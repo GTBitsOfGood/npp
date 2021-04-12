@@ -8,6 +8,9 @@ import { Application } from "&server/models/Application";
 import { Types } from "mongoose";
 import { Contact, docToContact } from "&server/models/Contact";
 import { ProductType } from "&server/models/ProductType";
+import { sendEmail } from "&server/emails/Email";
+import { StatusEmail } from "&server/emails/StatusEmail";
+import * as UserManager from "&server/mongodb/actions/UserManager";
 
 export interface NewApplication {
   productType: ProductType[];
@@ -20,7 +23,12 @@ export async function addApplication(
 ): Promise<Application> {
   await connectToDB();
 
-  return docToApplication(await ApplicationDocument.create(newApplication));
+  const application = docToApplication(
+    await ApplicationDocument.create(newApplication)
+  );
+  await sendApplicationEmail(application, 1);
+
+  return application;
 }
 
 export async function getApplications(
@@ -29,7 +37,7 @@ export async function getApplications(
 ): Promise<Application[]> {
   await connectToDB();
 
-  const findBy = user.isAdmin && query.all ? {} : { users: user.id };
+  const findBy = user.isAdmin && query.all ? {} : { user: user.id };
 
   return (
     await ApplicationDocument.find(findBy)
@@ -65,7 +73,7 @@ export async function getAcceptedApplication(
     await ApplicationDocument.findOne({
       stage: StageType.DECISION,
       decision: true,
-      users: user.id,
+      user: user.id,
     }).sort({
       createdAt: -1,
     })
@@ -110,13 +118,16 @@ export async function updateApplicationDecision(
 ): Promise<Application> {
   await connectToDB();
 
-  return docToApplication(
+  const application = docToApplication(
     await ApplicationDocument.findByIdAndUpdate(
       id,
       { decision },
       { upsert: false, new: true }
     )
   );
+  await sendApplicationEmail(application, 4);
+
+  return application;
 }
 
 export async function updateApplicationMeeting(
@@ -137,7 +148,7 @@ export async function updateApplicationMeeting(
 export function docToApplication(object: { [key: string]: any }): Application {
   return {
     id: object._id.toString(),
-    users: object.users?.map((id: Types.ObjectId) => id.toString()),
+    user: object.user.toString(),
     primaryContact: docToContact(object.primaryContact),
     productType: object.productType,
     description: object.description,
@@ -146,4 +157,20 @@ export function docToApplication(object: { [key: string]: any }): Application {
     createdAt: DateTime.fromISO(new Date(object.createdAt).toISOString()),
     updatedAt: DateTime.fromISO(new Date(object.updatedAt).toISOString()),
   };
+}
+
+async function sendApplicationEmail(
+  application: any,
+  stage: number
+): Promise<void> {
+  const organization = (
+    await UserManager.getUserById(Types.ObjectId(application.users[0]))
+  ).organization;
+
+  const emailTemplate = new StatusEmail({
+    name: organization.name,
+    status: stage,
+  });
+
+  await sendEmail(application.primaryContact.email, emailTemplate);
 }

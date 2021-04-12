@@ -19,15 +19,19 @@ const Index = ({ session }: PropTypes) => {
 
   useEffect(() => {
     // @ts-ignore
-    if (session && session.user.organizationVerified) {
+
+    if (session && session.user.isAdmin) {
+      setRoute(urls.pages.app.admin.landing);
+      setLoading(false);
+
+      // @ts-ignore
+    } else if (session && session.user.organizationVerified) {
       setRoute(urls.pages.app.index);
       setLoading(false);
     } else if (session) {
       getUserOrg(session).then((organization) => {
         setRoute(
-          organization
-            ? urls.pages.app.index
-            : urls.pages.app.verification
+          organization ? urls.pages.app.index : urls.pages.app.verification
         );
         setLoading(false);
       });

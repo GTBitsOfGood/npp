@@ -148,7 +148,7 @@ export async function updateApplicationMeeting(
 export function docToApplication(object: { [key: string]: any }): Application {
   return {
     id: object._id.toString(),
-    user: object.user.toString(),
+    user: object.user == null ? null : object.user.toString(),
     primaryContact: docToContact(object.primaryContact),
     productType: object.productType,
     description: object.description,

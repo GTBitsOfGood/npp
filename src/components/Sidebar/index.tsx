@@ -19,14 +19,18 @@ import CloseIcon from "&icons/CloseIcon";
 interface HeaderProps {
   currentRoute: string;
   isLanding: boolean;
+  isAdmin: boolean;
 }
 
-const Sidebar = ({ currentRoute, isLanding }: HeaderProps) => {
+const Sidebar = ({ currentRoute, isLanding, isAdmin }: HeaderProps) => {
   const [drawerOpen, toggleDrawerOpen] = useState(false);
 
   const links = (
     <>
-      <Link href={urls.pages.app.index} passHref>
+      <Link
+        href={isAdmin ? urls.pages.app.admin.landing : urls.pages.app.index}
+        passHref
+      >
         <a className={clsx(classes.page, isLanding && classes.active)}>
           <h3 className={clsx(isLanding && classes.active)}>
             Project Application

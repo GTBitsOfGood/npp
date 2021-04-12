@@ -141,6 +141,7 @@ const ImageUpload: React.FC<Props> = ({ images, setImages }: Props) => {
               </div>
               {uploadProgress >= 0 && (
                 <div style={{ width: "80%" }}>
+                  {/**@ts-ignore**/}
                   <ProgressBar bgcolor={"#fd8033"} completed={uploadProgress} />
                 </div>
               )}

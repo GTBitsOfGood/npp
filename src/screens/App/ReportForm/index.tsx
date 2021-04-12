@@ -14,23 +14,12 @@ import urls from "&utils/urls";
 import { useSession } from "&utils/auth-utils";
 import { createIssue } from "&actions/IssueActions";
 import { IssueType } from "&server/models/IssueType";
+import { getLocalItem } from "&utils/local-storage-utils";
+import { UploadedFile } from "&server/utils/ImageUpload";
+import { getApplications } from "&actions/ApplicationActions";
 
 const placeHolder =
   "Enter a brief description of the issue with your software. We will do our best to replicate it on our end, and then reach out if we have any questions or have suggestions for how to fix it on your end.";
-
-const getLocalItem = (name: string, fallbackValue: string | boolean[]) => {
-  const storedValue = localStorage.getItem(name);
-
-  if (storedValue == null) {
-    return fallbackValue;
-  }
-
-  try {
-    return JSON.parse(storedValue);
-  } catch (error) {
-    return storedValue;
-  }
-};
 
 const ReportScreen = () => {
   const router = useRouter();
@@ -41,7 +30,7 @@ const ReportScreen = () => {
   const [contactName, setContactName] = useState("");
   const [phone, setPhone] = useState("");
   const [orgPhone, setOrgPhone] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [images, setImages] = useState<UploadedFile[]>([]);
 
   useEffect(() => {
     setIssueType((initialValue) =>
@@ -57,9 +46,7 @@ const ReportScreen = () => {
     setOrgPhone((initialValue) =>
       getLocalItem("report-orgPhone", initialValue)
     );
-    setImageUrl((initialValue) =>
-      getLocalItem("report-imageUrl", initialValue)
-    );
+    setImages((initialValue) => getLocalItem("report-images", initialValue));
   }, []);
 
   useEffect(() => {
@@ -90,17 +77,18 @@ const ReportScreen = () => {
       localStorage.removeItem("report-contactName");
       localStorage.removeItem("report-phone");
       localStorage.removeItem("report-orgPhone");
-      localStorage.removeItem("report-imageUrl");
+      localStorage.removeItem("report-images");
 
       const typeNames = [];
       if (issueType[0]) typeNames.push(IssueType.NOT_LOADING);
       if (issueType[1]) typeNames.push(IssueType.DATA_MISSING);
+      if (issueType[2]) typeNames.push(IssueType.OTHER);
 
       const result = await createIssue({
-        product: router.query.id as string,
+        product: (await getApplications())[0].id, // This is a quick patch. The application id should be in the route or selected as a field
         issueType: typeNames,
         description: issuePassage,
-        images: [imageUrl],
+        images: images.map((image) => image.blobName),
         contact: {
           name: contactName,
           primaryPhone: phone,
@@ -138,7 +126,7 @@ const ReportScreen = () => {
       localStorage.setItem("report-contactName", contactName);
       localStorage.setItem("report-phone", phone);
       localStorage.setItem("report-orgPhone", orgPhone);
-      localStorage.setItem("report-imageUrl", imageUrl);
+      localStorage.setItem("report-images", JSON.stringify(images));
 
       await Swal.fire({
         title: "Saved",
@@ -194,6 +182,11 @@ const ReportScreen = () => {
               checked={issueType[1]}
               onClick={() => checkIssueType(1)}
             />
+            <Checkbox
+              label="Other"
+              checked={issueType[2]}
+              onClick={() => checkIssueType(2)}
+            />
           </div>
 
           <h5>What is the issue?</h5>
@@ -208,7 +201,7 @@ const ReportScreen = () => {
             Screenshot
             <span className="inline"> (optional) </span>
           </h5>
-          <ImageUpload setImageUrl={setImageUrl} />
+          <ImageUpload setImages={setImages} images={images} />
 
           <h2 className="sectionHeader">Contact Information</h2>
 

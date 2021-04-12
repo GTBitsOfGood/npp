@@ -1,23 +1,27 @@
-import React, { useState, useEffect, useRef } from "react";
-import { uploadFileToBlob } from "&server/utils/ImageUpload";
-
+import React, { useEffect, useRef, useState } from "react";
+import { UploadedFile, uploadUserFileToBlob } from "&server/utils/ImageUpload";
 //Libraries
 import clsx from "clsx";
-
 // Components
 import Input from "&components/Input";
 import Button from "&components/Button";
-
+import ProgressBar from "@ramonak/react-progress-bar";
 // Styling
 import classes from "./ImageUpload.module.scss";
+import { useSession } from "&utils/auth-utils";
+import UploadedImage from "&icons/UploadedImage";
+import CloseIcon from "&icons/CloseIcon";
 
 interface Props {
-  setImageUrl: React.Dispatch<React.SetStateAction<string>>;
+  setImages: React.Dispatch<React.SetStateAction<UploadedFile[]>>;
+  images: UploadedFile[];
 }
 
-const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
+const ImageUpload: React.FC<Props> = ({ images, setImages }: Props) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [fileSelected, setFileSelected] = useState(null);
+  const [fileSelected, setFileSelected] = useState<File | null>(null);
+  const [session, loading] = useSession();
+  const [uploadProgress, setUploadProgress] = useState(-1);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -42,8 +46,22 @@ const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
   };
 
   const onFileUpload = async () => {
-    const url = await uploadFileToBlob(fileSelected);
-    setImageUrl(url);
+    setUploadProgress(0);
+    const uploadedFile = await uploadUserFileToBlob(
+      fileSelected,
+      session.user,
+      (progressPercent) => setUploadProgress(Math.floor(progressPercent * 100))
+    );
+    if (uploadedFile) {
+      images.push(uploadedFile);
+      setImages(images);
+    }
+    setTimeout(() => {
+      // delay a bit to show progress complete
+      setFileSelected(null);
+      setIsVisible(false);
+      setUploadProgress(-1);
+    }, 1000);
   };
 
   const allowDragOver = (event: any) => {
@@ -52,6 +70,24 @@ const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
 
   return (
     <div>
+      <ul className={clsx(classes.imageList)}>
+        {images.map((uploadedImage, index) => (
+          <li key={uploadedImage.blobName}>
+            <UploadedImage className={clsx(classes.verticallyCentered)} />
+            <span className={clsx(classes.verticallyCentered)}>
+              {uploadedImage.name}
+            </span>
+            <CloseIcon
+              onClick={() => {
+                images.splice(index, 1);
+                setImages([...images]);
+              }}
+              style={{ cursor: "pointer", marginLeft: "5px" }}
+              className={clsx(classes.verticallyCentered)}
+            />
+          </li>
+        ))}
+      </ul>
       <Button
         type="submit"
         variant="primary"
@@ -69,9 +105,21 @@ const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
             <div className={clsx(classes.container)}>
               {/* insert status bar here */}
               <div className={clsx(classes.input)}>
-                <h2>Drag and drop</h2>
-                <h2>or</h2>
-                <h2 className={clsx(classes.browse)}>Browse</h2>
+                {!fileSelected && (
+                  <React.Fragment>
+                    <h2>Drag and drop</h2>
+                    <h2>or</h2>
+                    <h2 className={clsx(classes.browse)}>Browse</h2>
+                  </React.Fragment>
+                )}
+                {fileSelected && (
+                  <React.Fragment>
+                    <h2>Selected</h2>
+                    <h2 className={clsx(classes.browse)}>
+                      {(fileSelected as File).name}
+                    </h2>
+                  </React.Fragment>
+                )}
                 <Input
                   type="file"
                   id={clsx(classes.file)}
@@ -91,6 +139,12 @@ const ImageUpload: React.FC<Props> = ({ setImageUrl }: Props) => {
                   <h3>Upload</h3>
                 </Button>
               </div>
+              {uploadProgress >= 0 && (
+                <div style={{ width: "80%" }}>
+                  {/**@ts-ignore**/}
+                  <ProgressBar bgcolor={"#fd8033"} completed={uploadProgress} />
+                </div>
+              )}
             </div>
           </div>
         </div>

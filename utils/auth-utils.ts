@@ -6,6 +6,7 @@ import {
 import { Organization } from "&server/models/Organization";
 import { SessionUser } from "&server/models/SessionUser";
 import { NextApiRequest } from "next";
+
 import urls from "&utils/urls";
 
 export type NPPSession = Session & { user: SessionUser };

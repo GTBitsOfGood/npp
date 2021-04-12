@@ -5,11 +5,17 @@ export interface Contact {
   primaryPhone?: string;
 }
 
-export function contactFromJsonResponse(object: Record<string, any>): Contact {
+export function docToContact(object: Record<string, any>): Contact {
   return {
     name: object.name,
     email: object.email,
     organizationPhone: object.organizationPhone,
     primaryPhone: object.primaryPhone,
   };
+}
+
+export function contactFromJsonResponse(object: {
+  [key: string]: any;
+}): Contact {
+  return object as Contact;
 }

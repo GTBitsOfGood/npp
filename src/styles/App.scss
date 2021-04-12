@@ -190,41 +190,70 @@ body {
   }
 }
 
-.adminLandingPage {
+.reportPage {
   flex: 1;
   display: flex;
   padding: 80px 0 64px;
   flex-direction: column;
   justify-content: center;
 
-  .landingPageTitle {
-    margin: 0 0 20px 70px;
-  }
-
-  .tabs {
+  .reportUpper {
     display: flex;
+    width: 100%;
     flex-flow: row wrap;
-    margin-right: auto;
+    justify-content: flex-start;
+    padding: 0 50px 50px 50px;
 
-    button {
-      border: 2px solid white;
-      background-color: white;
-      font-weight: 700;
-      color: $gray-40;
-      width: 150px;
-      padding: 10px;
-      margin: 0 50px;
+    .reportImage {
+      width: 300px;
+      height: 200px;
+      background-color: $gray-40;
+    }
 
-      &:focus {
-        color: black;
-        border-color: $orange-300;
-        border-width: 0 0 2px 0;
+    .reportContent {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      margin: 0 0 0 40px;
+
+      @media (max-width: 600px) {
+        margin: 40px 0 0 0;
+      }
+
+      .reportText {
+        color: $gray-80;
+        text-align: left;
+        font-size: 16px;
+        max-width: 900px;
+        width: 80%;
+        margin: 0 0 30px 0;
+
+        a {
+          font-size: 16px;
+          line-height: 130%;
+          color: $orange-500;
+          font-family: $visby;
+          text-decoration: none;
+          font-variant-ligatures: no-common-ligatures;
+        }
+      }
+
+      .reportButton {
+        width: 200px;
+
+        &:not(:last-of-type) {
+          margin-bottom: 32px;
+        }
       }
     }
   }
+
   .tableContainer {
     width: 95%;
-    margin: 50px 0 0 50px;
+    margin: 0 auto;
+    .tableText {
+      margin: 10px 10px 30px 0px;
+    }
 
     table {
       border-collapse: collapse;
@@ -237,21 +266,10 @@ body {
       }
       td,
       th {
-        padding: 20px 0 20px 0;
-        max-width: 80px;
-
-        .streetName {
-          margin-top: 5px;
-          font-size: 12px;
-          color: $gray-40;
-        }
-      }
-      th {
-        color: $gray-40;
+        padding: 20px 0 20px 20px;
       }
       .status {
-        padding: 5px 20px;
-        background-color: $orange-300;
+        padding: 5px;
         border-radius: 10px;
       }
     }
@@ -326,11 +344,22 @@ body {
 
       h5 {
         margin: 32px 0 8px;
-
         .inline {
           color: $gray-40;
         }
       }
+
+      // h3 {
+      //   margin: 32px 0 8px;
+      //   font-family: $visby;
+      //   font-size: 16px;
+      //   font-weight: 800;
+      //   line-height: 120%;
+
+      //   .inline {
+      //     color: $gray-40;
+      //   }
+      // }
 
       p {
         margin-bottom: 8px;
@@ -371,6 +400,74 @@ body {
       .buttonContainer {
         margin-top: 48px;
         flex-direction: column-reverse;
+      }
+    }
+  }
+}
+
+.adminLandingPage {
+  flex: 1;
+  display: flex;
+  padding: 80px 0 64px;
+  flex-direction: column;
+  justify-content: center;
+
+  .landingPageTitle {
+    margin: 0 0 20px 70px;
+  }
+
+  .tabs {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: auto;
+
+    button {
+      border: 2px solid white;
+      background-color: white;
+      font-weight: 700;
+      color: $gray-40;
+      width: 150px;
+      padding: 10px;
+      margin: 0 50px;
+
+      &:focus {
+        color: black;
+        border-color: $orange-300;
+        border-width: 0 0 2px 0;
+      }
+    }
+  }
+  .tableContainer {
+    width: 95%;
+    margin: 50px 0 0 50px;
+
+    table {
+      border-collapse: collapse;
+      text-align: center;
+      width: 100%;
+      tbody {
+        tr {
+          border: 0.25px solid $gray-20;
+        }
+      }
+      td,
+      th {
+        padding: 20px 0 20px 0;
+        max-width: 80px;
+
+        .streetName {
+          margin-top: 5px;
+          font-size: 12px;
+          color: $gray-40;
+        }
+      }
+      th {
+        color: $gray-40;
+      }
+      .status {
+        padding: 5px 20px;
+        background-color: $orange-300;
+        border-radius: 10px;
       }
     }
   }

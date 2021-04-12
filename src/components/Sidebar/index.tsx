@@ -58,7 +58,7 @@ const Sidebar = ({ currentRoute, isLanding, isAdmin }: HeaderProps) => {
               currentRoute === urls.pages.app.report.landing && classes.active
             )}
           >
-            {isAdmin ? "Maintenance" : "Report a Problem"}
+            {isAdmin ? "Maintenance" : "Maintenance History"}
           </h3>
           {currentRoute === urls.pages.app.report.landing && (
             <span className={classes.rectangle} />

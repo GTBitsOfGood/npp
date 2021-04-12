@@ -68,15 +68,12 @@
         }
 
         p {
-          color: $gray-60;
+          color: $white;
 
           & > span {
             color: $white;
             cursor: pointer;
-
-            &:hover {
-              text-decoration: underline;
-            }
+            text-decoration: underline;
           }
         }
       }
@@ -154,13 +151,21 @@
     align-items: center;
     flex-direction: column;
 
+    .leftSection {
+      margin-left: -175px;
+    }
+
+    .rightSection {
+      margin-right: -175px;
+    }
+
     .section {
       width: 100%;
       display: flex;
       max-width: 800px;
       background: $white;
       flex-direction: row;
-      margin-bottom: 64px;
+      margin-bottom: 176px;
 
       @include breakpoint-below-small {
         flex-direction: column;
@@ -176,7 +181,7 @@
 
       .startProjectIcon {
         order: 1;
-        margin-right: 48px;
+        margin-right: 72px;
 
         @include breakpoint-below-small {
           order: 1;
@@ -186,7 +191,7 @@
 
       .reportProblemIcon {
         order: 3;
-        margin-left: 48px;
+        margin-left: 82px;
 
         @include breakpoint-below-small {
           order: 1;
@@ -206,7 +211,14 @@
 
         h1 {
           color: $orange-500;
-          margin-bottom: 16px;
+          margin-bottom: 18px;
+        }
+
+        p {
+          height: 72px;
+          width: 480px;
+          font-size: 16px;
+          line-height: 24px;
         }
 
         @include breakpoint-below-small {

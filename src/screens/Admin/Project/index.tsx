@@ -16,8 +16,8 @@ const Project = () => {
   const fetchData = async () => {
     const applications = await getApplications();
     const data = applications.map(async (application) => {
-      if (application?.users && application?.users.length) {
-        const userInfo = await getUserById(application.users.pop() as string);
+      if (application.user && application.user.length) {
+        const userInfo = await getUserById(application.user as string);
         return { ...application, userInfo: userInfo };
       }
       return { ...application, userInfo: undefined };
@@ -25,11 +25,14 @@ const Project = () => {
     Promise.all(data)
       .then((res) => {
         setTableData(res);
-        handleTabClick("new");
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    handleTabClick("new");
+  }, [tableData]);
 
   useEffect(() => {
     fetchData();

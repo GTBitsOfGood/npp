@@ -30,7 +30,10 @@ const ReportLanding = ({ userIssues, projectId }: PropTypes) => {
 
   // this can be moved into the getServerSideProps function which has access to user id -> i just can't get it working :((
   useEffect(() => {
-    setIssues(JSON.parse(userIssues));
+    console.log(userIssues);
+    if (userIssues) {
+      setIssues(JSON.parse(userIssues));
+    }
   }, []);
 
   return (

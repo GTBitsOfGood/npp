@@ -120,7 +120,7 @@ const VerificationFormScreen = () => {
         },
         ...(websiteURL && { website: websiteURL }),
         // @ts-ignore
-        dateSubmitted: DateTime.now(),
+        dateSubmitted: DateTime.local(),
       });
 
       if (res.organization == null) {

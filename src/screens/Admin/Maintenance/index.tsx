@@ -17,17 +17,17 @@ const Maintenance = ({ projectId }: PropTypes) => {
   }, []);
 
   return (
-    <div className="landingPage">
-      <div className="landingUpper">
-        <div className="landingImage" />
-        <div className="landingContent">
-          <p className="landingText">
+    <div className="reportPage">
+      <div className="reportUpper">
+        <div className="reportImage" />
+        <div className="reportContent">
+          <p className="reportText">
             Experiencing issues with your current Bits of Good product? Are
             loading times too long, or are your users facing bugs? Let us know,
             and we will contact you soon with an estimated timeline for a fix.
           </p>
 
-          <div className="landingButton">
+          <div className="reportButton">
             <ButtonLink
               variant="primary"
               href={urls.pages.app.report.create(projectId ?? "1")}
